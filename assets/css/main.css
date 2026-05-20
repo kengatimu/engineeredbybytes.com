@@ -6705,17 +6705,8 @@ html { scroll-behavior: smooth; }
 }
 
 
-/* Button styled like the old link */
-#openProfileDrawer,
-#openNetworkDrawer {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  font: inherit;
-  font-weight: 700;
-  color: inherit;
-}
+/* Legacy id-based button reset removed — both drawer triggers now inherit
+   the full styling (incl. navy → crimson hover) from .sp-platform__more. */
 
 /* Responsive */
 @media (max-width: 560px) {
