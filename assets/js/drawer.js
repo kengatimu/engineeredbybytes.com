@@ -7,10 +7,17 @@
 
   const drawer   = document.getElementById('profileDrawer');
   const backdrop = document.getElementById('drawerBackdrop');
-  const openBtn  = document.getElementById('openProfileDrawer');
+  // Multiple open triggers (desktop button inside body, mobile button after
+  // mission/vision). Fall back to legacy id for any older markup.
+  const openBtns = Array.from(document.querySelectorAll(
+    '[data-open-profile], #openProfileDrawer'
+  ));
   const closeBtn = document.getElementById('closeProfileDrawer');
 
-  if (!drawer || !backdrop || !openBtn) return;
+  if (!drawer || !backdrop || openBtns.length === 0) return;
+
+  // The button to return focus to after closing — whichever was clicked last.
+  let lastTrigger = openBtns[0];
 
   function openDrawer() {
     drawer.classList.add('is-open');
@@ -27,10 +34,15 @@
     drawer.setAttribute('aria-hidden', 'true');
     backdrop.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    openBtn.focus();
+    lastTrigger && lastTrigger.focus();
   }
 
-  openBtn.addEventListener('click', openDrawer);
+  openBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      lastTrigger = btn;
+      openDrawer();
+    });
+  });
   closeBtn && closeBtn.addEventListener('click', closeDrawer);
   backdrop.addEventListener('click', closeDrawer);
 

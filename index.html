@@ -112,7 +112,7 @@
             Our platform delivers multiple integrated solutions — from payment processing
             to deployment tooling — that institutions can adopt individually or together.
           </p>
-          <button class="sp-platform__more" id="openProfileDrawer" aria-haspopup="dialog">Full company profile →</button>
+          <button class="sp-platform__more sp-platform__more--desktop" data-open-profile aria-haspopup="dialog">Full company profile →</button>
         </div>
         <div class="sp-platform__mission">
           <div class="sp-platform__mv-block">
@@ -130,6 +130,10 @@
               "To be the world's most trusted technology partner for financial interoperability and seamless digital payments."
             </p>
           </div>
+
+          <!-- Mobile-only: profile link below Our Vision, mirroring the
+               "Full network overview →" pattern from the network section. -->
+          <button class="sp-platform__more sp-platform__more--mobile" data-open-profile aria-haspopup="dialog">Full company profile →</button>
         </div>
       </div>
     </div>

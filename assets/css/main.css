@@ -2661,12 +2661,31 @@ p {
   font-weight: 700;
   letter-spacing: 0.02em;
   color: var(--navy);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
   text-decoration: none;
   transition: color var(--speed) var(--ease);
 }
 
 .sp-platform__more:hover {
   color: var(--crimson);
+}
+
+/* Two instances of the trigger: one inside the body (desktop), one after
+   mission/vision (mobile). Show only one at a time per breakpoint. */
+.sp-platform__more--mobile {
+  display: none;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(13, 34, 64, 0.08);
+}
+
+@media (max-width: 768px) {
+  .sp-platform__more--desktop { display: none; }
+  .sp-platform__more--mobile  { display: inline-block; }
 }
 
 /* ----------------------------------------------------------
