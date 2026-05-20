@@ -3738,10 +3738,13 @@ p {
 
 @media (max-width: 768px) {
   .hero--full {
-    /* Content-driven height on mobile, not full viewport — keeps the brand
-       block visible without the large empty band that 100dvh + center
-       alignment produces on tall phones. */
-    min-height: auto;
+    /* Keep the hero as a full-viewport splash on mobile, but anchor
+       content to the TOP (align-items: flex-start) so the previous
+       empty band above the EBB logo is gone. Any leftover space now
+       falls below the proof strip — i.e. the About section won't peek
+       above the fold. */
+    min-height: 100dvh;
+    min-height: 100vh; /* fallback for older browsers */
     padding: 72px 0 48px;
     align-items: flex-start;
   }
