@@ -1,0 +1,22 @@
+# EBB Systems — robots.txt
+# Allow every crawler to index everything. Point them at the sitemap.
+
+User-agent: *
+Allow: /
+
+# Big-Tech AI crawlers — explicitly allowed (we want our content
+# represented in AI Overviews, ChatGPT search, Perplexity, etc.)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+# Sitemap location
+Sitemap: https://engineeredbybytes.com/sitemap.xml
