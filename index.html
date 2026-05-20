@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EBB Systems — Secure. Scalable. Engineered for Trust.</title>
+  <meta name="description" content="EBB Systems builds high-throughput payment gateway infrastructure and fintech integration services for banks and financial institutions worldwide.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+
+<!-- ============================================================
+     NAVBAR — anchor links, transparent → solid on scroll
+     ============================================================ -->
+<nav class="navbar navbar--transparent navbar--light-page" role="navigation" aria-label="Main navigation">
+  <div class="navbar__inner navbar__inner--no-logo">
+    <div class="navbar__links">
+      <a href="#hero"      class="navbar__link">Home</a>
+      <a href="#about"     class="navbar__link">About</a>
+      <a href="#solutions" class="navbar__link">Solutions</a>
+      <a href="#network"   class="navbar__link">Network</a>
+      <a href="#contact"   class="navbar__cta">Get in Touch</a>
+    </div>
+    <button class="navbar__hamburger" aria-label="Toggle mobile menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<nav class="navbar__mobile" aria-label="Mobile navigation">
+  <a href="#hero"      class="navbar__mobile-link">Home</a>
+  <a href="#about"     class="navbar__mobile-link">About</a>
+  <a href="#solutions" class="navbar__mobile-link">Solutions</a>
+  <a href="#network"   class="navbar__mobile-link">Network</a>
+  <a href="#contact"   class="navbar__mobile-link">Get in Touch</a>
+</nav>
+
+
+<!-- ============================================================
+     01 — HERO
+     ============================================================ -->
+<section id="hero" class="hero hero--full hero--brand-first">
+  <div class="container">
+    <div class="hero__brand-center">
+
+      <div class="hero__brand-logo">
+        <div class="hero__brand-rule"></div>
+        <div class="hero__brand-ebb">EBB</div>
+        <div class="hero__brand-systems">Systems</div>
+      </div>
+
+      <h1 class="hero__brand-tagline">
+        Secure. Scalable.<br><em>Engineered for Trust.</em>
+      </h1>
+
+      <p class="hero__brand-lead">
+        Secure financial infrastructure and integration services<br>
+        for banks, fintechs, and institutions worldwide.
+      </p>
+
+      <div class="hero__actions hero__actions--center">
+        <a href="#solutions" class="btn btn--primary btn--lg">Explore Our Solutions</a>
+        <a href="#contact" class="btn btn--outline-navy btn--lg">Schedule a Briefing</a>
+      </div>
+
+      <!-- Proof strip — inside brand-center so the whole unit is vertically centred -->
+      <div class="hero__proof" aria-hidden="true">
+        <div class="hero__proof-grid">
+          <div class="hero__proof-item">
+            <div class="hero__proof-val">10M<span>+</span></div>
+            <div class="hero__proof-label">Transactions / day</div>
+          </div>
+          <div class="hero__proof-divider"></div>
+          <div class="hero__proof-item">
+            <div class="hero__proof-val">4–8<span>wk</span></div>
+            <div class="hero__proof-label">New corridor live</div>
+          </div>
+          <div class="hero__proof-divider"></div>
+          <div class="hero__proof-item">
+            <div class="hero__proof-val">6</div>
+            <div class="hero__proof-label">Security layers</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     03 — PLATFORM INTRO
+     ============================================================ -->
+<section id="about" class="section sp-platform">
+  <div class="container">
+    <div class="sp-frame sp-frame--platform reveal">
+      <div class="sp-frame__caption" aria-hidden="true">
+        <span>About EBB</span><em>Who we are &amp; what we stand for</em>
+      </div>
+
+      <div class="sp-platform__inner">
+        <div class="sp-platform__body">
+          <span class="eyebrow">Who We Are</span>
+          <h2>The platform financial<br>institutions build on.</h2>
+          <p class="sp-platform__lead">
+            EBB Systems is a fintech technology company building secure, standards-compliant
+            financial infrastructure for banks, fintechs, and institutions worldwide.
+            Our platform delivers multiple integrated solutions — from payment processing
+            to deployment tooling — that institutions can adopt individually or together.
+          </p>
+          <button class="sp-platform__more" id="openProfileDrawer" aria-haspopup="dialog">Full company profile →</button>
+        </div>
+        <div class="sp-platform__mission">
+          <div class="sp-platform__mv-block">
+            <span class="eyebrow">Our Mission</span>
+            <p class="sp-platform__mission-text">
+              "Enabling every institution to move faster, reach further, and operate with confidence."
+            </p>
+          </div>
+
+          <div class="sp-platform__mv-divider" aria-hidden="true"></div>
+
+          <div class="sp-platform__mv-block">
+            <span class="eyebrow">Our Vision</span>
+            <p class="sp-platform__mission-text">
+              "To be the world's most trusted technology partner for financial interoperability and seamless digital payments."
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     04 — SOLUTIONS
+     ============================================================ -->
+<section id="solutions" class="section section--cream sp-solutions">
+  <div class="container">
+
+    <div class="sp-solutions__head reveal">
+      <span class="eyebrow">Our Solutions</span>
+      <h2>Switch. Settle. Secure. Deploy.</h2>
+    </div>
+
+    <div class="sp-frame reveal">
+      <div class="sp-frame__caption" aria-hidden="true">
+        <span>The Platform</span><em>Six solutions, adoptable individually or together</em>
+      </div>
+
+      <div class="solutions-grid reveal-stagger">
+
+      <!-- Payment Gateway -->
+      <a href="gateway.html" class="sol-card sol-card--link">
+        <div class="sol-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div class="sol-card__tag">Payment Gateway</div>
+        <h3 class="sol-card__title">Mobile money, interbank &amp; cross-border under one integration layer.</h3>
+        <p class="sol-card__body">A single API connects your institution to mobile wallets, interbank switches, and global remittance networks. Security, AML, and compliance are structural — inherited by every corridor.</p>
+        <span class="sol-card__cta">Full technical brief →</span>
+      </a>
+
+      <!-- WizardCD -->
+      <a href="https://wizardcd.com" target="_blank" rel="noopener" class="sol-card sol-card--link">
+        <div class="sol-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+        </div>
+        <div class="sol-card__tag">Deployment Platform</div>
+        <h3 class="sol-card__title">Self-hosted Java deployment for regulated, air-gapped environments.</h3>
+        <p class="sol-card__body">One config, one command — backup, deploy, and rollback in seconds. Built for air-gapped, regulated environments where cloud-native tooling is not an option.</p>
+        <span class="sol-card__cta">Visit WizardCd.com ↗</span>
+      </a>
+
+      <!-- HSM Services -->
+      <div class="sol-card">
+        <div class="sol-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+        </div>
+        <div class="sol-card__tag">HSM Services</div>
+        <h3 class="sol-card__title">Cryptographic key management for payment card &amp; PIN operations.</h3>
+        <p class="sol-card__body">Hardware Security Module integration for PIN management, key ceremonies, and cryptographic operations — compliant with PCI-DSS and payment card industry standards.</p>
+        <a href="#contact" class="sol-card__cta">Talk to us →</a>
+      </div>
+
+      <!-- Recon Services -->
+      <div class="sol-card">
+        <div class="sol-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <div class="sol-card__tag">Recon Services</div>
+        <h3 class="sol-card__title">Transaction reconciliation &amp; settlement reporting across all channels.</h3>
+        <p class="sol-card__body">End-to-end reconciliation across mobile money, interbank, and remittance channels. Automated exception handling, daily position reports, and settlement management for your operations team.</p>
+        <a href="#contact" class="sol-card__cta">Talk to us →</a>
+      </div>
+
+      <!-- Consultancy -->
+      <div class="sol-card">
+        <div class="sol-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="sol-card__tag">Consultancy</div>
+        <h3 class="sol-card__title">Technical advisory for institutions building payment infrastructure.</h3>
+        <p class="sol-card__body">Architecture review, integration planning, and delivery support from a team that has shipped mission-critical payment systems in production — not a team building for the first time.</p>
+        <a href="#contact" class="sol-card__cta">Talk to us →</a>
+      </div>
+
+      <!-- More coming -->
+      <div class="sol-card sol-card--future">
+        <div class="sol-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        </div>
+        <div class="sol-card__tag">More Solutions</div>
+        <h3 class="sol-card__title">New capabilities are continuously being added to the platform.</h3>
+        <p class="sol-card__body">We are actively expanding our solution set. If you have a specific integration requirement, speak to our team — we may already be building it.</p>
+        <a href="#contact" class="sol-card__cta">Get in touch →</a>
+      </div>
+
+    </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ============================================================
+     06 — LIVE NETWORK
+     ============================================================ -->
+<section id="network" class="section sp-network">
+  <div class="container">
+    <div class="sp-network__head reveal">
+      <span class="eyebrow">Live Network</span>
+      <h2>Live in production. Across markets.</h2>
+      <p class="sp-network__sub">Our integration footprint spans mobile money operators, interbank switches, and international remittance corridors.</p>
+    </div>
+
+    <div class="sp-frame reveal">
+      <div class="sp-frame__caption" aria-hidden="true">
+        <span>The Network</span><em>Four live categories, all in production</em>
+      </div>
+
+      <div class="sp-net-matrix reveal-stagger">
+
+        <article class="sp-net-card">
+          <header class="sp-net-card__head">
+            <div class="sp-net-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M11 18h2"/></svg>
+            </div>
+            <div class="sp-net-card__meta">
+              <span class="sp-net-card__title">Mobile money</span>
+              <em class="sp-net-card__count">6 operators</em>
+            </div>
+          </header>
+          <div class="sp-net-card__chips">
+            <span class="sp-net-chip"><i aria-hidden="true"></i>M-PESA</span>
+            <span class="sp-net-chip"><i aria-hidden="true"></i>Airtel Money</span>
+            <span class="sp-net-chip"><i aria-hidden="true"></i>Vodacom</span>
+            <span class="sp-net-chip"><i aria-hidden="true"></i>MTN</span>
+            <span class="sp-net-chip"><i aria-hidden="true"></i>Africell</span>
+            <span class="sp-net-chip"><i aria-hidden="true"></i>Orange</span>
+          </div>
+        </article>
+
+        <article class="sp-net-card">
+          <header class="sp-net-card__head">
+            <div class="sp-net-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V10m4 11V10m6 11V10m4 11V10M3 10l9-7 9 7"/></svg>
+            </div>
+            <div class="sp-net-card__meta">
+              <span class="sp-net-card__title">Interbank &amp; switches</span>
+              <em class="sp-net-card__count">3 networks</em>
+            </div>
+          </header>
+          <div class="sp-net-card__chips">
+            <span class="sp-net-chip"><i aria-hidden="true"></i>PesaLink</span>
+            <span class="sp-net-chip"><i aria-hidden="true"></i>PAPSS</span>
+            <span class="sp-net-chip"><i aria-hidden="true"></i>Multipay DRC</span>
+          </div>
+        </article>
+
+        <article class="sp-net-card">
+          <header class="sp-net-card__head">
+            <div class="sp-net-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a13 13 0 010 18M12 3a13 13 0 000 18"/></svg>
+            </div>
+            <div class="sp-net-card__meta">
+              <span class="sp-net-card__title">Remittance</span>
+              <em class="sp-net-card__count">3 corridors</em>
+            </div>
+          </header>
+          <div class="sp-net-card__chips">
+            <span class="sp-net-chip"><i aria-hidden="true"></i>Thunes</span>
+            <span class="sp-net-chip"><i aria-hidden="true"></i>Mastercard Send</span>
+            <span class="sp-net-chip"><i aria-hidden="true"></i>MoneyGram</span>
+          </div>
+        </article>
+
+        <article class="sp-net-card">
+          <header class="sp-net-card__head">
+            <div class="sp-net-card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 14h4M7 17h2"/></svg>
+            </div>
+            <div class="sp-net-card__meta">
+              <span class="sp-net-card__title">Core banking</span>
+              <em class="sp-net-card__count">3 platforms</em>
+            </div>
+          </header>
+          <div class="sp-net-card__chips">
+            <span class="sp-net-chip"><i aria-hidden="true"></i>Finacle</span>
+            <span class="sp-net-chip"><i aria-hidden="true"></i>T24</span>
+            <span class="sp-net-chip"><i aria-hidden="true"></i>FlexCube</span>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="sp-network__foot">
+        <button class="sp-platform__more" id="openNetworkDrawer">Full network overview →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     07 — CONTACT
+     ============================================================ -->
+<section id="contact" class="sp-contact">
+  <div class="container">
+    <div class="sp-contact__layout reveal">
+
+      <div class="sp-contact__left">
+        <div class="sp-contact__pill">
+          <span class="sp-contact__pill-dot" aria-hidden="true"></span>
+          Get in Touch
+        </div>
+        <h2 class="sp-contact__headline">Let's talk about your integration.</h2>
+        <p class="sp-contact__sub">
+          Tell us what you're building — integration requirements,
+          timelines, or deployment constraints. We'll respond within one business day.
+        </p>
+        <div class="sp-contact__details">
+          <a href="mailto:info@engineeredbybytes.com" class="sp-contact__link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            info@engineeredbybytes.com
+          </a>
+          <span class="sp-contact__link sp-contact__link--plain">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            One-business-day reply commitment
+          </span>
+        </div>
+      </div>
+
+      <div class="sp-contact__right">
+        <!-- Replace YOUR_FORM_ID with actual Formspree endpoint -->
+        <form class="sp-contact__form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+          <div class="form-row">
+            <div class="form-group form-group--light">
+              <label for="name">Name</label>
+              <input type="text" id="name" name="name" placeholder="Your name" required>
+            </div>
+            <div class="form-group form-group--light">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" placeholder="you@company.com" required>
+            </div>
+          </div>
+          <div class="form-group form-group--light">
+            <label for="institution">Institution / Company</label>
+            <input type="text" id="institution" name="institution" placeholder="Organisation name">
+          </div>
+          <div class="form-group form-group--light">
+            <label for="message">What are you building?</label>
+            <textarea id="message" name="message" placeholder="Tell us about your integration requirements, current systems, and timeline..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary">
+            Send Message
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="site-footer__logo">
+          <div class="site-footer__logo-rule"></div>
+          <div class="site-footer__logo-ebb">EBB</div>
+          <div class="site-footer__logo-systems">Systems</div>
+        </div>
+        <p class="site-footer__tagline">Secure. Scalable. Engineered for Trust.</p>
+        <div class="site-footer__contact">
+          <a href="mailto:info@engineeredbybytes.com">info@engineeredbybytes.com</a>
+          <a href="https://www.engineeredbybytes.com">www.engineeredbybytes.com</a>
+        </div>
+      </div>
+      <div class="site-footer__col">
+        <h4>Solutions</h4>
+        <ul>
+          <li><a href="#solutions">Payment Gateway</a></li>
+          <li><a href="https://wizardcd.com" target="_blank" rel="noopener">WizardCd</a></li>
+          <li><a href="#solutions">HSM Services</a></li>
+          <li><a href="#solutions">Recon &amp; Consultancy</a></li>
+        </ul>
+      </div>
+      <div class="site-footer__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#about">About EBB Systems</a></li>
+          <li><a href="#network">Live Network</a></li>
+          <li><a href="gateway.html">Gateway Technical Brief</a></li>
+        </ul>
+      </div>
+      <div class="site-footer__col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#contact">Get in Touch</a></li>
+          <li><a href="mailto:info@engineeredbybytes.com">Email Us</a></li>
+          <li><a href="https://wizardcd.com" target="_blank" rel="noopener">WizardCd.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">&copy; 2026 Engineered By Bytes Ltd. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     PROFILE DRAWER
+     ============================================================ -->
+<div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+
+<aside class="profile-drawer" id="profileDrawer" role="dialog" aria-modal="true" aria-label="Company profile" aria-hidden="true">
+
+  <div class="profile-drawer__header">
+    <div class="profile-drawer__logo">
+      <div class="profile-drawer__logo-rule"></div>
+      <span class="profile-drawer__logo-ebb">EBB</span>
+      <span class="profile-drawer__logo-systems">Systems</span>
+    </div>
+    <button class="profile-drawer__close" id="closeProfileDrawer" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="profile-drawer__body">
+
+    <!-- Mission + Vision -->
+    <div class="profile-drawer__mv">
+      <div class="profile-drawer__mv-block">
+        <span class="profile-drawer__eyebrow">Our Mission</span>
+        <p class="profile-drawer__quote">Enabling every institution to move faster, reach further, and operate with confidence.</p>
+      </div>
+      <div class="profile-drawer__divider"></div>
+      <div class="profile-drawer__mv-block">
+        <span class="profile-drawer__eyebrow">Our Vision</span>
+        <p class="profile-drawer__vision">To be the world's most trusted technology partner for financial interoperability and seamless digital payments.</p>
+      </div>
+    </div>
+
+    <!-- Core Values -->
+    <div class="profile-drawer__section">
+      <span class="profile-drawer__eyebrow">Core Values</span>
+      <div class="dr-frame">
+        <div class="dr-frame__caption" aria-hidden="true">
+          <span>Four principles</span><em>How we build</em>
+        </div>
+      <div class="profile-drawer__values">
+
+        <div class="profile-drawer__value">
+          <div class="profile-drawer__value-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L3 7v5c0 5.25 3.75 10.15 9 11.25C17.25 22.15 21 17.25 21 12V7L12 2z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </div>
+          <h4>Security</h4>
+          <p>Bank-grade protection at every layer — structural, not configured.</p>
+        </div>
+
+        <div class="profile-drawer__value">
+          <div class="profile-drawer__value-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/>
+              <polyline points="16 7 22 7 22 13"/>
+            </svg>
+          </div>
+          <h4>Scalability</h4>
+          <p>Architecture built to grow without redesign or degradation.</p>
+        </div>
+
+        <div class="profile-drawer__value">
+          <div class="profile-drawer__value-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </div>
+          <h4>Reliability</h4>
+          <p>Every failure has a defined recovery path — nothing falls silently.</p>
+        </div>
+
+        <div class="profile-drawer__value">
+          <div class="profile-drawer__value-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+            </svg>
+          </div>
+          <h4>Innovation</h4>
+          <p>Continuously improving how financial systems connect and interoperate.</p>
+        </div>
+
+      </div>
+      </div>
+    </div>
+
+    <!-- How We Work -->
+    <div class="profile-drawer__section">
+      <span class="profile-drawer__eyebrow">How We Work</span>
+      <div class="dr-frame">
+        <div class="dr-frame__caption" aria-hidden="true">
+          <span>The method</span><em>Five-stage delivery cycle</em>
+        </div>
+      <div class="profile-drawer__steps">
+
+        <div class="profile-drawer__step">
+          <span class="profile-drawer__step-num">01</span>
+          <div>
+            <h4>Design-led delivery</h4>
+            <p>We start with your infrastructure topology, regulatory environment, and integration requirements — turning complexity into a clear architecture before a line of code is written.</p>
+          </div>
+        </div>
+
+        <div class="profile-drawer__step">
+          <span class="profile-drawer__step-num">02</span>
+          <div>
+            <h4>Compliance by design. Security by default.</h4>
+            <p>Security controls, AML logic, and audit trails are built into the foundation from day one — giving every system the same rigour as the institutions it serves.</p>
+          </div>
+        </div>
+
+        <div class="profile-drawer__step">
+          <span class="profile-drawer__step-num">03</span>
+          <div>
+            <h4>Tested at every layer</h4>
+            <p>Load, security, and user acceptance testing are built into every delivery cycle — so every system that reaches production is already proven under pressure.</p>
+          </div>
+        </div>
+
+        <div class="profile-drawer__step">
+          <span class="profile-drawer__step-num">04</span>
+          <div>
+            <h4>Controlled go-live</h4>
+            <p>We plan, sequence, and monitor every cutover — staged rollouts with real-time oversight, so go-live is an event, not a risk.</p>
+          </div>
+        </div>
+
+        <div class="profile-drawer__step">
+          <span class="profile-drawer__step-num">05</span>
+          <div>
+            <h4>Beyond go-live</h4>
+            <p>We stay embedded in every system we deliver — monitoring performance, supporting incidents, and evolving alongside your operations.</p>
+          </div>
+        </div>
+
+      </div>
+      </div>
+    </div>
+
+
+  </div>
+</aside>
+
+<!-- ============================================================
+     NETWORK DRAWER
+     ============================================================ -->
+<div class="net-backdrop" id="netBackdrop" aria-hidden="true"></div>
+
+<aside class="net-drawer" id="networkDrawer" role="dialog" aria-modal="true" aria-label="Live network overview" aria-hidden="true">
+
+  <div class="net-drawer__header">
+    <div class="net-drawer__header-left">
+      <span class="net-drawer__live-dot"></span>
+      <span class="net-drawer__title">Live Network</span>
+    </div>
+    <button class="net-drawer__close" id="closeNetworkDrawer" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="net-drawer__body">
+
+    <!-- Stats -->
+    <div class="dr-frame dr-frame--tight">
+      <div class="dr-frame__caption" aria-hidden="true">
+        <span>At a glance</span><em>Live numbers</em>
+      </div>
+      <div class="net-drawer__stats">
+        <div class="net-drawer__stat">
+          <span class="net-drawer__stat-num">10M+</span>
+          <span class="net-drawer__stat-lbl">Transactions / day</span>
+        </div>
+        <div class="net-drawer__stat">
+          <span class="net-drawer__stat-num">4–8<em>wk</em></span>
+          <span class="net-drawer__stat-lbl">New corridor live</span>
+        </div>
+        <div class="net-drawer__stat">
+          <span class="net-drawer__stat-num">15+</span>
+          <span class="net-drawer__stat-lbl">Live integrations</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live integrations frame -->
+    <div class="dr-frame">
+      <div class="dr-frame__caption" aria-hidden="true">
+        <span>The network</span><em>Four live categories</em>
+      </div>
+
+    <!-- Mobile Money -->
+    <div class="net-drawer__group">
+      <div class="net-drawer__group-head">
+        <span class="net-drawer__cat-label">Mobile Money</span>
+      </div>
+      <p class="net-drawer__desc">USSD, API, and direct switch protocols across East, West, and Central Africa.</p>
+      <div class="net-drawer__chips">
+        <span class="net-chip">M-PESA</span>
+        <span class="net-chip">Airtel Money</span>
+        <span class="net-chip">Vodacom</span>
+        <span class="net-chip">MTN</span>
+        <span class="net-chip">Africell</span>
+        <span class="net-chip">Orange</span>
+      </div>
+    </div>
+
+    <!-- Interbank -->
+    <div class="net-drawer__group">
+      <div class="net-drawer__group-head">
+        <span class="net-drawer__cat-label">Interbank &amp; Switches</span>
+      </div>
+      <p class="net-drawer__desc">Real-time interbank settlement and cross-border switch integrations.</p>
+      <div class="net-drawer__chips">
+        <span class="net-chip">PesaLink</span>
+        <span class="net-chip">PAPSS</span>
+        <span class="net-chip">Multipay DRC</span>
+      </div>
+    </div>
+
+    <!-- Remittance -->
+    <div class="net-drawer__group">
+      <div class="net-drawer__group-head">
+        <span class="net-drawer__cat-label">Remittance</span>
+      </div>
+      <p class="net-drawer__desc">International corridors with AML-compliant routing and real-time settlement.</p>
+      <div class="net-drawer__chips">
+        <span class="net-chip">Thunes</span>
+        <span class="net-chip">Mastercard Send</span>
+        <span class="net-chip">MoneyGram</span>
+      </div>
+    </div>
+
+    <!-- Core Banking -->
+    <div class="net-drawer__group">
+      <div class="net-drawer__group-head">
+        <span class="net-drawer__cat-label">Core Banking</span>
+      </div>
+      <p class="net-drawer__desc">Deep CBS integrations for account management, transaction posting, and reconciliation.</p>
+      <div class="net-drawer__chips">
+        <span class="net-chip">Finacle</span>
+        <span class="net-chip">T24</span>
+        <span class="net-chip">FlexCube</span>
+      </div>
+    </div>
+
+    </div><!-- /dr-frame (network categories) -->
+
+    <!-- CTA -->
+    <a href="#contact" class="net-drawer__cta-btn" id="netDrawerContact">Discuss an Integration →</a>
+
+  </div>
+</aside>
+
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/drawer.js"></script>
+<script src="assets/js/network.js"></script>
+</body>
+</html>

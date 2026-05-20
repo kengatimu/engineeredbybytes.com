@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Gateway — EBB Systems</title>
+  <meta name="description" content="EBB Systems payment gateway — enterprise-grade payment infrastructure for financial institutions. 10M+ transactions per day, 99.99% uptime, real-time settlement.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="gw-page">
+
+
+<!-- ─────────────────────────────────────────────────────
+     TOP BAR
+     ───────────────────────────────────────────────────── -->
+<div class="gw-topbar">
+  <div class="gw-topbar__left">
+    <a href="index.html#solutions" class="gw-back">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg>
+      Solutions
+    </a>
+    <div class="gw-topbar__sep" aria-hidden="true"></div>
+    <div class="gw-topbar__crumb">
+      <span class="gw-topbar__crumb-kicker">Product</span>
+      <span class="gw-topbar__crumb-name">Payment Gateway</span>
+    </div>
+  </div>
+  <nav class="gw-topbar__nav" aria-label="Page sections">
+    <a href="#problem">Problem</a>
+    <a href="#solution">Solution</a>
+    <a href="#capabilities">Capabilities</a>
+    <a href="#channels">Channels</a>
+    <a href="#engage">Engage</a>
+  </nav>
+  <a href="index.html#contact" class="gw-topbar__cta">Talk to engineering</a>
+</div>
+
+
+<!-- ─────────────────────────────────────────────────────
+     HERO  ·  compact product intro panel
+     ───────────────────────────────────────────────────── -->
+<section class="gw-hero">
+
+  <!-- Subtle animated background -->
+  <div class="gw-hero__bg" aria-hidden="true">
+    <div class="gw-hero__orb"></div>
+    <div class="gw-hero__grid"></div>
+  </div>
+
+  <div class="gw-hero__inner">
+
+    <div class="gw-hero__intro">
+      <div class="gw-hero__eyebrow">
+        <span class="gw-hero__dot" aria-hidden="true"></span>
+        In Production
+      </div>
+      <h1 class="gw-hero__h1">
+        One integration layer for every<br>payment network you connect to.
+      </h1>
+      <p class="gw-hero__sub">
+        Mobile money, interbank switches, and cross-border corridors — added as configuration, not rebuild projects. Security, audit, and compliance are inherited the moment a corridor goes live.
+      </p>
+    </div>
+
+    <ul class="gw-hero__stats" aria-label="Key metrics">
+      <li>
+        <strong><span data-counter="10" data-final="10M+">10M+</span></strong>
+        <span>Transactions / day</span>
+      </li>
+      <li>
+        <strong>4–8<em>wk</em></strong>
+        <span>New corridor live</span>
+      </li>
+      <li>
+        <strong>6</strong>
+        <span>Security layers</span>
+      </li>
+      <li>
+        <strong>99.99<em>%</em></strong>
+        <span>Audit coverage</span>
+      </li>
+    </ul>
+
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────
+     ACT 2 · THE PROBLEM
+     ───────────────────────────────────────────────────── -->
+<section class="section section--cream" id="problem">
+  <div class="container">
+    <div class="gw-act-head gw-act-head--split reveal">
+      <div class="gw-section-label">The Problem</div>
+      <div class="gw-act-head__cols">
+        <h2 class="gw-section-h2">The first integration was a project.<br>The tenth shouldn't be.</h2>
+        <p class="gw-act-head__lead">On most payment infrastructure, it still is. Every corridor restarts the same project — its own protocol, its own compliance work, its own audit logic. The cost compounds, and the engineering team never gets to the products on top.</p>
+      </div>
+    </div>
+
+    <div class="gw-prob-frame reveal">
+      <div class="gw-prob-frame__caption" aria-hidden="true">
+        <span>The cost</span><em>Three structural failures of the cycle</em>
+      </div>
+
+      <div class="gw-prob-grid reveal-stagger">
+      <article class="gw-prob-card">
+        <div class="gw-prob-card__num">01</div>
+        <h3 class="gw-prob-card__title">Every corridor is a separate project</h3>
+        <p class="gw-prob-card__body">Each new payment network is a distinct protocol, certification, and compliance obligation — built from scratch, at full cost, every time.</p>
+        <div class="gw-prob-card__cost">
+          <span class="gw-prob-card__cost-label">Cost</span>
+          <span class="gw-prob-card__cost-value">Months per integration</span>
+        </div>
+      </article>
+      <article class="gw-prob-card">
+        <div class="gw-prob-card__num">02</div>
+        <h3 class="gw-prob-card__title">The cycle never closes</h3>
+        <p class="gw-prob-card__body">By the time one integration ships, the next is already in the queue. Customers don't wait — they move to whoever can offer the rail today, and the institution running the longest roadmap is rarely first to market.</p>
+        <div class="gw-prob-card__cost">
+          <span class="gw-prob-card__cost-label">Cost</span>
+          <span class="gw-prob-card__cost-value">Customers move on</span>
+        </div>
+      </article>
+      <article class="gw-prob-card">
+        <div class="gw-prob-card__num">03</div>
+        <h3 class="gw-prob-card__title">No common audit layer</h3>
+        <p class="gw-prob-card__body">Fragmented infrastructure means no single source of truth. A regulator's question turns into a multi-team forensics exercise across disconnected systems.</p>
+        <div class="gw-prob-card__cost">
+          <span class="gw-prob-card__cost-label">Cost</span>
+          <span class="gw-prob-card__cost-value">Audits become forensics</span>
+        </div>
+      </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────
+     ACT 3 · THE SOLUTION · ARCHITECTURE
+     ───────────────────────────────────────────────────── -->
+<section class="section" id="solution">
+  <div class="container">
+    <div class="gw-act-head gw-act-head--split reveal">
+      <div class="gw-section-label">The Solution</div>
+      <div class="gw-act-head__cols">
+        <h2 class="gw-section-h2">One permanent layer.<br>Every network.</h2>
+        <p class="gw-act-head__lead">The gateway sits between your core banking system and every payment network you connect to. Each provider is an independent module — built, tested and deployed without touching anything else. Security, compliance, audit and recovery are properties of the gateway itself, not of any single integration.</p>
+      </div>
+    </div>
+
+    <div class="gw-arch-frame reveal">
+      <div class="gw-arch-frame__caption" aria-hidden="true">
+        <span>Architecture</span>
+        <em>How a transaction flows</em>
+      </div>
+
+      <div class="gw-arch">
+        <div class="gw-arch__col gw-arch__col--core">
+          <div class="gw-arch__label">Your stack</div>
+          <div class="gw-arch__node">
+            <div class="gw-arch__node-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 14h4M7 17h2"/></svg>
+            </div>
+            <div class="gw-arch__node-title">Core Banking</div>
+            <div class="gw-arch__node-sub">Finacle · T24 · FlexCube · custom CBS</div>
+          </div>
+          <div class="gw-arch__pill">Unchanged</div>
+        </div>
+
+        <div class="gw-arch__bridge" aria-hidden="true">
+          <div class="gw-arch__line"></div>
+          <div class="gw-arch__pulse"></div>
+          <div class="gw-arch__pulse gw-arch__pulse--delay"></div>
+        </div>
+
+        <div class="gw-arch__col gw-arch__col--gw">
+          <div class="gw-arch__label">EBB Gateway</div>
+          <div class="gw-arch__node gw-arch__node--accent">
+            <div class="gw-arch__node-marker" aria-hidden="true">
+              <span class="gw-arch__node-marker-rule"></span>
+              <span class="gw-arch__node-marker-text">EBB</span>
+            </div>
+            <div class="gw-arch__node-title">One signed, audited API</div>
+            <ul class="gw-arch__props">
+              <li><span>Signatures · mTLS · network isolation</span></li>
+              <li><span>AML · PCI-DSS masking · audit trail</span></li>
+              <li><span>Reversals · reconciliation · escalation</span></li>
+              <li><span>Webhooks · operator console · RBAC</span></li>
+            </ul>
+          </div>
+          <div class="gw-arch__pill gw-arch__pill--accent">Built once</div>
+        </div>
+
+        <div class="gw-arch__bridge" aria-hidden="true">
+          <div class="gw-arch__line"></div>
+          <div class="gw-arch__pulse gw-arch__pulse--reverse"></div>
+          <div class="gw-arch__pulse gw-arch__pulse--reverse gw-arch__pulse--delay"></div>
+        </div>
+
+        <div class="gw-arch__col gw-arch__col--net">
+          <div class="gw-arch__label">Networks</div>
+          <div class="gw-arch__stack">
+            <div class="gw-arch__chip">
+              <svg class="gw-arch__chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg>
+              <span>Mobile money</span>
+            </div>
+            <div class="gw-arch__chip">
+              <svg class="gw-arch__chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 21h18M5 21V10m4 11V10m6 11V10m4 11V10M3 10l9-7 9 7"/></svg>
+              <span>Interbank switches</span>
+            </div>
+            <div class="gw-arch__chip">
+              <svg class="gw-arch__chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a13 13 0 010 18M12 3a13 13 0 000 18"/></svg>
+              <span>Cross-border</span>
+            </div>
+            <div class="gw-arch__chip">
+              <svg class="gw-arch__chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M6 15h3"/></svg>
+              <span>Card networks</span>
+            </div>
+            <div class="gw-arch__chip gw-arch__chip--muted">
+              <svg class="gw-arch__chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              <span>new corridors</span>
+            </div>
+          </div>
+          <div class="gw-arch__pill">Configured in</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────
+     ACT 4 · CAPABILITIES — framed 2×2 quadrant matrix
+     ───────────────────────────────────────────────────── -->
+<section class="section section--cream" id="capabilities">
+  <div class="container">
+    <div class="gw-act-head gw-act-head--split reveal">
+      <div class="gw-section-label">Capabilities</div>
+      <div class="gw-act-head__cols">
+        <h2 class="gw-section-h2">Four properties of the platform.</h2>
+        <p class="gw-act-head__lead">Speed, throughput, security and recovery aren\'t toggles. They apply unconditionally to every transaction on every corridor — inherited the moment a new network connects.</p>
+      </div>
+    </div>
+
+    <div class="gw-caps-frame reveal">
+      <div class="gw-caps-frame__caption" aria-hidden="true">
+        <span>The Four</span><em>How the gateway operates</em>
+      </div>
+
+      <div class="gw-caps-grid">
+
+        <!-- 01 Speed -->
+        <article class="gw-cap-tile">
+          <div class="gw-cap-tile__head">
+            <h3 class="gw-cap-tile__title">Speed to Market</h3>
+            <span class="gw-cap-tile__num">01</span>
+          </div>
+          <p class="gw-cap-tile__body">Production-ready in 4–8 weeks instead of 6–18 months. Only provider-specific logic needs writing — security, compliance and audit are already part of the gateway.</p>
+          <div class="gw-cap-tile__viz">
+            <div class="gw-cap-bars">
+              <div class="gw-cap-bar gw-cap-bar--ours">
+                <div class="gw-cap-bar__row">
+                  <span class="gw-cap-bar__label">Our gateway</span>
+                  <strong class="gw-cap-bar__time">4–8 <em>weeks</em></strong>
+                </div>
+                <div class="gw-cap-bar__track"><div class="gw-cap-bar__fill gw-cap-bar__fill--ours"></div></div>
+              </div>
+              <div class="gw-cap-bar gw-cap-bar--ind">
+                <div class="gw-cap-bar__row">
+                  <span class="gw-cap-bar__label">Industry norm</span>
+                  <strong class="gw-cap-bar__time">6–18 <em>months</em></strong>
+                </div>
+                <div class="gw-cap-bar__track"><div class="gw-cap-bar__fill gw-cap-bar__fill--ind"></div></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 02 Throughput -->
+        <article class="gw-cap-tile">
+          <div class="gw-cap-tile__head">
+            <h3 class="gw-cap-tile__title">Throughput &amp; Scale</h3>
+            <span class="gw-cap-tile__num">02</span>
+          </div>
+          <p class="gw-cap-tile__body">Designed for production scale from deployment. Connection pooling absorbs traffic bursts, hundreds of concurrent dispatch channels, async by default.</p>
+          <div class="gw-cap-tile__viz">
+            <div class="gw-cap-tput" aria-hidden="true">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+          </div>
+        </article>
+
+        <!-- 03 Security -->
+        <article class="gw-cap-tile">
+          <div class="gw-cap-tile__head">
+            <h3 class="gw-cap-tile__title">Security</h3>
+            <span class="gw-cap-tile__num">03</span>
+          </div>
+          <p class="gw-cap-tile__body">Six structural layers — signatures, mutual TLS, network isolation, AML, PCI-DSS masking, end-to-end audit — applied unconditionally to every transaction.</p>
+          <div class="gw-cap-tile__viz">
+            <ol class="gw-cap-layers">
+              <li class="gw-cap-layer">
+                <span class="gw-cap-layer__num">01</span>
+                <div class="gw-cap-layer__body">
+                  <strong>Signatures</strong>
+                  <span>Every payload cryptographically signed.</span>
+                </div>
+              </li>
+              <li class="gw-cap-layer">
+                <span class="gw-cap-layer__num">02</span>
+                <div class="gw-cap-layer__body">
+                  <strong>Mutual TLS</strong>
+                  <span>Both parties verified — no password fallback.</span>
+                </div>
+              </li>
+              <li class="gw-cap-layer">
+                <span class="gw-cap-layer__num">03</span>
+                <div class="gw-cap-layer__body">
+                  <strong>Network isolation</strong>
+                  <span>Surfaces run on separate ports.</span>
+                </div>
+              </li>
+              <li class="gw-cap-layer">
+                <span class="gw-cap-layer__num">04</span>
+                <div class="gw-cap-layer__body">
+                  <strong>AML screening</strong>
+                  <span>Runs at the infrastructure layer.</span>
+                </div>
+              </li>
+              <li class="gw-cap-layer">
+                <span class="gw-cap-layer__num">05</span>
+                <div class="gw-cap-layer__body">
+                  <strong>PCI-DSS masking</strong>
+                  <span>Sensitive fields masked at ingestion.</span>
+                </div>
+              </li>
+              <li class="gw-cap-layer">
+                <span class="gw-cap-layer__num">06</span>
+                <div class="gw-cap-layer__body">
+                  <strong>Audit trail</strong>
+                  <span>Every field, every stage logged.</span>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </article>
+
+        <!-- 04 Reliability -->
+        <article class="gw-cap-tile">
+          <div class="gw-cap-tile__head">
+            <h3 class="gw-cap-tile__title">Transaction Reliability</h3>
+            <span class="gw-cap-tile__num">04</span>
+          </div>
+          <p class="gw-cap-tile__body">Every failure has a defined recovery path. Automatic reversal on credit failure, escalation without silence, async dispatch so callers never block.</p>
+          <div class="gw-cap-tile__viz">
+            <ul class="gw-cap-reli">
+              <li class="gw-cap-reli__item">
+                <span class="gw-cap-reli__mark" aria-hidden="true"></span>
+                <div class="gw-cap-reli__copy">
+                  <strong>Automatic reversal</strong>
+                  <span>Triggered on any credit failure — funds returned, incident logged, no manual step.</span>
+                </div>
+              </li>
+              <li class="gw-cap-reli__item">
+                <span class="gw-cap-reli__mark" aria-hidden="true"></span>
+                <div class="gw-cap-reli__copy">
+                  <strong>Escalation without silence</strong>
+                  <span>If auto-recovery can't complete, ops are notified with the full transaction context attached.</span>
+                </div>
+              </li>
+              <li class="gw-cap-reli__item">
+                <span class="gw-cap-reli__mark" aria-hidden="true"></span>
+                <div class="gw-cap-reli__copy">
+                  <strong>Asynchronous processing</strong>
+                  <span>Time-sensitive flows acknowledged at ingress — the calling channel is never held waiting.</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────
+     ACT 6 · CHANNELS — surfaces the gateway powers
+     ───────────────────────────────────────────────────── -->
+<section class="section" id="channels">
+  <div class="container">
+    <div class="gw-act-head gw-act-head--split reveal">
+      <div class="gw-section-label">Channels</div>
+      <div class="gw-act-head__cols">
+        <h2 class="gw-section-h2">The surfaces your customers actually touch.</h2>
+        <p class="gw-act-head__lead">The gateway is the backend. Any channel your institution operates connects through its API and inherits full network connectivity, security enforcement and audit coverage — without a parallel payment stack.</p>
+      </div>
+    </div>
+
+    <div class="gw-ch-frame reveal">
+      <div class="gw-ch-frame__caption" aria-hidden="true">
+        <span>The reach</span><em>Four customer surfaces, one gateway</em>
+      </div>
+
+      <div class="gw-ch-grid reveal-stagger">
+
+      <article class="gw-ch-card">
+        <div class="gw-ch-card__top">
+          <div class="gw-ch-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M11 18h2"/></svg>
+          </div>
+          <div class="gw-ch-card__num">01</div>
+        </div>
+        <h3 class="gw-ch-card__title">Mobile banking &amp; DFS apps</h3>
+        <p class="gw-ch-card__body">Any digital financial services app — your own or a partner's — connects through the gateway for money transfers, payments, and every product in your portfolio.</p>
+        <div class="gw-ch-card__chips">
+          <span>Wallet apps</span><span>DFS platforms</span><span>Real-time transfers</span>
+        </div>
+      </article>
+
+      <article class="gw-ch-card">
+        <div class="gw-ch-card__top">
+          <div class="gw-ch-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20M6 14h2M10 14h2"/></svg>
+          </div>
+          <div class="gw-ch-card__num">02</div>
+        </div>
+        <h3 class="gw-ch-card__title">ATM &amp; POS networks</h3>
+        <p class="gw-ch-card__body">Card-based and tap-based channels route through the gateway for processing, settlement and reversal — with the same audit guarantees as every other channel.</p>
+        <div class="gw-ch-card__chips">
+          <span>Card present</span><span>Contactless</span><span>Auto-reversal</span>
+        </div>
+      </article>
+
+      <article class="gw-ch-card">
+        <div class="gw-ch-card__top">
+          <div class="gw-ch-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="7" r="3"/><path d="M2 21v-2a5 5 0 015-5h4a5 5 0 015 5v2"/><circle cx="17" cy="9" r="2"/><path d="M22 19v-1a3 3 0 00-2.5-3"/></svg>
+          </div>
+          <div class="gw-ch-card__num">03</div>
+        </div>
+        <h3 class="gw-ch-card__title">Agent banking</h3>
+        <p class="gw-ch-card__body">Agent networks in underserved areas reach the same payment rails through the gateway — extending coverage without extending integration complexity.</p>
+        <div class="gw-ch-card__chips">
+          <span>Cash-in / Cash-out</span><span>USSD agent</span><span>Offline-tolerant</span>
+        </div>
+      </article>
+
+      <article class="gw-ch-card">
+        <div class="gw-ch-card__top">
+          <div class="gw-ch-card__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a13 13 0 010 18M12 3a13 13 0 000 18"/></svg>
+          </div>
+          <div class="gw-ch-card__num">04</div>
+        </div>
+        <h3 class="gw-ch-card__title">USSD &amp; web portals</h3>
+        <p class="gw-ch-card__body">USSD services and web-facing portals connect through the same API. New channels are added to the existing gateway — never to a parallel payment stack.</p>
+        <div class="gw-ch-card__chips">
+          <span>Session-based</span><span>Stateless API</span><span>Multi-tenant</span>
+        </div>
+      </article>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────
+     LIVE FOOTPRINT
+     ───────────────────────────────────────────────────── -->
+<!-- ─────────────────────────────────────────────────────
+     ACT 7 · ENGAGE — unified framed unit (path + proof + value)
+     ───────────────────────────────────────────────────── -->
+<section class="section section--cream" id="engage">
+  <div class="container">
+    <div class="gw-act-head gw-act-head--split reveal">
+      <div class="gw-section-label">Engage</div>
+      <div class="gw-act-head__cols">
+        <h2 class="gw-section-h2">From decision to live transactions.</h2>
+        <p class="gw-act-head__lead">Activation is configuration, not a new build. New corridors follow the 4–8 week cycle. The path, the proof, and the compounding value — in one view.</p>
+      </div>
+    </div>
+
+    <div class="gw-eng-frame reveal">
+      <div class="gw-eng-frame__caption" aria-hidden="true">
+        <span>The Engagement</span><em>Path · Proof · Compounding value</em>
+      </div>
+
+      <!-- ROW 1 — Phased timeline (full width) -->
+      <div class="gw-eng-block gw-eng-block--timeline">
+        <div class="gw-eng-block__head">
+          <span class="gw-eng-block__num">01</span>
+          <div class="gw-eng-block__head-text">
+            <h3 class="gw-eng-block__title">The path</h3>
+            <p class="gw-eng-block__sub">A defined sequence from decision to live transactions.</p>
+          </div>
+        </div>
+
+        <div class="gw-eng-tl">
+          <div class="gw-eng-tl__step">
+            <div class="gw-eng-tl__dot"><span>01</span></div>
+            <div class="gw-eng-tl__when">Weeks 1–8</div>
+            <h4 class="gw-eng-tl__title">Gateway Deployment</h4>
+            <p class="gw-eng-tl__body">CBS integration, mTLS, AML &amp; PCI-DSS pipeline, admin portal. Gateway operational before any channel goes live.</p>
+          </div>
+          <div class="gw-eng-tl__step">
+            <div class="gw-eng-tl__dot"><span>02</span></div>
+            <div class="gw-eng-tl__when">Weeks 6–14 · Parallel</div>
+            <h4 class="gw-eng-tl__title">Network Activation</h4>
+            <p class="gw-eng-tl__body">For live operators and interbank networks: configuration, not a build. New corridors follow the 4–8 week cycle.</p>
+          </div>
+          <div class="gw-eng-tl__step">
+            <div class="gw-eng-tl__dot"><span>03</span></div>
+            <div class="gw-eng-tl__when">Weeks 10–18</div>
+            <h4 class="gw-eng-tl__title">Channel Integration</h4>
+            <p class="gw-eng-tl__body">DFS platforms, ATM &amp; POS, agent banking, USSD — integrated against the stable gateway API.</p>
+          </div>
+          <div class="gw-eng-tl__step gw-eng-tl__step--ongoing">
+            <div class="gw-eng-tl__dot"><span>04</span></div>
+            <div class="gw-eng-tl__when">Ongoing</div>
+            <h4 class="gw-eng-tl__title">Growth &amp; Expansion</h4>
+            <p class="gw-eng-tl__body">New corridors, API change management, new channels — handled by us. Your engineering team is not drawn in every time the market moves.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="gw-eng-divider" aria-hidden="true"></div>
+
+      <!-- ROW 2 — Two columns: Footprint + Compounding Advantage -->
+      <div class="gw-eng-pair">
+
+        <!-- Live Footprint -->
+        <div class="gw-eng-block gw-eng-block--footprint">
+          <div class="gw-eng-block__head">
+            <span class="gw-eng-block__num">02</span>
+            <div class="gw-eng-block__head-text">
+              <h3 class="gw-eng-block__title">Live in production</h3>
+              <p class="gw-eng-block__sub">Each integration below is settling real transactions today.</p>
+            </div>
+          </div>
+
+          <div class="gw-eng-fp">
+            <div class="gw-eng-fp__group">
+              <div class="gw-eng-fp__label">Mobile money</div>
+              <div class="gw-eng-fp__chips">
+                <span>M-PESA</span><span>Airtel Money</span><span>Vodacom</span><span>MTN</span><span>Africell</span><span>Orange Money</span>
+              </div>
+            </div>
+            <div class="gw-eng-fp__group">
+              <div class="gw-eng-fp__label">Interbank &amp; switches</div>
+              <div class="gw-eng-fp__chips">
+                <span>PesaLink / IPSL</span><span>PAPSS</span><span>Multipay DRC</span>
+              </div>
+            </div>
+            <div class="gw-eng-fp__group">
+              <div class="gw-eng-fp__label">Core banking</div>
+              <div class="gw-eng-fp__chips">
+                <span>Finacle</span><span>T24</span><span>FlexCube</span><span class="gw-eng-fp__chip--muted">Other CBS on request</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compounding Advantage -->
+        <div class="gw-eng-block gw-eng-block--commercial">
+          <div class="gw-eng-block__head">
+            <span class="gw-eng-block__num">03</span>
+            <div class="gw-eng-block__head-text">
+              <h3 class="gw-eng-block__title">Each corridor costs less than the last</h3>
+              <p class="gw-eng-block__sub">A new corridor inherits every security layer, the full audit trail and the reversal logic the moment it connects.</p>
+            </div>
+          </div>
+
+          <div class="gw-eng-compare">
+            <div class="gw-eng-compare__col gw-eng-compare__col--before">
+              <div class="gw-eng-compare__head">Conventional</div>
+              <ul>
+                <li>Own security model per integration</li>
+                <li>Own logging format per provider</li>
+                <li>Own reconciliation each time</li>
+                <li>Complexity grows with every corridor</li>
+              </ul>
+            </div>
+            <div class="gw-eng-compare__col gw-eng-compare__col--after">
+              <div class="gw-eng-compare__head">EBB Gateway</div>
+              <ul>
+                <li>Six security layers, every corridor</li>
+                <li>One audit trail across the platform</li>
+                <li>Common compliance — inherited</li>
+                <li>Each corridor costs less than the last</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────
+     CTA · Ready to Build — two-column closing
+     ───────────────────────────────────────────────────── -->
+<section class="cta-band cta-band--ready">
+  <div class="container">
+    <div class="cta-band__layout">
+
+      <!-- LEFT — closing message + CTAs -->
+      <div class="cta-band__main">
+        <div class="cta-band__eyebrow">
+          <span class="cta-band__dot" aria-hidden="true"></span>
+          Ready to Build
+        </div>
+        <h2 class="cta-band__h2">
+          <span>The infrastructure is <em>built.</em></span>
+          <span>The integrations are <em>live.</em></span>
+          <span>The next step is yours.</span>
+        </h2>
+        <div class="cta-band__rule" aria-hidden="true"></div>
+        <p class="cta-band__sub">Walk through the architecture with our engineering team and scope an engagement specific to your institution's market and requirements.</p>
+        <div class="cta-band__actions">
+          <a href="index.html#contact" class="btn btn--primary btn--lg">Schedule a Briefing</a>
+          <a href="index.html#solutions" class="btn btn--outline btn--lg">Back to Solutions</a>
+        </div>
+      </div>
+
+      <!-- RIGHT — what to expect when you engage -->
+      <aside class="cta-band__aside">
+        <div class="cta-band__aside-head">
+          <span>What happens next</span>
+          <em>Briefing to engagement</em>
+        </div>
+        <ol class="cta-band__steps">
+          <li>
+            <span class="cta-band__step-num">01</span>
+            <div class="cta-band__step-body">
+              <strong>Architecture walkthrough</strong>
+              <p>A 30–60 minute session with our engineering team — your questions, our integration patterns, the gateway live.</p>
+            </div>
+          </li>
+          <li>
+            <span class="cta-band__step-num">02</span>
+            <div class="cta-band__step-body">
+              <strong>Production environment</strong>
+              <p>See the gateway processing real transactions across corridors and channels — not a sandbox demo.</p>
+            </div>
+          </li>
+          <li>
+            <span class="cta-band__step-num">03</span>
+            <div class="cta-band__step-body">
+              <strong>Scope your engagement</strong>
+              <p>Map your corridors, channels and timelines to the 4–8 week deployment cycle.</p>
+            </div>
+          </li>
+          <li>
+            <span class="cta-band__step-num">04</span>
+            <div class="cta-band__step-body">
+              <strong>Defined commercial terms</strong>
+              <p>Clear scope, clear timeline, clear pricing — before any contract is drafted.</p>
+            </div>
+          </li>
+        </ol>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ─────────────────────────────────────────────────────
+     FOOTER
+     ───────────────────────────────────────────────────── -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__grid">
+      <div class="site-footer__brand">
+        <div class="site-footer__logo">
+          <div class="site-footer__logo-rule"></div>
+          <div class="site-footer__logo-ebb">EBB</div>
+          <div class="site-footer__logo-systems">Systems</div>
+        </div>
+        <p class="site-footer__tagline">Secure. Scalable. Engineered for Trust.</p>
+        <div class="site-footer__contact">
+          <a href="mailto:info@engineeredbybytes.com">info@engineeredbybytes.com</a>
+          <a href="https://www.engineeredbybytes.com">www.engineeredbybytes.com</a>
+        </div>
+      </div>
+      <div class="site-footer__col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="index.html#about">About Us</a></li>
+          <li><a href="index.html#network">Live Network</a></li>
+          <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="site-footer__col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="gateway.html">Payment Gateway</a></li>
+          <li><a href="index.html#solutions">Solutions</a></li>
+          <li><a href="wizardcd.html">WizardCd</a></li>
+        </ul>
+      </div>
+      <div class="site-footer__col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="index.html#contact">Get in Touch</a></li>
+          <li><a href="https://wizardcd.com" target="_blank" rel="noopener">WizardCd.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom">
+      <p class="site-footer__copy">&copy; 2026 Engineered By Bytes Ltd. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/nav.js"></script>
+<script src="assets/js/gateway.js"></script>
+</body>
+</html>

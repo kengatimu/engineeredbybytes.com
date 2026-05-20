@@ -1,0 +1,14 @@
+# Internal planning — never push to public repo
+WEBSITE_ROADMAP.md
+
+# Working / preview files — not production pages
+preview-capabilities.html
+designs.html
+
+# OS + editor cruft
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
