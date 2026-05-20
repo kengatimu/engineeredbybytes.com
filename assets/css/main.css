@@ -5070,7 +5070,9 @@ p {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  padding: 20px 28px 36px;
+  /* Generous bottom padding so the last chip row / CTA never gets clipped
+     by the mobile browser chrome (URL bar collapse) or safe-area inset. */
+  padding: 20px 28px calc(48px + env(safe-area-inset-bottom, 0px));
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -8676,6 +8678,15 @@ html { scroll-behavior: smooth; }
   border: 1px solid rgba(13,34,64,0.06);
   border-radius: 14px;
   overflow: hidden;
+}
+
+/* Inside the network drawer specifically, drop the overflow:hidden so the
+   final chip row never gets clipped when the drawer body height is tight
+   on mobile. The rounded corners stay visible because the dot-grid
+   pseudo-element only fills the box and is harmless if it overflows by a
+   subpixel. */
+.net-drawer__body .dr-frame {
+  overflow: visible;
 }
 .dr-frame--tight {
   margin-top: 0;
