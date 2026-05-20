@@ -400,6 +400,10 @@ p {
   gap: 4px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+  /* Above the hero and any scroll-revealed sections */
+  z-index: 950;
+  max-height: calc(100vh - 72px);
+  overflow-y: auto;
 }
 
 .navbar__mobile.open {
@@ -3715,8 +3719,11 @@ p {
 
 @media (max-width: 768px) {
   .hero--full {
-    min-height: auto;
-    padding: 120px 0 100px;
+    /* Fill the mobile viewport — use dvh so it works on Chrome Android
+       (where the address bar shifts the visible height). */
+    min-height: 100dvh;
+    min-height: 100vh; /* fallback for older browsers */
+    padding: 96px 0 56px;
   }
 
   .sp-wcd {
@@ -3789,6 +3796,17 @@ p {
   .network-stat-block {
     grid-template-columns: 1fr 1fr;
   }
+
+  /* Solutions cards stack on phones — was only collapsing at <480px
+     which left a broken 3-col layout between 480px-768px. */
+  .solutions-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .sol-card {
+    padding: 24px 22px 22px;
+  }
 }
 
 
@@ -3821,7 +3839,15 @@ p {
 
   .hero__actions {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .hero__actions .btn {
+    /* Equal width, full container width on mobile */
+    width: 100%;
+    justify-content: center;
+    text-align: center;
   }
 
   .product-card {
@@ -3844,7 +3870,11 @@ p {
 
   .hero__actions--center {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+    width: 100%;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .hero__proof-grid {
@@ -4939,7 +4969,11 @@ p {
   position: fixed;
   top: 0;
   right: 0;
-  height: 100%;
+  /* Use dvh so mobile Chrome's collapsing URL bar doesn't clip the panel.
+     Fallback height + max-height for older engines. */
+  height: 100dvh;
+  height: 100vh;
+  max-height: 100vh;
   width: 700px;
   max-width: 100vw;
   background: var(--white);
@@ -4949,6 +4983,7 @@ p {
   transform: translateX(100%);
   transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: -8px 0 48px rgba(8, 20, 40, 0.18);
+  overflow: hidden;
 }
 
 .net-drawer.is-open {
@@ -5011,8 +5046,11 @@ p {
 }
 
 .net-drawer__body {
-  flex: 1;
+  flex: 1 1 auto;
+  min-height: 0; /* required for flex children to scroll inside a flex column */
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   padding: 20px 28px 36px;
   display: flex;
   flex-direction: column;
