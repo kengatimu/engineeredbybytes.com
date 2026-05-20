@@ -3738,11 +3738,17 @@ p {
 
 @media (max-width: 768px) {
   .hero--full {
-    /* Fill the mobile viewport — use dvh so it works on Chrome Android
-       (where the address bar shifts the visible height). */
-    min-height: 100dvh;
-    min-height: 100vh; /* fallback for older browsers */
-    padding: 96px 0 56px;
+    /* Content-driven height on mobile, not full viewport — keeps the brand
+       block visible without the large empty band that 100dvh + center
+       alignment produces on tall phones. */
+    min-height: auto;
+    padding: 72px 0 48px;
+    align-items: flex-start;
+  }
+
+  /* Tighten internal spacing of the centered brand block on mobile */
+  .hero__brand-center {
+    gap: 22px;
   }
 
   .sp-wcd {
@@ -3857,16 +3863,25 @@ p {
   }
 
   .hero__actions {
-    flex-direction: column;
-    align-items: stretch;
+    /* Grid (one column, two rows) guarantees children are pixel-identical
+       in width regardless of label length, padding, or border style. */
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
     width: 100%;
+    align-items: stretch;
   }
 
-  .hero__actions .btn {
-    /* Equal width, full container width on mobile */
+  .hero__actions .btn,
+  .hero__actions .btn--lg {
+    /* Buttons inherit the grid-cell width — no need for width:100% but
+       harmless. Center the label since the cell is wider than the text. */
     width: 100%;
     justify-content: center;
     text-align: center;
+    /* Equalise vertical mass between filled (primary) and outline buttons */
+    padding: 14px 24px;
+    min-height: 48px;
   }
 
   .product-card {
@@ -3888,10 +3903,12 @@ p {
   }
 
   .hero__actions--center {
-    flex-direction: column;
-    align-items: stretch;
+    /* Reinforce grid for the centered variant + cap width so buttons
+       don't stretch edge-to-edge on small screens. */
+    display: grid;
+    grid-template-columns: 1fr;
     width: 100%;
-    max-width: 360px;
+    max-width: 320px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -5065,17 +5082,21 @@ p {
 }
 
 .net-drawer__body {
+  /* Be a flex CHILD of .net-drawer (so it fills the remaining height),
+     but use a BLOCK layout internally — Chrome Android can get confused
+     by overflow:auto on a flex column container, sometimes refusing to
+     paint the bottom region. Block layout makes scrolling predictable. */
   flex: 1 1 auto;
-  min-height: 0; /* required for flex children to scroll inside a flex column */
+  min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
-  /* Generous bottom padding so the last chip row / CTA never gets clipped
-     by the mobile browser chrome (URL bar collapse) or safe-area inset. */
-  padding: 20px 28px calc(48px + env(safe-area-inset-bottom, 0px));
-  display: flex;
-  flex-direction: column;
-  gap: 0;
+  padding: 20px 28px calc(80px + env(safe-area-inset-bottom, 0px));
+}
+
+/* Re-apply former gap manually for direct children that need spacing */
+.net-drawer__body > * + * {
+  margin-top: 0;
 }
 
 /* Stats */
@@ -5188,7 +5209,8 @@ p {
 .net-drawer__cta-btn {
   display: inline-flex;
   align-items: center;
-  margin-top: 20px;
+  justify-content: center;
+  margin-top: 24px;
   padding: 13px 24px;
   background: var(--crimson);
   color: #fff;
@@ -5198,7 +5220,6 @@ p {
   text-decoration: none;
   letter-spacing: 0.02em;
   transition: background 0.2s, transform 0.15s;
-  align-self: flex-start;
 }
 
 .net-drawer__cta-btn:hover {
@@ -5209,6 +5230,16 @@ p {
 @media (max-width: 700px) {
   .net-drawer { width: 100vw; }
   .sp-net-cat { grid-template-columns: 1fr; gap: 12px; }
+
+  /* CTA spans the body width on mobile — feels like a clear section
+     terminator and gives a larger tap target than the desktop pill. */
+  .net-drawer__cta-btn {
+    display: flex;
+    width: 100%;
+    padding: 15px 24px;
+    margin-top: 28px;
+    font-size: 14px;
+  }
 }
 
 /* =============================================================
