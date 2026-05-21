@@ -51,7 +51,7 @@
 
       if (response.ok) {
         setStatus('success',
-          'Thanks — your message is on its way. We’ll get back to you within 1–2 working days.');
+          'Thanks — your message is on its way. We’ll respond within one business day.');
         form.reset();
       } else {
         // Formspree returns a JSON error payload for known issues
