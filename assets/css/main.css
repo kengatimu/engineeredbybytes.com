@@ -8808,3 +8808,142 @@ html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) {
   .sp-contact__pill-dot { animation: none; }
 }
+
+
+/* ============================================================
+   LEGAL PAGES (privacy.html, terms.html)
+   Minimal, readable, brand-consistent. Reuses navy/cream/crimson
+   palette and existing typography tokens.
+   ============================================================ */
+.legal-page {
+  background: var(--cream);
+  color: var(--text-body);
+}
+
+.legal {
+  padding: 140px 0 96px;
+  background: var(--cream);
+}
+
+.legal__header {
+  max-width: 760px;
+  margin: 0 auto 56px;
+  text-align: center;
+}
+
+.legal__header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 700;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin: 12px 0 16px;
+}
+
+.legal__meta {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.legal__body {
+  max-width: 760px;
+  margin: 0 auto;
+  font-size: 16px;
+  line-height: 1.75;
+  color: var(--text-body);
+}
+
+.legal__lead {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--navy);
+  font-weight: 500;
+  padding: 24px 28px;
+  background: rgba(13, 34, 64, 0.04);
+  border-left: 3px solid var(--crimson);
+  border-radius: 4px;
+  margin-bottom: 40px;
+}
+
+.legal__body h2 {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 48px 0 16px;
+  letter-spacing: -0.005em;
+}
+
+.legal__body h3 {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 32px 0 12px;
+}
+
+.legal__body p {
+  margin: 0 0 16px;
+}
+
+.legal__body ul {
+  margin: 0 0 20px;
+  padding-left: 28px;
+}
+
+.legal__body li {
+  margin-bottom: 8px;
+}
+
+.legal__body a {
+  color: var(--crimson);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--speed) var(--ease);
+}
+
+.legal__body a:hover {
+  color: #721515;
+}
+
+.legal__body strong {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+.legal__body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.92em;
+  padding: 2px 6px;
+  background: rgba(13, 34, 64, 0.06);
+  border-radius: 3px;
+  color: var(--navy);
+}
+
+/* Mobile tuning */
+@media (max-width: 768px) {
+  .legal {
+    padding: 96px 0 64px;
+  }
+  .legal__header {
+    margin-bottom: 36px;
+  }
+  .legal__lead {
+    font-size: 16px;
+    padding: 18px 20px;
+  }
+  .legal__body {
+    font-size: 15px;
+  }
+  .legal__body h2 {
+    font-size: 22px;
+    margin: 36px 0 12px;
+  }
+  .legal__body h3 {
+    font-size: 17px;
+    margin: 24px 0 10px;
+  }
+}
