@@ -532,28 +532,38 @@
       </div>
 
       <div class="sp-contact__right">
-        <!-- Replace YOUR_FORM_ID with actual Formspree endpoint -->
-        <form class="sp-contact__form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+        <form class="sp-contact__form" id="contactForm"
+              action="https://formspree.io/f/xojbdjdj" method="POST" novalidate>
           <div class="form-row">
             <div class="form-group form-group--light">
               <label for="name">Name</label>
-              <input type="text" id="name" name="name" placeholder="Your name" required>
+              <input type="text" id="name" name="name" placeholder="Your name" required autocomplete="name">
             </div>
             <div class="form-group form-group--light">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" placeholder="you@company.com" required>
+              <input type="email" id="email" name="email" placeholder="you@company.com" required autocomplete="email">
             </div>
           </div>
           <div class="form-group form-group--light">
             <label for="institution">Institution / Company</label>
-            <input type="text" id="institution" name="institution" placeholder="Organisation name">
+            <input type="text" id="institution" name="institution" placeholder="Organisation name" autocomplete="organization">
           </div>
           <div class="form-group form-group--light">
             <label for="message">What are you building?</label>
             <textarea id="message" name="message" placeholder="Tell us about your integration requirements, current systems, and timeline..." required></textarea>
           </div>
-          <button type="submit" class="btn btn--primary">
-            Send Message
+
+          <!-- Formspree directives: subject line in our inbox, reply-to the
+               sender, and a honeypot to silently drop bot submissions. -->
+          <input type="hidden" name="_subject" value="New contact from engineeredbybytes.com">
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"
+                 style="position:absolute; left:-9999px;" aria-hidden="true">
+
+          <!-- Status region for AJAX feedback (announced to screen readers) -->
+          <div class="form-status" id="contactStatus" role="status" aria-live="polite"></div>
+
+          <button type="submit" class="btn btn--primary" id="contactSubmit">
+            <span class="btn__label">Send Message</span>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </button>
         </form>
@@ -877,5 +887,6 @@
 <script src="assets/js/nav.js"></script>
 <script src="assets/js/drawer.js"></script>
 <script src="assets/js/network.js"></script>
+<script src="assets/js/contact.js"></script>
 </body>
 </html>
