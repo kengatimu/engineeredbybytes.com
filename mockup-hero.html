@@ -594,36 +594,36 @@
     }
 
     .problem__footnote {
-      display: flex; justify-content: space-between; align-items: baseline;
-      gap: 24px; flex-wrap: wrap;
-      padding-top: 12px;
+      padding-top: 14px;
       font-family: var(--font-ui);
-      font-size: 14px;
+      font-size: 14.5px;
       color: var(--text-muted);
+      max-width: 720px;
+      line-height: 1.6;
     }
-    .problem__footnote b { color: var(--navy); font-weight: 600; }
     .problem__see-list {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-family: var(--font-ui);
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      color: var(--text-muted);
-      text-decoration: none;
-      border: 0; background: transparent; cursor: pointer;
-      padding: 4px 0;
-      border-bottom: 1px solid transparent;
-      transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: 600;
+      color: var(--crimson);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      text-decoration-thickness: 1px;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
+      transition: color 0.2s var(--ease), text-decoration-thickness 0.2s var(--ease);
     }
     .problem__see-list:hover {
-      color: var(--crimson);
-      border-bottom-color: var(--crimson);
+      color: #6B0F0F;
+      text-decoration-thickness: 2px;
     }
     .problem__see-list:focus-visible {
       outline: 2px solid var(--crimson);
       outline-offset: 3px;
+      border-radius: 2px;
     }
-    .problem__see-list svg { width: 11px; height: 11px; }
 
     /* ---------- Drawer (slide-in panel) — holds the full 10-pattern list */
     .drawer-scrim {
@@ -682,25 +682,27 @@
     .drawer__close:hover { background: var(--navy); border-color: var(--navy); color: var(--cream-warm); }
     .drawer__close svg { width: 12px; height: 12px; }
     .drawer__body {
-      padding: 10px 28px 14px;
+      padding: 24px 28px;
       overflow-y: auto;
       flex: 1;
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      gap: 18px;
     }
 
     /* Compacted version of the original cluster design: italic numeral +
        uppercase title + pattern count on the left, dense tag+serif list on
-       the right. Single column, tight spacing — designed to fit 4 clusters
-       inside an ~620px drawer body. */
+       the right. Clusters distribute evenly across the drawer body so the
+       whitespace is balanced, not bunched at the bottom. */
     .drawer__cluster {
       display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 20px;
-      padding: 12px 0;
+      grid-template-columns: 168px 1fr;
+      gap: 24px;
+      padding: 14px 0 6px;
       border-top: 1px solid var(--rule);
     }
-    .drawer__cluster:first-child { border-top: 0; padding-top: 6px; }
+    .drawer__cluster:first-child { border-top: 0; padding-top: 0; }
     .drawer__cluster-head {
       display: flex;
       flex-direction: column;
@@ -1209,15 +1211,10 @@
         </div>
       </div>
 
-      <div class="problem__footnote">
-        <span><b>10 patterns total.</b> Four shown. Each one a customer-facing failure or a hidden engineering tax.</span>
-        <button type="button" class="problem__see-list" data-drawer-open>
-          See the list
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
+      <p class="problem__footnote">
+        Ten patterns we hear in every conversation with a bank or fintech CTO.
+        <button type="button" class="problem__see-list" data-drawer-open>See the list →</button>
+      </p>
 
       <!-- Hidden legacy block (display:none in CSS) — preserved in case we revert -->
       <div class="problem__clusters" data-reveal>
