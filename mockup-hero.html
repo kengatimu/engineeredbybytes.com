@@ -47,6 +47,18 @@
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Visually hidden but still readable by screen readers. Used to add
+       context for non-text visuals like the §2 ECG chart. */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      padding: 0; margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     html { scroll-behavior: smooth; }
 
     body {
@@ -381,26 +393,27 @@
     .live-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       font-family: var(--font-ui);
       font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--crimson);
-      background: var(--crimson-soft);
-      border: 1px solid rgba(139, 26, 26, 0.24);
-      padding: 6px 14px 6px 12px;
-      border-radius: 100px;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      border-radius: 0;
     }
-
-    .live-badge__dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
+    .live-badge::before {
+      content: '';
+      width: 28px;
+      height: 1.5px;
       background: var(--crimson);
-      animation: liveDot 2s ease-in-out infinite;
+      display: inline-block;
     }
+    /* Legacy dot — no longer rendered, kept for safety */
+    .live-badge__dot { display: none; }
 
     @keyframes liveDot {
       0%, 100% { opacity: 1;   transform: scale(1);   }
@@ -581,6 +594,32 @@
       outline-offset: 2px;
     }
 
+    /* On narrow viewports the four pulse labels would overlap. Swap them
+       for a compact caption list below the chart. The SVG line + dots
+       still render so the metaphor reads. */
+    .problem__pulse-caption {
+      display: none;
+      padding: 14px 4px 4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--crimson);
+      letter-spacing: 0.02em;
+      line-height: 1.7;
+      text-align: center;
+    }
+    .problem__pulse-caption b { font-weight: 500; }
+    .problem__pulse-caption span { white-space: nowrap; margin: 0 6px; }
+    @media (max-width: 640px) {
+      .problem__pulse-labels { display: none; }
+      .problem__pulse-caption { display: block; }
+      .problem__pulse svg { height: 200px; }
+      .problem__pulse-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+    }
+
     /* Brief flash applied to the drawer item that matches a clicked label */
     .drawer__item.is-highlight {
       animation: drawerFlash 1.6s ease-out;
@@ -620,6 +659,46 @@
       outline: 2px solid var(--crimson);
       outline-offset: 3px;
       border-radius: 2px;
+    }
+
+    /* §3 handoff bridge — a quiet directional cue at the bottom of §2
+       pointing to the solution section below. Gives the reader a "next"
+       beat instead of leaving them dangling. */
+    .problem__bridge {
+      margin-top: 56px;
+      padding-top: 28px;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .problem__bridge-link {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      transition: color 0.25s var(--ease);
+    }
+    .problem__bridge-link:hover { color: var(--crimson); }
+    .problem__bridge-link:hover .problem__bridge-arrow { transform: translateY(4px); }
+    .problem__bridge-arrow {
+      display: block;
+      width: 14px; height: 14px;
+      color: currentColor;
+      transition: transform 0.4s var(--ease);
+      animation: bridgeBob 2.6s ease-in-out infinite;
+    }
+    @keyframes bridgeBob {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(3px); }
     }
 
     /* ---------- Drawer (slide-in panel) — holds the full 10-pattern list */
@@ -985,8 +1064,7 @@
       <!-- LEFT: text + CTA -->
       <div class="hero__text">
         <span class="live-badge">
-          <span class="live-badge__dot" aria-hidden="true"></span>
-          Live network · 10M+ tx/day
+          Payment infrastructure · for banks &amp; fintechs
         </span>
 
         <h1 class="hero__headline">
@@ -1161,7 +1239,7 @@
     <div class="problem__container">
 
       <header class="problem__head">
-        <span class="problem__eyebrow">The Problem</span>
+        <span class="problem__eyebrow">§ 02 · the recurring pattern</span>
         <h2 class="problem__heading">This is what every payments platform's pulse looks like.</h2>
         <p class="problem__lede">
           Steady throughput. Then a drop. Then another. Each one is a pattern we hear in every conversation with a bank or fintech CTO.
@@ -1170,6 +1248,11 @@
 
       <!-- ECG pulse — the signature §2 visual -->
       <div class="problem__pulse" data-reveal>
+        <!-- Screen-reader summary: the chart itself is aria-hidden, but this -->
+        <!-- conveys the same message and lists the four labelled drops. -->
+        <p class="sr-only">
+          Illustrative throughput chart for a payments platform. The line is mostly steady, with four sharp drops marking moments of failure. Each drop is labelled with a recurring pain pattern: timeout.outage, reversal.silent, recon.manual, and audit.weeklong. Six more patterns are listed in the full pattern panel below.
+        </p>
         <div class="problem__pulse-meta">
           <span><b>payments throughput</b> · composite shape</span>
           <span class="tag">illustrative — patterns we hear in every CTO conversation</span>
@@ -1208,12 +1291,27 @@
           <button type="button" class="problem__pulse-label" data-pain="recon.manual"    style="left: 61.7%;" aria-label="Open list at recon.manual">recon.manual</button>
           <button type="button" class="problem__pulse-label" data-pain="audit.weeklong"  style="left: 86.7%;" aria-label="Open list at audit.weeklong">audit.weeklong</button>
         </div>
+        <!-- Mobile fallback: labels become a single inline caption -->
+        <p class="problem__pulse-caption" aria-hidden="true">
+          <b>Four of ten patterns:</b>
+          <span>timeout.outage</span>·<span>reversal.silent</span>·<span>recon.manual</span>·<span>audit.weeklong</span>
+        </p>
       </div>
 
       <p class="problem__footnote">
         Ten patterns we hear in every conversation with a bank or fintech CTO.
         <button type="button" class="problem__see-list" data-drawer-open>See the list →</button>
       </p>
+
+      <!-- §3 handoff bridge — directional cue downward to the solution section -->
+      <div class="problem__bridge">
+        <a href="#solution" class="problem__bridge-link" aria-label="Continue to how we solve it">
+          <span>How we solve it</span>
+          <svg class="problem__bridge-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path d="M7 2v10M3 8l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
 
       <!-- Hidden legacy block (display:none in CSS) — preserved in case we revert -->
       <div class="problem__clusters" data-reveal>
