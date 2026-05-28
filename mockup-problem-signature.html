@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>§2 Signature Visuals — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --ink: #0D2240;
+      --ink-2: rgba(13,34,64,0.72);
+      --ink-3: rgba(13,34,64,0.55);
+      --ink-4: rgba(13,34,64,0.28);
+      --rule: rgba(13,34,64,0.14);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--cream-warm); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; }
+
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--navy); color: #F2EFE8;
+      padding: 14px 28px;
+      display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+      font: 500 13px/1 'Inter', sans-serif;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 12px; }
+    .nav a { color: rgba(255,255,255,0.78); text-decoration: none; padding: 6px 10px; border-radius: 4px; }
+    .nav a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    .variant-label {
+      max-width: 1180px; margin: 0 auto; padding: 28px 28px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+    }
+    .variant-label__tag { font: 500 11px/1 'JetBrains Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--crimson); }
+    .variant-label__title { font: 700 18px/1.3 'Libre Baskerville', serif; }
+    .variant-label__note { font: 400 13px/1.4 'Inter', sans-serif; color: var(--ink-3); margin-left: auto; max-width: 540px; }
+
+    .section { padding: 0 28px; min-height: 92vh; display: flex; align-items: center; }
+    .container { max-width: 1180px; margin: 0 auto; width: 100%; }
+    .eyebrow {
+      display: inline-block;
+      font: 500 12px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--crimson);
+      padding-bottom: 8px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 24px;
+    }
+
+    /* ═════════ Y1: ECG heartbeat ═════════ */
+    .y1 .stage {
+      max-width: 980px; margin: 0 auto;
+    }
+    .y1 .h2 {
+      font: 400 clamp(28px, 4vw, 40px)/1.2 'Libre Baskerville', serif;
+      margin: 0 0 12px;
+    }
+    .y1 .lede {
+      font: 400 15px/1.55 'Inter', sans-serif;
+      color: var(--ink-2); margin: 0 0 36px; max-width: 620px;
+    }
+    .y1 .chart {
+      position: relative;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 0;
+      background:
+        repeating-linear-gradient(to right, transparent 0, transparent 119px, rgba(13,34,64,0.04) 119px, rgba(13,34,64,0.04) 120px);
+    }
+    .y1 .chart-meta {
+      display: flex; justify-content: space-between;
+      padding: 12px 4px;
+      font: 500 10px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .y1 .chart-meta b { color: var(--ink); font-weight: 500; }
+    .y1 .chart-meta .live { color: var(--crimson); }
+    .y1 .chart-meta .live::before {
+      content: ''; display: inline-block;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--crimson); margin-right: 6px;
+      vertical-align: middle;
+      animation: y1pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes y1pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+    .y1 .ecg {
+      width: 100%; height: 280px; display: block;
+    }
+    .y1 .ecg .line { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+    .y1 .ecg .drop-line { stroke: var(--crimson); stroke-width: 1.5; }
+    .y1 .ecg .drop-marker { fill: var(--crimson); }
+    .y1 .ecg .pulse { fill: var(--crimson); opacity: 0.4; transform-origin: center; animation: y1ring 2.2s ease-out infinite; }
+    @keyframes y1ring {
+      0%   { r: 4; opacity: 0.7; }
+      100% { r: 22; opacity: 0; }
+    }
+    .y1 .labels {
+      position: relative;
+      height: 56px; margin-top: 4px;
+    }
+    .y1 .label {
+      position: absolute;
+      transform: translateX(-50%);
+      font: 500 11px/1.3 'JetBrains Mono', monospace;
+      color: var(--crimson);
+      text-align: center; white-space: nowrap;
+    }
+    .y1 .label::before {
+      content: ''; display: block;
+      width: 1px; height: 10px;
+      background: var(--crimson);
+      margin: 0 auto 4px;
+    }
+    .y1 .legend {
+      margin-top: 36px;
+      display: flex; gap: 32px; flex-wrap: wrap;
+      font: 400 13px/1.5 'Inter', sans-serif;
+      color: var(--ink-2);
+    }
+    .y1 .legend b { color: var(--ink); font-weight: 600; }
+
+    /* ═════════ Y2: Rotating headline ═════════ */
+    .y2 .stage { max-width: 980px; margin: 0 auto; }
+    .y2 .h2 {
+      font: 400 clamp(36px, 6vw, 64px)/1.15 'Libre Baskerville', serif;
+      margin: 0 0 24px;
+      color: var(--ink);
+    }
+    .y2 .slot {
+      display: inline-block;
+      position: relative;
+      min-width: 360px;
+      padding: 0 18px 4px;
+      margin: 0 6px;
+      border-bottom: 3px solid var(--crimson);
+      vertical-align: baseline;
+      text-align: left;
+    }
+    .y2 .slot-item {
+      font: 500 0.82em/1 'JetBrains Mono', monospace;
+      color: var(--crimson);
+      letter-spacing: 0.01em;
+      display: inline-block;
+      animation: y2cycle 14s steps(1, end) infinite;
+    }
+    .y2 .slot-fade {
+      position: absolute;
+      left: 18px; top: 0;
+      font: 500 0.82em/1 'JetBrains Mono', monospace;
+      color: var(--crimson);
+      letter-spacing: 0.01em;
+      opacity: 0;
+      animation: y2word 1.4s ease-in-out infinite;
+    }
+    @keyframes y2word {
+      0%   { opacity: 0; transform: translateY(8px); }
+      15%  { opacity: 1; transform: translateY(0); }
+      85%  { opacity: 1; transform: translateY(0); }
+      100% { opacity: 0; transform: translateY(-8px); }
+    }
+    .y2 .sub {
+      font: 400 17px/1.6 'Inter', sans-serif;
+      color: var(--ink-2); margin: 12px 0 0;
+      max-width: 620px;
+    }
+    .y2 .counter {
+      margin-top: 48px;
+      display: flex; gap: 32px;
+      font: 400 13px/1.4 'Inter', sans-serif;
+      color: var(--ink-3);
+      border-top: 1px solid var(--rule);
+      padding-top: 20px;
+    }
+    .y2 .counter b {
+      display: block;
+      font: 400 22px/1 'Libre Baskerville', serif;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    /* ═════════ Y3: Single big number ═════════ */
+    .y3 .stage { max-width: 1000px; margin: 0 auto; }
+    .y3 .grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .y3 .big {
+      font: 700 clamp(140px, 22vw, 280px)/0.9 'Libre Baskerville', serif;
+      color: var(--crimson);
+      letter-spacing: -0.04em;
+      position: relative;
+    }
+    .y3 .big sup {
+      font-size: 0.4em; vertical-align: top;
+      color: var(--ink); font-weight: 400;
+      margin-left: 6px;
+    }
+    .y3 .body h2 {
+      font: 400 clamp(24px, 3vw, 34px)/1.25 'Libre Baskerville', serif;
+      margin: 0 0 18px;
+    }
+    .y3 .body p {
+      font: 400 16px/1.6 'Inter', sans-serif;
+      color: var(--ink-2); margin: 0 0 16px;
+    }
+    .y3 .body .small {
+      font: 400 13px/1.5 'Inter', sans-serif;
+      color: var(--ink-3); margin-top: 24px; padding-top: 18px;
+      border-top: 1px solid var(--rule);
+    }
+    .y3 .ticker {
+      display: inline-block;
+      position: relative;
+      min-width: 200px;
+      padding-bottom: 2px;
+      border-bottom: 2px solid var(--crimson);
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--crimson);
+      font-weight: 500;
+    }
+    @media (max-width: 800px) { .y3 .grid { grid-template-columns: 1fr; gap: 30px; } }
+
+    /* ═════════ Y4: Split-flap board ═════════ */
+    .y4 .stage { max-width: 1080px; margin: 0 auto; }
+    .y4 .h2 {
+      font: 400 clamp(28px, 4vw, 40px)/1.2 'Libre Baskerville', serif;
+      margin: 0 0 36px; max-width: 720px;
+    }
+    .y4 .board {
+      background: #0a1118;
+      border-radius: 6px;
+      padding: 24px 28px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.04), 0 20px 60px -30px rgba(0,0,0,0.4);
+    }
+    .y4 .board-head {
+      display: grid; grid-template-columns: 80px 1fr 200px 100px;
+      gap: 16px;
+      padding-bottom: 14px; margin-bottom: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font: 500 10px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(232,236,240,0.4);
+    }
+    .y4 .row {
+      display: grid; grid-template-columns: 80px 1fr 200px 100px;
+      gap: 16px; align-items: center;
+      padding: 10px 0;
+    }
+    .y4 .flap {
+      background: #1a242f;
+      color: #f0c869;
+      padding: 8px 14px;
+      font: 700 16px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.04em;
+      border-radius: 2px;
+      box-shadow: inset 0 -1px 0 rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+      position: relative; overflow: hidden;
+      display: inline-block;
+      min-height: 32px;
+    }
+    .y4 .flap::after {
+      content: ''; position: absolute;
+      left: 0; right: 0; top: 50%; height: 1px;
+      background: rgba(0,0,0,0.5);
+    }
+    .y4 .flap-text {
+      display: inline-block;
+      animation: y4flip 0.5s ease-out;
+    }
+    @keyframes y4flip {
+      0%   { transform: rotateX(-90deg); opacity: 0; }
+      100% { transform: rotateX(0); opacity: 1; }
+    }
+    .y4 .row .flap.sev[data-s="P0"] { color: #e74c3c; }
+    .y4 .row .flap.sev[data-s="P1"] { color: #f0a830; }
+    .y4 .row .flap.sev[data-s="P2"] { color: #8fa0b3; }
+    .y4 .row .flap.code { font-size: 13px; color: #8fa0b3; }
+    @media (max-width: 720px) {
+      .y4 .board-head, .y4 .row { grid-template-columns: 60px 1fr 90px; }
+      .y4 .board-head span:nth-child(3), .y4 .row .flap.sev { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <b>§2 Signature visuals</b>
+    <a href="#y1">Y1 ECG pulse</a>
+    <a href="#y2">Y2 Rotating headline</a>
+    <a href="#y3">Y3 Big number</a>
+    <a href="#y4">Y4 Split-flap board</a>
+  </nav>
+
+  <!-- ════════════ Y1 ════════════ -->
+  <div class="variant-label" id="y1">
+    <span class="variant-label__tag">Y1</span>
+    <span class="variant-label__title">ECG heartbeat with pain drops</span>
+    <span class="variant-label__note">One live waveform. Drops mark the moments your platform fails. Reads as an SLA chart. Eyes go straight to the red.</span>
+  </div>
+  <section class="section y1">
+    <div class="container">
+      <div class="stage">
+        <span class="eyebrow">The Problem</span>
+        <h2 class="h2">This is what every payments platform's pulse looks like.</h2>
+        <p class="lede">Steady throughput. Then a drop. Then another. Each one is a pattern we hear in every conversation with a bank or fintech CTO.</p>
+
+        <div class="chart">
+          <div class="chart-meta">
+            <span><b>throughput</b> · txn/sec · last 24h</span>
+            <span class="live">live</span>
+          </div>
+          <svg class="ecg" viewBox="0 0 1200 280" preserveAspectRatio="none">
+            <!-- baseline grid -->
+            <line x1="0" y1="140" x2="1200" y2="140" stroke="rgba(13,34,64,0.08)" stroke-dasharray="2 4"/>
+            <!-- main waveform: subtle oscillation, sharp drops at marked points -->
+            <path class="line" d="
+              M 0 130
+              Q 30 125, 60 135 T 120 132
+              L 130 132 L 140 240 L 150 132
+              Q 180 128, 210 138 T 280 130
+              Q 320 122, 360 135 T 420 130
+              L 430 130 L 442 220 L 454 130
+              Q 490 125, 520 138 T 580 132
+              Q 620 130, 660 135 T 720 128
+              L 728 128 L 740 250 L 752 128
+              Q 790 125, 820 135 T 880 130
+              Q 920 128, 960 138 T 1020 130
+              L 1028 130 L 1040 230 L 1052 130
+              Q 1090 128, 1120 138 T 1200 132
+            "/>
+            <!-- drop markers (red dots) -->
+            <g class="drop-marker">
+              <circle cx="140" cy="240" r="4"/>
+              <circle cx="140" cy="240" r="4" class="pulse"/>
+              <circle cx="442" cy="220" r="4"/>
+              <circle cx="442" cy="220" r="4" class="pulse"/>
+              <circle cx="740" cy="250" r="4"/>
+              <circle cx="740" cy="250" r="4" class="pulse"/>
+              <circle cx="1040" cy="230" r="4"/>
+              <circle cx="1040" cy="230" r="4" class="pulse"/>
+            </g>
+          </svg>
+          <div class="labels">
+            <div class="label" style="left: 11.7%;">timeout.outage</div>
+            <div class="label" style="left: 36.8%;">reversal.silent</div>
+            <div class="label" style="left: 61.7%;">recon.manual</div>
+            <div class="label" style="left: 86.7%;">audit.weeklong</div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <div><b>10 patterns total.</b> Four shown. Each one a customer-facing failure or a hidden engineering tax.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ Y2 ════════════ -->
+  <div class="variant-label" id="y2">
+    <span class="variant-label__tag">Y2</span>
+    <span class="variant-label__title">Rotating headline (Linear / Stripe pattern)</span>
+    <span class="variant-label__note">One sentence. One blank that cycles through pain tags every 1.4s. CTO reads three rotations and gets the entire scope.</span>
+  </div>
+  <section class="section y2">
+    <div class="container">
+      <div class="stage">
+        <span class="eyebrow">The Problem</span>
+        <h2 class="h2">
+          Your payments platform<br>
+          breaks at <span class="slot"><span class="slot-fade" data-rotator>timeout.outage</span><span class="slot-item" style="visibility:hidden">reconciliation</span></span>.
+        </h2>
+        <p class="sub">Ten patterns. We hear them in every conversation with a bank or fintech CTO. We've shipped fixes for each.</p>
+
+        <div class="counter">
+          <div><b>10</b>patterns identified</div>
+          <div><b>~450</b>engineering days lost / year</div>
+          <div><b>0</b>built specifically to fix this</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ Y3 ════════════ -->
+  <div class="variant-label" id="y3">
+    <span class="variant-label__tag">Y3</span>
+    <span class="variant-label__title">Single big number</span>
+    <span class="variant-label__note">One stat that lands. The 80% is the wound — everything else is the diagnosis. Counts up on view.</span>
+  </div>
+  <section class="section y3">
+    <div class="container">
+      <div class="stage">
+        <div class="grid">
+          <div class="big" data-count><span data-target="80">0</span><sup>%</sup></div>
+          <div class="body">
+            <span class="eyebrow">The Problem</span>
+            <h2>Of your engineering team keeps payments alive.</h2>
+            <p>Not building product. Not winning markets. Keeping the lights on.</p>
+            <p>It looks like <span class="ticker" data-ticker>recon.manual</span> on Monday, deploys at midnight on Wednesday, an audit query on Friday that takes a week.</p>
+            <p class="small">Ten patterns we hear in every conversation with a bank or fintech CTO. <a href="#" style="color:var(--crimson)">See the list →</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ Y4 ════════════ -->
+  <div class="variant-label" id="y4">
+    <span class="variant-label__tag">Y4</span>
+    <span class="variant-label__title">Split-flap departure board</span>
+    <span class="variant-label__note">Mechanical flip animation. Each row rotates through pains every few seconds. Evokes old finance/airport displays — bespoke, beautiful, restrained.</span>
+  </div>
+  <section class="section y4">
+    <div class="container">
+      <div class="stage">
+        <span class="eyebrow">The Problem</span>
+        <h2 class="h2">Every payments team's backlog reads the same.</h2>
+
+        <div class="board">
+          <div class="board-head">
+            <span>code</span>
+            <span>pattern</span>
+            <span>cost</span>
+            <span>sev</span>
+          </div>
+          <div class="row">
+            <div class="flap code" data-flap="code" data-row="0"><span class="flap-text">INC-01</span></div>
+            <div class="flap" data-flap="name" data-row="0"><span class="flap-text">timeout.outage</span></div>
+            <div class="flap code" data-flap="cost" data-row="0"><span class="flap-text">60d / yr</span></div>
+            <div class="flap sev" data-flap="sev" data-row="0" data-s="P0"><span class="flap-text">P0</span></div>
+          </div>
+          <div class="row">
+            <div class="flap code" data-flap="code" data-row="1"><span class="flap-text">INC-02</span></div>
+            <div class="flap" data-flap="name" data-row="1"><span class="flap-text">reversal.silent</span></div>
+            <div class="flap code" data-flap="cost" data-row="1"><span class="flap-text">35d / yr</span></div>
+            <div class="flap sev" data-flap="sev" data-row="1" data-s="P0"><span class="flap-text">P0</span></div>
+          </div>
+          <div class="row">
+            <div class="flap code" data-flap="code" data-row="2"><span class="flap-text">INC-03</span></div>
+            <div class="flap" data-flap="name" data-row="2"><span class="flap-text">recon.manual</span></div>
+            <div class="flap code" data-flap="cost" data-row="2"><span class="flap-text">50d / yr</span></div>
+            <div class="flap sev" data-flap="sev" data-row="2" data-s="P1"><span class="flap-text">P1</span></div>
+          </div>
+          <div class="row">
+            <div class="flap code" data-flap="code" data-row="3"><span class="flap-text">INC-04</span></div>
+            <div class="flap" data-flap="name" data-row="3"><span class="flap-text">audit.weeklong</span></div>
+            <div class="flap code" data-flap="cost" data-row="3"><span class="flap-text">20d / yr</span></div>
+            <div class="flap sev" data-flap="sev" data-row="3" data-s="P1"><span class="flap-text">P1</span></div>
+          </div>
+          <div class="row">
+            <div class="flap code" data-flap="code" data-row="4"><span class="flap-text">INC-05</span></div>
+            <div class="flap" data-flap="name" data-row="4"><span class="flap-text">deploy.midnight</span></div>
+            <div class="flap code" data-flap="cost" data-row="4"><span class="flap-text">40d / yr</span></div>
+            <div class="flap sev" data-flap="sev" data-row="4" data-s="P1"><span class="flap-text">P1</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // ─── Y2: Rotating word ───
+    const Y2_WORDS = [
+      'timeout.outage',
+      'reversal.silent',
+      'recon.manual',
+      'audit.weeklong',
+      'deploy.midnight',
+      'customer.complaints',
+      'security.surface',
+      'compliance.bolton',
+      'corridor.6mo',
+      'cost.invisible',
+    ];
+    let y2i = 0;
+    const y2el = document.querySelector('[data-rotator]');
+    if (y2el) {
+      setInterval(() => {
+        y2i = (y2i + 1) % Y2_WORDS.length;
+        y2el.textContent = Y2_WORDS[y2i];
+        // restart animation
+        y2el.style.animation = 'none';
+        void y2el.offsetWidth;
+        y2el.style.animation = '';
+      }, 1400);
+    }
+
+    // ─── Y3: Number count-up + ticker ───
+    const y3num = document.querySelector('[data-target]');
+    if (y3num) {
+      const target = parseInt(y3num.dataset.target, 10);
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          let v = 0;
+          const start = performance.now();
+          const dur = 1400;
+          function step(now) {
+            const t = Math.min(1, (now - start) / dur);
+            const eased = 1 - Math.pow(1 - t, 3);
+            y3num.textContent = Math.round(eased * target);
+            if (t < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+          io.disconnect();
+        });
+      }, { threshold: 0.5 });
+      io.observe(y3num);
+    }
+    const y3ticker = document.querySelector('[data-ticker]');
+    if (y3ticker) {
+      let i = 0;
+      setInterval(() => {
+        i = (i + 1) % Y2_WORDS.length;
+        y3ticker.style.opacity = 0;
+        setTimeout(() => {
+          y3ticker.textContent = Y2_WORDS[i];
+          y3ticker.style.transition = 'opacity 0.3s';
+          y3ticker.style.opacity = 1;
+        }, 300);
+      }, 1800);
+    }
+
+    // ─── Y4: Split-flap row cycling ───
+    const Y4_DATA = [
+      { code: 'INC-01', name: 'timeout.outage',      cost: '60d / yr',  sev: 'P0' },
+      { code: 'INC-02', name: 'reversal.silent',     cost: '35d / yr',  sev: 'P0' },
+      { code: 'INC-03', name: 'recon.manual',        cost: '50d / yr',  sev: 'P1' },
+      { code: 'INC-04', name: 'audit.weeklong',      cost: '20d / yr',  sev: 'P1' },
+      { code: 'INC-05', name: 'deploy.midnight',     cost: '40d / yr',  sev: 'P1' },
+      { code: 'INC-06', name: 'customer.complaints', cost: '40d / yr',  sev: 'P1' },
+      { code: 'INC-07', name: 'security.surface',    cost: '30d / yr',  sev: 'P0' },
+      { code: 'INC-08', name: 'compliance.bolton',   cost: '35d / yr',  sev: 'P1' },
+      { code: 'INC-09', name: 'corridor.6mo',        cost: '120d / yr', sev: 'P2' },
+      { code: 'INC-10', name: 'cost.invisible',      cost: '20d / yr',  sev: 'P2' },
+    ];
+    function flipCell(el, newText, newSev) {
+      const inner = el.querySelector('.flap-text');
+      inner.style.animation = 'none';
+      void inner.offsetWidth;
+      inner.textContent = newText;
+      if (newSev) el.setAttribute('data-s', newSev);
+      inner.style.animation = 'y4flip 0.5s ease-out';
+    }
+    const rows = [0, 1, 2, 3, 4];
+    let pointer = 5; // next entry to show
+    setInterval(() => {
+      const rowIdx = Math.floor(Math.random() * rows.length);
+      const data = Y4_DATA[pointer % Y4_DATA.length];
+      pointer++;
+      const row = document.querySelector(`[data-row="${rowIdx}"][data-flap="code"]`);
+      const name = document.querySelector(`[data-row="${rowIdx}"][data-flap="name"]`);
+      const cost = document.querySelector(`[data-row="${rowIdx}"][data-flap="cost"]`);
+      const sev  = document.querySelector(`[data-row="${rowIdx}"][data-flap="sev"]`);
+      if (row)  flipCell(row,  data.code);
+      setTimeout(() => name && flipCell(name, data.name), 120);
+      setTimeout(() => cost && flipCell(cost, data.cost), 240);
+      setTimeout(() => sev  && flipCell(sev,  data.sev, data.sev), 360);
+    }, 2200);
+  </script>
+</body>
+</html>
