@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>§2 Structural Alternatives — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --ink: #0D2240;
+      --ink-2: rgba(13,34,64,0.72);
+      --ink-3: rgba(13,34,64,0.55);
+      --ink-4: rgba(13,34,64,0.32);
+      --rule: rgba(13,34,64,0.14);
+      --rule-strong: rgba(13,34,64,0.28);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--cream-warm); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; }
+
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--navy); color: #F2EFE8;
+      padding: 14px 28px;
+      display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+      font: 500 13px/1 'Inter', sans-serif;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 12px; }
+    .nav a { color: rgba(255,255,255,0.78); text-decoration: none; padding: 6px 10px; border-radius: 4px; }
+    .nav a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    .variant-label {
+      max-width: 1100px; margin: 56px auto 0; padding: 28px 28px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+    }
+    .variant-label__tag { font: 500 11px/1 'JetBrains Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--crimson); }
+    .variant-label__title { font: 700 18px/1.3 'Libre Baskerville', serif; }
+    .variant-label__note { font: 400 13px/1.4 'Inter', sans-serif; color: var(--ink-3); margin-left: auto; max-width: 480px; }
+
+    .section { padding: 64px 28px 72px; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .head { max-width: 720px; margin-bottom: 40px; }
+    .eyebrow {
+      display: inline-block;
+      font: 500 12px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--crimson);
+      padding-bottom: 8px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 18px;
+    }
+    .h2 { font: 400 32px/1.2 'Libre Baskerville', serif; margin: 0 0 14px; }
+    .lede { font: 400 15px/1.55 'Inter', sans-serif; color: var(--ink-2); margin: 0; }
+
+    /* ─────────────────── W1: Editorial numbered list ─────────────────── */
+    .w1 .list { list-style: none; padding: 0; margin: 0; }
+    .w1 .row {
+      display: grid;
+      grid-template-columns: 56px 1fr 160px;
+      gap: 28px; align-items: baseline;
+      padding: 18px 0; border-top: 1px solid var(--rule);
+    }
+    .w1 .row:last-child { border-bottom: 1px solid var(--rule); }
+    .w1 .num {
+      font: 400 28px/1 'Libre Baskerville', serif;
+      color: var(--crimson);
+    }
+    .w1 .body { display: flex; flex-direction: column; gap: 4px; }
+    .w1 .tag {
+      font: 500 12px/1.2 'JetBrains Mono', monospace;
+      color: var(--crimson); letter-spacing: 0.02em;
+    }
+    .w1 .desc { font: 400 15px/1.55 'Libre Baskerville', serif; }
+    .w1 .theme {
+      font: 500 11px/1.3 'Inter', sans-serif;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--ink-3);
+      text-align: right;
+    }
+
+    /* ─────────────────── W2: Two-column compact ─────────────────── */
+    .w2 .grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px;
+      border-top: 1px solid var(--rule);
+    }
+    .w2 .row {
+      display: grid; grid-template-columns: 14px 1fr; gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: baseline;
+    }
+    .w2 .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      margin-top: 8px;
+    }
+    .w2 .dot[data-c="1"] { background: #8B1A1A; }
+    .w2 .dot[data-c="2"] { background: #0D2240; }
+    .w2 .dot[data-c="3"] { background: #B47A2E; }
+    .w2 .dot[data-c="4"] { background: #3B6B5C; }
+    .w2 .body { display: flex; flex-direction: column; gap: 3px; }
+    .w2 .tag {
+      font: 500 12px/1.2 'JetBrains Mono', monospace;
+      color: var(--crimson);
+    }
+    .w2 .desc { font: 400 14px/1.5 'Libre Baskerville', serif; }
+    .w2 .legend {
+      margin-top: 24px;
+      display: flex; gap: 24px; flex-wrap: wrap;
+      font: 500 11px/1 'Inter', sans-serif;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--ink-3);
+    }
+    .w2 .legend span { display: inline-flex; align-items: center; gap: 8px; }
+    .w2 .legend i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    @media (max-width: 720px) { .w2 .grid { grid-template-columns: 1fr; } }
+
+    /* ─────────────────── W3: Defect log / ticket queue ─────────────────── */
+    .w3 .table-wrap {
+      border: 1px solid var(--rule);
+      background: rgba(255,255,255,0.4);
+    }
+    .w3 table {
+      width: 100%; border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .w3 thead th {
+      text-align: left;
+      font: 500 10px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--ink-3);
+      padding: 14px 16px;
+      background: rgba(13,34,64,0.04);
+      border-bottom: 1px solid var(--rule);
+    }
+    .w3 tbody td {
+      padding: 16px;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+      font: 400 13px/1.5 'JetBrains Mono', monospace;
+      color: var(--ink);
+    }
+    .w3 tbody tr:last-child td { border-bottom: 0; }
+    .w3 .id { color: var(--ink-3); width: 56px; }
+    .w3 .sev {
+      width: 72px;
+      font-weight: 500; letter-spacing: 0.04em;
+    }
+    .w3 .sev[data-s="P0"] { color: var(--crimson); }
+    .w3 .sev[data-s="P1"] { color: #B47A2E; }
+    .w3 .sev[data-s="P2"] { color: var(--ink-2); }
+    .w3 .pain { font-weight: 500; color: var(--crimson); width: 200px; }
+    .w3 .impact { font-family: 'Libre Baskerville', serif; color: var(--ink); }
+
+    /* ─────────────────── W4: Narrative prose ─────────────────── */
+    .w4 .prose {
+      max-width: 800px;
+      font: 400 22px/1.55 'Libre Baskerville', serif;
+      color: var(--ink);
+    }
+    .w4 .prose p { margin: 0 0 22px; }
+    .w4 .prose p:last-child { margin-bottom: 0; }
+    .w4 .pain {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72em;
+      color: var(--crimson);
+      background: rgba(139,26,26,0.06);
+      padding: 2px 6px;
+      border-radius: 3px;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .w4 .footnote {
+      margin-top: 36px;
+      padding-top: 18px;
+      border-top: 1px solid var(--rule);
+      font: 400 13px/1.5 'Inter', sans-serif;
+      color: var(--ink-3);
+      max-width: 800px;
+    }
+    .w4 .footnote b { color: var(--ink); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <b>§2 Alternatives</b>
+    <a href="#w1">W1 Editorial list</a>
+    <a href="#w2">W2 Two-column</a>
+    <a href="#w3">W3 Defect log</a>
+    <a href="#w4">W4 Narrative</a>
+  </nav>
+
+  <!-- ─────────────────── W1 ─────────────────── -->
+  <div class="variant-label" id="w1">
+    <span class="variant-label__tag">W1</span>
+    <span class="variant-label__title">Editorial numbered list</span>
+    <span class="variant-label__note">One column · 01–10 numerals · theme as small label on right. Reads like a print magazine sidebar.</span>
+  </div>
+  <section class="section w1">
+    <div class="container">
+      <header class="head">
+        <span class="eyebrow">The Problem</span>
+        <h2 class="h2">Every payments platform has the same ten problems.</h2>
+        <p class="lede">These are the patterns we hear in every conversation with bank and fintech CTOs.</p>
+      </header>
+      <ol class="list" data-w1></ol>
+    </div>
+  </section>
+
+  <!-- ─────────────────── W2 ─────────────────── -->
+  <div class="variant-label" id="w2">
+    <span class="variant-label__tag">W2</span>
+    <span class="variant-label__title">Two-column compact</span>
+    <span class="variant-label__note">5+5 grid · no cluster headers · theme is a colored dot. Densest possible — entire problem fits one viewport.</span>
+  </div>
+  <section class="section w2">
+    <div class="container">
+      <header class="head">
+        <span class="eyebrow">The Problem</span>
+        <h2 class="h2">Every payments platform has the same ten problems.</h2>
+        <p class="lede">These are the patterns we hear in every conversation with bank and fintech CTOs.</p>
+      </header>
+      <div class="grid" data-w2></div>
+      <div class="legend">
+        <span><i style="background:#8B1A1A"></i>Transaction Integrity</span>
+        <span><i style="background:#0D2240"></i>Operational Reliability</span>
+        <span><i style="background:#B47A2E"></i>Security &amp; Compliance</span>
+        <span><i style="background:#3B6B5C"></i>Velocity &amp; Cost</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── W3 ─────────────────── -->
+  <div class="variant-label" id="w3">
+    <span class="variant-label__tag">W3</span>
+    <span class="variant-label__title">Defect log / ticket queue</span>
+    <span class="variant-label__note">Monospace table · ID · severity · pain · consequence. Looks like an engineering backlog — instant developer credibility.</span>
+  </div>
+  <section class="section w3">
+    <div class="container">
+      <header class="head">
+        <span class="eyebrow">The Problem</span>
+        <h2 class="h2">Every payments platform ships the same ten tickets.</h2>
+        <p class="lede">The backlog every bank and fintech CTO knows by heart. We've shipped fixes for each.</p>
+      </header>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Sev</th>
+              <th>Symptom</th>
+              <th>What it costs you</th>
+            </tr>
+          </thead>
+          <tbody data-w3></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────────────── W4 ─────────────────── -->
+  <div class="variant-label" id="w4">
+    <span class="variant-label__tag">W4</span>
+    <span class="variant-label__title">Narrative prose</span>
+    <span class="variant-label__note">3 paragraphs of editorial prose with pain tags inline-highlighted. Most bespoke, least template-y. Risk: less scannable.</span>
+  </div>
+  <section class="section w4">
+    <div class="container">
+      <header class="head">
+        <span class="eyebrow">The Problem</span>
+        <h2 class="h2">We've heard the same story ten times.</h2>
+        <p class="lede">From bank CTOs, from fintech founders, from the engineers who hold it all together at 2am.</p>
+      </header>
+      <div class="prose">
+        <p>
+          The first thing they mention is the silence — a <span class="pain">timeout.outage</span> that customers tweet about before dashboards notice, a <span class="pain">reversal.silent</span> that finance only discovers three days later, a <span class="pain">recon.manual</span> that consumes the last weekend of every month in spreadsheets.
+        </p>
+        <p>
+          Then come the operational scars: a <span class="pain">audit.weeklong</span> that costs an engineer five days every quarter, a <span class="pain">deploy.midnight</span> because daytime is too risky, and <span class="pain">customer.complaints</span> that take two days to answer — by which time the customer is already gone.
+        </p>
+        <p>
+          The deeper costs surface last. Each new operator opens a <span class="pain">security.surface</span> nobody is staffed to monitor, while <span class="pain">compliance.bolton</span> retro-fits AML after every corridor goes live. New markets become a <span class="pain">corridor.6mo</span> integration project, and the <span class="pain">cost.invisible</span> is that eighty percent of engineering keeps payments alive instead of shipping product.
+        </p>
+        <div class="footnote">
+          If <b>three of these</b> feel uncomfortably familiar, we should talk.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const PAINS = [
+      { n: '01', tag: 'timeout.outage',       theme: 'Transaction Integrity',  c: '1', sev: 'P0', desc: 'Your customers see the outage before your dashboards do. Twitter is faster than monitoring.',                impact: 'Trust erodes faster than you can rebuild SLAs.' },
+      { n: '02', tag: 'reversal.silent',      theme: 'Transaction Integrity',  c: '1', sev: 'P0', desc: 'A reversal fails silently. Finance discovers the gap three days later during reconciliation.',                impact: 'Funds in limbo. Manual chargebacks. Regulator interest.' },
+      { n: '03', tag: 'recon.manual',         theme: 'Transaction Integrity',  c: '1', sev: 'P1', desc: 'Month-end in spreadsheets. Four thousand rows. Manual matching. Weekend war rooms.',                          impact: 'Two engineers, two weekends, every month.' },
+      { n: '04', tag: 'audit.weeklong',       theme: 'Operational Reliability', c: '2', sev: 'P1', desc: '"Show me Q3 reversals by reason code." One engineer. Five dashboards. Five days. Every quarter.',           impact: '20 engineer-days a year, just for the regulator.' },
+      { n: '05', tag: 'deploy.midnight',      theme: 'Operational Reliability', c: '2', sev: 'P1', desc: 'Releases at 11pm because daytime is too risky. Rollbacks at 2am. On-call paged.',                            impact: 'Velocity halved. Best engineers burn out.' },
+      { n: '06', tag: 'customer.complaints',  theme: 'Operational Reliability', c: '2', sev: 'P1', desc: 'A missing transaction. Five systems to query. Two days to give the customer an answer — by then they’re gone.', impact: 'Churn that never shows up in product analytics.' },
+      { n: '07', tag: 'security.surface',     theme: 'Security & Compliance',  c: '3', sev: 'P0', desc: 'Every new integration is a new attack vector. Ten operators equals ten places encryption can be wrong.',     impact: 'One bad key rotation away from a breach.' },
+      { n: '08', tag: 'compliance.bolton',    theme: 'Security & Compliance',  c: '3', sev: 'P1', desc: 'AML, KYC, and sanctions screening retro-fitted after every new corridor goes live.',                          impact: 'Regulatory exposure on every market launch.' },
+      { n: '09', tag: 'corridor.6mo',         theme: 'Velocity & Cost',        c: '4', sev: 'P2', desc: 'Every new operator is a six-month integration project — new protocol, new AML, new audit trail, built from scratch.', impact: 'Markets close before you can launch.' },
+      { n: '10', tag: 'cost.invisible',      theme: 'Velocity & Cost',        c: '4', sev: 'P2', desc: 'Eighty percent of your engineering team keeps payments alive. Twenty percent ships the products that actually win business.', impact: 'You are paying to stand still.' },
+    ];
+
+    // W1: editorial list
+    document.querySelector('[data-w1]').innerHTML = PAINS.map(p => `
+      <li class="row">
+        <span class="num">${p.n}</span>
+        <span class="body">
+          <span class="tag">${p.tag}</span>
+          <span class="desc">${p.desc}</span>
+        </span>
+        <span class="theme">${p.theme}</span>
+      </li>
+    `).join('');
+
+    // W2: two-column compact
+    document.querySelector('[data-w2]').innerHTML = PAINS.map(p => `
+      <div class="row">
+        <span class="dot" data-c="${p.c}"></span>
+        <span class="body">
+          <span class="tag">${p.tag}</span>
+          <span class="desc">${p.desc}</span>
+        </span>
+      </div>
+    `).join('');
+
+    // W3: defect log
+    document.querySelector('[data-w3]').innerHTML = PAINS.map(p => `
+      <tr>
+        <td class="id">#${p.n}</td>
+        <td class="sev" data-s="${p.sev}">${p.sev}</td>
+        <td class="pain">${p.tag}</td>
+        <td class="impact">${p.desc} <em style="color:var(--ink-3);font-style:italic;">— ${p.impact}</em></td>
+      </tr>
+    `).join('');
+  </script>
+</body>
+</html>
