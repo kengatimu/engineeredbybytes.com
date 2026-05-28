@@ -574,24 +574,42 @@
       stroke-dashoffset: 200;
     }
 
-    /* Caption — appears after the resolve */
+    /* Caption — appears after the resolve.
+       Uses animation (not transition) for reliability across browsers
+       and an animated pseudo-element underline for visual punctuation. */
     .problem__caption {
       font-family: var(--font-display);
-      font-size: clamp(18px, 2.2vw, 22px);
+      font-size: clamp(20px, 2.4vw, 26px);
       font-style: italic;
       color: var(--navy);
       text-align: center;
       opacity: 0;
-      transform: translateY(8px);
-      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+      transform: translateY(14px);
+      margin-top: 8px;
+      line-height: 1.5;
     }
 
-    .problem__caption strong {
+    /* The punchline phrase — bold, with a crimson underline that
+       draws in left-to-right after the caption fades in. */
+    .problem__caption-key {
+      position: relative;
+      display: inline-block;
       font-style: normal;
       font-weight: 700;
       color: var(--navy);
-      border-bottom: 2px solid var(--crimson);
-      padding-bottom: 2px;
+      padding-bottom: 4px;
+    }
+
+    .problem__caption-key::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--crimson);
+      transform: scaleX(0);
+      transform-origin: left center;
     }
 
     /* ---------- ACTIVE STATE — IntersectionObserver adds .is-active ---------- */
@@ -632,11 +650,30 @@
       animation: tangleHubDrawIn 0.6s ease-out 3.2s forwards;
     }
 
-    /* Caption fades in last */
+    /* Caption fades in after the resolve, then the crimson underline
+       draws in left-to-right for punctuation */
     .problem__viz.is-active .problem__caption {
-      opacity: 1;
-      transform: translateY(0);
-      transition-delay: 3.8s;
+      animation: captionRise 0.7s ease-out 3.6s forwards;
+    }
+
+    .problem__viz.is-active .problem__caption-key::after {
+      animation: underlineDraw 0.6s ease-out 4.3s forwards;
+    }
+
+    @keyframes captionRise {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes underlineDraw {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
     }
 
     @keyframes tangleNodeAppear {
@@ -704,6 +741,11 @@
       .problem__viz .problem__caption {
         opacity: 1 !important;
         transform: none !important;
+        animation: none !important;
+      }
+      .problem__viz .problem__caption-key::after {
+        transform: scaleX(1) !important;
+        animation: none !important;
       }
     }
   </style>
@@ -972,7 +1014,7 @@
         </svg>
 
         <p class="problem__caption">
-          From every-to-every to <strong>one-to-everything</strong>.
+          From every-to-every to <span class="problem__caption-key">one-to-everything</span>.
         </p>
       </div>
 
