@@ -688,9 +688,9 @@
     .problem__prose-lead-b { display: none; }
 
     /* §2 pains — simple 2-col list. Each line is one inline statement:
-       crimson clickable phrase + body description. No numbers, no
-       decorations. The 10th line — 'invisible cost' — spans full width
-       below as the closing summary. */
+       serif italic crimson phrase + navy-muted body description. The
+       10th line — 'invisible cost' — spans full width below as the
+       closing summary. */
     .problem__pains {
       list-style: none;
       margin: 0;
@@ -698,36 +698,36 @@
       max-width: 920px;
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px 56px;
-      font: 400 14.5px/1.55 var(--font-ui);
-      color: var(--text-body);
+      gap: 16px 60px;
+      font: 400 14.5px/1.6 var(--font-ui);
+      color: rgba(13, 34, 64, 0.82);
     }
     .problem__pains-summary {
       grid-column: 1 / -1;
-      padding-top: 16px;
-      margin-top: 6px;
-      border-top: 1px solid var(--rule);
-      font-style: italic;
-      color: var(--text-muted);
+      padding-top: 18px;
+      margin-top: 8px;
+      border-top: 1px solid rgba(13, 34, 64, 0.06);
+      color: rgba(13, 34, 64, 0.62);
     }
     @media (max-width: 760px) {
-      .problem__pains { grid-template-columns: 1fr; gap: 10px; }
+      .problem__pains { grid-template-columns: 1fr; gap: 12px; }
     }
-    /* Editorial inline link — reads like a phrase in body prose, not a
-       tech-tag chip. Distinguished by crimson + dotted underline; gains a
-       solid underline on hover. */
+    /* Editorial inline reference — serif italic crimson, like a phrase
+       set in a magazine column. Subtle dotted underline by default that
+       solidifies on hover. Matches the heading's italic accent style. */
     .pain {
       display: inline;
-      font-family: inherit;
-      font-size: inherit;
-      font-weight: 600;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 0.96em;
       color: var(--crimson);
       background: transparent;
       padding: 0;
       border: 0;
-      border-bottom: 1px dotted rgba(139,26,26,0.55);
+      border-bottom: 1px dotted rgba(139,26,26,0.4);
       cursor: pointer;
-      transition: color 0.2s var(--ease), border-bottom-color 0.2s var(--ease), border-bottom-style 0.2s var(--ease);
+      transition: color 0.2s var(--ease), border-bottom 0.2s var(--ease);
     }
     .pain:hover {
       color: #6B0F0F;
