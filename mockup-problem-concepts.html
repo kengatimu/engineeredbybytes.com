@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>§2 Problem — 6 Design Concepts</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy:        #0D2240;
+      --navy-deep:   #081530;
+      --navy-soft:   #1C3158;
+      --cream:       #F8F6F1;
+      --cream-warm:  #F2EFE8;
+      --crimson:     #8B1A1A;
+      --crimson-soft: rgba(139, 26, 26, 0.12);
+      --green:       #2c8a3e;
+      --amber:       #c47b00;
+      --white:       #FFFFFF;
+      --text-body:   #333333;
+      --text-muted:  #666666;
+      --text-faint:  #999999;
+      --rule:        rgba(13, 34, 64, 0.10);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono:    'JetBrains Mono', SFMono-Regular, Menlo, monospace;
+      --font-hand:    'Caveat', cursive;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-ui);
+      color: var(--text-body);
+      background: var(--cream);
+      line-height: 1.6;
+    }
+
+    /* Page-level scaffolding */
+    .page-header {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 64px 32px 32px;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-family: var(--font-display);
+      font-size: 36px;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .page-header p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    .page-header em {
+      font-style: normal;
+      color: var(--crimson);
+      font-weight: 600;
+    }
+
+    .concept {
+      max-width: 1100px;
+      margin: 0 auto 64px;
+      padding: 0 32px;
+    }
+    .concept-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--navy);
+    }
+    .concept-letter {
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      background: var(--crimson);
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+    .concept-label h3 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .concept-label p {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 720px;
+    }
+    .concept-stage {
+      background: var(--cream-warm);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 40px;
+      margin-bottom: 16px;
+      min-height: 380px;
+    }
+    .concept-takeaway {
+      font-size: 13px;
+      color: var(--text-muted);
+      padding: 0 8px;
+    }
+    .concept-takeaway strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+    .concept-takeaway em {
+      font-style: normal;
+      color: var(--crimson);
+      font-weight: 600;
+    }
+
+
+    /* ==========================================================
+       CONCEPT A — Terminal log stream
+       Production log lines, developer-realistic
+       ========================================================== */
+    .term {
+      background: var(--navy-deep);
+      border-radius: 8px;
+      overflow: hidden;
+      font-family: var(--font-mono);
+      box-shadow: 0 24px 48px rgba(8, 21, 48, 0.18);
+    }
+    .term-bar {
+      background: rgba(255,255,255,0.06);
+      padding: 12px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .term-bar-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+    }
+    .term-bar-title {
+      margin-left: auto;
+      color: rgba(255,255,255,0.5);
+      font-size: 12px;
+    }
+    .term-body {
+      padding: 20px 24px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.85);
+    }
+    .log-line {
+      display: grid;
+      grid-template-columns: 90px 80px 1fr;
+      gap: 14px;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .log-time { color: rgba(255,255,255,0.4); }
+    .log-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      padding: 1px 6px;
+      border-radius: 2px;
+      text-align: center;
+      align-self: start;
+    }
+    .log-tag--critical { background: var(--crimson); color: white; }
+    .log-tag--warn     { background: var(--amber);   color: white; }
+    .log-tag--info     { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.7); }
+    .log-msg { color: rgba(255,255,255,0.9); }
+    .log-msg em { color: var(--cream); font-style: normal; font-weight: 500; }
+    .log-cursor {
+      display: inline-block; width: 8px; height: 14px;
+      background: rgba(255,255,255,0.6);
+      animation: blink 1s steps(2, end) infinite;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+    @keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+
+
+    /* ==========================================================
+       CONCEPT B — Audit findings report
+       Formal regulator-style document
+       ========================================================== */
+    .audit-doc {
+      background: var(--white);
+      border: 1px solid var(--navy);
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 48px;
+      font-family: var(--font-ui);
+      box-shadow: 0 24px 48px rgba(13, 34, 64, 0.10);
+    }
+    .audit-header {
+      border-bottom: 2px solid var(--navy);
+      padding-bottom: 18px;
+      margin-bottom: 24px;
+    }
+    .audit-stamp {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      color: var(--crimson);
+      border: 1.5px solid var(--crimson);
+      padding: 3px 8px;
+      margin-bottom: 12px;
+    }
+    .audit-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.005em;
+      margin-bottom: 6px;
+    }
+    .audit-meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+    .audit-finding {
+      display: grid;
+      grid-template-columns: 60px 90px 1fr;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: start;
+    }
+    .audit-finding:last-child { border-bottom: none; }
+    .finding-id {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-faint);
+      letter-spacing: 0.04em;
+      padding-top: 2px;
+    }
+    .finding-sev {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 2px 6px;
+      border-radius: 2px;
+      text-align: center;
+      align-self: start;
+    }
+    .finding-sev--crit { background: var(--crimson); color: white; }
+    .finding-sev--high { background: var(--amber); color: white; }
+    .finding-title {
+      font-family: var(--font-ui);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.4;
+    }
+    .finding-sub {
+      display: block;
+      font-weight: 400;
+      color: var(--text-muted);
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+
+    /* ==========================================================
+       CONCEPT C — Slack incident channel
+       Mock messaging app, human cost
+       ========================================================== */
+    .slack {
+      background: #1a1d29;
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 680px;
+      margin: 0 auto;
+      box-shadow: 0 24px 48px rgba(8, 21, 48, 0.18);
+    }
+    .slack-channel {
+      background: #15172012;
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      color: white;
+      font-family: var(--font-ui);
+      font-weight: 700;
+      font-size: 15px;
+    }
+    .slack-channel .hash { color: rgba(255,255,255,0.5); margin-right: 6px; }
+    .slack-channel .meta {
+      float: right;
+      font-weight: 400;
+      color: rgba(255,255,255,0.4);
+      font-size: 12px;
+      font-family: var(--font-mono);
+    }
+    .slack-msgs {
+      padding: 18px 20px;
+      color: rgba(255,255,255,0.9);
+      font-family: var(--font-ui);
+    }
+    .slack-msg {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 12px;
+      padding: 8px 0;
+    }
+    .slack-avatar {
+      width: 32px; height: 32px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+    }
+    .av-1 { background: #c84a3e; }
+    .av-2 { background: #5b8def; }
+    .av-3 { background: #54a572; }
+    .av-4 { background: #b87333; }
+    .av-5 { background: #8e44ad; }
+    .av-6 { background: #16a085; }
+    .av-7 { background: #d35400; }
+    .av-8 { background: #34495e; }
+    .slack-name {
+      font-weight: 700;
+      font-size: 14px;
+      color: white;
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+    .slack-time {
+      font-weight: 400;
+      color: rgba(255,255,255,0.4);
+      font-size: 11px;
+      font-family: var(--font-mono);
+    }
+    .slack-text {
+      font-size: 13.5px;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.86);
+      margin-top: 1px;
+    }
+    .slack-text em {
+      font-style: normal;
+      color: var(--crimson);
+      font-weight: 600;
+      background: rgba(139,26,26,0.15);
+      padding: 0 4px;
+      border-radius: 2px;
+    }
+
+
+    /* ==========================================================
+       CONCEPT D — Sticky note war room
+       Corkboard with rotated notes, organic chaos
+       ========================================================== */
+    .corkboard {
+      background:
+        radial-gradient(circle at 20% 30%, rgba(139,69,19,0.04) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(139,69,19,0.05) 0%, transparent 40%),
+        #c8a878;
+      border-radius: 6px;
+      padding: 32px 24px;
+      min-height: 340px;
+      position: relative;
+      box-shadow: inset 0 0 80px rgba(0,0,0,0.18);
+    }
+    .corkboard::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 8px 8px, 14px 14px;
+      pointer-events: none;
+      border-radius: 6px;
+    }
+    .sticky-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .sticky {
+      background: #fff9a3;
+      padding: 14px 14px 12px;
+      font-family: var(--font-hand);
+      font-size: 17px;
+      line-height: 1.3;
+      color: #2c2010;
+      box-shadow: 2px 4px 8px rgba(0,0,0,0.18);
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .sticky::before {
+      content: '';
+      position: absolute;
+      top: -6px; left: 50%; transform: translateX(-50%);
+      width: 12px; height: 12px;
+      background: radial-gradient(circle at 30% 30%, #d63333, #8a1010);
+      border-radius: 50%;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    .sticky--rot1  { transform: rotate(-2deg); }
+    .sticky--rot2  { transform: rotate(1.5deg); background: #ffd7a3; }
+    .sticky--rot3  { transform: rotate(-1deg); background: #c8e6ff; }
+    .sticky--rot4  { transform: rotate(2deg); }
+    .sticky--rot5  { transform: rotate(-2deg); background: #ffd7a3; }
+    .sticky--rot6  { transform: rotate(1deg); background: #c8e6ff; }
+    .sticky--rot7  { transform: rotate(-1.5deg); }
+    .sticky--rot8  { transform: rotate(2deg); background: #ffd7a3; }
+    .sticky-foot {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      color: rgba(44, 32, 16, 0.6);
+      margin-top: 8px;
+    }
+
+
+    /* ==========================================================
+       CONCEPT E — Cost receipt
+       Printed receipt with line items, business cost framing
+       ========================================================== */
+    .receipt {
+      background: white;
+      max-width: 380px;
+      margin: 0 auto;
+      padding: 28px 28px 0;
+      font-family: var(--font-mono);
+      color: var(--navy);
+      box-shadow: 0 24px 48px rgba(8, 21, 48, 0.18);
+      position: relative;
+    }
+    .receipt::after {
+      content: '';
+      display: block;
+      height: 16px;
+      background:
+        linear-gradient(135deg, transparent 50%, white 50%) 0 0/12px 16px,
+        linear-gradient(-135deg, transparent 50%, white 50%) 12px 0/12px 16px,
+        var(--cream-warm);
+      margin: 0 -28px;
+      margin-top: 18px;
+    }
+    .receipt-head {
+      text-align: center;
+      padding-bottom: 14px;
+      border-bottom: 2px dashed var(--navy);
+    }
+    .receipt-store {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .receipt-tag {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .receipt-meta {
+      font-size: 9px;
+      color: var(--text-faint);
+      letter-spacing: 0.08em;
+      margin-top: 8px;
+    }
+    .receipt-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 9px 0;
+      font-size: 12px;
+      border-bottom: 1px dotted var(--rule);
+    }
+    .receipt-line:last-of-type { border-bottom: none; }
+    .receipt-item { color: var(--navy); }
+    .receipt-cost {
+      font-weight: 700;
+      color: var(--crimson);
+      white-space: nowrap;
+    }
+    .receipt-total {
+      border-top: 2px dashed var(--navy);
+      margin-top: 8px;
+      padding: 14px 0 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .receipt-total .total-amount {
+      color: var(--crimson);
+      font-family: var(--font-display);
+      font-size: 17px;
+    }
+    .receipt-footer {
+      text-align: center;
+      font-size: 9px;
+      color: var(--text-faint);
+      letter-spacing: 0.08em;
+      padding-top: 6px;
+    }
+
+
+    /* ==========================================================
+       CONCEPT F — Editorial / magazine
+       Pull-quote treatment, elegant typography
+       ========================================================== */
+    .editorial {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 16px 0;
+    }
+    .editorial-eyebrow {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 24px;
+    }
+    .editorial-quote {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 3.4vw, 30px);
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--navy);
+      letter-spacing: -0.005em;
+      margin-bottom: 16px;
+    }
+    .editorial-quote em {
+      font-style: italic;
+      color: var(--crimson);
+    }
+    .editorial-attrib {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      margin-bottom: 40px;
+      padding-left: 20px;
+      border-left: 3px solid var(--crimson);
+    }
+    .ed-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--navy);
+      margin: 32px 0;
+    }
+    .ed-list-label {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+    }
+    .ed-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px 32px;
+    }
+    .ed-item {
+      display: flex;
+      gap: 14px;
+      font-family: var(--font-ui);
+      font-size: 15px;
+      color: var(--navy);
+      line-height: 1.45;
+    }
+    .ed-num {
+      font-family: var(--font-display);
+      font-style: italic;
+      color: var(--crimson);
+      font-weight: 700;
+      flex-shrink: 0;
+      width: 22px;
+    }
+
+
+    /* Footer note */
+    .deciding {
+      max-width: 720px;
+      margin: 80px auto 64px;
+      padding: 32px;
+      background: var(--navy);
+      color: white;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .deciding h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+    .deciding p {
+      color: rgba(255,255,255,0.78);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    @media (max-width: 720px) {
+      .sticky-grid { grid-template-columns: repeat(2, 1fr); }
+      .ed-list { grid-template-columns: 1fr; }
+      .log-line { grid-template-columns: 70px 70px 1fr; font-size: 11px; }
+      .audit-doc { padding: 24px 18px; }
+      .audit-finding { grid-template-columns: 50px 70px 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <h1>§2 Problem — six bespoke design concepts</h1>
+    <p>Each concept uses the same eight pains so you can compare apples-to-apples. Scroll through, pick the one that <em>doesn't feel like a B2B template you've seen before</em>.</p>
+  </header>
+
+
+  <!-- ============================================================
+       CONCEPT A — Terminal log stream
+       ============================================================ -->
+  <section class="concept" id="concept-a">
+    <div class="concept-label">
+      <span class="concept-letter">A</span>
+      <div>
+        <h3>Terminal log stream</h3>
+        <p>Production logs from your ops team's terminal. Each pain is a real-feeling incident with timestamp and severity tag. Speaks directly to engineering credibility — the buyer thinks "yes, this is exactly what my Datadog looks like at 2am."</p>
+      </div>
+    </div>
+    <div class="concept-stage">
+      <div class="term">
+        <div class="term-bar">
+          <span class="term-bar-dot"></span>
+          <span class="term-bar-dot"></span>
+          <span class="term-bar-dot"></span>
+          <span class="term-bar-title">payments-prod ~ tail -f /var/log/payments.log</span>
+        </div>
+        <div class="term-body">
+          <div class="log-line">
+            <span class="log-time">11:47:23</span>
+            <span class="log-tag log-tag--critical">CRITICAL</span>
+            <span class="log-msg">customer.timeout <em>504</em> — partner unreachable, status UNKNOWN, dashboard alert in 7m</span>
+          </div>
+          <div class="log-line">
+            <span class="log-time">02:14:08</span>
+            <span class="log-tag log-tag--critical">CRITICAL</span>
+            <span class="log-msg">reversal.failed silently <em>3 days ago</em> — found by finance during reconciliation</span>
+          </div>
+          <div class="log-line">
+            <span class="log-time">09:22:51</span>
+            <span class="log-tag log-tag--warn">WARN</span>
+            <span class="log-msg">audit.query in progress for <em>4d 6h</em> — 5 dashboards, manual SQL</span>
+          </div>
+          <div class="log-line">
+            <span class="log-time">16:03:44</span>
+            <span class="log-tag log-tag--warn">WARN</span>
+            <span class="log-msg">corridor.activation pending — <em>176 days</em> elapsed, 3 integration teams engaged</span>
+          </div>
+          <div class="log-line">
+            <span class="log-time">02:47:12</span>
+            <span class="log-tag log-tag--critical">CRITICAL</span>
+            <span class="log-msg">deploy.rollback initiated — production down <em>12m</em>, on-call paged</span>
+          </div>
+          <div class="log-line">
+            <span class="log-time">04:31:19</span>
+            <span class="log-tag log-tag--warn">WARN</span>
+            <span class="log-msg">security.surface +1 — new operator integrated, attack vectors now <em>11</em></span>
+          </div>
+          <div class="log-line">
+            <span class="log-time">23:58:00</span>
+            <span class="log-tag log-tag--warn">WARN</span>
+            <span class="log-msg">reconciliation.manual — <em>4,217 rows</em> exported to spreadsheet, weekend war room scheduled</span>
+          </div>
+          <div class="log-line">
+            <span class="log-time">10:00:00</span>
+            <span class="log-tag log-tag--info">INFO</span>
+            <span class="log-msg">team.allocation — <em>80%</em> maintenance, <em>20%</em> product, sprint planning at 14:00<span class="log-cursor"></span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="concept-takeaway"><strong>Why this works:</strong> instantly speaks the language of engineering buyers. <em>Risk:</em> non-technical execs (CFO, business heads) might find it alienating.</p>
+  </section>
+
+
+  <!-- ============================================================
+       CONCEPT B — Audit findings report
+       ============================================================ -->
+  <section class="concept" id="concept-b">
+    <div class="concept-label">
+      <span class="concept-letter">B</span>
+      <div>
+        <h3>Audit findings report</h3>
+        <p>Each pain is presented as a finding in a formal payment-infrastructure audit report. Numbered, severity-tagged, with status. Banker-credible aesthetic — looks like a CBK or internal-audit document the CTO would actually receive.</p>
+      </div>
+    </div>
+    <div class="concept-stage">
+      <div class="audit-doc">
+        <div class="audit-header">
+          <div class="audit-stamp">INTERNAL · CONFIDENTIAL</div>
+          <div class="audit-title">Payment Infrastructure — Q3 Findings</div>
+          <div class="audit-meta">8 findings · 6 critical · all recurring · unresolved</div>
+        </div>
+        <div class="audit-finding">
+          <span class="finding-id">F-001</span>
+          <span class="finding-sev finding-sev--crit">CRITICAL</span>
+          <div>
+            <div class="finding-title">Customer-visible outages detected before internal alerting</div>
+            <span class="finding-sub">Mean detection lag: 7 minutes · Weekly recurrence</span>
+          </div>
+        </div>
+        <div class="audit-finding">
+          <span class="finding-id">F-002</span>
+          <span class="finding-sev finding-sev--crit">CRITICAL</span>
+          <div>
+            <div class="finding-title">Reversal failures discovered through reconciliation, not alerting</div>
+            <span class="finding-sub">Avg discovery delay: 3 days · Source: finance team</span>
+          </div>
+        </div>
+        <div class="audit-finding">
+          <span class="finding-id">F-003</span>
+          <span class="finding-sev finding-sev--crit">CRITICAL</span>
+          <div>
+            <div class="finding-title">Regulator query response time exceeds policy SLA</div>
+            <span class="finding-sub">Last quarter: 5 days, 1 engineer FTE, manual SQL across 5 systems</span>
+          </div>
+        </div>
+        <div class="audit-finding">
+          <span class="finding-id">F-004</span>
+          <span class="finding-sev finding-sev--high">HIGH</span>
+          <div>
+            <div class="finding-title">New corridor activation timeline exceeds business target</div>
+            <span class="finding-sub">Current avg: 6 months · Target: 4 weeks · Bottleneck: bespoke integration</span>
+          </div>
+        </div>
+        <div class="audit-finding">
+          <span class="finding-id">F-005</span>
+          <span class="finding-sev finding-sev--crit">CRITICAL</span>
+          <div>
+            <div class="finding-title">Deployment rollbacks during off-hours indicate weak release pipeline</div>
+            <span class="finding-sub">Last quarter: 4 rollbacks · All initiated after midnight</span>
+          </div>
+        </div>
+        <div class="audit-finding">
+          <span class="finding-id">F-006</span>
+          <span class="finding-sev finding-sev--high">HIGH</span>
+          <div>
+            <div class="finding-title">Attack surface scales linearly with integration count</div>
+            <span class="finding-sub">Operators integrated: 10 · Distinct security postures: 10</span>
+          </div>
+        </div>
+        <div class="audit-finding">
+          <span class="finding-id">F-007</span>
+          <span class="finding-sev finding-sev--crit">CRITICAL</span>
+          <div>
+            <div class="finding-title">End-of-period reconciliation requires manual labour</div>
+            <span class="finding-sub">Avg duration: 14 hours per period · Spreadsheet-based</span>
+          </div>
+        </div>
+        <div class="audit-finding">
+          <span class="finding-id">F-008</span>
+          <span class="finding-sev finding-sev--crit">CRITICAL</span>
+          <div>
+            <div class="finding-title">Engineering capacity consumed by maintenance, not product delivery</div>
+            <span class="finding-sub">Allocation: 80% maintenance, 20% new product · Trending worse</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="concept-takeaway"><strong>Why this works:</strong> looks like a real audit document — the CTO instantly recognises the format and severity language. Banker-credible. <em>Risk:</em> feels heavy / serious; less viscerally emotional than the terminal.</p>
+  </section>
+
+
+  <!-- ============================================================
+       CONCEPT C — Slack incident channel
+       ============================================================ -->
+  <section class="concept" id="concept-c">
+    <div class="concept-label">
+      <span class="concept-letter">C</span>
+      <div>
+        <h3>Slack incident channel</h3>
+        <p>Mock #payments-prod-incidents channel filling up with messages from different team members. Shows the <em>human cost</em> — payments problems aren't abstract; they're real people firefighting at 2am. Most emotionally resonant.</p>
+      </div>
+    </div>
+    <div class="concept-stage">
+      <div class="slack">
+        <div class="slack-channel">
+          <span class="hash">#</span>payments-prod-incidents
+          <span class="meta">8 unread · today</span>
+        </div>
+        <div class="slack-msgs">
+          <div class="slack-msg">
+            <div class="slack-avatar av-1">JK</div>
+            <div>
+              <div class="slack-name">james.k <span class="slack-time">02:47 AM</span></div>
+              <div class="slack-text">rolling back deploy. <em>production down 12 minutes</em>. paging on-call.</div>
+            </div>
+          </div>
+          <div class="slack-msg">
+            <div class="slack-avatar av-2">MO</div>
+            <div>
+              <div class="slack-name">m.otieno <span class="slack-time">11:47 AM</span></div>
+              <div class="slack-text">12 customers tweeting about failed M-PESA. <em>dashboards show green</em>. anyone seeing this?</div>
+            </div>
+          </div>
+          <div class="slack-msg">
+            <div class="slack-avatar av-3">AW</div>
+            <div>
+              <div class="slack-name">a.wanjiku · finance <span class="slack-time">14:22 PM</span></div>
+              <div class="slack-text">found <em>KES 480k</em> in failed reversals from 3 days ago during recon. ops, can someone investigate?</div>
+            </div>
+          </div>
+          <div class="slack-msg">
+            <div class="slack-avatar av-4">PK</div>
+            <div>
+              <div class="slack-name">p.kamau <span class="slack-time">15:08 PM</span></div>
+              <div class="slack-text">CBK asked for Q3 reversals by reason code. <em>day 5 of pulling data</em>. five different dashboards.</div>
+            </div>
+          </div>
+          <div class="slack-msg">
+            <div class="slack-avatar av-5">JM</div>
+            <div>
+              <div class="slack-name">j.muriuki <span class="slack-time">16:30 PM</span></div>
+              <div class="slack-text">@product the new corridor is at <em>month 6</em>. legal review just started.</div>
+            </div>
+          </div>
+          <div class="slack-msg">
+            <div class="slack-avatar av-6">SN</div>
+            <div>
+              <div class="slack-name">s.njoroge · security <span class="slack-time">17:14 PM</span></div>
+              <div class="slack-text">new operator goes live monday. <em>that's our 11th integration</em>. PCI scope grows again.</div>
+            </div>
+          </div>
+          <div class="slack-msg">
+            <div class="slack-avatar av-7">LM</div>
+            <div>
+              <div class="slack-name">l.mwangi <span class="slack-time">23:58 PM</span></div>
+              <div class="slack-text">starting weekend reconciliation. <em>4,217 rows in excel</em>. see you monday.</div>
+            </div>
+          </div>
+          <div class="slack-msg">
+            <div class="slack-avatar av-8">TK</div>
+            <div>
+              <div class="slack-name">t.kibet · eng manager <span class="slack-time">tomorrow 09:00</span></div>
+              <div class="slack-text">sprint review: <em>80% of our time was maintenance</em>. zero new product shipped.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="concept-takeaway"><strong>Why this works:</strong> instantly emotional — every CTO has lived through this Slack channel. Names + roles + timestamps make it concrete. <em>Risk:</em> some banks have strict Slack/IM policies and may find it slightly informal.</p>
+  </section>
+
+
+  <!-- ============================================================
+       CONCEPT D — Sticky note war room
+       ============================================================ -->
+  <section class="concept" id="concept-d">
+    <div class="concept-label">
+      <span class="concept-letter">D</span>
+      <div>
+        <h3>Sticky note war room</h3>
+        <p>Each pain is a sticky note on a corkboard, slightly rotated, in different colours — like a real incident-response wall. Handwritten font, pushpins, the organic chaos of a payment ops war room. Playful but recognisable.</p>
+      </div>
+    </div>
+    <div class="concept-stage">
+      <div class="corkboard">
+        <div class="sticky-grid">
+          <div class="sticky sticky--rot1">
+            <div>Customers tweeting about timeouts before we even know</div>
+            <div class="sticky-foot">— Tue 11:47</div>
+          </div>
+          <div class="sticky sticky--rot2">
+            <div>Finance found KES 480k in silent reversals from Monday</div>
+            <div class="sticky-foot">— Thu 14:22</div>
+          </div>
+          <div class="sticky sticky--rot3">
+            <div>CBK query — day 5. Five dashboards. Still digging.</div>
+            <div class="sticky-foot">— Fri 15:08</div>
+          </div>
+          <div class="sticky sticky--rot4">
+            <div>New corridor: month 6. Legal review just opened.</div>
+            <div class="sticky-foot">— Mon 16:30</div>
+          </div>
+          <div class="sticky sticky--rot5">
+            <div>Rolled back at 2:47am. Production down 12 min.</div>
+            <div class="sticky-foot">— Wed 02:47</div>
+          </div>
+          <div class="sticky sticky--rot6">
+            <div>Operator #11 monday. PCI scope expands again.</div>
+            <div class="sticky-foot">— Fri 17:14</div>
+          </div>
+          <div class="sticky sticky--rot7">
+            <div>Weekend recon. 4,217 rows. Excel. Send help.</div>
+            <div class="sticky-foot">— Fri 23:58</div>
+          </div>
+          <div class="sticky sticky--rot8">
+            <div>Sprint review: 80% maintenance, zero product shipped</div>
+            <div class="sticky-foot">— Mon 09:00</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="concept-takeaway"><strong>Why this works:</strong> visually distinctive — no fintech site looks like this. Captures the chaotic-but-human feel of real ops. <em>Risk:</em> could read as too playful for the most conservative banker. The handwritten font is the make-or-break choice.</p>
+  </section>
+
+
+  <!-- ============================================================
+       CONCEPT E — Cost receipt
+       ============================================================ -->
+  <section class="concept" id="concept-e">
+    <div class="concept-label">
+      <span class="concept-letter">E</span>
+      <div>
+        <h3>Cost receipt — "What this costs you"</h3>
+        <p>Each pain becomes a line item on a printed receipt with a quantified cost (engineering-hours, dollars, customer churn). Running total at the bottom. Translates abstract "pain" into concrete business cost — perfect when a CFO co-buyer is in the room.</p>
+      </div>
+    </div>
+    <div class="concept-stage">
+      <div class="receipt">
+        <div class="receipt-head">
+          <div class="receipt-store">COST OF DOING NOTHING</div>
+          <div class="receipt-tag">Mid-size bank · annual impact</div>
+          <div class="receipt-meta">RECEIPT #2026-Q3 · UNRESOLVED</div>
+        </div>
+        <div class="receipt-line">
+          <span class="receipt-item">Timeouts &amp; outages</span>
+          <span class="receipt-cost">312 eng-hrs</span>
+        </div>
+        <div class="receipt-line">
+          <span class="receipt-item">Silent reversal recovery</span>
+          <span class="receipt-cost">KES 4.8M lost</span>
+        </div>
+        <div class="receipt-line">
+          <span class="receipt-item">Regulator query response</span>
+          <span class="receipt-cost">160 eng-hrs / yr</span>
+        </div>
+        <div class="receipt-line">
+          <span class="receipt-item">Corridor build (per integration)</span>
+          <span class="receipt-cost">6 mo × 3 teams</span>
+        </div>
+        <div class="receipt-line">
+          <span class="receipt-item">Midnight rollbacks &amp; pager</span>
+          <span class="receipt-cost">48 incidents / yr</span>
+        </div>
+        <div class="receipt-line">
+          <span class="receipt-item">PCI scope expansion</span>
+          <span class="receipt-cost">+$120K audit</span>
+        </div>
+        <div class="receipt-line">
+          <span class="receipt-item">Weekend reconciliation</span>
+          <span class="receipt-cost">52 weekends</span>
+        </div>
+        <div class="receipt-line">
+          <span class="receipt-item">Maintenance-not-product</span>
+          <span class="receipt-cost">8 of 10 FTE</span>
+        </div>
+        <div class="receipt-total">
+          <span>EST. ANNUAL</span>
+          <span class="total-amount">~$840K + opportunity</span>
+        </div>
+        <div class="receipt-footer">— THIS PRICING UPDATES ANNUALLY —</div>
+      </div>
+    </div>
+    <p class="concept-takeaway"><strong>Why this works:</strong> single most powerful for finance / executive buyers — translates pain into a dollar figure. Memorable. Receipts are a universal metaphor. <em>Risk:</em> the numbers need to be defensible. CTOs will mentally validate them — if one feels wrong, all credibility goes.</p>
+  </section>
+
+
+  <!-- ============================================================
+       CONCEPT F — Editorial / magazine
+       ============================================================ -->
+  <section class="concept" id="concept-f">
+    <div class="concept-label">
+      <span class="concept-letter">F</span>
+      <div>
+        <h3>Editorial / pull-quote</h3>
+        <p>One large quote from a real-feeling CIO leads, with a clean numbered list of supporting pains below. Magazine-spread aesthetic — restrained, premium, banker-respectful. Closest in spirit to existing EBB design language.</p>
+      </div>
+    </div>
+    <div class="concept-stage">
+      <div class="editorial">
+        <div class="editorial-eyebrow">In every payments shop we visit</div>
+        <blockquote class="editorial-quote">
+          "We deploy at midnight because <em>we don't trust our own pipeline</em>. Finance finds reversal gaps on Friday. Our team is in maintenance mode, not building anything new."
+        </blockquote>
+        <div class="editorial-attrib">— CIO, East African tier-1 bank · paraphrased from two recent conversations</div>
+
+        <div class="ed-divider"></div>
+        <div class="ed-list-label">The eight problems we hear in every conversation</div>
+        <ul class="ed-list">
+          <li class="ed-item"><span class="ed-num">01</span><span>Customers spot outages before your dashboards do.</span></li>
+          <li class="ed-item"><span class="ed-num">02</span><span>Reversals fail silently — found by finance days later.</span></li>
+          <li class="ed-item"><span class="ed-num">03</span><span>Audit responses consume your team for a week.</span></li>
+          <li class="ed-item"><span class="ed-num">04</span><span>New corridors take six months — every time.</span></li>
+          <li class="ed-item"><span class="ed-num">05</span><span>Deployments break at midnight; rollbacks at 2am.</span></li>
+          <li class="ed-item"><span class="ed-num">06</span><span>Attack surface grows with every new operator.</span></li>
+          <li class="ed-item"><span class="ed-num">07</span><span>Reconciliation consumes weekends in spreadsheets.</span></li>
+          <li class="ed-item"><span class="ed-num">08</span><span>Engineers in maintenance mode, not shipping products.</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="concept-takeaway"><strong>Why this works:</strong> matches EBB's existing editorial brand voice (serif headlines, restraint, premium). Quote framing makes it feel grounded in real conversation. <em>Risk:</em> least visually distinctive — closest to "normal" website territory.</p>
+  </section>
+
+
+  <!-- ============================================================
+       Decision prompt
+       ============================================================ -->
+  <div class="deciding">
+    <h3>Which one is "yes"?</h3>
+    <p>
+      Tell me a letter (A–F) and I'll build it into the real mockup, replacing the current six cards. Or describe a hybrid — e.g. <em>"Concept B's audit framing but with Concept E's cost numbers"</em>. We can also build two and put them side by side if you want a final A/B.
+    </p>
+  </div>
+
+</body>
+</html>
