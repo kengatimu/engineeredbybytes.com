@@ -686,6 +686,53 @@
     .problem__prose-lead,
     .problem__prose-lead-a,
     .problem__prose-lead-b { display: none; }
+
+    /* §2 pains list — replaces the dense paragraph treatment. Nine short
+       statements in a 2-column editorial grid (1 col on mobile), each on
+       its own line. The tenth — 'invisible cost' — spans full width as
+       the closing summary with a subtle rule above. */
+    .problem__pains {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      max-width: 980px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 48px;
+      font-family: var(--font-ui);
+      font-size: 14.5px;
+      line-height: 1.55;
+      color: var(--text-body);
+    }
+    .problem__pains > li {
+      position: relative;
+      padding-left: 16px;
+    }
+    /* Subtle crimson tick at the start of each item — gives the eye a
+       rhythm without becoming a literal bullet point. */
+    .problem__pains > li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.7em;
+      width: 8px;
+      height: 1px;
+      background: var(--crimson);
+      opacity: 0.5;
+    }
+    .problem__pains-close {
+      grid-column: 1 / -1;
+      padding-top: 18px;
+      margin-top: 6px;
+      border-top: 1px solid var(--rule);
+      font-style: italic;
+      color: var(--text-muted);
+      padding-left: 0 !important;
+    }
+    .problem__pains-close::before { display: none !important; }
+    @media (max-width: 760px) {
+      .problem__pains { grid-template-columns: 1fr; gap: 10px; }
+    }
     /* Editorial inline link — reads like a phrase in body prose, not a
        tech-tag chip. Distinguished by crimson + dotted underline; gains a
        solid underline on hover. */
@@ -1401,22 +1448,21 @@
         </h2>
       </header>
 
-      <!-- Editorial prose — names 7 of the 10 patterns inline. The
-           remaining 3 (recon.manual, customer.complaints, compliance.bolton)
-           live in the full drawer list. Pain phrases are clickable and open
-           the drawer scrolled to that item. -->
-      <p class="problem__prose">
-        <button type="button" class="pain" data-pain="timeout.outage">Timeouts &amp; outages</button> your customers see before your dashboards do.
-        <button type="button" class="pain" data-pain="reversal.silent">Reversals</button> that fail silently for hours.
-        <button type="button" class="pain" data-pain="recon.manual">Recon</button> you still do in spreadsheets every month-end.
-        <button type="button" class="pain" data-pain="audit.weeklong">Audits</button> that consume your team for a week, every quarter.
-        <button type="button" class="pain" data-pain="customer.complaints">Customer complaints</button> that take days to investigate across five systems.
-        <button type="button" class="pain" data-pain="corridor.6mo">Corridor integrations</button> that drag on for six months across three teams.
-        <button type="button" class="pain" data-pain="deploy.midnight">Deploys</button> at midnight because daytime is too risky.
-        A <button type="button" class="pain" data-pain="security.surface">security surface</button> that grows with every operator you add.
-        <button type="button" class="pain" data-pain="compliance.bolton">Compliance</button> bolted on after every new market.
-        And the <button type="button" class="pain" data-pain="cost.invisible">invisible cost</button> it takes to keep it all alive — engineering headcount building infrastructure no buyer will ever see, instead of products that win business.
-      </p>
+      <!-- Editorial pains list — 9 short clickable statements in a 2-col
+           grid + a closing 'invisible cost' summary spanning full width.
+           Each clickable phrase opens the drawer scrolled to that pattern. -->
+      <ul class="problem__pains">
+        <li><button type="button" class="pain" data-pain="timeout.outage">Timeouts &amp; outages</button> your customers see before your dashboards do.</li>
+        <li><button type="button" class="pain" data-pain="reversal.silent">Reversals</button> that fail silently for hours.</li>
+        <li><button type="button" class="pain" data-pain="recon.manual">Recon</button> you still do in spreadsheets every month-end.</li>
+        <li><button type="button" class="pain" data-pain="audit.weeklong">Audits</button> that consume your team for a week, every quarter.</li>
+        <li><button type="button" class="pain" data-pain="customer.complaints">Customer complaints</button> that take days to investigate across five systems.</li>
+        <li><button type="button" class="pain" data-pain="corridor.6mo">Corridor integrations</button> that drag on for six months across three teams.</li>
+        <li><button type="button" class="pain" data-pain="deploy.midnight">Deploys</button> at midnight because daytime is too risky.</li>
+        <li>A <button type="button" class="pain" data-pain="security.surface">security surface</button> that grows with every operator you add.</li>
+        <li><button type="button" class="pain" data-pain="compliance.bolton">Compliance</button> bolted on after every new market.</li>
+        <li class="problem__pains-close">And the <button type="button" class="pain" data-pain="cost.invisible">invisible cost</button> of engineering headcount building infrastructure no buyer will ever see — instead of products that win business.</li>
+      </ul>
 
       <!-- ECG pulse — visual reinforcement of the prose above. The chart
            is now unlabelled (the prose names the pains) and acts as the
