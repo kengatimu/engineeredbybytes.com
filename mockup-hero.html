@@ -665,7 +665,7 @@
       margin-right: 8px;
       vertical-align: 1px;
     }
-    .problem__pulse svg { width: 100%; height: 180px; display: block; }
+    .problem__pulse svg { width: 100%; height: 150px; display: block; }
     .problem__pulse svg .line { fill: none; stroke: var(--navy); stroke-width: 1.5; }
     .problem__pulse svg .marker { fill: var(--crimson); }
     .problem__pulse svg .ring { fill: var(--crimson); opacity: 0; animation: pulseRing 2.2s ease-out infinite; }
@@ -755,19 +755,22 @@
       position: relative;
       height: 50px;
     }
+    /* Chart drop labels match the prose phrase styling — serif italic
+       crimson — so the eye reads them as the same vocabulary as the
+       list above. The vertical tick connects each label to its drop. */
     .problem__pulse-label {
       position: absolute;
       transform: translateX(-50%);
-      font-family: var(--font-mono);
-      font-size: 11px;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 13px;
       color: var(--crimson);
-      letter-spacing: 0.02em;
       text-align: center;
       white-space: nowrap;
       background: transparent;
       border: 0;
       cursor: pointer;
-      padding: 4px 6px;
+      padding: 4px 8px;
       border-radius: 3px;
       transition: background 0.2s var(--ease), color 0.2s var(--ease);
     }
@@ -1457,7 +1460,7 @@
       <!-- 'See the list' — sits after the prose summary because the link
            expands the textual list above, not the chart below. -->
       <p class="problem__footnote">
-        Ten patterns we hear in every conversation with a bank or fintech CTO.
+        Ten patterns, grouped by where they live in your stack.
         <button type="button" class="problem__see-list" data-drawer-open>See the list →</button>
       </p>
 
@@ -1499,19 +1502,19 @@
         <!-- Clickable drop labels — each opens the drawer scrolled to
              that pattern with a brief flash highlight. -->
         <div class="problem__pulse-labels">
-          <button type="button" class="problem__pulse-label" data-pain="timeout.outage"  style="left: 11.7%;" aria-label="Open list at timeout.outage">timeout.outage</button>
-          <button type="button" class="problem__pulse-label" data-pain="reversal.silent" style="left: 36.8%;" aria-label="Open list at reversal.silent">reversal.silent</button>
-          <button type="button" class="problem__pulse-label" data-pain="recon.manual"    style="left: 61.7%;" aria-label="Open list at recon.manual">recon.manual</button>
-          <button type="button" class="problem__pulse-label" data-pain="audit.weeklong"  style="left: 86.7%;" aria-label="Open list at audit.weeklong">audit.weeklong</button>
+          <button type="button" class="problem__pulse-label" data-pain="timeout.outage"  style="left: 11.7%;" aria-label="Open list at Timeouts & outages">Timeouts</button>
+          <button type="button" class="problem__pulse-label" data-pain="reversal.silent" style="left: 36.8%;" aria-label="Open list at Reversals">Reversals</button>
+          <button type="button" class="problem__pulse-label" data-pain="recon.manual"    style="left: 61.7%;" aria-label="Open list at Recon">Recon</button>
+          <button type="button" class="problem__pulse-label" data-pain="audit.weeklong"  style="left: 86.7%;" aria-label="Open list at Audits">Audits</button>
         </div>
         <!-- Mobile fallback: labels become a single inline caption -->
         <p class="problem__pulse-caption" aria-hidden="true">
           <b>Four of ten patterns:</b>
-          <span>timeout.outage</span>·<span>reversal.silent</span>·<span>recon.manual</span>·<span>audit.weeklong</span>
+          <span>Timeouts</span>·<span>Reversals</span>·<span>Recon</span>·<span>Audits</span>
         </p>
-        <!-- Figure caption — single quiet italic line, like a magazine plate -->
+        <!-- Figure caption — points at the prose above so chart + list read as one -->
         <p class="problem__pulse-caption-fig">
-          <b>Fig.</b>An illustrative payments throughput — composed from patterns we hear in every CTO conversation.
+          <b>Fig.</b>An illustrative payments throughput. Each red drop marks a pattern from the list above.
         </p>
       </div>
 
