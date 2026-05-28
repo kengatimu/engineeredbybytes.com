@@ -161,19 +161,40 @@
       max-width: 980px;
       gap: 0;
     }
-    .hero__markmast {
-      /* The logo PNG has heavy whitespace baked into its 2400x1200 canvas.
-         Negative margins crop the visible whitespace so the mark sits tight
-         against the surrounding layout — same trick as the nav__brand. */
-      margin: -40px 0 0;
-      padding: 0;
-      line-height: 0;
-      mix-blend-mode: multiply; /* drops the white PNG background on cream */
+    /* CSS-rendered logo mark (matches production /index.html exactly):
+       a thin crimson rule, a giant Libre Baskerville "EBB", and a small
+       letter-spaced crimson "SYSTEMS" below. Scales crisply at any size,
+       no PNG whitespace artefacts. */
+    .hero__brand-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 32px 0 48px;
+      line-height: 1;
     }
-    .hero__markmast img {
-      height: 280px;
-      width: auto;
-      display: block;
+    .hero__brand-rule {
+      width: 64px;
+      height: 3px;
+      background: var(--crimson);
+      margin-bottom: 32px;
+    }
+    .hero__brand-ebb {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(120px, 16vw, 200px);
+      color: var(--navy);
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+    .hero__brand-systems {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(14px, 1.4vw, 18px);
+      color: var(--crimson);
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      margin-top: 24px;
+      margin-left: 0.42em; /* compensate for letter-spacing on last char */
     }
     .hero__brand-tagline {
       font-family: var(--font-display);
@@ -1186,9 +1207,11 @@
   <section class="hero hero--brand-first" id="hero">
     <div class="hero__container hero__container--centered">
 
-      <!-- Centered logo mark — the page identity, like production -->
-      <div class="hero__markmast">
-        <img src="/assets/img/logo-light.png" alt="EBB Systems" />
+      <!-- Centered logo mark, CSS-rendered for crisp scaling (production parity) -->
+      <div class="hero__brand-logo" aria-label="EBB Systems">
+        <div class="hero__brand-rule" aria-hidden="true"></div>
+        <div class="hero__brand-ebb" aria-hidden="true">EBB</div>
+        <div class="hero__brand-systems" aria-hidden="true">Systems</div>
       </div>
 
       <h1 class="hero__brand-tagline">
