@@ -75,17 +75,14 @@
     }
 
     .nav__brand {
-      font-family: var(--font-display);
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--navy);
-      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      line-height: 0;
     }
-
-    .nav__brand em {
-      font-style: normal;
-      color: var(--crimson);
-      margin-left: 4px;
+    .nav__brand img {
+      height: 44px;
+      width: auto;
+      display: block;
     }
 
     .nav__cta {
@@ -973,7 +970,9 @@
        MINIMAL NAV
        ============================================================ -->
   <nav class="nav" aria-label="Primary navigation">
-    <div class="nav__brand">EBB<em>·</em>Systems</div>
+    <a href="/" class="nav__brand" aria-label="EBB Systems home">
+      <img src="/assets/img/logo-dark.png" alt="EBB Systems">
+    </a>
     <a href="#talk" class="nav__cta">Talk to engineering →</a>
   </nav>
 
