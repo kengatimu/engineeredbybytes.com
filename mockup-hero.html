@@ -620,6 +620,18 @@
       color: var(--navy);
       font-weight: 400;
     }
+    /* Sub-line under the headline that explicitly bridges into the list.
+       Serif italic, muted navy, smaller — reads as a quiet deck line
+       rather than a competing headline. */
+    .problem__heading-bridge {
+      margin: 10px 0 0;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(15px, 1.6vw, 18px);
+      line-height: 1.35;
+      color: rgba(13, 34, 64, 0.6);
+      letter-spacing: -0.003em;
+    }
 
     .problem__lede {
       font-family: var(--font-ui);
@@ -1461,6 +1473,7 @@
         <h2 class="problem__heading">
           Your payment platform works <em>— until it doesn't.</em>
         </h2>
+        <p class="problem__heading-bridge">The pattern is always one of these:</p>
       </header>
 
       <!-- Pains list — F2 format: single column, em-dash separator. -->
