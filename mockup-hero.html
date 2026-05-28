@@ -455,9 +455,10 @@
     }
 
     /* =============================================================
-       §2 — THE PROBLEM (tangle → hub-and-spoke transition)
-       Headline visual of the whole site. Auto-plays once when
-       40% of the section enters the viewport.
+       §2 — THE PROBLEM (six pain cards, scene-based animations)
+       Each card shows a specific CTO pain in a recognisable scene.
+       Cards reveal staggered when section enters viewport; their
+       internal scene animations then loop subtly while visible.
        ============================================================= */
     .problem {
       background: var(--cream-warm);
@@ -467,7 +468,7 @@
 
     .problem__container {
       width: 100%;
-      max-width: 1100px;
+      max-width: 1180px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
@@ -477,7 +478,7 @@
 
     .problem__head {
       text-align: center;
-      max-width: 640px;
+      max-width: 720px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -507,192 +508,387 @@
       font-size: clamp(15px, 1.7vw, 17px);
       color: var(--text-muted);
       line-height: 1.65;
-      max-width: 52ch;
+      max-width: 56ch;
     }
 
-    /* The viz container — SVG + caption */
-    .problem__viz {
+    /* ---------- Card grid ---------- */
+    .problem__cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
       width: 100%;
-      max-width: 560px;
+    }
+    @media (min-width: 720px) {
+      .problem__cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1020px) {
+      .problem__cards { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    }
+
+    /* ---------- Card ---------- */
+    .pain-card {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 24px 24px 28px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 20px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
     }
+    .problem__cards.is-active .pain-card { opacity: 1; transform: translateY(0); }
+    .problem__cards.is-active .pain-card:nth-child(1) { transition-delay: 0.00s; }
+    .problem__cards.is-active .pain-card:nth-child(2) { transition-delay: 0.10s; }
+    .problem__cards.is-active .pain-card:nth-child(3) { transition-delay: 0.20s; }
+    .problem__cards.is-active .pain-card:nth-child(4) { transition-delay: 0.30s; }
+    .problem__cards.is-active .pain-card:nth-child(5) { transition-delay: 0.40s; }
+    .problem__cards.is-active .pain-card:nth-child(6) { transition-delay: 0.50s; }
 
-    .tangle {
+    .pain-card__scene {
       width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    /* Peripheral nodes — hidden initially */
-    .tangle__node-rim {
-      fill: none;
-      stroke: var(--navy);
-      stroke-width: 1;
-      opacity: 0;
-    }
-    .tangle__node-dot {
-      fill: var(--navy);
-      opacity: 0;
-    }
-
-    /* EBB centre rect — hidden initially */
-    .tangle__node-ebb {
-      fill: var(--navy);
-      opacity: 0;
-    }
-    .tangle__node-ebb-text {
-      font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 14px;
-      fill: var(--white);
-      letter-spacing: 0.04em;
-      opacity: 0;
-    }
-
-    /* Interconnect lines (tangle state) */
-    .tangle__line-interconnect {
-      fill: none;
-      stroke: var(--navy);
-      stroke-width: 1;
-      stroke-linecap: round;
-      opacity: 0;
-      stroke-dasharray: 400;
-      stroke-dashoffset: 400;
-    }
-
-    /* Hub-spoke lines (resolved state) */
-    .tangle__line-hub {
-      fill: none;
-      stroke: var(--navy);
-      stroke-width: 1.5;
-      stroke-linecap: round;
-      opacity: 0;
-      stroke-dasharray: 200;
-      stroke-dashoffset: 200;
-    }
-
-    /* Caption — appears after the resolve.
-       Uses animation (not transition) for reliability across browsers
-       and an animated pseudo-element underline for visual punctuation. */
-    .problem__caption {
-      font-family: var(--font-display);
-      font-size: clamp(20px, 2.4vw, 26px);
-      font-style: italic;
-      color: var(--navy);
-      text-align: center;
-      opacity: 0;
-      transform: translateY(14px);
-      margin-top: 8px;
-      line-height: 1.5;
-    }
-
-    /* The punchline phrase — bold, with a crimson underline that
-       draws in left-to-right after the caption fades in. */
-    .problem__caption-key {
+      height: 168px;
+      margin-bottom: 22px;
+      background: var(--cream);
+      border-radius: 6px;
+      overflow: hidden;
       position: relative;
-      display: inline-block;
-      font-style: normal;
+    }
+    .pain-card__scene svg { width: 100%; height: 100%; display: block; }
+
+    .pain-card__eyebrow {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 10px;
+    }
+    .pain-card__headline {
+      font-family: var(--font-display);
+      font-size: 18px;
       font-weight: 700;
       color: var(--navy);
-      padding-bottom: 4px;
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+    .pain-card__caption {
+      font-family: var(--font-ui);
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
     }
 
-    .problem__caption-key::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      bottom: 0;
-      width: 100%;
-      height: 3px;
-      background: var(--crimson);
-      transform: scaleX(0);
+    /* Shared scene typography */
+    .scene-label {
+      font-family: var(--font-ui);
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      fill: var(--text-muted);
+    }
+    .scene-text-sm {
+      font-family: var(--font-ui);
+      font-size: 9px;
+      font-weight: 600;
+      fill: var(--navy);
+    }
+    .scene-text-crimson {
+      font-family: var(--font-ui);
+      font-size: 9px;
+      font-weight: 700;
+      fill: var(--crimson);
+    }
+
+    /* ============================================================
+       Scene 1 — TIMEOUTS DURING PEAK
+       Chart line climbs, spikes, then breaks. Red ❌ + "504" tag.
+       ============================================================ */
+    .scene-timeouts .grid-line {
+      stroke: var(--rule); stroke-width: 1;
+    }
+    .scene-timeouts .axis {
+      stroke: var(--navy); stroke-width: 1; opacity: 0.4;
+    }
+    .scene-timeouts .chart-line {
+      fill: none;
+      stroke: var(--navy);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 320;
+      stroke-dashoffset: 320;
+      animation: ttDraw 5s ease-in-out infinite;
+    }
+    .scene-timeouts .break-x {
+      stroke: var(--crimson); stroke-width: 2.5; stroke-linecap: round;
+      opacity: 0;
+      animation: ttBreak 5s ease-out infinite;
+    }
+    .scene-timeouts .badge-504 {
+      opacity: 0;
+      animation: ttBadge 5s ease-out infinite;
+    }
+    @keyframes ttDraw {
+      0%      { stroke-dashoffset: 320; }
+      45%     { stroke-dashoffset: 0;   }
+      85%     { stroke-dashoffset: 0;   }
+      100%    { stroke-dashoffset: 320; }
+    }
+    @keyframes ttBreak {
+      0%, 42% { opacity: 0; }
+      48%     { opacity: 1; }
+      85%     { opacity: 1; }
+      100%    { opacity: 0; }
+    }
+    @keyframes ttBadge {
+      0%, 55% { opacity: 0; transform: translateY(6px); }
+      65%     { opacity: 1; transform: translateY(0); }
+      85%     { opacity: 1; }
+      100%    { opacity: 0; }
+    }
+
+    /* ============================================================
+       Scene 2 — SILENT REVERSALS
+       "✓ Payment confirmed" card sits proudly → fades → replaced
+       by a finance-team alert "Reversal failed — 3 days ago"
+       ============================================================ */
+    .scene-reversals .card-success {
+      animation: srSuccess 6s ease-in-out infinite;
+    }
+    .scene-reversals .card-success-bg {
+      fill: var(--white); stroke: var(--navy); stroke-width: 1.2; opacity: 0.85;
+    }
+    .scene-reversals .tick-ring {
+      fill: none; stroke: #2c8a3e; stroke-width: 2;
+    }
+    .scene-reversals .tick-path {
+      fill: none; stroke: #2c8a3e; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .scene-reversals .card-alert {
+      opacity: 0;
+      animation: srAlert 6s ease-out infinite;
+    }
+    .scene-reversals .card-alert-bg {
+      fill: var(--white); stroke: var(--crimson); stroke-width: 1.5;
+    }
+    .scene-reversals .alert-bang {
+      fill: var(--crimson);
+    }
+    .scene-reversals .alert-bang-text {
+      font-family: var(--font-display); font-size: 14px; font-weight: 700;
+      fill: var(--white);
+    }
+    @keyframes srSuccess {
+      0%, 40% { opacity: 1; }
+      52%     { opacity: 0; }
+      100%    { opacity: 0; }
+    }
+    @keyframes srAlert {
+      0%, 50% { opacity: 0; transform: translateX(12px); }
+      62%     { opacity: 1; transform: translateX(0); }
+      95%     { opacity: 1; }
+      100%    { opacity: 0; }
+    }
+
+    /* ============================================================
+       Scene 3 — AUDIT TAKES A WEEK
+       Regulator query lands → spinner spins forever → calendar
+       highlights M T W T F as days pass without resolution
+       ============================================================ */
+    .scene-audit .query-card-bg {
+      fill: var(--white); stroke: var(--navy); stroke-width: 1.2;
+    }
+    .scene-audit .spinner-ring {
+      fill: none; stroke: var(--rule); stroke-width: 2;
+    }
+    .scene-audit .spinner-arc {
+      fill: none; stroke: var(--crimson); stroke-width: 2; stroke-linecap: round;
+      stroke-dasharray: 18 60;
+      transform-origin: 60px 92px;
+      animation: auSpin 1.4s linear infinite;
+    }
+    .scene-audit .cal-day {
+      font-family: var(--font-ui); font-size: 8px; font-weight: 700;
+      fill: var(--text-faint);
+    }
+    .scene-audit .cal-day-box {
+      fill: none; stroke: var(--rule); stroke-width: 1;
+    }
+    .scene-audit .cal-day-box.active,
+    .scene-audit .cal-day.active { /* targeted by animation */ }
+    .scene-audit [data-day="1"] { animation: auDay 5s linear infinite 0.6s; }
+    .scene-audit [data-day="2"] { animation: auDay 5s linear infinite 1.4s; }
+    .scene-audit [data-day="3"] { animation: auDay 5s linear infinite 2.2s; }
+    .scene-audit [data-day="4"] { animation: auDay 5s linear infinite 3.0s; }
+    .scene-audit [data-day="5"] { animation: auDay 5s linear infinite 3.8s; }
+    @keyframes auSpin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes auDay {
+      0%      { fill: var(--text-faint); stroke: var(--rule); }
+      8%      { fill: var(--crimson);    stroke: var(--crimson); }
+      100%    { fill: var(--crimson);    stroke: var(--crimson); }
+    }
+
+    /* ============================================================
+       Scene 4 — SIX-MONTH CORRIDORS
+       Months Jan→Jun tick by, progress bar slowly fills toward Jun,
+       "STILL BUILDING" tag pulses
+       ============================================================ */
+    .scene-corridor .month {
+      font-family: var(--font-ui); font-size: 9px; font-weight: 700;
+      letter-spacing: 0.06em;
+      fill: var(--text-faint);
+    }
+    .scene-corridor [data-m="1"] { animation: corMonth 6s linear infinite 0.4s; }
+    .scene-corridor [data-m="2"] { animation: corMonth 6s linear infinite 1.0s; }
+    .scene-corridor [data-m="3"] { animation: corMonth 6s linear infinite 1.6s; }
+    .scene-corridor [data-m="4"] { animation: corMonth 6s linear infinite 2.2s; }
+    .scene-corridor [data-m="5"] { animation: corMonth 6s linear infinite 2.8s; }
+    .scene-corridor [data-m="6"] { animation: corMonth 6s linear infinite 3.4s; }
+    .scene-corridor .bar-bg {
+      fill: var(--rule);
+    }
+    .scene-corridor .bar-fill {
+      fill: var(--navy);
       transform-origin: left center;
+      transform: scaleX(0);
+      animation: corBar 6s linear infinite;
+    }
+    .scene-corridor .still-tag {
+      opacity: 0;
+      animation: corTag 6s ease-out infinite;
+    }
+    .scene-corridor .still-tag-bg {
+      fill: var(--crimson); opacity: 0.12;
+    }
+    @keyframes corMonth {
+      0%      { fill: var(--text-faint); }
+      8%      { fill: var(--navy); }
+      100%    { fill: var(--navy); }
+    }
+    @keyframes corBar {
+      0%      { transform: scaleX(0); }
+      85%     { transform: scaleX(0.72); }
+      100%    { transform: scaleX(0.72); }
+    }
+    @keyframes corTag {
+      0%, 60% { opacity: 0; }
+      75%     { opacity: 1; }
+      100%    { opacity: 1; }
     }
 
-    /* ---------- ACTIVE STATE — IntersectionObserver adds .is-active ---------- */
-
-    /* Peripheral nodes appear first, staggered */
-    .problem__viz.is-active .tangle__node-rim,
-    .problem__viz.is-active .tangle__node-dot {
-      animation: tangleNodeAppear 0.4s ease-out forwards;
+    /* ============================================================
+       Scene 5 — MIDNIGHT DEPLOYS
+       Clock advances 11:00pm → 02:00am. Status pill flips green→red.
+       "Rolling back" appears.
+       ============================================================ */
+    .scene-deploy .clock-text {
+      font-family: var(--font-display); font-size: 22px; font-weight: 700;
+      fill: var(--navy); letter-spacing: 0.04em;
     }
-    .problem__viz.is-active [data-i="1"] .tangle__node-rim,
-    .problem__viz.is-active [data-i="1"] .tangle__node-dot { animation-delay: 0.0s; }
-    .problem__viz.is-active [data-i="2"] .tangle__node-rim,
-    .problem__viz.is-active [data-i="2"] .tangle__node-dot { animation-delay: 0.12s; }
-    .problem__viz.is-active [data-i="3"] .tangle__node-rim,
-    .problem__viz.is-active [data-i="3"] .tangle__node-dot { animation-delay: 0.24s; }
-    .problem__viz.is-active [data-i="4"] .tangle__node-rim,
-    .problem__viz.is-active [data-i="4"] .tangle__node-dot { animation-delay: 0.36s; }
-    .problem__viz.is-active [data-i="5"] .tangle__node-rim,
-    .problem__viz.is-active [data-i="5"] .tangle__node-dot { animation-delay: 0.48s; }
-    .problem__viz.is-active [data-i="6"] .tangle__node-rim,
-    .problem__viz.is-active [data-i="6"] .tangle__node-dot { animation-delay: 0.6s; }
-
-    /* Interconnect lines draw in, then fade out */
-    .problem__viz.is-active .tangle__line-interconnect {
-      animation:
-        tangleLineDrawIn  0.9s ease-out 0.8s forwards,
-        tangleLineFadeOut 0.7s ease-in  2.7s forwards;
+    .scene-deploy .clock-t1, .scene-deploy .clock-t2, .scene-deploy .clock-t3 {
+      opacity: 0;
+    }
+    .scene-deploy .clock-t1 { animation: clockOn 5s steps(1, end) infinite 0.0s; }
+    .scene-deploy .clock-t2 { animation: clockOn 5s steps(1, end) infinite 1.3s; }
+    .scene-deploy .clock-t3 { animation: clockOn 5s steps(1, end) infinite 2.6s; }
+    @keyframes clockOn {
+      0%      { opacity: 1; }
+      26%     { opacity: 1; }
+      27%     { opacity: 0; }
+      100%    { opacity: 0; }
     }
 
-    /* EBB centre appears as interconnects start fading */
-    .problem__viz.is-active .tangle__node-ebb,
-    .problem__viz.is-active .tangle__node-ebb-text {
-      animation: tangleNodeAppear 0.5s ease-out 2.9s forwards;
+    .scene-deploy .status-pill {
+      fill: #2c8a3e;
+      animation: dpStatus 5s ease-in-out infinite;
+    }
+    .scene-deploy .status-text {
+      font-family: var(--font-ui); font-size: 8px; font-weight: 700;
+      letter-spacing: 0.18em; fill: var(--white); text-transform: uppercase;
+    }
+    .scene-deploy .status-text-good { animation: dpStatusGood 5s ease-in-out infinite; }
+    .scene-deploy .status-text-bad  { animation: dpStatusBad 5s ease-in-out infinite; opacity: 0; }
+
+    .scene-deploy .rollback {
+      opacity: 0;
+      animation: dpRollback 5s ease-out infinite;
+    }
+    .scene-deploy .rollback-text {
+      font-family: var(--font-ui); font-size: 9px; font-weight: 700;
+      fill: var(--crimson); letter-spacing: 0.08em;
+    }
+    @keyframes dpStatus {
+      0%, 50% { fill: #2c8a3e; }
+      58%     { fill: var(--crimson); }
+      100%    { fill: var(--crimson); }
+    }
+    @keyframes dpStatusGood {
+      0%, 50% { opacity: 1; }
+      55%     { opacity: 0; }
+      100%    { opacity: 0; }
+    }
+    @keyframes dpStatusBad {
+      0%, 50% { opacity: 0; }
+      58%     { opacity: 1; }
+      100%    { opacity: 1; }
+    }
+    @keyframes dpRollback {
+      0%, 65% { opacity: 0; transform: translateY(6px); }
+      72%     { opacity: 1; transform: translateY(0); }
+      100%    { opacity: 1; }
     }
 
-    /* Hub-spoke lines draw in once EBB is present */
-    .problem__viz.is-active .tangle__line-hub {
-      animation: tangleHubDrawIn 0.6s ease-out 3.2s forwards;
+    /* ============================================================
+       Scene 6 — BREACH SURFACE GROWS
+       Central platform node, operators added one by one,
+       each adds a "weak point" (crimson pulse) to surface.
+       Counter increments.
+       ============================================================ */
+    .scene-breach .core {
+      fill: var(--navy);
+    }
+    .scene-breach .core-label {
+      font-family: var(--font-display); font-size: 10px; font-weight: 700;
+      fill: var(--white); letter-spacing: 0.03em;
+    }
+    .scene-breach .op-line {
+      stroke: var(--navy); stroke-width: 1.25; opacity: 0;
+    }
+    .scene-breach .op-node {
+      fill: var(--navy); opacity: 0;
+    }
+    .scene-breach .op-weak {
+      fill: var(--crimson); opacity: 0;
+    }
+    .scene-breach [data-op="1"] { animation: brOp 6s ease-out infinite 0.6s; }
+    .scene-breach [data-op="2"] { animation: brOp 6s ease-out infinite 1.4s; }
+    .scene-breach [data-op="3"] { animation: brOp 6s ease-out infinite 2.2s; }
+    .scene-breach [data-op="4"] { animation: brOp 6s ease-out infinite 3.0s; }
+    .scene-breach .counter {
+      font-family: var(--font-ui); font-size: 9px; font-weight: 700;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      fill: var(--crimson);
+      opacity: 0;
+      animation: brCounter 6s ease-out infinite;
+    }
+    @keyframes brOp {
+      0%      { opacity: 0; }
+      10%     { opacity: 1; }
+      100%    { opacity: 1; }
+    }
+    @keyframes brCounter {
+      0%, 55% { opacity: 0; }
+      70%     { opacity: 1; }
+      100%    { opacity: 1; }
     }
 
-    /* Caption fades in after the resolve, then the crimson underline
-       draws in left-to-right for punctuation */
-    .problem__viz.is-active .problem__caption {
-      animation: captionRise 0.7s ease-out 3.6s forwards;
-    }
-
-    .problem__viz.is-active .problem__caption-key::after {
-      animation: underlineDraw 0.6s ease-out 4.3s forwards;
-    }
-
-    @keyframes captionRise {
-      from {
-        opacity: 0;
-        transform: translateY(14px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes underlineDraw {
-      from { transform: scaleX(0); }
-      to   { transform: scaleX(1); }
-    }
-
-    @keyframes tangleNodeAppear {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes tangleLineDrawIn {
-      from { stroke-dashoffset: 400; opacity: 0; }
-      to   { stroke-dashoffset: 0;   opacity: 0.32; }
-    }
-    @keyframes tangleLineFadeOut {
-      to { opacity: 0; }
-    }
-    @keyframes tangleHubDrawIn {
-      from { stroke-dashoffset: 200; opacity: 0; }
-      to   { stroke-dashoffset: 0;   opacity: 0.7; }
-    }
-
-    /* Mobile tuning — tighter padding + smaller viz */
+    /* Mobile tuning */
     @media (max-width: 600px) {
       .problem {
         padding: 72px 20px 80px;
@@ -703,9 +899,12 @@
       .problem__head {
         gap: 12px;
       }
-      .problem__viz {
-        max-width: 360px;
-        gap: 16px;
+      .pain-card {
+        padding: 20px 20px 24px;
+      }
+      .pain-card__scene {
+        height: 152px;
+        margin-bottom: 18px;
       }
     }
 
@@ -721,31 +920,14 @@
       .network__packet {
         opacity: 0.6;
       }
-      /* Skip the tangle animation entirely — show final hub-spoke state */
-      .problem__viz .tangle__node-rim,
-      .problem__viz .tangle__node-dot,
-      .problem__viz .tangle__node-ebb,
-      .problem__viz .tangle__node-ebb-text {
-        opacity: 1 !important;
+      /* Pain cards: show static end-state of each scene, no loops */
+      .pain-card,
+      .pain-card__scene *,
+      .pain-card__scene * * {
         animation: none !important;
-      }
-      .problem__viz .tangle__line-interconnect {
-        opacity: 0 !important;
-        animation: none !important;
-      }
-      .problem__viz .tangle__line-hub {
-        opacity: 0.7 !important;
-        stroke-dashoffset: 0 !important;
-        animation: none !important;
-      }
-      .problem__viz .problem__caption {
+        transition: none !important;
         opacity: 1 !important;
         transform: none !important;
-        animation: none !important;
-      }
-      .problem__viz .problem__caption-key::after {
-        transform: scaleX(1) !important;
-        animation: none !important;
       }
     }
   </style>
@@ -934,88 +1116,256 @@
 
   <!-- ============================================================
        §2 — THE PROBLEM
-       Tangle → hub-and-spoke transition. The headline visual of the
-       whole site. Auto-plays once when 40% of section is in viewport.
+       Six pain cards — each shows a specific CTO pain in a
+       recognisable scene that loops while visible.
        ============================================================ -->
   <section class="problem" id="problem">
     <div class="problem__container">
 
       <header class="problem__head">
         <span class="problem__eyebrow">The Problem</span>
-        <h2 class="problem__heading">Every integration starts the same way.</h2>
+        <h2 class="problem__heading">Your stack has the same six problems as every other bank's.</h2>
         <p class="problem__lede">
-          One operator. One bespoke protocol. One AML pipeline. One audit trail.
-          Multiply by ten — and your engineering team isn't shipping products
-          anymore.
+          Here's what's keeping your engineering team in maintenance instead of
+          building. If three of these feel uncomfortably familiar, we should talk.
         </p>
       </header>
 
-      <div class="problem__viz" data-tangle aria-hidden="true">
-        <svg class="tangle" viewBox="0 0 500 460" xmlns="http://www.w3.org/2000/svg">
+      <div class="problem__cards" data-reveal>
 
-          <!-- ============ Interconnect lines (tangle state, 15 total) ============
-               Drawn first so they sit behind everything. -->
-          <line class="tangle__line-interconnect" x1="250" y1="60"  x2="397" y2="145" />
-          <line class="tangle__line-interconnect" x1="250" y1="60"  x2="397" y2="315" />
-          <line class="tangle__line-interconnect" x1="250" y1="60"  x2="250" y2="400" />
-          <line class="tangle__line-interconnect" x1="250" y1="60"  x2="103" y2="315" />
-          <line class="tangle__line-interconnect" x1="250" y1="60"  x2="103" y2="145" />
-          <line class="tangle__line-interconnect" x1="397" y1="145" x2="397" y2="315" />
-          <line class="tangle__line-interconnect" x1="397" y1="145" x2="250" y2="400" />
-          <line class="tangle__line-interconnect" x1="397" y1="145" x2="103" y2="315" />
-          <line class="tangle__line-interconnect" x1="397" y1="145" x2="103" y2="145" />
-          <line class="tangle__line-interconnect" x1="397" y1="315" x2="250" y2="400" />
-          <line class="tangle__line-interconnect" x1="397" y1="315" x2="103" y2="315" />
-          <line class="tangle__line-interconnect" x1="397" y1="315" x2="103" y2="145" />
-          <line class="tangle__line-interconnect" x1="250" y1="400" x2="103" y2="315" />
-          <line class="tangle__line-interconnect" x1="250" y1="400" x2="103" y2="145" />
-          <line class="tangle__line-interconnect" x1="103" y1="315" x2="103" y2="145" />
+        <!-- ============ Card 1: Timeouts during peak ============ -->
+        <article class="pain-card">
+          <div class="pain-card__scene">
+            <svg class="scene-timeouts" viewBox="0 0 280 168" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- grid + axes -->
+              <line class="grid-line" x1="40" y1="40"  x2="260" y2="40" />
+              <line class="grid-line" x1="40" y1="80"  x2="260" y2="80" />
+              <line class="grid-line" x1="40" y1="120" x2="260" y2="120" />
+              <line class="axis" x1="40" y1="20" x2="40" y2="140" />
+              <line class="axis" x1="40" y1="140" x2="260" y2="140" />
+              <text class="scene-label" x="40" y="14">TX / SEC</text>
 
-          <!-- ============ Hub-spoke lines (resolved state, 6 total) ============
-               Each peripheral node connects to the centre EBB node. -->
-          <line class="tangle__line-hub" x1="250" y1="60"  x2="250" y2="230" />
-          <line class="tangle__line-hub" x1="397" y1="145" x2="250" y2="230" />
-          <line class="tangle__line-hub" x1="397" y1="315" x2="250" y2="230" />
-          <line class="tangle__line-hub" x1="250" y1="400" x2="250" y2="230" />
-          <line class="tangle__line-hub" x1="103" y1="315" x2="250" y2="230" />
-          <line class="tangle__line-hub" x1="103" y1="145" x2="250" y2="230" />
+              <!-- chart line: climbs, spikes, breaks -->
+              <path class="chart-line" d="M 40 130 L 70 120 L 100 105 L 130 92 L 160 75 L 190 50 L 200 30 L 210 138" />
 
-          <!-- ============ Peripheral nodes (6, hexagon arrangement) ============
-               data-i drives the stagger order in CSS. -->
-          <g data-i="1">
-            <circle class="tangle__node-rim" cx="250" cy="60"  r="16" />
-            <circle class="tangle__node-dot" cx="250" cy="60"  r="10" />
-          </g>
-          <g data-i="2">
-            <circle class="tangle__node-rim" cx="397" cy="145" r="16" />
-            <circle class="tangle__node-dot" cx="397" cy="145" r="10" />
-          </g>
-          <g data-i="3">
-            <circle class="tangle__node-rim" cx="397" cy="315" r="16" />
-            <circle class="tangle__node-dot" cx="397" cy="315" r="10" />
-          </g>
-          <g data-i="4">
-            <circle class="tangle__node-rim" cx="250" cy="400" r="16" />
-            <circle class="tangle__node-dot" cx="250" cy="400" r="10" />
-          </g>
-          <g data-i="5">
-            <circle class="tangle__node-rim" cx="103" cy="315" r="16" />
-            <circle class="tangle__node-dot" cx="103" cy="315" r="10" />
-          </g>
-          <g data-i="6">
-            <circle class="tangle__node-rim" cx="103" cy="145" r="16" />
-            <circle class="tangle__node-dot" cx="103" cy="145" r="10" />
-          </g>
+              <!-- red X at the break -->
+              <g class="break-x">
+                <line x1="200" y1="124" x2="220" y2="144" />
+                <line x1="220" y1="124" x2="200" y2="144" />
+              </g>
 
-          <!-- ============ EBB centre node (appears during resolve) ============ -->
-          <rect class="tangle__node-ebb" x="218" y="198" width="64" height="64" rx="6" />
-          <text class="tangle__node-ebb-text" x="250" y="236" text-anchor="middle">EBB</text>
+              <!-- 504 badge -->
+              <g class="badge-504">
+                <rect x="222" y="40" width="42" height="22" rx="3"
+                      fill="var(--crimson)" />
+                <text x="243" y="55" text-anchor="middle"
+                      font-family="var(--font-ui)" font-size="10"
+                      font-weight="700" fill="var(--white)"
+                      letter-spacing="0.1em">504</text>
+              </g>
+            </svg>
+          </div>
+          <div class="pain-card__eyebrow">Timeouts at peak</div>
+          <h3 class="pain-card__headline">Your customers know it's down before your dashboards do.</h3>
+          <p class="pain-card__caption">
+            Twitter sees the outage first. Your monitoring catches up seven minutes later.
+          </p>
+        </article>
 
-        </svg>
+        <!-- ============ Card 2: Silent reversals ============ -->
+        <article class="pain-card">
+          <div class="pain-card__scene">
+            <svg class="scene-reversals" viewBox="0 0 280 168" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- success card (early state) -->
+              <g class="card-success">
+                <rect class="card-success-bg" x="56" y="40" width="168" height="88" rx="6" />
+                <circle class="tick-ring" cx="100" cy="84" r="18" />
+                <path class="tick-path" d="M 92 84 L 99 92 L 110 78" />
+                <text class="scene-text-sm" x="126" y="80">Payment confirmed</text>
+                <text x="126" y="94" font-family="var(--font-ui)" font-size="8"
+                      fill="var(--text-muted)">KES 480,000 · M-PESA</text>
+              </g>
 
-        <p class="problem__caption">
-          From every-to-every to <span class="problem__caption-key">one-to-everything</span>.
-        </p>
+              <!-- alert card (later state) -->
+              <g class="card-alert">
+                <rect class="card-alert-bg" x="40" y="32" width="200" height="104" rx="6" />
+                <rect class="alert-bang" x="56" y="48" width="32" height="32" rx="16" />
+                <text class="alert-bang-text" x="72" y="71" text-anchor="middle">!</text>
+                <text class="scene-text-crimson" x="98" y="60">FINANCE · 3 DAYS LATER</text>
+                <text class="scene-text-sm" x="98" y="78">Reversal failed silently</text>
+                <text x="98" y="92" font-family="var(--font-ui)" font-size="8"
+                      fill="var(--text-muted)">Found during reconciliation</text>
+                <text x="98" y="116" font-family="var(--font-ui)" font-size="11"
+                      font-weight="700" fill="var(--crimson)">−KES 480,000</text>
+              </g>
+            </svg>
+          </div>
+          <div class="pain-card__eyebrow">Silent reversals</div>
+          <h3 class="pain-card__headline">Your customer thinks it succeeded. Finance finds the gap on Friday.</h3>
+          <p class="pain-card__caption">
+            A reversal fails. No alert fires. Three days of revenue, gone unbooked.
+          </p>
+        </article>
+
+        <!-- ============ Card 3: Audit takes a week ============ -->
+        <article class="pain-card">
+          <div class="pain-card__scene">
+            <svg class="scene-audit" viewBox="0 0 280 168" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- query card -->
+              <rect class="query-card-bg" x="36" y="22" width="208" height="44" rx="4" />
+              <text class="scene-text-crimson" x="48" y="38">REGULATOR · URGENT</text>
+              <text class="scene-text-sm" x="48" y="54">"Show Q3 reversals by reason code."</text>
+
+              <!-- spinner -->
+              <g>
+                <circle class="spinner-ring" cx="60" cy="120" r="22" />
+                <circle class="spinner-arc"  cx="60" cy="120" r="22" />
+                <text class="scene-label" x="60" y="156" text-anchor="middle">QUERY 1 OF 5</text>
+              </g>
+
+              <!-- calendar week -->
+              <g transform="translate(120, 92)">
+                <text class="scene-label" x="0" y="0">DAY</text>
+                <g>
+                  <rect class="cal-day-box" data-day="1" x="0"   y="10" width="22" height="22" rx="2" />
+                  <text class="cal-day"     data-day="1" x="11"  y="25" text-anchor="middle">M</text>
+                </g>
+                <g>
+                  <rect class="cal-day-box" data-day="2" x="26"  y="10" width="22" height="22" rx="2" />
+                  <text class="cal-day"     data-day="2" x="37"  y="25" text-anchor="middle">T</text>
+                </g>
+                <g>
+                  <rect class="cal-day-box" data-day="3" x="52"  y="10" width="22" height="22" rx="2" />
+                  <text class="cal-day"     data-day="3" x="63"  y="25" text-anchor="middle">W</text>
+                </g>
+                <g>
+                  <rect class="cal-day-box" data-day="4" x="78"  y="10" width="22" height="22" rx="2" />
+                  <text class="cal-day"     data-day="4" x="89"  y="25" text-anchor="middle">T</text>
+                </g>
+                <g>
+                  <rect class="cal-day-box" data-day="5" x="104" y="10" width="22" height="22" rx="2" />
+                  <text class="cal-day"     data-day="5" x="115" y="25" text-anchor="middle">F</text>
+                </g>
+                <text class="scene-label" x="63" y="50" text-anchor="middle" fill="var(--text-muted)">STILL DIGGING</text>
+              </g>
+            </svg>
+          </div>
+          <div class="pain-card__eyebrow">Audit takes a week</div>
+          <h3 class="pain-card__headline">"Show me Q3 reversals by reason code."</h3>
+          <p class="pain-card__caption">
+            One engineer. Five dashboards. Three days of SQL. Every quarter.
+          </p>
+        </article>
+
+        <!-- ============ Card 4: Six-month corridors ============ -->
+        <article class="pain-card">
+          <div class="pain-card__scene">
+            <svg class="scene-corridor" viewBox="0 0 280 168" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <text class="scene-label" x="24" y="32">NEW CORRIDOR · MONTHS ELAPSED</text>
+
+              <!-- month markers -->
+              <text class="month" data-m="1" x="35"  y="64">JAN</text>
+              <text class="month" data-m="2" x="80"  y="64">FEB</text>
+              <text class="month" data-m="3" x="125" y="64">MAR</text>
+              <text class="month" data-m="4" x="170" y="64">APR</text>
+              <text class="month" data-m="5" x="215" y="64">MAY</text>
+              <text class="month" data-m="6" x="248" y="64">JUN</text>
+
+              <!-- progress bar -->
+              <rect class="bar-bg"   x="24" y="80" width="232" height="10" rx="5" />
+              <rect class="bar-fill" x="24" y="80" width="232" height="10" rx="5" />
+
+              <!-- still building tag -->
+              <g class="still-tag" transform="translate(24, 110)">
+                <rect class="still-tag-bg" x="0" y="0" width="160" height="28" rx="4" />
+                <text x="80" y="18" text-anchor="middle"
+                      font-family="var(--font-ui)" font-size="10"
+                      font-weight="700" fill="var(--crimson)"
+                      letter-spacing="0.12em">STILL BUILDING · MONTH 6</text>
+              </g>
+
+              <text class="scene-label" x="24" y="158" fill="var(--text-muted)">EVERY OPERATOR. EVERY TIME.</text>
+            </svg>
+          </div>
+          <div class="pain-card__eyebrow">Six-month corridors</div>
+          <h3 class="pain-card__headline">A new operator is a six-month project — every time.</h3>
+          <p class="pain-card__caption">
+            One CBS adapter. One protocol. One AML pipeline. One audit trail. Built from scratch.
+          </p>
+        </article>
+
+        <!-- ============ Card 5: Midnight deploys ============ -->
+        <article class="pain-card">
+          <div class="pain-card__scene">
+            <svg class="scene-deploy" viewBox="0 0 280 168" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- clock display (three stacked times) -->
+              <g transform="translate(140, 60)">
+                <text class="clock-text clock-t1" text-anchor="middle">11:00 PM</text>
+                <text class="clock-text clock-t2" text-anchor="middle">12:30 AM</text>
+                <text class="clock-text clock-t3" text-anchor="middle">02:00 AM</text>
+              </g>
+
+              <!-- status pill -->
+              <g transform="translate(78, 88)">
+                <rect class="status-pill" x="0" y="0" width="124" height="22" rx="11" />
+                <text class="status-text status-text-good" x="62" y="15" text-anchor="middle">PRODUCTION OK</text>
+                <text class="status-text status-text-bad"  x="62" y="15" text-anchor="middle">PRODUCTION DOWN</text>
+              </g>
+
+              <!-- rolling back notice -->
+              <g class="rollback" transform="translate(140, 140)">
+                <text class="rollback-text" text-anchor="middle">⟲ ROLLING BACK · ON-CALL PAGED</text>
+              </g>
+            </svg>
+          </div>
+          <div class="pain-card__eyebrow">Midnight deploys</div>
+          <h3 class="pain-card__headline">Deploy at 11pm. Rollback at 2am. Repeat next sprint.</h3>
+          <p class="pain-card__caption">
+            Every release is a coin flip because there's no safe rollout path.
+          </p>
+        </article>
+
+        <!-- ============ Card 6: Breach surface grows ============ -->
+        <article class="pain-card">
+          <div class="pain-card__scene">
+            <svg class="scene-breach" viewBox="0 0 280 168" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <!-- core "your platform" -->
+              <rect class="core" x="118" y="62" width="44" height="44" rx="5" />
+              <text class="core-label" x="140" y="88" text-anchor="middle">YOUR</text>
+
+              <!-- 4 operators with vulnerability indicators -->
+              <g data-op="1">
+                <line class="op-line" x1="118" y1="74"  x2="60"  y2="40" />
+                <circle class="op-node" cx="56"  cy="38"  r="7" />
+                <circle class="op-weak" cx="80"  cy="58"  r="4" />
+              </g>
+              <g data-op="2">
+                <line class="op-line" x1="162" y1="74"  x2="224" y2="40" />
+                <circle class="op-node" cx="226" cy="38"  r="7" />
+                <circle class="op-weak" cx="200" cy="58"  r="4" />
+              </g>
+              <g data-op="3">
+                <line class="op-line" x1="118" y1="94"  x2="60"  y2="128" />
+                <circle class="op-node" cx="56"  cy="130" r="7" />
+                <circle class="op-weak" cx="80"  cy="110" r="4" />
+              </g>
+              <g data-op="4">
+                <line class="op-line" x1="162" y1="94"  x2="224" y2="128" />
+                <circle class="op-node" cx="226" cy="130" r="7" />
+                <circle class="op-weak" cx="200" cy="110" r="4" />
+              </g>
+
+              <!-- counter -->
+              <text class="counter" x="140" y="158" text-anchor="middle">4 NEW WEAK POINTS · AND COUNTING</text>
+            </svg>
+          </div>
+          <div class="pain-card__eyebrow">Breach surface grows</div>
+          <h3 class="pain-card__headline">Every new integration is a new attack surface.</h3>
+          <p class="pain-card__caption">
+            Ten operators = ten places encryption can be wrong. The audit gets longer every year.
+          </p>
+        </article>
+
       </div>
 
     </div>
@@ -1031,7 +1381,7 @@
 
       // Single shared IntersectionObserver for any section that should
       // play an entry animation. Add data-reveal to opt in.
-      const targets = document.querySelectorAll('[data-tangle]');
+      const targets = document.querySelectorAll('[data-reveal]');
       if (!('IntersectionObserver' in window) || targets.length === 0) {
         // No-IO fallback: just reveal everything immediately
         targets.forEach(t => t.classList.add('is-active'));
