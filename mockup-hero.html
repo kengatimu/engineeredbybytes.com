@@ -957,35 +957,43 @@
     .drawer__close:hover { background: var(--navy); border-color: var(--navy); color: var(--cream-warm); }
     .drawer__close svg { width: 12px; height: 12px; }
     .drawer__body {
-      padding: 14px 26px;
+      padding: 16px 26px;
       overflow-y: auto;
       flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      /* 2x2 grid of the four clusters. Eliminates the bottom dead-space
+         that came from stacking 4 short clusters vertically in a tall
+         drawer body. Each cluster takes a quadrant; descriptions wrap
+         naturally to fill its taller cell. */
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 18px 24px;
+      align-content: start;
     }
 
-    /* Compact cluster — italic numeral + uppercase title + pattern count
-       on the left, dense tag+serif list on the right. Tightened spacing
-       throughout so the full drawer body fits one viewport without scroll. */
+    /* Cluster — header row on top (numeral + title + count inline),
+       pattern list below. Stacks vertically so the narrower 2-col
+       width still reads cleanly. */
     .drawer__cluster {
-      display: grid;
-      grid-template-columns: 168px 1fr;
-      gap: 24px;
-      padding: 8px 0 4px;
-      border-top: 1px solid var(--rule);
-    }
-    .drawer__cluster:first-child { border-top: 0; padding-top: 0; }
-    .drawer__cluster-head {
       display: flex;
       flex-direction: column;
-      gap: 3px;
-      padding-top: 1px;
+      gap: 8px;
+      padding: 10px 0 0;
+      border-top: 1px solid var(--rule);
+    }
+    .drawer__cluster:first-child,
+    .drawer__cluster:nth-child(2) { border-top: 0; padding-top: 0; }
+    .drawer__cluster-head {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      gap: 10px;
+      padding-top: 0;
     }
     .drawer__cluster-num {
       font-family: var(--font-display);
       font-style: italic;
-      font-size: 16px;
+      font-size: 15px;
       color: var(--crimson);
       line-height: 1;
     }
@@ -1003,7 +1011,8 @@
       font-size: 9px;
       color: var(--text-faint);
       letter-spacing: 0.06em;
-      margin-top: 1px;
+      margin-top: 0;
+      margin-left: auto;
     }
     .drawer__list {
       list-style: none;
