@@ -713,9 +713,11 @@
       margin: 0 6px;
       color: rgba(13, 34, 64, 0.42);
     }
+    /* Closing summary — same em-dash format and color as the rest of the
+       list (no longer feels orphaned), but with extra top margin so it
+       reads as the closing beat of the list. */
     .problem__pains-summary {
       margin-top: 18px;
-      color: rgba(13, 34, 64, 0.62);
     }
     @media (max-width: 760px) {
       .problem__pains { gap: 8px; font-size: 14.5px; }
@@ -820,14 +822,17 @@
       100% { background: transparent; box-shadow: -10px 0 0 0 transparent; }
     }
 
+    /* Small editorial caption — serif italic, set apart from the body
+       sans prose above so it reads as a sidebar / 'editor's note'. */
     .problem__footnote {
-      padding-top: 6px;
+      padding-top: 4px;
       margin: 0;
-      font-family: var(--font-ui);
-      font-size: 13.5px;
-      color: var(--text-muted);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 13px;
+      color: rgba(13, 34, 64, 0.55);
       max-width: 720px;
-      line-height: 1.5;
+      line-height: 1.55;
     }
     .problem__see-list {
       font-family: inherit;
@@ -1447,7 +1452,7 @@
         <li><button type="button" class="pain" data-pain="deploy.midnight">Deploys</button> <span class="problem__pains-em">—</span> at midnight because daytime is too risky.</li>
         <li><button type="button" class="pain" data-pain="security.surface">A security surface</button> <span class="problem__pains-em">—</span> that grows with every operator you add.</li>
         <li><button type="button" class="pain" data-pain="compliance.bolton">Compliance</button> <span class="problem__pains-em">—</span> bolted on after every new market.</li>
-        <li class="problem__pains-summary">And the <button type="button" class="pain" data-pain="cost.invisible">invisible cost</button> of engineering headcount building infrastructure no buyer will ever see — instead of products that win business.</li>
+        <li class="problem__pains-summary"><button type="button" class="pain" data-pain="cost.invisible">The invisible cost</button> <span class="problem__pains-em">—</span> engineering headcount building infrastructure no buyer will ever see, instead of products that win business.</li>
       </ul>
 
       <!-- 'See the list' — sits after the prose summary because the link
