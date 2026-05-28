@@ -94,6 +94,16 @@
          centred). Negative margin compensates so the mark sits flush with
          the nav baseline instead of looking floated. */
       margin: -28px -22px;
+      /* Start hidden — the centered hero logo IS the identity in §1.
+         A small JS scroll handler reveals this when the user scrolls past
+         the hero (handled in the script block at the bottom of the page). */
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s var(--ease);
+    }
+    .nav__brand.is-revealed {
+      opacity: 1;
+      pointer-events: auto;
     }
     .nav__brand img {
       height: 110px;
@@ -152,11 +162,16 @@
       gap: 0;
     }
     .hero__markmast {
-      margin: 16px 0 40px;
+      /* The logo PNG has heavy whitespace baked into its 2400x1200 canvas.
+         Negative margins crop the visible whitespace so the mark sits tight
+         against the surrounding layout — same trick as the nav__brand. */
+      margin: -40px 0 0;
+      padding: 0;
       line-height: 0;
+      mix-blend-mode: multiply; /* drops the white PNG background on cream */
     }
     .hero__markmast img {
-      height: 200px;
+      height: 280px;
       width: auto;
       display: block;
     }
@@ -483,14 +498,17 @@
         padding: 120px 56px 64px;
       }
 
-      .hero__container {
+      /* Legacy two-column hero layout — scoped OUT of the new centered
+         editorial hero (.hero--brand-first) so it doesn't fight with the
+         column flex above. Kept for any future variant that wants split. */
+      .hero:not(.hero--brand-first) .hero__container {
         flex-direction: row;
         align-items: center;
         text-align: left;
         gap: 64px;
       }
 
-      .hero__text {
+      .hero:not(.hero--brand-first) .hero__text {
         flex: 1 1 50%;
         display: flex;
         flex-direction: column;
@@ -498,7 +516,7 @@
         align-items: flex-start;
       }
 
-      .hero__viz {
+      .hero:not(.hero--brand-first) .hero__viz {
         flex: 1 1 50%;
         max-width: none;
         margin: 0;
@@ -1706,6 +1724,24 @@
       document.querySelectorAll('[data-pain]').forEach(el => {
         el.addEventListener('click', () => open(el.dataset.pain));
       });
+    })();
+
+    /* ────────────────────────────────────────────────────────────
+       Nav-logo reveal — hidden while in §1 (centered hero logo IS
+       the identity), faded in once the user scrolls past the hero.
+       ──────────────────────────────────────────────────────────── */
+    (function () {
+      const brand = document.querySelector('.nav__brand');
+      const hero  = document.querySelector('.hero');
+      if (!brand || !hero) return;
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          // When hero is no longer intersecting (mostly off-screen), show nav logo
+          if (e.intersectionRatio < 0.4) brand.classList.add('is-revealed');
+          else brand.classList.remove('is-revealed');
+        });
+      }, { threshold: [0, 0.4, 1] });
+      io.observe(hero);
     })();
   </script>
 
