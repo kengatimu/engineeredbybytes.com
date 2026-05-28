@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>§2 Problem — Fix variations</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy:        #0D2240;
+      --navy-soft:   #1C3158;
+      --cream:       #F8F6F1;
+      --cream-warm:  #F2EFE8;
+      --crimson:     #8B1A1A;
+      --crimson-soft: rgba(139, 26, 26, 0.10);
+      --white:       #FFFFFF;
+      --text-body:   #333333;
+      --text-muted:  #666666;
+      --text-faint:  #999999;
+      --rule:        rgba(13, 34, 64, 0.10);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui:      'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono:    'JetBrains Mono', SFMono-Regular, Menlo, monospace;
+      --ease:  cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-ui);
+      color: var(--text-body);
+      background: var(--cream);
+      line-height: 1.6;
+    }
+
+    /* Page-level scaffolding */
+    .page-header {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 64px 32px 32px;
+      text-align: center;
+    }
+    .page-header h1 {
+      font-family: var(--font-display);
+      font-size: 36px;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+    .page-header p {
+      font-size: 16px;
+      color: var(--text-muted);
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .page-header em {
+      font-style: normal;
+      color: var(--crimson);
+      font-weight: 600;
+    }
+
+    .fix {
+      max-width: 1200px;
+      margin: 0 auto 56px;
+      padding: 0 24px;
+    }
+    .fix-label {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--navy);
+    }
+    .fix-letter {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      background: var(--navy);
+      color: var(--cream);
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      line-height: 1;
+      text-align: center;
+    }
+    .fix-letter--recommended {
+      background: var(--crimson);
+    }
+    .fix-label h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .fix-label p {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 720px;
+    }
+    .fix-stage {
+      background: var(--cream-warm);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 56px 40px;
+    }
+    .fix-meta {
+      font-size: 12px;
+      color: var(--text-faint);
+      padding: 12px 8px 0;
+      font-family: var(--font-mono);
+      letter-spacing: 0.04em;
+    }
+    .fix-meta strong { color: var(--navy); font-weight: 600; }
+
+
+    /* ==========================================================
+       SHARED — section header used inside fix stages
+       ========================================================== */
+    .ph {
+      max-width: 720px;
+      margin: 0 auto 40px;
+      text-align: center;
+    }
+    .ph-eyebrow {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 14px;
+    }
+    .ph-h {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.005em;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .ph-lede {
+      font-family: var(--font-ui);
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Closing line (shared) */
+    .pc {
+      margin-top: 44px;
+      text-align: center;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .pc-line {
+      font-family: var(--font-display);
+      font-style: italic;
+      color: var(--navy);
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+    .pc-line strong {
+      font-style: normal;
+      font-weight: 700;
+      color: var(--crimson);
+    }
+    .pc-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-ui);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+      padding: 12px 24px;
+      background: var(--crimson);
+      color: var(--white);
+      border-radius: 3px;
+      text-decoration: none;
+    }
+
+
+    /* ==========================================================
+       BASELINE — current 10-item flat list (full-size, spacious)
+       ========================================================== */
+    .baseline .ph { max-width: 640px; }
+    .baseline .ph-h { font-size: clamp(28px, 4vw, 38px); }
+    .baseline .ph-lede { font-size: 16px; }
+    .baseline .pc-line { font-size: 20px; }
+
+    .baseline-list {
+      list-style: none;
+      max-width: 780px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+    .baseline-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-left: 18px;
+      border-left: 2px solid var(--rule);
+    }
+    .baseline-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--crimson);
+    }
+    .baseline-desc {
+      font-family: var(--font-display);
+      font-size: 17px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+
+    /* ==========================================================
+       FIX A — Themed clusters
+       4 sub-section headers, items grouped underneath
+       ========================================================== */
+    .fa .ph { max-width: 640px; }
+    .fa .ph-h { font-size: clamp(28px, 4vw, 38px); }
+    .fa .ph-lede { font-size: 16px; }
+    .fa .pc-line { font-size: 20px; }
+
+    .fa-clusters {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+    .fa-cluster {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .fa-cluster-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .fa-cluster-num {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 22px;
+      color: var(--crimson);
+      flex-shrink: 0;
+      line-height: 1;
+    }
+    .fa-cluster-title {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--navy);
+      flex: 1;
+    }
+    .fa-cluster-count {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-faint);
+      letter-spacing: 0.06em;
+    }
+    .fa-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding-left: 32px;
+    }
+    .fa-item {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .fa-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--crimson);
+    }
+    .fa-desc {
+      font-family: var(--font-display);
+      font-size: 16px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+
+    /* ==========================================================
+       FIX B — Two-column desktop layout
+       ========================================================== */
+    .fb .ph { max-width: 640px; }
+    .fb .ph-h { font-size: clamp(28px, 4vw, 38px); }
+    .fb .ph-lede { font-size: 16px; }
+    .fb .pc-line { font-size: 20px; }
+
+    .fb-list {
+      list-style: none;
+      max-width: 1080px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px 36px;
+    }
+    @media (min-width: 900px) {
+      .fb-list {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .fb-item {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      padding-left: 16px;
+      border-left: 2px solid var(--rule);
+    }
+    .fb-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--crimson);
+    }
+    .fb-desc {
+      font-family: var(--font-display);
+      font-size: 15px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+
+    /* ==========================================================
+       FIX C — Compressed typography
+       Same 10 items, much denser
+       ========================================================== */
+    .fc .ph { max-width: 640px; margin-bottom: 32px; }
+    .fc .ph-h { font-size: clamp(26px, 3.6vw, 32px); margin-bottom: 10px; }
+    .fc .ph-lede { font-size: 15px; }
+    .fc .pc-line { font-size: 18px; }
+
+    .fc-list {
+      list-style: none;
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .fc-item {
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: 16px;
+      align-items: baseline;
+    }
+    .fc-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--crimson);
+    }
+    .fc-desc {
+      font-family: var(--font-display);
+      font-size: 14.5px;
+      color: var(--navy);
+      line-height: 1.4;
+    }
+    @media (max-width: 600px) {
+      .fc-item { grid-template-columns: 1fr; gap: 2px; }
+    }
+
+
+    /* ==========================================================
+       FIX D — Reduced to 6 strongest pains
+       Bigger type, more breathing room per item
+       ========================================================== */
+    .fd .ph { max-width: 640px; }
+    .fd .ph-h { font-size: clamp(28px, 4vw, 38px); }
+    .fd .ph-lede { font-size: 16px; }
+    .fd .pc-line { font-size: 20px; }
+
+    .fd-list {
+      list-style: none;
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .fd-item {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-left: 20px;
+      border-left: 2px solid var(--rule);
+    }
+    .fd-tag {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--crimson);
+    }
+    .fd-desc {
+      font-family: var(--font-display);
+      font-size: 19px;
+      color: var(--navy);
+      line-height: 1.5;
+    }
+
+
+    /* ==========================================================
+       FIX A+C — RECOMMENDED: clusters + compressed typography
+       ========================================================== */
+    .fac .ph { max-width: 640px; margin-bottom: 32px; }
+    .fac .ph-h { font-size: clamp(26px, 3.6vw, 32px); margin-bottom: 10px; }
+    .fac .ph-lede { font-size: 15px; }
+    .fac .pc-line { font-size: 18px; }
+
+    .fac-clusters {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .fac-cluster {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 28px;
+      align-items: start;
+      padding: 14px 0;
+      border-top: 1px solid var(--rule);
+    }
+    .fac-cluster:first-child { border-top: none; padding-top: 0; }
+    .fac-cluster-head {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-top: 4px;
+    }
+    .fac-cluster-num {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 22px;
+      color: var(--crimson);
+      line-height: 1;
+    }
+    .fac-cluster-title {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--navy);
+      line-height: 1.35;
+    }
+    .fac-cluster-count {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-faint);
+      letter-spacing: 0.06em;
+    }
+    .fac-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .fac-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .fac-tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--crimson);
+    }
+    .fac-desc {
+      font-family: var(--font-display);
+      font-size: 14.5px;
+      color: var(--navy);
+      line-height: 1.45;
+    }
+    @media (max-width: 720px) {
+      .fac-cluster {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+      .fac-cluster-head {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 12px;
+      }
+    }
+
+
+    /* Footer note */
+    .deciding {
+      max-width: 720px;
+      margin: 80px auto 64px;
+      padding: 32px;
+      background: var(--navy);
+      color: white;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .deciding h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+    .deciding p {
+      color: rgba(255,255,255,0.78);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="page-header">
+    <h1>§2 Problem — five fixes + baseline</h1>
+    <p>All variations show the <em>same ten pains</em> from the taxonomy. Compare them apples-to-apples and tell me which one (or hybrid) goes into the live mockup.</p>
+  </header>
+
+
+  <!-- ============================================================
+       BASELINE — current state for reference
+       ============================================================ -->
+  <section class="fix" id="baseline">
+    <div class="fix-label">
+      <span class="fix-letter">📋</span>
+      <div>
+        <h3>Baseline — what's currently live</h3>
+        <p>The current §2 of <code>mockup-hero.html</code>. Flat list, 10 items, generous spacing. Reference point for comparison.</p>
+      </div>
+    </div>
+    <div class="fix-stage baseline">
+
+      <header class="ph">
+        <div class="ph-eyebrow">The Problem</div>
+        <h2 class="ph-h">Every payments shop has the same ten problems.</h2>
+        <p class="ph-lede">
+          Yours included. These are the patterns we hear in every conversation
+          with bank and fintech CTOs — across timeouts, reversals, audits,
+          security, compliance, and the engineering cost of holding it all
+          together.
+        </p>
+      </header>
+
+      <ul class="baseline-list">
+        <li class="baseline-item">
+          <span class="baseline-tag">timeout.outage</span>
+          <span class="baseline-desc">Your customers see the outage before your dashboards do. Twitter is faster than monitoring.</span>
+        </li>
+        <li class="baseline-item">
+          <span class="baseline-tag">reversal.silent</span>
+          <span class="baseline-desc">A reversal fails silently. No alert fires. Finance discovers the gap three days later during reconciliation.</span>
+        </li>
+        <li class="baseline-item">
+          <span class="baseline-tag">recon.manual</span>
+          <span class="baseline-desc">Month-end reconciliation lives in spreadsheets. Four thousand rows. Manual matching. Weekend war rooms.</span>
+        </li>
+        <li class="baseline-item">
+          <span class="baseline-tag">audit.weeklong</span>
+          <span class="baseline-desc">"Show me Q3 reversals by reason code." One engineer. Five dashboards. Five days. Every quarter.</span>
+        </li>
+        <li class="baseline-item">
+          <span class="baseline-tag">deploy.midnight</span>
+          <span class="baseline-desc">Releases at 11pm because daytime is too risky. Rollbacks at 2am. On-call paged. Engineering trust erodes.</span>
+        </li>
+        <li class="baseline-item">
+          <span class="baseline-tag">corridor.6mo</span>
+          <span class="baseline-desc">Every new operator is a six-month integration project. New protocol, new AML pipeline, new audit trail — built from scratch.</span>
+        </li>
+        <li class="baseline-item">
+          <span class="baseline-tag">customer.complaints</span>
+          <span class="baseline-desc">A missing transaction. Five systems to query. Two days to give the customer an answer — by then they're gone.</span>
+        </li>
+        <li class="baseline-item">
+          <span class="baseline-tag">security.surface</span>
+          <span class="baseline-desc">Every new integration is a new attack vector. Ten operators equals ten places encryption can be wrong.</span>
+        </li>
+        <li class="baseline-item">
+          <span class="baseline-tag">compliance.bolton</span>
+          <span class="baseline-desc">AML, KYC, and sanctions screening retro-fitted after every new corridor goes live.</span>
+        </li>
+        <li class="baseline-item">
+          <span class="baseline-tag">cost.invisible</span>
+          <span class="baseline-desc">Eighty percent of your engineering team keeps payments alive. Twenty percent ships the products that actually win business.</span>
+        </li>
+      </ul>
+
+      <div class="pc">
+        <p class="pc-line">If <strong>three of these</strong> feel uncomfortably familiar, we should talk.</p>
+        <a href="#" class="pc-cta">Talk to engineering →</a>
+      </div>
+
+    </div>
+    <p class="fix-meta">Section height: <strong>~2.1 viewports</strong> on a 13" laptop · Read time: <strong>~75s</strong> · Coverage: <strong>10 pains, 5 themes</strong></p>
+  </section>
+
+
+  <!-- ============================================================
+       FIX A — Themed clusters
+       ============================================================ -->
+  <section class="fix" id="fix-a">
+    <div class="fix-label">
+      <span class="fix-letter">A</span>
+      <div>
+        <h3>Fix A — Themed clusters</h3>
+        <p>Same 10 items, but grouped into 4 themed sub-sections with their own headers. Eye gets natural rest points; the scan becomes "4 themes" instead of "10 items in a wall."</p>
+      </div>
+    </div>
+    <div class="fix-stage fa">
+
+      <header class="ph">
+        <div class="ph-eyebrow">The Problem</div>
+        <h2 class="ph-h">Every payments shop has the same ten problems.</h2>
+        <p class="ph-lede">Yours included. Grouped by where they live in your stack.</p>
+      </header>
+
+      <div class="fa-clusters">
+
+        <div class="fa-cluster">
+          <div class="fa-cluster-head">
+            <span class="fa-cluster-num"><em>01</em></span>
+            <span class="fa-cluster-title">Transaction Integrity</span>
+            <span class="fa-cluster-count">3 patterns</span>
+          </div>
+          <ul class="fa-list">
+            <li class="fa-item">
+              <span class="fa-tag">timeout.outage</span>
+              <span class="fa-desc">Your customers see the outage before your dashboards do.</span>
+            </li>
+            <li class="fa-item">
+              <span class="fa-tag">reversal.silent</span>
+              <span class="fa-desc">A reversal fails silently. Finance discovers the gap three days later.</span>
+            </li>
+            <li class="fa-item">
+              <span class="fa-tag">recon.manual</span>
+              <span class="fa-desc">Month-end in spreadsheets. Four thousand rows. Manual matching. Weekend war rooms.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="fa-cluster">
+          <div class="fa-cluster-head">
+            <span class="fa-cluster-num"><em>02</em></span>
+            <span class="fa-cluster-title">Operational Reliability</span>
+            <span class="fa-cluster-count">3 patterns</span>
+          </div>
+          <ul class="fa-list">
+            <li class="fa-item">
+              <span class="fa-tag">audit.weeklong</span>
+              <span class="fa-desc">"Show me Q3 reversals by reason code." One engineer. Five dashboards. Five days.</span>
+            </li>
+            <li class="fa-item">
+              <span class="fa-tag">deploy.midnight</span>
+              <span class="fa-desc">Releases at 11pm. Rollbacks at 2am. On-call paged. Trust erodes.</span>
+            </li>
+            <li class="fa-item">
+              <span class="fa-tag">customer.complaints</span>
+              <span class="fa-desc">A missing transaction. Five systems to query. Two days to answer the customer.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="fa-cluster">
+          <div class="fa-cluster-head">
+            <span class="fa-cluster-num"><em>03</em></span>
+            <span class="fa-cluster-title">Security &amp; Compliance</span>
+            <span class="fa-cluster-count">2 patterns</span>
+          </div>
+          <ul class="fa-list">
+            <li class="fa-item">
+              <span class="fa-tag">security.surface</span>
+              <span class="fa-desc">Every new integration is a new attack vector. Ten operators = ten audit findings.</span>
+            </li>
+            <li class="fa-item">
+              <span class="fa-tag">compliance.bolton</span>
+              <span class="fa-desc">AML and KYC retro-fitted after every new corridor goes live.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="fa-cluster">
+          <div class="fa-cluster-head">
+            <span class="fa-cluster-num"><em>04</em></span>
+            <span class="fa-cluster-title">Velocity &amp; Cost</span>
+            <span class="fa-cluster-count">2 patterns</span>
+          </div>
+          <ul class="fa-list">
+            <li class="fa-item">
+              <span class="fa-tag">corridor.6mo</span>
+              <span class="fa-desc">Every new operator is a six-month integration project — built from scratch.</span>
+            </li>
+            <li class="fa-item">
+              <span class="fa-tag">cost.invisible</span>
+              <span class="fa-desc">Eighty percent of your engineering team keeps payments alive. Twenty percent ships products.</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pc">
+        <p class="pc-line">If <strong>three of these</strong> feel uncomfortably familiar, we should talk.</p>
+        <a href="#" class="pc-cta">Talk to engineering →</a>
+      </div>
+
+    </div>
+    <p class="fix-meta">Section height: <strong>~1.7 viewports</strong> · Read time: <strong>~55s</strong> · Adds structure but still long</p>
+  </section>
+
+
+  <!-- ============================================================
+       FIX B — Two-column desktop
+       ============================================================ -->
+  <section class="fix" id="fix-b">
+    <div class="fix-label">
+      <span class="fix-letter">B</span>
+      <div>
+        <h3>Fix B — Two-column desktop layout</h3>
+        <p>Same 10 items, same typography — laid out as 2 columns × 5 rows on desktop. Stacks to 1 column on mobile. Cuts section height nearly in half.</p>
+      </div>
+    </div>
+    <div class="fix-stage fb">
+
+      <header class="ph">
+        <div class="ph-eyebrow">The Problem</div>
+        <h2 class="ph-h">Every payments shop has the same ten problems.</h2>
+        <p class="ph-lede">Yours included. The patterns we hear in every conversation with bank and fintech CTOs.</p>
+      </header>
+
+      <ul class="fb-list">
+        <li class="fb-item">
+          <span class="fb-tag">timeout.outage</span>
+          <span class="fb-desc">Your customers see the outage before your dashboards do. Twitter is faster than monitoring.</span>
+        </li>
+        <li class="fb-item">
+          <span class="fb-tag">reversal.silent</span>
+          <span class="fb-desc">A reversal fails silently. Finance discovers the gap three days later during reconciliation.</span>
+        </li>
+        <li class="fb-item">
+          <span class="fb-tag">recon.manual</span>
+          <span class="fb-desc">Month-end reconciliation in spreadsheets. Four thousand rows. Weekend war rooms.</span>
+        </li>
+        <li class="fb-item">
+          <span class="fb-tag">audit.weeklong</span>
+          <span class="fb-desc">"Show me Q3 reversals by reason code." One engineer. Five dashboards. Five days.</span>
+        </li>
+        <li class="fb-item">
+          <span class="fb-tag">deploy.midnight</span>
+          <span class="fb-desc">Releases at 11pm because daytime is too risky. Rollbacks at 2am. On-call paged.</span>
+        </li>
+        <li class="fb-item">
+          <span class="fb-tag">corridor.6mo</span>
+          <span class="fb-desc">Every new operator is a six-month integration project — built from scratch.</span>
+        </li>
+        <li class="fb-item">
+          <span class="fb-tag">customer.complaints</span>
+          <span class="fb-desc">A missing transaction. Five systems to query. Two days to give the customer an answer.</span>
+        </li>
+        <li class="fb-item">
+          <span class="fb-tag">security.surface</span>
+          <span class="fb-desc">Every new integration is a new attack vector. Ten places encryption can be wrong.</span>
+        </li>
+        <li class="fb-item">
+          <span class="fb-tag">compliance.bolton</span>
+          <span class="fb-desc">AML, KYC, and sanctions screening retro-fitted after every new corridor.</span>
+        </li>
+        <li class="fb-item">
+          <span class="fb-tag">cost.invisible</span>
+          <span class="fb-desc">80% of your engineering team keeps payments alive. 20% ships products that win business.</span>
+        </li>
+      </ul>
+
+      <div class="pc">
+        <p class="pc-line">If <strong>three of these</strong> feel uncomfortably familiar, we should talk.</p>
+        <a href="#" class="pc-cta">Talk to engineering →</a>
+      </div>
+
+    </div>
+    <p class="fix-meta">Section height: <strong>~1.0 viewport</strong> · Read time: <strong>~45s</strong> · Loses the editorial single-column rhythm — feels more grid-y</p>
+  </section>
+
+
+  <!-- ============================================================
+       FIX C — Compressed typography
+       ============================================================ -->
+  <section class="fix" id="fix-c">
+    <div class="fix-label">
+      <span class="fix-letter">C</span>
+      <div>
+        <h3>Fix C — Compressed typography</h3>
+        <p>Same flat 10-item list, but tighter — smaller gap, smaller body type, no left rule, tag in its own column. ~40% less vertical space, same content.</p>
+      </div>
+    </div>
+    <div class="fix-stage fc">
+
+      <header class="ph">
+        <div class="ph-eyebrow">The Problem</div>
+        <h2 class="ph-h">Every payments shop has the same ten problems.</h2>
+        <p class="ph-lede">Yours included. The patterns we hear in every CTO conversation.</p>
+      </header>
+
+      <ul class="fc-list">
+        <li class="fc-item">
+          <span class="fc-tag">timeout.outage</span>
+          <span class="fc-desc">Your customers see the outage before your dashboards do. Twitter is faster than monitoring.</span>
+        </li>
+        <li class="fc-item">
+          <span class="fc-tag">reversal.silent</span>
+          <span class="fc-desc">A reversal fails silently. Finance discovers the gap three days later during reconciliation.</span>
+        </li>
+        <li class="fc-item">
+          <span class="fc-tag">recon.manual</span>
+          <span class="fc-desc">Month-end in spreadsheets. Four thousand rows. Manual matching. Weekend war rooms.</span>
+        </li>
+        <li class="fc-item">
+          <span class="fc-tag">audit.weeklong</span>
+          <span class="fc-desc">"Show me Q3 reversals." One engineer. Five dashboards. Five days. Every quarter.</span>
+        </li>
+        <li class="fc-item">
+          <span class="fc-tag">deploy.midnight</span>
+          <span class="fc-desc">Releases at 11pm because daytime is too risky. Rollbacks at 2am. On-call paged.</span>
+        </li>
+        <li class="fc-item">
+          <span class="fc-tag">corridor.6mo</span>
+          <span class="fc-desc">Every new operator is a six-month integration project — built from scratch.</span>
+        </li>
+        <li class="fc-item">
+          <span class="fc-tag">customer.complaints</span>
+          <span class="fc-desc">A missing transaction. Five systems to query. Two days to answer the customer.</span>
+        </li>
+        <li class="fc-item">
+          <span class="fc-tag">security.surface</span>
+          <span class="fc-desc">Every new integration is a new attack vector. Ten places encryption can be wrong.</span>
+        </li>
+        <li class="fc-item">
+          <span class="fc-tag">compliance.bolton</span>
+          <span class="fc-desc">AML, KYC, and sanctions retro-fitted after every new corridor goes live.</span>
+        </li>
+        <li class="fc-item">
+          <span class="fc-tag">cost.invisible</span>
+          <span class="fc-desc">80% of your engineering team keeps payments alive. 20% ships the products that win business.</span>
+        </li>
+      </ul>
+
+      <div class="pc">
+        <p class="pc-line">If <strong>three of these</strong> feel uncomfortably familiar, we should talk.</p>
+        <a href="#" class="pc-cta">Talk to engineering →</a>
+      </div>
+
+    </div>
+    <p class="fix-meta">Section height: <strong>~1.2 viewports</strong> · Read time: <strong>~50s</strong> · Tighter but still feels monotonous (no grouping)</p>
+  </section>
+
+
+  <!-- ============================================================
+       FIX D — Reduced to 6 strongest pains
+       ============================================================ -->
+  <section class="fix" id="fix-d">
+    <div class="fix-label">
+      <span class="fix-letter">D</span>
+      <div>
+        <h3>Fix D — Reduced to 6 strongest pains</h3>
+        <p>Drops 4 pains. Keeps the 6 most universally felt. Each remaining item gets more weight + bigger type. Trade: lose 4 pains of taxonomy coverage.</p>
+      </div>
+    </div>
+    <div class="fix-stage fd">
+
+      <header class="ph">
+        <div class="ph-eyebrow">The Problem</div>
+        <h2 class="ph-h">Six problems every payments CTO already knows.</h2>
+        <p class="ph-lede">The patterns we hear in every conversation. If three feel uncomfortably familiar, we should talk.</p>
+      </header>
+
+      <ul class="fd-list">
+        <li class="fd-item">
+          <span class="fd-tag">reversal.silent</span>
+          <span class="fd-desc">A reversal fails silently. Finance discovers the gap three days later during reconciliation.</span>
+        </li>
+        <li class="fd-item">
+          <span class="fd-tag">audit.weeklong</span>
+          <span class="fd-desc">"Show me Q3 reversals by reason code." One engineer. Five dashboards. Five days. Every quarter.</span>
+        </li>
+        <li class="fd-item">
+          <span class="fd-tag">corridor.6mo</span>
+          <span class="fd-desc">Every new operator is a six-month integration project — built from scratch.</span>
+        </li>
+        <li class="fd-item">
+          <span class="fd-tag">deploy.midnight</span>
+          <span class="fd-desc">Releases at 11pm. Rollbacks at 2am. On-call paged. Engineering trust erodes.</span>
+        </li>
+        <li class="fd-item">
+          <span class="fd-tag">security.surface</span>
+          <span class="fd-desc">Every new integration is a new attack vector. Ten places encryption can be wrong.</span>
+        </li>
+        <li class="fd-item">
+          <span class="fd-tag">cost.invisible</span>
+          <span class="fd-desc">80% of your engineering team keeps payments alive. 20% ships the products that win business.</span>
+        </li>
+      </ul>
+
+      <div class="pc">
+        <p class="pc-line">If <strong>three of these</strong> feel uncomfortably familiar, we should talk.</p>
+        <a href="#" class="pc-cta">Talk to engineering →</a>
+      </div>
+
+    </div>
+    <p class="fix-meta">Section height: <strong>~1.4 viewports</strong> · Read time: <strong>~40s</strong> · Drops: recon.manual, customer.complaints, timeout.outage, compliance.bolton</p>
+  </section>
+
+
+  <!-- ============================================================
+       FIX A + C — RECOMMENDED
+       ============================================================ -->
+  <section class="fix" id="fix-ac">
+    <div class="fix-label">
+      <span class="fix-letter fix-letter--recommended">A+C</span>
+      <div>
+        <h3>Fix A + C combined — recommended</h3>
+        <p>Themed clusters (Fix A) for <em>structure</em> + compressed typography (Fix C) for <em>density</em>. Same 10 pains as the baseline, but the eye gets natural rest points AND the section is dense enough to read in ~30 seconds.</p>
+      </div>
+    </div>
+    <div class="fix-stage fac">
+
+      <header class="ph">
+        <div class="ph-eyebrow">The Problem</div>
+        <h2 class="ph-h">Every payments shop has the same ten problems.</h2>
+        <p class="ph-lede">Yours included. Grouped by where they live in your stack.</p>
+      </header>
+
+      <div class="fac-clusters">
+
+        <div class="fac-cluster">
+          <div class="fac-cluster-head">
+            <span class="fac-cluster-num"><em>01</em></span>
+            <span class="fac-cluster-title">Transaction Integrity</span>
+            <span class="fac-cluster-count">3 patterns</span>
+          </div>
+          <ul class="fac-list">
+            <li class="fac-item">
+              <span class="fac-tag">timeout.outage</span>
+              <span class="fac-desc">Your customers see the outage before your dashboards do.</span>
+            </li>
+            <li class="fac-item">
+              <span class="fac-tag">reversal.silent</span>
+              <span class="fac-desc">A reversal fails silently. Finance discovers the gap three days later.</span>
+            </li>
+            <li class="fac-item">
+              <span class="fac-tag">recon.manual</span>
+              <span class="fac-desc">Month-end in spreadsheets. Four thousand rows. Weekend war rooms.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="fac-cluster">
+          <div class="fac-cluster-head">
+            <span class="fac-cluster-num"><em>02</em></span>
+            <span class="fac-cluster-title">Operational Reliability</span>
+            <span class="fac-cluster-count">3 patterns</span>
+          </div>
+          <ul class="fac-list">
+            <li class="fac-item">
+              <span class="fac-tag">audit.weeklong</span>
+              <span class="fac-desc">"Show me Q3 reversals." One engineer. Five dashboards. Five days.</span>
+            </li>
+            <li class="fac-item">
+              <span class="fac-tag">deploy.midnight</span>
+              <span class="fac-desc">Releases at 11pm. Rollbacks at 2am. On-call paged.</span>
+            </li>
+            <li class="fac-item">
+              <span class="fac-tag">customer.complaints</span>
+              <span class="fac-desc">A missing transaction. Five systems to query. Two days to answer the customer.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="fac-cluster">
+          <div class="fac-cluster-head">
+            <span class="fac-cluster-num"><em>03</em></span>
+            <span class="fac-cluster-title">Security &amp; Compliance</span>
+            <span class="fac-cluster-count">2 patterns</span>
+          </div>
+          <ul class="fac-list">
+            <li class="fac-item">
+              <span class="fac-tag">security.surface</span>
+              <span class="fac-desc">Every new integration is a new attack vector. Ten places encryption can be wrong.</span>
+            </li>
+            <li class="fac-item">
+              <span class="fac-tag">compliance.bolton</span>
+              <span class="fac-desc">AML, KYC, and sanctions retro-fitted after every new corridor.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="fac-cluster">
+          <div class="fac-cluster-head">
+            <span class="fac-cluster-num"><em>04</em></span>
+            <span class="fac-cluster-title">Velocity &amp; Cost</span>
+            <span class="fac-cluster-count">2 patterns</span>
+          </div>
+          <ul class="fac-list">
+            <li class="fac-item">
+              <span class="fac-tag">corridor.6mo</span>
+              <span class="fac-desc">Every new operator is a six-month integration project — built from scratch.</span>
+            </li>
+            <li class="fac-item">
+              <span class="fac-tag">cost.invisible</span>
+              <span class="fac-desc">80% of your engineering team keeps payments alive. 20% ships products that win business.</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="pc">
+        <p class="pc-line">If <strong>three of these</strong> feel uncomfortably familiar, we should talk.</p>
+        <a href="#" class="pc-cta">Talk to engineering →</a>
+      </div>
+
+    </div>
+    <p class="fix-meta">Section height: <strong>~1.0 viewport</strong> · Read time: <strong>~30s</strong> · Coverage: <strong>all 10 pains, 4 themes</strong> · Best of both: structured AND dense</p>
+  </section>
+
+
+  <!-- ============================================================
+       Decision prompt
+       ============================================================ -->
+  <div class="deciding">
+    <h3>Which fix goes into the live mockup?</h3>
+    <p>
+      Tell me A, B, C, D, or <em>A+C</em> — or describe a different combination. I rebuild §2 of <code>mockup-hero.html</code> in 15 minutes once you decide.
+    </p>
+  </div>
+
+</body>
+</html>
