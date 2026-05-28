@@ -926,13 +926,13 @@
     .drawer__head {
       display: flex; align-items: baseline; justify-content: space-between;
       gap: 16px;
-      padding: 18px 28px 14px;
+      padding: 14px 26px 12px;
       border-bottom: 1px solid var(--rule);
       flex-shrink: 0;
     }
     .drawer__title {
       font-family: var(--font-display);
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
       color: var(--navy);
     }
@@ -957,55 +957,54 @@
     .drawer__close:hover { background: var(--navy); border-color: var(--navy); color: var(--cream-warm); }
     .drawer__close svg { width: 12px; height: 12px; }
     .drawer__body {
-      padding: 24px 28px;
+      padding: 14px 26px;
       overflow-y: auto;
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      gap: 18px;
+      gap: 8px;
     }
 
-    /* Compacted version of the original cluster design: italic numeral +
-       uppercase title + pattern count on the left, dense tag+serif list on
-       the right. Clusters distribute evenly across the drawer body so the
-       whitespace is balanced, not bunched at the bottom. */
+    /* Compact cluster — italic numeral + uppercase title + pattern count
+       on the left, dense tag+serif list on the right. Tightened spacing
+       throughout so the full drawer body fits one viewport without scroll. */
     .drawer__cluster {
       display: grid;
       grid-template-columns: 168px 1fr;
       gap: 24px;
-      padding: 14px 0 6px;
+      padding: 8px 0 4px;
       border-top: 1px solid var(--rule);
     }
     .drawer__cluster:first-child { border-top: 0; padding-top: 0; }
     .drawer__cluster-head {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      padding-top: 2px;
+      gap: 3px;
+      padding-top: 1px;
     }
     .drawer__cluster-num {
       font-family: var(--font-display);
       font-style: italic;
-      font-size: 18px;
+      font-size: 16px;
       color: var(--crimson);
       line-height: 1;
     }
     .drawer__cluster-title {
       font-family: var(--font-ui);
-      font-size: 9.5px;
+      font-size: 9px;
       font-weight: 700;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--navy);
-      line-height: 1.3;
+      line-height: 1.25;
     }
     .drawer__cluster-count {
       font-family: var(--font-mono);
-      font-size: 9.5px;
+      font-size: 9px;
       color: var(--text-faint);
       letter-spacing: 0.06em;
-      margin-top: 2px;
+      margin-top: 1px;
     }
     .drawer__list {
       list-style: none;
@@ -1013,28 +1012,27 @@
       margin: 0;
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 5px;
     }
     .drawer__item { display: flex; flex-direction: column; gap: 1px; }
-    /* Pattern title — natural English phrase, serif italic crimson to
-       match the .pain styling on the main page. Same vocabulary feel. */
+    /* Pattern title — mono crimson tech identifier (drawer is the
+       deep-dive 'look behind the curtain' view; tech tags belong here). */
     .drawer__tag {
-      font-family: var(--font-display);
-      font-style: italic;
-      font-weight: 400;
-      font-size: 13.5px;
+      font-family: var(--font-mono);
+      font-size: 10px;
+      font-weight: 700;
       color: var(--crimson);
-      letter-spacing: 0;
+      letter-spacing: 0.02em;
     }
     .drawer__desc {
       font-family: var(--font-display);
-      font-size: 12.5px;
+      font-size: 11.5px;
       color: var(--navy);
-      line-height: 1.4;
+      line-height: 1.38;
     }
 
     .drawer__foot {
-      padding: 12px 28px 14px;
+      padding: 10px 26px 12px;
       border-top: 1px solid var(--rule);
       display: flex; align-items: center; justify-content: space-between;
       gap: 16px; flex-wrap: wrap;
@@ -1045,15 +1043,15 @@
       margin: 0;
       font-family: var(--font-display);
       font-style: italic;
-      font-size: 13.5px;
+      font-size: 13px;
       color: var(--navy);
     }
     .drawer__foot p strong { font-style: normal; font-weight: 700; color: var(--crimson); }
     .drawer__foot a {
       font-family: var(--font-ui);
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
-      padding: 9px 16px;
+      padding: 8px 14px;
       background: var(--crimson);
       color: var(--white);
       border-radius: 3px;
@@ -1651,15 +1649,15 @@
         </div>
         <ul class="drawer__list">
           <li class="drawer__item" data-pain-item="timeout.outage">
-            <span class="drawer__tag">Timeouts &amp; outages</span>
+            <span class="drawer__tag">timeout.outage</span>
             <span class="drawer__desc">Customers see the outage before your dashboards do. Social media is faster than monitoring.</span>
           </li>
           <li class="drawer__item" data-pain-item="reversal.silent">
-            <span class="drawer__tag">Reversals</span>
+            <span class="drawer__tag">reversal.silent</span>
             <span class="drawer__desc">A reversal fails silently. Finance discovers the gap days later during reconciliation.</span>
           </li>
           <li class="drawer__item" data-pain-item="recon.manual">
-            <span class="drawer__tag">Recon</span>
+            <span class="drawer__tag">recon.manual</span>
             <span class="drawer__desc">Month-end in spreadsheets. Thousands of rows. Manual matching. Weekend war rooms.</span>
           </li>
         </ul>
@@ -1673,15 +1671,15 @@
         </div>
         <ul class="drawer__list">
           <li class="drawer__item" data-pain-item="audit.weeklong">
-            <span class="drawer__tag">Audits</span>
+            <span class="drawer__tag">audit.weeklong</span>
             <span class="drawer__desc">"Show me Q3 reversals by reason code." One engineer, a week of dashboards. Every quarter.</span>
           </li>
           <li class="drawer__item" data-pain-item="deploy.midnight">
-            <span class="drawer__tag">Deploys</span>
+            <span class="drawer__tag">deploy.midnight</span>
             <span class="drawer__desc">Releases at night because daytime is too risky. Rollbacks before dawn. On-call paged.</span>
           </li>
           <li class="drawer__item" data-pain-item="customer.complaints">
-            <span class="drawer__tag">Customer complaints</span>
+            <span class="drawer__tag">customer.complaints</span>
             <span class="drawer__desc">A missing transaction. Multiple systems to query. Days to give the customer an answer — by then they're gone.</span>
           </li>
         </ul>
@@ -1695,11 +1693,11 @@
         </div>
         <ul class="drawer__list">
           <li class="drawer__item" data-pain-item="security.surface">
-            <span class="drawer__tag">A security surface</span>
+            <span class="drawer__tag">security.surface</span>
             <span class="drawer__desc">Every new integration is a new attack vector. Every operator is another place encryption can be wrong.</span>
           </li>
           <li class="drawer__item" data-pain-item="compliance.bolton">
-            <span class="drawer__tag">Compliance</span>
+            <span class="drawer__tag">compliance.bolton</span>
             <span class="drawer__desc">AML, KYC, and sanctions screening retro-fitted after every new corridor goes live.</span>
           </li>
         </ul>
@@ -1713,11 +1711,11 @@
         </div>
         <ul class="drawer__list">
           <li class="drawer__item" data-pain-item="corridor.6mo">
-            <span class="drawer__tag">Corridor integrations</span>
+            <span class="drawer__tag">corridor.6mo</span>
             <span class="drawer__desc">Every new operator is a multi-month integration project — new protocol, new AML, new audit trail, built from scratch.</span>
           </li>
           <li class="drawer__item" data-pain-item="cost.invisible">
-            <span class="drawer__tag">The invisible cost</span>
+            <span class="drawer__tag">cost.invisible</span>
             <span class="drawer__desc">Engineering headcount spent sustaining integration infrastructure, reconciliation operations, and failure recovery — instead of building revenue-generating products.</span>
           </li>
         </ul>
