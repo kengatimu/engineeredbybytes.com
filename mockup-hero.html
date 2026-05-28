@@ -455,6 +455,224 @@
     }
 
     /* =============================================================
+       §2 — THE PROBLEM (tangle → hub-and-spoke transition)
+       Headline visual of the whole site. Auto-plays once when
+       40% of the section enters the viewport.
+       ============================================================= */
+    .problem {
+      background: var(--cream-warm);
+      padding: 96px 24px 112px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .problem__container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 56px;
+    }
+
+    .problem__head {
+      text-align: center;
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .problem__eyebrow {
+      font-family: var(--font-ui);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--crimson);
+    }
+
+    .problem__heading {
+      font-family: var(--font-display);
+      font-size: clamp(28px, 4.2vw, 44px);
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.005em;
+      line-height: 1.2;
+    }
+
+    .problem__lede {
+      font-family: var(--font-ui);
+      font-size: clamp(15px, 1.7vw, 17px);
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 52ch;
+    }
+
+    /* The viz container — SVG + caption */
+    .problem__viz {
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .tangle {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Peripheral nodes — hidden initially */
+    .tangle__node-rim {
+      fill: none;
+      stroke: var(--navy);
+      stroke-width: 1;
+      opacity: 0;
+    }
+    .tangle__node-dot {
+      fill: var(--navy);
+      opacity: 0;
+    }
+
+    /* EBB centre rect — hidden initially */
+    .tangle__node-ebb {
+      fill: var(--navy);
+      opacity: 0;
+    }
+    .tangle__node-ebb-text {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 14px;
+      fill: var(--white);
+      letter-spacing: 0.04em;
+      opacity: 0;
+    }
+
+    /* Interconnect lines (tangle state) */
+    .tangle__line-interconnect {
+      fill: none;
+      stroke: var(--navy);
+      stroke-width: 1;
+      stroke-linecap: round;
+      opacity: 0;
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+    }
+
+    /* Hub-spoke lines (resolved state) */
+    .tangle__line-hub {
+      fill: none;
+      stroke: var(--navy);
+      stroke-width: 1.5;
+      stroke-linecap: round;
+      opacity: 0;
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+    }
+
+    /* Caption — appears after the resolve */
+    .problem__caption {
+      font-family: var(--font-display);
+      font-size: clamp(18px, 2.2vw, 22px);
+      font-style: italic;
+      color: var(--navy);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+    }
+
+    .problem__caption strong {
+      font-style: normal;
+      font-weight: 700;
+      color: var(--navy);
+      border-bottom: 2px solid var(--crimson);
+      padding-bottom: 2px;
+    }
+
+    /* ---------- ACTIVE STATE — IntersectionObserver adds .is-active ---------- */
+
+    /* Peripheral nodes appear first, staggered */
+    .problem__viz.is-active .tangle__node-rim,
+    .problem__viz.is-active .tangle__node-dot {
+      animation: tangleNodeAppear 0.4s ease-out forwards;
+    }
+    .problem__viz.is-active [data-i="1"] .tangle__node-rim,
+    .problem__viz.is-active [data-i="1"] .tangle__node-dot { animation-delay: 0.0s; }
+    .problem__viz.is-active [data-i="2"] .tangle__node-rim,
+    .problem__viz.is-active [data-i="2"] .tangle__node-dot { animation-delay: 0.12s; }
+    .problem__viz.is-active [data-i="3"] .tangle__node-rim,
+    .problem__viz.is-active [data-i="3"] .tangle__node-dot { animation-delay: 0.24s; }
+    .problem__viz.is-active [data-i="4"] .tangle__node-rim,
+    .problem__viz.is-active [data-i="4"] .tangle__node-dot { animation-delay: 0.36s; }
+    .problem__viz.is-active [data-i="5"] .tangle__node-rim,
+    .problem__viz.is-active [data-i="5"] .tangle__node-dot { animation-delay: 0.48s; }
+    .problem__viz.is-active [data-i="6"] .tangle__node-rim,
+    .problem__viz.is-active [data-i="6"] .tangle__node-dot { animation-delay: 0.6s; }
+
+    /* Interconnect lines draw in, then fade out */
+    .problem__viz.is-active .tangle__line-interconnect {
+      animation:
+        tangleLineDrawIn  0.9s ease-out 0.8s forwards,
+        tangleLineFadeOut 0.7s ease-in  2.7s forwards;
+    }
+
+    /* EBB centre appears as interconnects start fading */
+    .problem__viz.is-active .tangle__node-ebb,
+    .problem__viz.is-active .tangle__node-ebb-text {
+      animation: tangleNodeAppear 0.5s ease-out 2.9s forwards;
+    }
+
+    /* Hub-spoke lines draw in once EBB is present */
+    .problem__viz.is-active .tangle__line-hub {
+      animation: tangleHubDrawIn 0.6s ease-out 3.2s forwards;
+    }
+
+    /* Caption fades in last */
+    .problem__viz.is-active .problem__caption {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 3.8s;
+    }
+
+    @keyframes tangleNodeAppear {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes tangleLineDrawIn {
+      from { stroke-dashoffset: 400; opacity: 0; }
+      to   { stroke-dashoffset: 0;   opacity: 0.32; }
+    }
+    @keyframes tangleLineFadeOut {
+      to { opacity: 0; }
+    }
+    @keyframes tangleHubDrawIn {
+      from { stroke-dashoffset: 200; opacity: 0; }
+      to   { stroke-dashoffset: 0;   opacity: 0.7; }
+    }
+
+    /* Mobile tuning — tighter padding + smaller viz */
+    @media (max-width: 600px) {
+      .problem {
+        padding: 72px 20px 80px;
+      }
+      .problem__container {
+        gap: 40px;
+      }
+      .problem__head {
+        gap: 12px;
+      }
+      .problem__viz {
+        max-width: 360px;
+        gap: 16px;
+      }
+    }
+
+    /* =============================================================
        REDUCED MOTION — respect user preference
        ============================================================= */
     @media (prefers-reduced-motion: reduce) {
@@ -465,6 +683,27 @@
       }
       .network__packet {
         opacity: 0.6;
+      }
+      /* Skip the tangle animation entirely — show final hub-spoke state */
+      .problem__viz .tangle__node-rim,
+      .problem__viz .tangle__node-dot,
+      .problem__viz .tangle__node-ebb,
+      .problem__viz .tangle__node-ebb-text {
+        opacity: 1 !important;
+        animation: none !important;
+      }
+      .problem__viz .tangle__line-interconnect {
+        opacity: 0 !important;
+        animation: none !important;
+      }
+      .problem__viz .tangle__line-hub {
+        opacity: 0.7 !important;
+        stroke-dashoffset: 0 !important;
+        animation: none !important;
+      }
+      .problem__viz .problem__caption {
+        opacity: 1 !important;
+        transform: none !important;
       }
     }
   </style>
@@ -649,6 +888,126 @@
     </div>
 
   </section>
+
+
+  <!-- ============================================================
+       §2 — THE PROBLEM
+       Tangle → hub-and-spoke transition. The headline visual of the
+       whole site. Auto-plays once when 40% of section is in viewport.
+       ============================================================ -->
+  <section class="problem" id="problem">
+    <div class="problem__container">
+
+      <header class="problem__head">
+        <span class="problem__eyebrow">The Problem</span>
+        <h2 class="problem__heading">Every integration starts the same way.</h2>
+        <p class="problem__lede">
+          One operator. One bespoke protocol. One AML pipeline. One audit trail.
+          Multiply by ten — and your engineering team isn't shipping products
+          anymore.
+        </p>
+      </header>
+
+      <div class="problem__viz" data-tangle aria-hidden="true">
+        <svg class="tangle" viewBox="0 0 500 460" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- ============ Interconnect lines (tangle state, 15 total) ============
+               Drawn first so they sit behind everything. -->
+          <line class="tangle__line-interconnect" x1="250" y1="60"  x2="397" y2="145" />
+          <line class="tangle__line-interconnect" x1="250" y1="60"  x2="397" y2="315" />
+          <line class="tangle__line-interconnect" x1="250" y1="60"  x2="250" y2="400" />
+          <line class="tangle__line-interconnect" x1="250" y1="60"  x2="103" y2="315" />
+          <line class="tangle__line-interconnect" x1="250" y1="60"  x2="103" y2="145" />
+          <line class="tangle__line-interconnect" x1="397" y1="145" x2="397" y2="315" />
+          <line class="tangle__line-interconnect" x1="397" y1="145" x2="250" y2="400" />
+          <line class="tangle__line-interconnect" x1="397" y1="145" x2="103" y2="315" />
+          <line class="tangle__line-interconnect" x1="397" y1="145" x2="103" y2="145" />
+          <line class="tangle__line-interconnect" x1="397" y1="315" x2="250" y2="400" />
+          <line class="tangle__line-interconnect" x1="397" y1="315" x2="103" y2="315" />
+          <line class="tangle__line-interconnect" x1="397" y1="315" x2="103" y2="145" />
+          <line class="tangle__line-interconnect" x1="250" y1="400" x2="103" y2="315" />
+          <line class="tangle__line-interconnect" x1="250" y1="400" x2="103" y2="145" />
+          <line class="tangle__line-interconnect" x1="103" y1="315" x2="103" y2="145" />
+
+          <!-- ============ Hub-spoke lines (resolved state, 6 total) ============
+               Each peripheral node connects to the centre EBB node. -->
+          <line class="tangle__line-hub" x1="250" y1="60"  x2="250" y2="230" />
+          <line class="tangle__line-hub" x1="397" y1="145" x2="250" y2="230" />
+          <line class="tangle__line-hub" x1="397" y1="315" x2="250" y2="230" />
+          <line class="tangle__line-hub" x1="250" y1="400" x2="250" y2="230" />
+          <line class="tangle__line-hub" x1="103" y1="315" x2="250" y2="230" />
+          <line class="tangle__line-hub" x1="103" y1="145" x2="250" y2="230" />
+
+          <!-- ============ Peripheral nodes (6, hexagon arrangement) ============
+               data-i drives the stagger order in CSS. -->
+          <g data-i="1">
+            <circle class="tangle__node-rim" cx="250" cy="60"  r="16" />
+            <circle class="tangle__node-dot" cx="250" cy="60"  r="10" />
+          </g>
+          <g data-i="2">
+            <circle class="tangle__node-rim" cx="397" cy="145" r="16" />
+            <circle class="tangle__node-dot" cx="397" cy="145" r="10" />
+          </g>
+          <g data-i="3">
+            <circle class="tangle__node-rim" cx="397" cy="315" r="16" />
+            <circle class="tangle__node-dot" cx="397" cy="315" r="10" />
+          </g>
+          <g data-i="4">
+            <circle class="tangle__node-rim" cx="250" cy="400" r="16" />
+            <circle class="tangle__node-dot" cx="250" cy="400" r="10" />
+          </g>
+          <g data-i="5">
+            <circle class="tangle__node-rim" cx="103" cy="315" r="16" />
+            <circle class="tangle__node-dot" cx="103" cy="315" r="10" />
+          </g>
+          <g data-i="6">
+            <circle class="tangle__node-rim" cx="103" cy="145" r="16" />
+            <circle class="tangle__node-dot" cx="103" cy="145" r="10" />
+          </g>
+
+          <!-- ============ EBB centre node (appears during resolve) ============ -->
+          <rect class="tangle__node-ebb" x="218" y="198" width="64" height="64" rx="6" />
+          <text class="tangle__node-ebb-text" x="250" y="236" text-anchor="middle">EBB</text>
+
+        </svg>
+
+        <p class="problem__caption">
+          From every-to-every to <strong>one-to-everything</strong>.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       SCRIPT — Trigger animations when sections enter the viewport
+       ============================================================ -->
+  <script>
+    (function () {
+      'use strict';
+
+      // Single shared IntersectionObserver for any section that should
+      // play an entry animation. Add data-reveal to opt in.
+      const targets = document.querySelectorAll('[data-tangle]');
+      if (!('IntersectionObserver' in window) || targets.length === 0) {
+        // No-IO fallback: just reveal everything immediately
+        targets.forEach(t => t.classList.add('is-active'));
+        return;
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-active');
+            io.unobserve(entry.target); // play once, never re-trigger
+          }
+        });
+      }, { threshold: 0.4 });
+
+      targets.forEach(t => io.observe(t));
+    })();
+  </script>
 
 </body>
 </html>
