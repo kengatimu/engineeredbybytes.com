@@ -1016,12 +1016,15 @@
       gap: 7px;
     }
     .drawer__item { display: flex; flex-direction: column; gap: 1px; }
+    /* Pattern title — natural English phrase, serif italic crimson to
+       match the .pain styling on the main page. Same vocabulary feel. */
     .drawer__tag {
-      font-family: var(--font-mono);
-      font-size: 10.5px;
-      font-weight: 700;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 13.5px;
       color: var(--crimson);
-      letter-spacing: 0.02em;
+      letter-spacing: 0;
     }
     .drawer__desc {
       font-family: var(--font-display);
@@ -1629,7 +1632,7 @@
     <header class="drawer__head">
       <div>
         <div class="drawer__title" id="drawer-title">All ten patterns.</div>
-        <div class="drawer__sub">grouped · by where they live in your stack</div>
+        <div class="drawer__sub">sorted · by where they break in your stack</div>
       </div>
       <button type="button" class="drawer__close" data-drawer-close aria-label="Close panel">
         <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -1648,16 +1651,16 @@
         </div>
         <ul class="drawer__list">
           <li class="drawer__item" data-pain-item="timeout.outage">
-            <span class="drawer__tag">timeout.outage</span>
-            <span class="drawer__desc">Customers see the outage before your dashboards do. Twitter is faster than monitoring.</span>
+            <span class="drawer__tag">Timeouts &amp; outages</span>
+            <span class="drawer__desc">Customers see the outage before your dashboards do. Social media is faster than monitoring.</span>
           </li>
           <li class="drawer__item" data-pain-item="reversal.silent">
-            <span class="drawer__tag">reversal.silent</span>
-            <span class="drawer__desc">A reversal fails silently. Finance discovers the gap three days later during reconciliation.</span>
+            <span class="drawer__tag">Reversals</span>
+            <span class="drawer__desc">A reversal fails silently. Finance discovers the gap days later during reconciliation.</span>
           </li>
           <li class="drawer__item" data-pain-item="recon.manual">
-            <span class="drawer__tag">recon.manual</span>
-            <span class="drawer__desc">Month-end in spreadsheets. Four thousand rows. Manual matching. Weekend war rooms.</span>
+            <span class="drawer__tag">Recon</span>
+            <span class="drawer__desc">Month-end in spreadsheets. Thousands of rows. Manual matching. Weekend war rooms.</span>
           </li>
         </ul>
       </div>
@@ -1670,16 +1673,16 @@
         </div>
         <ul class="drawer__list">
           <li class="drawer__item" data-pain-item="audit.weeklong">
-            <span class="drawer__tag">audit.weeklong</span>
-            <span class="drawer__desc">"Show me Q3 reversals by reason code." One engineer. Five dashboards. Five days. Every quarter.</span>
+            <span class="drawer__tag">Audits</span>
+            <span class="drawer__desc">"Show me Q3 reversals by reason code." One engineer, a week of dashboards. Every quarter.</span>
           </li>
           <li class="drawer__item" data-pain-item="deploy.midnight">
-            <span class="drawer__tag">deploy.midnight</span>
-            <span class="drawer__desc">Releases at 11pm because daytime is too risky. Rollbacks at 2am. On-call paged.</span>
+            <span class="drawer__tag">Deploys</span>
+            <span class="drawer__desc">Releases at night because daytime is too risky. Rollbacks before dawn. On-call paged.</span>
           </li>
           <li class="drawer__item" data-pain-item="customer.complaints">
-            <span class="drawer__tag">customer.complaints</span>
-            <span class="drawer__desc">A missing transaction. Five systems to query. Two days to give the customer an answer — by then they're gone.</span>
+            <span class="drawer__tag">Customer complaints</span>
+            <span class="drawer__desc">A missing transaction. Multiple systems to query. Days to give the customer an answer — by then they're gone.</span>
           </li>
         </ul>
       </div>
@@ -1692,11 +1695,11 @@
         </div>
         <ul class="drawer__list">
           <li class="drawer__item" data-pain-item="security.surface">
-            <span class="drawer__tag">security.surface</span>
-            <span class="drawer__desc">Every new integration is a new attack vector. Ten operators equals ten places encryption can be wrong.</span>
+            <span class="drawer__tag">A security surface</span>
+            <span class="drawer__desc">Every new integration is a new attack vector. Every operator is another place encryption can be wrong.</span>
           </li>
           <li class="drawer__item" data-pain-item="compliance.bolton">
-            <span class="drawer__tag">compliance.bolton</span>
+            <span class="drawer__tag">Compliance</span>
             <span class="drawer__desc">AML, KYC, and sanctions screening retro-fitted after every new corridor goes live.</span>
           </li>
         </ul>
@@ -1710,12 +1713,12 @@
         </div>
         <ul class="drawer__list">
           <li class="drawer__item" data-pain-item="corridor.6mo">
-            <span class="drawer__tag">corridor.6mo</span>
-            <span class="drawer__desc">Every new operator is a six-month integration project — new protocol, new AML, new audit trail, built from scratch.</span>
+            <span class="drawer__tag">Corridor integrations</span>
+            <span class="drawer__desc">Every new operator is a multi-month integration project — new protocol, new AML, new audit trail, built from scratch.</span>
           </li>
           <li class="drawer__item" data-pain-item="cost.invisible">
-            <span class="drawer__tag">cost.invisible</span>
-            <span class="drawer__desc">Eighty percent of your engineering team keeps payments alive. Twenty percent ships the products that actually win business.</span>
+            <span class="drawer__tag">The invisible cost</span>
+            <span class="drawer__desc">Engineering headcount spent sustaining integration infrastructure, reconciliation operations, and failure recovery — instead of building revenue-generating products.</span>
           </li>
         </ul>
       </div>
