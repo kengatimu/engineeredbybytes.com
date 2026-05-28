@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>§2 — Prose Variants — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream: #F8F6F1;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --white: #FFFFFF;
+      --text-body: #333333;
+      --text-muted: #666666;
+      --text-faint: #999999;
+      --rule: rgba(13, 34, 64, 0.10);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-ui); background: var(--cream); color: var(--text-body); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ──────────────── Switcher ──────────────── */
+    .switcher {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); color: var(--cream);
+      padding: 14px 28px;
+      display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+      font: 500 13px/1 var(--font-ui);
+    }
+    .switcher b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 12px; }
+    .switcher a { color: rgba(255,255,255,0.7); padding: 6px 10px; border-radius: 4px; }
+    .switcher a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .label {
+      max-width: 1280px; margin: 0 auto; padding: 28px 28px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; gap: 16px; align-items: baseline; flex-wrap: wrap;
+    }
+    .label__tag { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--crimson); }
+    .label__title { font: 700 17px/1.3 var(--font-display); }
+    .label__note { font: 400 13px/1.4 var(--font-ui); color: var(--text-muted); margin-left: auto; max-width: 560px; }
+
+    /* ──────────────── §2 scaffolding ──────────────── */
+    .section {
+      padding: 96px 32px 80px;
+      background: var(--cream-warm);
+    }
+    .container { max-width: 1180px; margin: 0 auto; }
+    .head { max-width: 720px; margin-bottom: 48px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 18px;
+    }
+    .eyebrow::before {
+      content: ''; width: 28px; height: 1.5px;
+      background: var(--crimson); display: inline-block;
+    }
+    .heading {
+      font: 400 clamp(28px, 4vw, 40px)/1.2 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.005em;
+      margin: 0;
+    }
+    .heading em { font-style: italic; color: var(--crimson); }
+
+    /* The pain-phrase highlight used in all three variants — same look, so
+       readers see the seven recurring patterns at a glance even in prose. */
+    .pain {
+      font-family: var(--font-mono);
+      font-size: 0.78em;
+      color: var(--crimson);
+      background: rgba(139,26,26,0.07);
+      padding: 1px 6px;
+      border-radius: 3px;
+      white-space: nowrap;
+      letter-spacing: 0;
+    }
+
+    /* See-the-list link, consistent across all variants */
+    .see-list-row {
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+      display: flex; align-items: baseline; gap: 8px;
+      font: 400 14px/1.5 var(--font-ui);
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+    .see-list-row b { color: var(--navy); font-weight: 600; }
+    .see-list {
+      font-weight: 600;
+      color: var(--crimson);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      background: transparent; border: 0; padding: 0; cursor: pointer;
+      font-family: inherit; font-size: inherit;
+    }
+    .see-list:hover { color: #6B0F0F; text-decoration-thickness: 2px; }
+
+    /* ════════════════════════════════════════════════════════════
+       OPTION A — Prose-only · pure editorial paragraph
+       ════════════════════════════════════════════════════════════ */
+    .opt-a .prose {
+      max-width: 880px;
+      font: 400 clamp(20px, 2.2vw, 26px)/1.55 var(--font-display);
+      color: var(--navy);
+    }
+    .opt-a .prose .lead {
+      font-style: italic;
+      color: var(--crimson);
+      display: block;
+      margin-bottom: 18px;
+      font-size: 1.05em;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       OPTION B — Prose lede above + ECG chart below
+       ════════════════════════════════════════════════════════════ */
+    .opt-b .prose {
+      max-width: 820px;
+      font: 400 18px/1.7 var(--font-ui);
+      color: var(--text-body);
+      margin-bottom: 56px;
+    }
+    .opt-b .prose .lead {
+      display: block;
+      font: 400 clamp(24px, 3vw, 32px)/1.3 var(--font-display);
+      color: var(--navy);
+      margin-bottom: 18px;
+    }
+    .opt-b .prose .lead em { font-style: italic; color: var(--crimson); }
+    .opt-b .chart-frame {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 0;
+      background: repeating-linear-gradient(to right, transparent 0, transparent 119px, rgba(13,34,64,0.04) 119px, rgba(13,34,64,0.04) 120px);
+    }
+    .opt-b .chart-meta {
+      display: flex; justify-content: space-between;
+      padding: 12px 6px;
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .opt-b .chart-meta b { color: var(--navy); font-weight: 500; }
+    .opt-b .chart-meta .tag { color: var(--text-faint); font-style: italic; letter-spacing: 0.08em; }
+    .opt-b .chart svg { width: 100%; height: 220px; display: block; }
+    .opt-b .chart .line { fill: none; stroke: var(--navy); stroke-width: 1.5; }
+    .opt-b .chart .marker { fill: var(--crimson); }
+
+    /* ════════════════════════════════════════════════════════════
+       OPTION C — Two-column prose + ECG side-by-side
+       ════════════════════════════════════════════════════════════ */
+    .opt-c .split {
+      display: grid; grid-template-columns: 1.1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .opt-c .prose {
+      font: 400 17px/1.7 var(--font-ui);
+      color: var(--text-body);
+    }
+    .opt-c .prose .lead {
+      display: block;
+      font: 400 clamp(22px, 2.6vw, 30px)/1.3 var(--font-display);
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+    .opt-c .prose .lead em { font-style: italic; color: var(--crimson); }
+    .opt-c .chart-frame {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .opt-c .chart-meta {
+      display: flex; justify-content: space-between;
+      padding: 10px 4px;
+      font: 500 9.5px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .opt-c .chart-meta b { color: var(--navy); font-weight: 500; }
+    .opt-c .chart svg { width: 100%; height: 280px; display: block; }
+    .opt-c .chart .line { fill: none; stroke: var(--navy); stroke-width: 1.5; }
+    .opt-c .chart .marker { fill: var(--crimson); }
+    @media (max-width: 900px) {
+      .opt-c .split { grid-template-columns: 1fr; gap: 36px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="switcher">
+  <b>§2 — Prose variants</b>
+  <a href="#a">A · Prose only</a>
+  <a href="#b">B · Prose + ECG below</a>
+  <a href="#c">C · Prose + ECG side-by-side</a>
+</nav>
+
+<!-- ═══════════ OPTION A ═══════════ -->
+<div class="label" id="a-label">
+  <span class="label__tag">A</span>
+  <span class="label__title">Prose only — pure editorial paragraph</span>
+  <span class="label__note">Big serif paragraph with pain phrases highlighted inline. No chart. Drawer link for the full 10 patterns. Closest to the new copy's natural voice.</span>
+</div>
+<section class="section opt-a" id="a">
+  <div class="container">
+    <header class="head">
+      <span class="eyebrow">§ 02 · the recurring pattern</span>
+      <h2 class="heading">The problem, in one breath.</h2>
+    </header>
+    <p class="prose">
+      <span class="lead">Your payment platform works — until it doesn't.</span>
+      <span class="pain">timeout.outage</span>s your customers see before your dashboards do.
+      <span class="pain">reversal.silent</span> for hours.
+      <span class="pain">audit.weeklong</span> that consumes your team every quarter.
+      <span class="pain">corridor.6mo</span> projects three integration teams deep.
+      <span class="pain">deploy.midnight</span> because daytime is too risky.
+      A <span class="pain">security.surface</span> that grows with every operator you add.
+      And the <span class="pain">cost.invisible</span> it takes to keep it all alive — engineering headcount building infrastructure no buyer will ever see, instead of products that win business.
+    </p>
+    <div class="see-list-row">
+      <span><b>Seven patterns named above.</b> Three more in the full list.</span>
+      <button type="button" class="see-list" data-drawer>See the list →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ OPTION B ═══════════ -->
+<div class="label" id="b-label">
+  <span class="label__tag">B</span>
+  <span class="label__title">Prose lede + ECG below — layered</span>
+  <span class="label__note">Prose sets the voice. ECG visualizes the same pattern below. Drawer link at the bottom. Most layered — gives both voice and visual.</span>
+</div>
+<section class="section opt-b" id="b">
+  <div class="container">
+    <header class="head">
+      <span class="eyebrow">§ 02 · the recurring pattern</span>
+      <h2 class="heading">The problem, in one breath.</h2>
+    </header>
+    <p class="prose">
+      <span class="lead">Your payment platform works — <em>until it doesn't.</em></span>
+      <span class="pain">timeout.outage</span>s your customers see before your dashboards do. <span class="pain">reversal.silent</span> for hours. <span class="pain">audit.weeklong</span> that consumes your team every quarter. <span class="pain">corridor.6mo</span> projects three integration teams deep. <span class="pain">deploy.midnight</span> because daytime is too risky. A <span class="pain">security.surface</span> that grows with every operator you add. And the <span class="pain">cost.invisible</span> it takes to keep it all alive — engineering headcount building infrastructure no buyer will ever see, instead of products that win business.
+    </p>
+    <div class="chart-frame">
+      <div class="chart-meta">
+        <span><b>payments throughput</b> · composite shape</span>
+        <span class="tag">illustrative — patterns we hear in every CTO conversation</span>
+      </div>
+      <div class="chart">
+        <svg viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="0" y1="110" x2="1200" y2="110" stroke="rgba(13,34,64,0.08)" stroke-dasharray="2 4"/>
+          <path class="line" d="M 0 100 Q 30 95 60 105 T 120 102 L 130 102 L 140 200 L 150 102 Q 180 98 210 108 T 280 100 Q 320 92 360 105 T 420 100 L 430 100 L 442 180 L 454 100 Q 490 95 520 108 T 580 102 Q 620 100 660 105 T 720 98 L 728 98 L 740 210 L 752 98 Q 790 95 820 105 T 880 100 Q 920 98 960 108 T 1020 100 L 1028 100 L 1040 190 L 1052 100 Q 1090 98 1120 108 T 1200 102"/>
+          <g class="marker">
+            <circle cx="140" cy="200" r="4"/>
+            <circle cx="442" cy="180" r="4"/>
+            <circle cx="740" cy="210" r="4"/>
+            <circle cx="1040" cy="190" r="4"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div class="see-list-row">
+      <span><b>Seven patterns named above.</b> Four drops shown. Three more in the full list.</span>
+      <button type="button" class="see-list" data-drawer>See the list →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ OPTION C ═══════════ -->
+<div class="label" id="c-label">
+  <span class="label__tag">C</span>
+  <span class="label__title">Two-column — prose left, ECG right</span>
+  <span class="label__note">Densest. Prose and chart read in parallel. Risk: visually busy, mobile collapses to stacked which then resembles Option B.</span>
+</div>
+<section class="section opt-c" id="c">
+  <div class="container">
+    <header class="head">
+      <span class="eyebrow">§ 02 · the recurring pattern</span>
+      <h2 class="heading">The problem, in one breath.</h2>
+    </header>
+    <div class="split">
+      <p class="prose">
+        <span class="lead">Your payment platform works — <em>until it doesn't.</em></span>
+        <span class="pain">timeout.outage</span>s your customers see before your dashboards do. <span class="pain">reversal.silent</span> for hours. <span class="pain">audit.weeklong</span> that consumes your team every quarter. <span class="pain">corridor.6mo</span> projects three integration teams deep. <span class="pain">deploy.midnight</span> because daytime is too risky. A <span class="pain">security.surface</span> that grows with every operator you add. And the <span class="pain">cost.invisible</span> it takes to keep it all alive — engineering headcount building infrastructure no buyer will ever see, instead of products that win business.
+      </p>
+      <div class="chart-frame">
+        <div class="chart-meta">
+          <span><b>throughput</b> · composite</span>
+          <span>illustrative</span>
+        </div>
+        <div class="chart">
+          <svg viewBox="0 0 600 280" preserveAspectRatio="none" aria-hidden="true">
+            <line x1="0" y1="140" x2="600" y2="140" stroke="rgba(13,34,64,0.08)" stroke-dasharray="2 4"/>
+            <path class="line" d="M 0 130 Q 30 125 60 135 T 120 132 L 130 132 L 140 250 L 150 132 Q 180 128 210 138 T 280 130 Q 320 122 360 135 T 420 130 L 430 130 L 442 230 L 454 130 Q 490 125 520 138 T 580 132 L 590 132 L 600 138"/>
+            <g class="marker">
+              <circle cx="140" cy="250" r="4"/>
+              <circle cx="442" cy="230" r="4"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="see-list-row">
+      <span><b>Seven patterns named above.</b> Three more in the full list.</span>
+      <button type="button" class="see-list" data-drawer>See the list →</button>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
