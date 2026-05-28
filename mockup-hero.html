@@ -533,13 +533,11 @@
       color: var(--text-faint);
     }
     .problem__pulse-meta b { color: var(--navy); font-weight: 500; }
-    .problem__pulse-meta .live { color: var(--crimson); display: inline-flex; align-items: center; gap: 6px; }
-    .problem__pulse-meta .live::before {
-      content: ''; width: 7px; height: 7px; border-radius: 50%;
-      background: var(--crimson);
-      animation: pulseLive 1.6s ease-in-out infinite;
+    .problem__pulse-meta .tag {
+      color: var(--text-faint);
+      font-style: italic;
+      letter-spacing: 0.08em;
     }
-    @keyframes pulseLive { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
     .problem__pulse svg { width: 100%; height: 260px; display: block; }
     .problem__pulse svg .line { fill: none; stroke: var(--navy); stroke-width: 1.5; }
     .problem__pulse svg .marker { fill: var(--crimson); }
@@ -564,12 +562,35 @@
       letter-spacing: 0.02em;
       text-align: center;
       white-space: nowrap;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 3px;
+      transition: background 0.2s var(--ease), color 0.2s var(--ease);
     }
     .problem__pulse-label::before {
       content: ''; display: block;
       width: 1px; height: 10px;
       background: var(--crimson);
       margin: 0 auto 5px;
+    }
+    .problem__pulse-label:hover {
+      background: rgba(139,26,26,0.08);
+      color: #6B0F0F;
+    }
+    .problem__pulse-label:focus-visible {
+      outline: 2px solid var(--crimson);
+      outline-offset: 2px;
+    }
+
+    /* Brief flash applied to the drawer item that matches a clicked label */
+    .drawer__item.is-highlight {
+      animation: drawerFlash 1.6s ease-out;
+    }
+    @keyframes drawerFlash {
+      0%   { background: rgba(139,26,26,0.18); box-shadow: -10px 0 0 0 rgba(139,26,26,0.18); }
+      100% { background: transparent; box-shadow: -10px 0 0 0 transparent; }
     }
 
     .problem__footnote {
@@ -582,20 +603,27 @@
     }
     .problem__footnote b { color: var(--navy); font-weight: 600; }
     .problem__see-list {
-      display: inline-flex; align-items: center; gap: 8px;
+      display: inline-flex; align-items: center; gap: 6px;
       font-family: var(--font-ui);
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      color: var(--crimson);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
       text-decoration: none;
       border: 0; background: transparent; cursor: pointer;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--crimson);
-      transition: opacity 0.2s var(--ease);
+      padding: 4px 0;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
     }
-    .problem__see-list:hover { opacity: 0.7; }
-    .problem__see-list svg { width: 12px; height: 12px; }
+    .problem__see-list:hover {
+      color: var(--crimson);
+      border-bottom-color: var(--crimson);
+    }
+    .problem__see-list:focus-visible {
+      outline: 2px solid var(--crimson);
+      outline-offset: 3px;
+    }
+    .problem__see-list svg { width: 11px; height: 11px; }
 
     /* ---------- Drawer (slide-in panel) — holds the full 10-pattern list */
     .drawer-scrim {
@@ -1142,8 +1170,8 @@
       <!-- ECG pulse — the signature §2 visual -->
       <div class="problem__pulse" data-reveal>
         <div class="problem__pulse-meta">
-          <span><b>throughput</b> · txn/sec · last 24h</span>
-          <span class="live">live</span>
+          <span><b>payments throughput</b> · composite shape</span>
+          <span class="tag">illustrative — patterns we hear in every CTO conversation</span>
         </div>
         <svg viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true">
           <line x1="0" y1="130" x2="1200" y2="130" stroke="rgba(13,34,64,0.08)" stroke-dasharray="2 4"/>
@@ -1174,10 +1202,10 @@
           <circle class="ring" cx="1040" cy="220"/>
         </svg>
         <div class="problem__pulse-labels">
-          <div class="problem__pulse-label" style="left: 11.7%;">timeout.outage</div>
-          <div class="problem__pulse-label" style="left: 36.8%;">reversal.silent</div>
-          <div class="problem__pulse-label" style="left: 61.7%;">recon.manual</div>
-          <div class="problem__pulse-label" style="left: 86.7%;">audit.weeklong</div>
+          <button type="button" class="problem__pulse-label" data-pain="timeout.outage"  style="left: 11.7%;" aria-label="Open list at timeout.outage">timeout.outage</button>
+          <button type="button" class="problem__pulse-label" data-pain="reversal.silent" style="left: 36.8%;" aria-label="Open list at reversal.silent">reversal.silent</button>
+          <button type="button" class="problem__pulse-label" data-pain="recon.manual"    style="left: 61.7%;" aria-label="Open list at recon.manual">recon.manual</button>
+          <button type="button" class="problem__pulse-label" data-pain="audit.weeklong"  style="left: 86.7%;" aria-label="Open list at audit.weeklong">audit.weeklong</button>
         </div>
       </div>
 
@@ -1310,15 +1338,15 @@
           <span class="drawer__cluster-count">3 patterns</span>
         </div>
         <ul class="drawer__list">
-          <li class="drawer__item">
+          <li class="drawer__item" data-pain-item="timeout.outage">
             <span class="drawer__tag">timeout.outage</span>
             <span class="drawer__desc">Customers see the outage before your dashboards do. Twitter is faster than monitoring.</span>
           </li>
-          <li class="drawer__item">
+          <li class="drawer__item" data-pain-item="reversal.silent">
             <span class="drawer__tag">reversal.silent</span>
             <span class="drawer__desc">A reversal fails silently. Finance discovers the gap three days later during reconciliation.</span>
           </li>
-          <li class="drawer__item">
+          <li class="drawer__item" data-pain-item="recon.manual">
             <span class="drawer__tag">recon.manual</span>
             <span class="drawer__desc">Month-end in spreadsheets. Four thousand rows. Manual matching. Weekend war rooms.</span>
           </li>
@@ -1332,15 +1360,15 @@
           <span class="drawer__cluster-count">3 patterns</span>
         </div>
         <ul class="drawer__list">
-          <li class="drawer__item">
+          <li class="drawer__item" data-pain-item="audit.weeklong">
             <span class="drawer__tag">audit.weeklong</span>
             <span class="drawer__desc">"Show me Q3 reversals by reason code." One engineer. Five dashboards. Five days. Every quarter.</span>
           </li>
-          <li class="drawer__item">
+          <li class="drawer__item" data-pain-item="deploy.midnight">
             <span class="drawer__tag">deploy.midnight</span>
             <span class="drawer__desc">Releases at 11pm because daytime is too risky. Rollbacks at 2am. On-call paged.</span>
           </li>
-          <li class="drawer__item">
+          <li class="drawer__item" data-pain-item="customer.complaints">
             <span class="drawer__tag">customer.complaints</span>
             <span class="drawer__desc">A missing transaction. Five systems to query. Two days to give the customer an answer — by then they're gone.</span>
           </li>
@@ -1354,11 +1382,11 @@
           <span class="drawer__cluster-count">2 patterns</span>
         </div>
         <ul class="drawer__list">
-          <li class="drawer__item">
+          <li class="drawer__item" data-pain-item="security.surface">
             <span class="drawer__tag">security.surface</span>
             <span class="drawer__desc">Every new integration is a new attack vector. Ten operators equals ten places encryption can be wrong.</span>
           </li>
-          <li class="drawer__item">
+          <li class="drawer__item" data-pain-item="compliance.bolton">
             <span class="drawer__tag">compliance.bolton</span>
             <span class="drawer__desc">AML, KYC, and sanctions screening retro-fitted after every new corridor goes live.</span>
           </li>
@@ -1372,11 +1400,11 @@
           <span class="drawer__cluster-count">2 patterns</span>
         </div>
         <ul class="drawer__list">
-          <li class="drawer__item">
+          <li class="drawer__item" data-pain-item="corridor.6mo">
             <span class="drawer__tag">corridor.6mo</span>
             <span class="drawer__desc">Every new operator is a six-month integration project — new protocol, new AML, new audit trail, built from scratch.</span>
           </li>
-          <li class="drawer__item">
+          <li class="drawer__item" data-pain-item="cost.invisible">
             <span class="drawer__tag">cost.invisible</span>
             <span class="drawer__desc">Eighty percent of your engineering team keeps payments alive. Twenty percent ships the products that actually win business.</span>
           </li>
@@ -1431,13 +1459,31 @@
       if (!drawer || !scrim) return;
 
       let lastFocus = null;
-      function open() {
+      function open(targetPain) {
         lastFocus = document.activeElement;
         drawer.classList.add('is-open');
         scrim.classList.add('is-open');
         drawer.setAttribute('aria-hidden', 'false');
         scrim.setAttribute('aria-hidden', 'false');
         document.body.style.overflow = 'hidden';
+
+        // If opened via a chart label, scroll to and flash the matching item
+        if (targetPain) {
+          // wait one frame so the drawer is laid out before measuring scroll
+          requestAnimationFrame(() => {
+            const item = drawer.querySelector('[data-pain-item="' + targetPain + '"]');
+            if (item) {
+              const body = drawer.querySelector('.drawer__body');
+              // scroll the body so the item is visible (most heights it already is)
+              item.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              // re-trigger flash animation
+              item.classList.remove('is-highlight');
+              void item.offsetWidth;
+              item.classList.add('is-highlight');
+            }
+          });
+        }
+
         const closeBtn = drawer.querySelector('[data-drawer-close]');
         if (closeBtn) closeBtn.focus();
       }
@@ -1449,11 +1495,17 @@
         document.body.style.overflow = '';
         if (lastFocus && lastFocus.focus) lastFocus.focus();
       }
-      openers.forEach(b => b.addEventListener('click', open));
+      openers.forEach(b => b.addEventListener('click', () => open()));
       closers.forEach(b => b.addEventListener('click', close));
       scrim.addEventListener('click', close);
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && drawer.classList.contains('is-open')) close();
+      });
+
+      // Chart-label → drawer bridge: clicking a labelled drop opens the
+      // drawer scrolled to that pain with a brief flash highlight.
+      document.querySelectorAll('[data-pain]').forEach(el => {
+        el.addEventListener('click', () => open(el.dataset.pain));
       });
     })();
   </script>
