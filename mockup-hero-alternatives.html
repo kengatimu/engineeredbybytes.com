@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>Hero Alternatives — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream: #F8F6F1;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --crimson-soft: rgba(139, 26, 26, 0.12);
+      --white: #FFFFFF;
+      --text-body: #333333;
+      --text-muted: #666666;
+      --text-faint: #999999;
+      --rule: rgba(13, 34, 64, 0.10);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-ui); background: var(--cream); color: var(--text-body); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ──────────────────── Switcher nav ──────────────────── */
+    .switcher {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); color: var(--cream);
+      padding: 14px 28px;
+      display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+      font: 500 13px/1 var(--font-ui);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .switcher b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 12px; }
+    .switcher a { color: rgba(255,255,255,0.7); padding: 6px 10px; border-radius: 4px; }
+    .switcher a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .label {
+      max-width: 1280px; margin: 0 auto; padding: 28px 28px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; gap: 16px; align-items: baseline; flex-wrap: wrap;
+    }
+    .label__tag { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--crimson); }
+    .label__title { font: 700 18px/1.3 var(--font-display); }
+    .label__note { font: 400 13px/1.4 var(--font-ui); color: var(--text-muted); margin-left: auto; max-width: 540px; }
+
+    /* ──────────────────── Shared hero scaffolding ──────────────────── */
+    .nav {
+      position: absolute; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 24px 32px; z-index: 10;
+    }
+    .nav__brand { display: inline-flex; align-items: center; line-height: 0; margin: -28px -22px; }
+    .nav__brand img { height: 110px; width: auto; display: block; }
+    .nav__cta {
+      font-family: var(--font-ui); font-size: 13px; font-weight: 600;
+      color: var(--navy); padding: 10px 18px;
+      border: 1.5px solid var(--navy); border-radius: 3px;
+      transition: background 0.3s var(--ease), color 0.3s var(--ease);
+    }
+    .nav__cta:hover { background: var(--navy); color: var(--white); }
+
+    .hero {
+      position: relative;
+      min-height: 100dvh;
+      background: var(--cream);
+      padding: 96px 24px 48px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 600 14px/1 var(--font-ui);
+      letter-spacing: 0.02em;
+      padding: 15px 28px;
+      border-radius: 3px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+    }
+    .btn--primary { background: var(--crimson); color: var(--white); border-color: var(--crimson); }
+    .btn--primary:hover { background: #721515; border-color: #721515; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,26,26,0.32); }
+    .btn--ghost { background: transparent; color: var(--navy); border-color: var(--navy); }
+    .btn--ghost:hover { background: var(--navy); color: var(--white); }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .eyebrow::before {
+      content: ''; width: 28px; height: 1.5px;
+      background: var(--crimson); display: inline-block;
+    }
+
+    .proof {
+      max-width: 1180px; margin: 0 auto; width: 100%;
+      padding-top: 32px; margin-top: auto;
+      border-top: 1px solid var(--rule);
+      display: flex; justify-content: center; gap: 80px; flex-wrap: wrap;
+    }
+    .proof__stat { text-align: center; }
+    .proof__num {
+      font: 400 28px/1 var(--font-display);
+      color: var(--navy);
+    }
+    .proof__num sup { font-size: 0.55em; color: var(--crimson); margin-left: 2px; vertical-align: super; }
+    .proof__num sub { font-size: 0.5em; color: var(--text-muted); margin-left: 2px; vertical-align: baseline; font-family: var(--font-ui); }
+    .proof__label {
+      margin-top: 8px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       H1 — MIRROR-ECG hero: calm steady waveform mirrors §2
+       ══════════════════════════════════════════════════════════════════ */
+    .h1 .container {
+      max-width: 1280px; margin: 0 auto; width: 100%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+      align-items: center;
+      flex: 1;
+    }
+    .h1 .text { padding: 0 12px; }
+    .h1 .headline {
+      font: 400 clamp(36px, 5vw, 56px)/1.15 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.01em;
+      margin: 20px 0 22px;
+      max-width: 14ch;
+    }
+    .h1 .headline em { font-style: italic; color: var(--crimson); }
+    .h1 .sub {
+      font: 400 17px/1.6 var(--font-ui);
+      color: var(--text-muted);
+      max-width: 48ch;
+      margin-bottom: 36px;
+    }
+    .h1 .ctas { display: flex; gap: 12px; }
+
+    .h1 .pulse {
+      padding: 0 12px;
+    }
+    .h1 .pulse-frame {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 0;
+    }
+    .h1 .pulse-meta {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 14px 4px;
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .h1 .pulse-meta b { color: var(--navy); font-weight: 500; }
+    .h1 .pulse-meta .ok { color: #3B6B5C; }
+    .h1 .pulse-meta .ok::before {
+      content: ''; display: inline-block;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #3B6B5C; margin-right: 6px;
+      vertical-align: middle;
+    }
+    .h1 .pulse svg { width: 100%; height: 220px; display: block; }
+    .h1 .pulse svg .line { fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-linecap: round; }
+    .h1 .pulse svg .ghost { fill: none; stroke: var(--navy); stroke-width: 1.5; stroke-dasharray: 4 4; opacity: 0.15; }
+    .h1 .pulse svg .scan { fill: var(--crimson); }
+    .h1 .pulse-caption {
+      padding: 14px 4px 4px;
+      font: 400 12px/1.5 var(--font-ui);
+      color: var(--text-muted);
+      text-align: center;
+      font-style: italic;
+    }
+
+    /* ══════════════════════════════════════════════════════════════════
+       H2 — EDITORIAL CENTERED: logo big, centered, single CTA
+       ══════════════════════════════════════════════════════════════════ */
+    .h2 { background: var(--cream-warm); }
+    .h2 .nav { display: none; }
+    .h2 .container {
+      max-width: 980px; margin: 0 auto; width: 100%;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+      padding-top: 64px;
+      flex: 1;
+    }
+    .h2 .markmast { margin-bottom: 56px; }
+    .h2 .markmast img { height: 180px; width: auto; display: block; }
+    .h2 .h2-headline {
+      font: 400 clamp(32px, 4.4vw, 52px)/1.2 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.01em;
+      margin-bottom: 22px;
+      max-width: 18ch;
+    }
+    .h2 .h2-headline em { font-style: italic; color: var(--crimson); }
+    .h2 .h2-sub {
+      font: 400 17px/1.65 var(--font-ui);
+      color: var(--text-muted);
+      max-width: 56ch;
+      margin-bottom: 40px;
+    }
+    .h2 .h2-cta-row { display: flex; gap: 16px; align-items: center; }
+    .h2 .h2-cta-row .small {
+      font: 500 12px/1 var(--font-ui);
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .h2 .h2-cta-row a.small { border-bottom: 1px solid var(--text-muted); padding-bottom: 2px; }
+
+    /* ══════════════════════════════════════════════════════════════════
+       H3 — ASYMMETRIC EDITORIAL: bold left headline, no diagram
+       ══════════════════════════════════════════════════════════════════ */
+    .h3 .container {
+      max-width: 1280px; margin: 0 auto; width: 100%;
+      padding: 0 12px;
+      flex: 1; display: flex; flex-direction: column; justify-content: center;
+    }
+    .h3 .h3-headline {
+      font: 400 clamp(48px, 8vw, 104px)/1.04 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.02em;
+      margin: 28px 0 36px;
+      max-width: 14ch;
+    }
+    .h3 .h3-headline em { font-style: italic; color: var(--crimson); }
+    .h3 .h3-meta {
+      display: grid; grid-template-columns: 1fr auto; gap: 24px; align-items: end;
+      max-width: 1280px;
+      border-top: 1px solid var(--rule);
+      padding-top: 28px;
+    }
+    .h3 .h3-sub {
+      font: 400 16px/1.65 var(--font-ui);
+      color: var(--text-muted);
+      max-width: 52ch;
+    }
+    .h3 .h3-cta { display: flex; gap: 12px; align-items: center; }
+
+    /* ──────────────────── Reduced motion ──────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      .h1 .pulse svg .line { animation: none !important; }
+    }
+
+    /* ──────────────────── Mobile ──────────────────── */
+    @media (max-width: 900px) {
+      .h1 .container { grid-template-columns: 1fr; gap: 40px; }
+      .h1 .pulse svg { height: 160px; }
+      .h2 .markmast img { height: 130px; }
+      .h3 .h3-meta { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="switcher">
+    <b>Hero alternatives</b>
+    <a href="#h1">H1 Mirror-ECG</a>
+    <a href="#h2">H2 Editorial centered</a>
+    <a href="#h3">H3 Asymmetric editorial</a>
+  </nav>
+
+  <!-- ═══════════════ H1 ═══════════════ -->
+  <div class="label" id="h1-label">
+    <span class="label__tag">H1</span>
+    <span class="label__title">Mirror-ECG — calm waveform sets up §2's broken one</span>
+    <span class="label__note">Same chart language as §2. Hero shows the platonic ideal: steady, unbroken throughput. §2 then reveals what really happens. Narrative arc.</span>
+  </div>
+  <section class="hero h1" id="h1">
+    <nav class="nav">
+      <a href="#" class="nav__brand" aria-label="EBB Systems home"><img src="/assets/img/logo-light.png" alt="EBB Systems"></a>
+      <a href="#talk" class="nav__cta">Talk to engineering →</a>
+    </nav>
+
+    <div class="container">
+      <div class="text">
+        <span class="eyebrow">Payment infrastructure · for banks &amp; fintechs</span>
+        <h1 class="headline">Your payments should look <em>like this.</em></h1>
+        <p class="sub">A steady line. No drops, no silent reversals, no midnight rollbacks. EBB Systems is the infrastructure layer that keeps your payment platform that way — resilient routing, auto-reversal, defence-in-depth, audit trails ready for any regulator.</p>
+        <div class="ctas">
+          <a href="#talk" class="btn btn--primary">Talk to engineering →</a>
+          <a href="#problem" class="btn btn--ghost">See what we fix</a>
+        </div>
+      </div>
+
+      <div class="pulse">
+        <div class="pulse-frame">
+          <div class="pulse-meta">
+            <span><b>payments throughput</b> · target shape</span>
+            <span class="ok">stable</span>
+          </div>
+          <svg viewBox="0 0 600 220" preserveAspectRatio="none" aria-hidden="true">
+            <!-- Faint grid -->
+            <line x1="0" y1="110" x2="600" y2="110" stroke="rgba(13,34,64,0.06)" stroke-dasharray="2 4"/>
+            <!-- Ghost broken trace (very faint, just hints at what §2 shows) -->
+            <path class="ghost" d="
+              M 0 105
+              Q 30 100, 60 110 T 110 108
+              L 115 108 L 120 180 L 125 108
+              Q 160 105, 200 115 T 290 110
+              L 295 110 L 300 175 L 305 110
+              Q 340 108, 380 115 T 460 110
+              L 465 110 L 470 185 L 475 110
+              Q 510 108, 550 115 T 600 110
+            "/>
+            <!-- Main steady line — soft sinusoid -->
+            <path class="line" d="
+              M 0 110
+              C 50 95, 100 125, 150 110
+              S 250 95, 300 110
+              S 400 125, 450 110
+              S 550 95, 600 110
+            "/>
+            <!-- A subtle moving 'scan' dot that traces the line -->
+            <circle class="scan" r="4">
+              <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
+                <mpath href="#scanpath" />
+              </animateMotion>
+            </circle>
+            <path id="scanpath" d="
+              M 0 110
+              C 50 95, 100 125, 150 110
+              S 250 95, 300 110
+              S 400 125, 450 110
+              S 550 95, 600 110
+            " fill="none" stroke="none"/>
+          </svg>
+          <p class="pulse-caption">What every payments platform's pulse should look like.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="proof">
+      <div class="proof__stat"><div class="proof__num">10<sup>M+</sup></div><div class="proof__label">tx / day</div></div>
+      <div class="proof__stat"><div class="proof__num">4–8<sub>wk</sub></div><div class="proof__label">corridor deploy</div></div>
+      <div class="proof__stat"><div class="proof__num">99.99<sup>%</sup></div><div class="proof__label">audit coverage</div></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ H2 ═══════════════ -->
+  <div class="label" id="h2-label">
+    <span class="label__tag">H2</span>
+    <span class="label__title">Editorial centered — logo big, single CTA, magazine cover</span>
+    <span class="label__note">Logo IS the visual. Centered, restrained, lots of whitespace. Stripe Atlas / Resend / Mercury energy. Most confident, most banker-credible.</span>
+  </div>
+  <section class="hero h2" id="h2">
+    <div class="container">
+      <div class="markmast">
+        <img src="/assets/img/logo-light.png" alt="EBB Systems">
+      </div>
+      <span class="eyebrow">Payment infrastructure · for banks &amp; fintechs</span>
+      <h1 class="h2-headline" style="margin-top: 28px;">Built for payments that <em>can't go down.</em></h1>
+      <p class="h2-sub">EBB Systems is the infrastructure layer that eliminates the recurring pain in your payment stack — resilient routing, real-time visibility, auto-reversal, defence-in-depth security, and audit trails ready for any regulator.</p>
+      <div class="h2-cta-row">
+        <a href="#talk" class="btn btn--primary">Talk to engineering →</a>
+        <a href="#problem" class="small">See what we fix ↓</a>
+      </div>
+    </div>
+
+    <div class="proof">
+      <div class="proof__stat"><div class="proof__num">10<sup>M+</sup></div><div class="proof__label">tx / day</div></div>
+      <div class="proof__stat"><div class="proof__num">4–8<sub>wk</sub></div><div class="proof__label">corridor deploy</div></div>
+      <div class="proof__stat"><div class="proof__num">99.99<sup>%</sup></div><div class="proof__label">audit coverage</div></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════ H3 ═══════════════ -->
+  <div class="label" id="h3-label">
+    <span class="label__tag">H3</span>
+    <span class="label__title">Asymmetric editorial — no diagram, headline is everything</span>
+    <span class="label__note">Massive left-aligned headline owns the viewport. No hero diagram. Lets §2's ECG be THE visual moment. Boldest, most minimal, riskiest.</span>
+  </div>
+  <section class="hero h3" id="h3">
+    <nav class="nav">
+      <a href="#" class="nav__brand" aria-label="EBB Systems home"><img src="/assets/img/logo-light.png" alt="EBB Systems"></a>
+      <a href="#talk" class="nav__cta">Talk to engineering →</a>
+    </nav>
+
+    <div class="container">
+      <span class="eyebrow">Payment infrastructure · for banks &amp; fintechs</span>
+      <h1 class="h3-headline">Your payment platform works — <em>until it doesn't.</em></h1>
+      <div class="h3-meta">
+        <p class="h3-sub">EBB Systems is the infrastructure layer that eliminates the recurring pain in your payment stack — resilient routing, real-time visibility, auto-reversal, defence-in-depth security, and audit trails ready for any regulator.</p>
+        <div class="h3-cta">
+          <a href="#talk" class="btn btn--primary">Talk to engineering →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="proof">
+      <div class="proof__stat"><div class="proof__num">10<sup>M+</sup></div><div class="proof__label">tx / day</div></div>
+      <div class="proof__stat"><div class="proof__num">4–8<sub>wk</sub></div><div class="proof__label">corridor deploy</div></div>
+      <div class="proof__stat"><div class="proof__num">99.99<sup>%</sup></div><div class="proof__label">audit coverage</div></div>
+    </div>
+  </section>
+</body>
+</html>
