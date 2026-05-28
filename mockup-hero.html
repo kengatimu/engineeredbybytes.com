@@ -143,6 +143,57 @@
       text-align: center;
     }
 
+    /* ---------- Centered editorial hero (production parity) ----------
+       Logo centred in the page, big stacked tagline, single lead paragraph,
+       two CTAs (primary crimson + outline navy). This is the production
+       'Secure. Scalable. Engineered for Trust.' layout, ported to V2. */
+    .hero--brand-first .hero__container--centered {
+      max-width: 980px;
+      gap: 0;
+    }
+    .hero__markmast {
+      margin: 16px 0 40px;
+      line-height: 0;
+    }
+    .hero__markmast img {
+      height: 200px;
+      width: auto;
+      display: block;
+    }
+    .hero__brand-tagline {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 56px);
+      font-weight: 400;
+      color: var(--navy);
+      line-height: 1.18;
+      letter-spacing: -0.01em;
+      margin-bottom: 28px;
+    }
+    .hero__brand-tagline em {
+      font-style: italic;
+      color: var(--navy);
+      font-weight: 400;
+    }
+    .hero__brand-lead {
+      font-family: var(--font-ui);
+      font-size: clamp(16px, 1.7vw, 18px);
+      color: var(--text-muted);
+      line-height: 1.65;
+      max-width: 56ch;
+      margin-bottom: 40px;
+    }
+    .hero__cta-row--centered {
+      flex-direction: row;
+      max-width: none;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 720px) {
+      .hero__markmast img { height: 130px; }
+      .hero__cta-row--centered { flex-direction: column; width: 100%; max-width: 320px; }
+    }
+
     /* Crimson rule above headline — brand cue */
     .hero__rule {
       width: 48px;
@@ -563,7 +614,59 @@
       0%   { r: 4; opacity: 0.55; }
       100% { r: 22; opacity: 0; }
     }
+    /* ---------- §2 prose lede — editorial paragraph that names 7 pains ---
+       The prose IS the problem statement; the chart below visualises it.
+       Pain phrases are rendered as inline-clickable buttons that open the
+       drawer scrolled to that pattern. */
+    .problem__prose {
+      max-width: 860px;
+      margin: 0 0 48px;
+      font-family: var(--font-ui);
+      font-size: 18px;
+      line-height: 1.75;
+      color: var(--text-body);
+    }
+    .problem__prose-lead {
+      display: block;
+      margin-bottom: 18px;
+      font-family: var(--font-display);
+      font-size: clamp(24px, 3vw, 32px);
+      font-weight: 400;
+      line-height: 1.3;
+      color: var(--navy);
+      letter-spacing: -0.005em;
+    }
+    .problem__prose-lead em {
+      font-style: italic;
+      color: var(--crimson);
+    }
+    .pain {
+      display: inline;
+      font-family: var(--font-mono);
+      font-size: 0.78em;
+      font-weight: 500;
+      color: var(--crimson);
+      background: rgba(139,26,26,0.07);
+      padding: 1px 6px;
+      border: 0;
+      border-radius: 3px;
+      white-space: nowrap;
+      letter-spacing: 0;
+      cursor: pointer;
+      transition: background 0.2s var(--ease), color 0.2s var(--ease);
+    }
+    .pain:hover {
+      background: rgba(139,26,26,0.16);
+      color: #6B0F0F;
+    }
+    .pain:focus-visible {
+      outline: 2px solid var(--crimson);
+      outline-offset: 2px;
+    }
+
+    /* Unused after prose redesign — kept harmless for legacy safety */
     .problem__pulse-labels {
+      display: none;
       position: relative;
       height: 50px;
     }
@@ -1062,34 +1165,31 @@
   <!-- ============================================================
        HERO
        ============================================================ -->
-  <section class="hero" id="hero">
-    <div class="hero__container">
+  <section class="hero hero--brand-first" id="hero">
+    <div class="hero__container hero__container--centered">
 
-      <!-- LEFT: text + CTA -->
-      <div class="hero__text">
-        <span class="live-badge">
-          Payment infrastructure · for banks &amp; fintechs
-        </span>
-
-        <h1 class="hero__headline">
-          Your payment platform works <em>— until it doesn't.</em>
-        </h1>
-
-        <p class="hero__sub">
-          EBB Systems is the infrastructure layer that eliminates the recurring
-          pain in your payment stack — resilient routing, real-time visibility,
-          auto-reversal, defence-in-depth security, and audit trails ready for
-          any regulator.
-        </p>
-
-        <div class="hero__cta-row">
-          <a href="#talk" class="btn btn--primary">Talk to engineering →</a>
-          <a href="#solution" class="btn btn--ghost">See how it works</a>
-        </div>
+      <!-- Centered logo mark — the page identity, like production -->
+      <div class="hero__markmast">
+        <img src="/assets/img/logo-light.png" alt="EBB Systems" />
       </div>
 
-      <!-- RIGHT: network visualization (the ambient pulse) -->
-      <div class="hero__viz" aria-hidden="true">
+      <h1 class="hero__brand-tagline">
+        Secure. Scalable.<br>
+        <em>Engineered for Trust.</em>
+      </h1>
+
+      <p class="hero__brand-lead">
+        Secure financial infrastructure and integration services<br>
+        for banks, fintechs, and institutions worldwide.
+      </p>
+
+      <div class="hero__cta-row hero__cta-row--centered">
+        <a href="#problem" class="btn btn--primary">Explore Our Solutions</a>
+        <a href="#talk" class="btn btn--ghost">Schedule a Briefing</a>
+      </div>
+
+      <!-- (Removed: side network viz — we now lead with brand identity.) -->
+      <div class="hero__viz" aria-hidden="true" hidden>
         <svg class="network" viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg">
 
           <!-- Hidden definitions for animation paths
@@ -1217,12 +1317,12 @@
         <div class="proof__divider" aria-hidden="true"></div>
         <div class="proof__item">
           <div class="proof__value">4–8<em>wk</em></div>
-          <div class="proof__label">Corridor deployment</div>
+          <div class="proof__label">New corridor live</div>
         </div>
         <div class="proof__divider" aria-hidden="true"></div>
         <div class="proof__item">
-          <div class="proof__value">99.99<em>%</em></div>
-          <div class="proof__label">Audit coverage</div>
+          <div class="proof__value">6</div>
+          <div class="proof__label">Security layers</div>
         </div>
       </div>
     </div>
@@ -1244,66 +1344,67 @@
 
       <header class="problem__head">
         <span class="problem__eyebrow">§ 02 · the recurring pattern</span>
-        <h2 class="problem__heading">This is what every payments platform's pulse looks like.</h2>
-        <p class="problem__lede">
-          Steady throughput. Then a drop. Then another. Each one is a pattern we hear in every conversation with a bank or fintech CTO.
-        </p>
+        <h2 class="problem__heading">The problem, in one breath.</h2>
       </header>
 
-      <!-- ECG pulse — the signature §2 visual -->
+      <!-- Editorial prose lede — names 7 of the 10 patterns inline. The
+           remaining 3 (recon.manual, customer.complaints, compliance.bolton)
+           live in the full drawer list. Pain phrases are clickable and open
+           the drawer scrolled to that item. -->
+      <p class="problem__prose">
+        <span class="problem__prose-lead">Your payment platform works — <em>until it doesn't.</em></span>
+        <button type="button" class="pain" data-pain="timeout.outage">timeout.outage</button>s your customers see before your dashboards do.
+        <button type="button" class="pain" data-pain="reversal.silent">reversal.silent</button> for hours.
+        <button type="button" class="pain" data-pain="audit.weeklong">audit.weeklong</button> that consumes your team every quarter.
+        <button type="button" class="pain" data-pain="corridor.6mo">corridor.6mo</button> projects three integration teams deep.
+        <button type="button" class="pain" data-pain="deploy.midnight">deploy.midnight</button> because daytime is too risky.
+        A <button type="button" class="pain" data-pain="security.surface">security.surface</button> that grows with every operator you add.
+        And the <button type="button" class="pain" data-pain="cost.invisible">cost.invisible</button> it takes to keep it all alive — engineering headcount building infrastructure no buyer will ever see, instead of products that win business.
+      </p>
+
+      <!-- ECG pulse — visual reinforcement of the prose above. The chart
+           is now unlabelled (the prose names the pains) and acts as the
+           signature visual moment for §2. -->
       <div class="problem__pulse" data-reveal>
-        <!-- Screen-reader summary: the chart itself is aria-hidden, but this -->
-        <!-- conveys the same message and lists the four labelled drops. -->
         <p class="sr-only">
-          Illustrative throughput chart for a payments platform. The line is mostly steady, with four sharp drops marking moments of failure. Each drop is labelled with a recurring pain pattern: timeout.outage, reversal.silent, recon.manual, and audit.weeklong. Six more patterns are listed in the full pattern panel below.
+          Illustrative throughput chart for a payments platform. The line is mostly steady, with four sharp drops marking moments of failure that recur across every payment stack we have seen.
         </p>
         <div class="problem__pulse-meta">
           <span><b>payments throughput</b> · composite shape</span>
           <span class="tag">illustrative — patterns we hear in every CTO conversation</span>
         </div>
-        <svg viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true">
-          <line x1="0" y1="130" x2="1200" y2="130" stroke="rgba(13,34,64,0.08)" stroke-dasharray="2 4"/>
+        <svg viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="0" y1="110" x2="1200" y2="110" stroke="rgba(13,34,64,0.08)" stroke-dasharray="2 4"/>
           <path class="line" d="
-            M 0 120
-            Q 30 115, 60 125 T 120 122
-            L 130 122 L 140 230 L 150 122
-            Q 180 118, 210 128 T 280 120
-            Q 320 112, 360 125 T 420 120
-            L 430 120 L 442 210 L 454 120
-            Q 490 115, 520 128 T 580 122
-            Q 620 120, 660 125 T 720 118
-            L 728 118 L 740 240 L 752 118
-            Q 790 115, 820 125 T 880 120
-            Q 920 118, 960 128 T 1020 120
-            L 1028 120 L 1040 220 L 1052 120
-            Q 1090 118, 1120 128 T 1200 122
+            M 0 100
+            Q 30 95, 60 105 T 120 102
+            L 130 102 L 140 200 L 150 102
+            Q 180 98, 210 108 T 280 100
+            Q 320 92, 360 105 T 420 100
+            L 430 100 L 442 180 L 454 100
+            Q 490 95, 520 108 T 580 102
+            Q 620 100, 660 105 T 720 98
+            L 728 98 L 740 210 L 752 98
+            Q 790 95, 820 105 T 880 100
+            Q 920 98, 960 108 T 1020 100
+            L 1028 100 L 1040 190 L 1052 100
+            Q 1090 98, 1120 108 T 1200 102
           "/>
           <g class="marker">
-            <circle cx="140" cy="230" r="4"/>
-            <circle cx="442" cy="210" r="4"/>
-            <circle cx="740" cy="240" r="4"/>
-            <circle cx="1040" cy="220" r="4"/>
+            <circle cx="140" cy="200" r="4"/>
+            <circle cx="442" cy="180" r="4"/>
+            <circle cx="740" cy="210" r="4"/>
+            <circle cx="1040" cy="190" r="4"/>
           </g>
-          <circle class="ring" cx="140" cy="230"/>
-          <circle class="ring" cx="442" cy="210"/>
-          <circle class="ring" cx="740" cy="240"/>
-          <circle class="ring" cx="1040" cy="220"/>
+          <circle class="ring" cx="140" cy="200"/>
+          <circle class="ring" cx="442" cy="180"/>
+          <circle class="ring" cx="740" cy="210"/>
+          <circle class="ring" cx="1040" cy="190"/>
         </svg>
-        <div class="problem__pulse-labels">
-          <button type="button" class="problem__pulse-label" data-pain="timeout.outage"  style="left: 11.7%;" aria-label="Open list at timeout.outage">timeout.outage</button>
-          <button type="button" class="problem__pulse-label" data-pain="reversal.silent" style="left: 36.8%;" aria-label="Open list at reversal.silent">reversal.silent</button>
-          <button type="button" class="problem__pulse-label" data-pain="recon.manual"    style="left: 61.7%;" aria-label="Open list at recon.manual">recon.manual</button>
-          <button type="button" class="problem__pulse-label" data-pain="audit.weeklong"  style="left: 86.7%;" aria-label="Open list at audit.weeklong">audit.weeklong</button>
-        </div>
-        <!-- Mobile fallback: labels become a single inline caption -->
-        <p class="problem__pulse-caption" aria-hidden="true">
-          <b>Four of ten patterns:</b>
-          <span>timeout.outage</span>·<span>reversal.silent</span>·<span>recon.manual</span>·<span>audit.weeklong</span>
-        </p>
       </div>
 
       <p class="problem__footnote">
-        Ten patterns we hear in every conversation with a bank or fintech CTO.
+        <b>Seven patterns named above.</b> Four drops shown. Three more in the full list.
         <button type="button" class="problem__see-list" data-drawer-open>See the list →</button>
       </p>
 
