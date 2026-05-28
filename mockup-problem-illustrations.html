@@ -107,6 +107,30 @@
       position: absolute; top: 0; left: 50%;
     }
 
+    /* ═════════ Shared keyframes ═════════ */
+    @keyframes dotPulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
+    }
+    @keyframes ringExpand {
+      0%   { r: 4; opacity: 0.55; }
+      100% { r: 20; opacity: 0; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    @keyframes scanRow {
+      0%, 100% { background: rgba(13,34,64,0.06); }
+      50% { background: rgba(139,26,26,0.3); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01s !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+
     /* ═════════ I2 — PAYMENT STACK DIAGRAM ═════════ */
     .i2 .stack {
       max-width: 760px;
@@ -144,7 +168,13 @@
     .i2 .layer-failures span::before {
       content: ''; width: 6px; height: 6px; border-radius: 50%;
       background: var(--crimson);
+      animation: dotPulse 2s ease-in-out infinite;
     }
+    .i2 .layer:nth-child(1) span::before { animation-delay: 0.0s; }
+    .i2 .layer:nth-child(2) span::before { animation-delay: 0.3s; }
+    .i2 .layer:nth-child(3) span::before { animation-delay: 0.6s; }
+    .i2 .layer:nth-child(4) span::before { animation-delay: 0.9s; }
+    .i2 .layer:nth-child(5) span::before { animation-delay: 1.2s; }
     .i2 .layer-count {
       font: 500 11px/1 var(--font-mono);
       color: var(--crimson);
@@ -182,8 +212,28 @@
     .i4 .ring-bg { fill: none; stroke: var(--rule); stroke-width: 1; }
     .i4 .ring-tick { stroke: rgba(13,34,64,0.18); stroke-width: 1; }
     .i4 .hour-label { fill: var(--text-faint); font: 500 9px var(--font-mono); letter-spacing: 0.08em; }
-    .i4 .event { fill: var(--crimson); }
-    .i4 .event-ring { fill: none; stroke: var(--crimson); stroke-width: 1; opacity: 0.4; }
+    .i4 .event {
+      fill: var(--crimson);
+      transform-box: fill-box; transform-origin: center;
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    .i4 .event-ring {
+      fill: none; stroke: var(--crimson); stroke-width: 1; opacity: 0;
+      transform-box: fill-box; transform-origin: center;
+      animation: i4ring 4.2s ease-out infinite;
+    }
+    @keyframes i4ring {
+      0%   { r: 8; opacity: 0.7; }
+      40%  { r: 24; opacity: 0; }
+      100% { r: 24; opacity: 0; }
+    }
+    /* Sequence the 6 events around the clock so they pulse in time order */
+    .i4 .event:nth-of-type(1), .i4 .event-ring:nth-of-type(1) { animation-delay: 0.0s; }
+    .i4 .event:nth-of-type(2), .i4 .event-ring:nth-of-type(2) { animation-delay: 0.5s; }
+    .i4 .event:nth-of-type(3), .i4 .event-ring:nth-of-type(3) { animation-delay: 1.0s; }
+    .i4 .event:nth-of-type(4), .i4 .event-ring:nth-of-type(4) { animation-delay: 1.5s; }
+    .i4 .event:nth-of-type(5), .i4 .event-ring:nth-of-type(5) { animation-delay: 2.0s; }
+    .i4 .event:nth-of-type(6), .i4 .event-ring:nth-of-type(6) { animation-delay: 2.5s; }
     .i4 .ev-label { fill: var(--crimson); font: italic 11px var(--font-display); }
     .i4 .center-label {
       fill: rgba(13,34,64,0.4); font: italic 11px var(--font-display);
@@ -231,6 +281,12 @@
     .i5 .sq {
       background: rgba(13,34,64,0.06);
       border-radius: 2px;
+      opacity: 0;
+      animation: i5fill 0.4s ease-out forwards;
+    }
+    @keyframes i5fill {
+      from { opacity: 0; transform: scale(0.6); }
+      to   { opacity: 1; transform: scale(1); }
     }
     .i5 .sq.l1 { background: rgba(139,26,26,0.25); }
     .i5 .sq.l2 { background: rgba(139,26,26,0.5); }
@@ -265,12 +321,28 @@
       border-bottom: 1px solid var(--rule);
       overflow: hidden;
     }
-    .i6 svg.berg { position: absolute; left: 50%; top: 0; height: 100%; transform: translateX(-50%); }
+    .i6 svg.berg {
+      position: absolute; left: 50%; top: 0; height: 100%;
+      transform: translateX(-50%);
+      animation: i6drift 7s ease-in-out infinite;
+    }
+    @keyframes i6drift {
+      0%, 100% { transform: translate(-50%, 0); }
+      50%      { transform: translate(-50%, -6px); }
+    }
     .i6 .berg-poly { fill: rgba(13,34,64,0.06); stroke: var(--navy); stroke-width: 1; }
     .i6 .berg-poly.below { fill: rgba(13,34,64,0.12); }
     .i6 .waterline {
       position: absolute; left: 0; right: 0; top: 38%; height: 1px;
-      background: rgba(13,34,64,0.3);
+      background: linear-gradient(to right,
+        transparent 0%, rgba(13,34,64,0.3) 10%,
+        rgba(13,34,64,0.3) 90%, transparent 100%);
+      background-size: 40px 1px;
+      animation: i6water 3s linear infinite;
+    }
+    @keyframes i6water {
+      from { background-position: 0 0; }
+      to   { background-position: 40px 0; }
     }
     .i6 .waterline::before {
       content: 'waterline · what customers see';
@@ -343,7 +415,14 @@
       width: 8px; height: 8px; border-radius: 50%;
       background: rgba(255,255,255,0.15);
     }
-    .i8 .dot.r { background: #e74c3c; }
+    .i8 .dot.r {
+      background: #e74c3c;
+      animation: i8livePulse 1.6s ease-in-out infinite;
+    }
+    @keyframes i8livePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(231,76,60,0); }
+      50%      { box-shadow: 0 0 0 6px rgba(231,76,60,0.25); }
+    }
     .i8 .dot.a { background: #f0a830; }
     .i8 .dot.g { background: #44ad57; }
     .i8 .head-title { margin-left: 8px; }
@@ -352,6 +431,25 @@
       font-size: 11.5px;
       line-height: 1.65;
       color: rgba(255,255,255,0.85);
+    }
+    .i8 .log > div {
+      opacity: 0;
+      animation: i8reveal 0.4s ease forwards;
+    }
+    .i8 .log > div:nth-child(1)  { animation-delay: 0.2s; }
+    .i8 .log > div:nth-child(2)  { animation-delay: 0.4s; }
+    .i8 .log > div:nth-child(3)  { animation-delay: 0.6s; }
+    .i8 .log > div:nth-child(4)  { animation-delay: 0.8s; }
+    .i8 .log > div:nth-child(5)  { animation-delay: 1.0s; }
+    .i8 .log > div:nth-child(6)  { animation-delay: 1.2s; }
+    .i8 .log > div:nth-child(7)  { animation-delay: 1.4s; }
+    .i8 .log > div:nth-child(8)  { animation-delay: 1.6s; }
+    .i8 .log > div:nth-child(9)  { animation-delay: 1.8s; }
+    .i8 .log > div:nth-child(10) { animation-delay: 2.0s; }
+    .i8 .log > div:nth-child(11) { animation-delay: 2.2s; }
+    @keyframes i8reveal {
+      from { opacity: 0; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
     .i8 .log .ts { color: rgba(255,255,255,0.4); }
     .i8 .log .lvl-err { color: #e74c3c; font-weight: 600; }
@@ -580,12 +678,47 @@
   <div class="container">
     <div class="frame">
       <svg viewBox="0 0 760 280" aria-hidden="true">
+        <!-- hidden motion paths for packets -->
+        <defs>
+          <path id="i3p1" d="M 80 140 L 320 140" fill="none"/>
+          <path id="i3p2" d="M 440 140 L 680 60" fill="none"/>
+          <path id="i3p3" d="M 440 140 L 680 140" fill="none"/>
+          <path id="i3p4" d="M 440 140 L 680 220" fill="none"/>
+          <path id="i3p5" d="M 440 140 L 600 240" fill="none"/>
+        </defs>
         <!-- edges -->
         <line class="edge fail" x1="80" y1="140" x2="320" y2="140"/>
         <line class="edge fail" x1="440" y1="140" x2="680" y2="60"/>
         <line class="edge fail" x1="440" y1="140" x2="680" y2="140"/>
         <line class="edge" x1="440" y1="140" x2="680" y2="220"/>
         <line class="edge" x1="440" y1="140" x2="600" y2="240"/>
+
+        <!-- packets — small dots travelling along edges. Crimson on failed, navy on healthy -->
+        <circle r="3.5" fill="#8B1A1A">
+          <animateMotion dur="3.2s" repeatCount="indefinite" begin="0s">
+            <mpath href="#i3p1"/>
+          </animateMotion>
+        </circle>
+        <circle r="3" fill="#8B1A1A">
+          <animateMotion dur="3.6s" repeatCount="indefinite" begin="0.8s">
+            <mpath href="#i3p2"/>
+          </animateMotion>
+        </circle>
+        <circle r="3" fill="#8B1A1A">
+          <animateMotion dur="3s" repeatCount="indefinite" begin="1.6s">
+            <mpath href="#i3p3"/>
+          </animateMotion>
+        </circle>
+        <circle r="2.5" fill="#0D2240" opacity="0.5">
+          <animateMotion dur="4s" repeatCount="indefinite" begin="0.4s">
+            <mpath href="#i3p4"/>
+          </animateMotion>
+        </circle>
+        <circle r="2.5" fill="#0D2240" opacity="0.5">
+          <animateMotion dur="3.5s" repeatCount="indefinite" begin="1.2s">
+            <mpath href="#i3p5"/>
+          </animateMotion>
+        </circle>
 
         <!-- bank -->
         <circle class="node-rim" cx="80" cy="140" r="22"/>
@@ -765,8 +898,46 @@
   <div class="container">
     <div class="frame">
       <svg viewBox="0 0 980 260" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <path id="i7stream" d="M 0 130 L 980 210" fill="none"/>
+          <path id="i7leak1" d="M 200 130 L 200 250" fill="none"/>
+          <path id="i7leak2" d="M 378 138 L 378 250" fill="none"/>
+          <path id="i7leak3" d="M 558 148 L 558 250" fill="none"/>
+          <path id="i7leak4" d="M 738 158 L 738 250" fill="none"/>
+        </defs>
         <!-- main flow -->
         <path class="flow-main" d="M 0 60 L 0 200 L 980 240 L 980 180 Z"/>
+
+        <!-- particles travelling along main stream -->
+        <circle r="2.5" fill="rgba(13,34,64,0.5)">
+          <animateMotion dur="6s" repeatCount="indefinite" begin="0s"><mpath href="#i7stream"/></animateMotion>
+        </circle>
+        <circle r="2" fill="rgba(13,34,64,0.4)">
+          <animateMotion dur="6s" repeatCount="indefinite" begin="1.2s"><mpath href="#i7stream"/></animateMotion>
+        </circle>
+        <circle r="2" fill="rgba(13,34,64,0.4)">
+          <animateMotion dur="6s" repeatCount="indefinite" begin="2.4s"><mpath href="#i7stream"/></animateMotion>
+        </circle>
+        <circle r="2.5" fill="rgba(13,34,64,0.5)">
+          <animateMotion dur="6s" repeatCount="indefinite" begin="3.6s"><mpath href="#i7stream"/></animateMotion>
+        </circle>
+        <circle r="2" fill="rgba(13,34,64,0.4)">
+          <animateMotion dur="6s" repeatCount="indefinite" begin="4.8s"><mpath href="#i7stream"/></animateMotion>
+        </circle>
+
+        <!-- leak drips falling out of each leak point -->
+        <circle r="2" fill="rgba(139,26,26,0.7)">
+          <animateMotion dur="1.6s" repeatCount="indefinite" begin="0s"><mpath href="#i7leak1"/></animateMotion>
+        </circle>
+        <circle r="2" fill="rgba(139,26,26,0.7)">
+          <animateMotion dur="1.8s" repeatCount="indefinite" begin="0.4s"><mpath href="#i7leak2"/></animateMotion>
+        </circle>
+        <circle r="2" fill="rgba(139,26,26,0.7)">
+          <animateMotion dur="2.0s" repeatCount="indefinite" begin="0.9s"><mpath href="#i7leak3"/></animateMotion>
+        </circle>
+        <circle r="2" fill="rgba(139,26,26,0.7)">
+          <animateMotion dur="2.2s" repeatCount="indefinite" begin="1.4s"><mpath href="#i7leak4"/></animateMotion>
+        </circle>
 
         <!-- leak 1: timeouts -->
         <path class="flow-leak" d="M 180 60 L 180 200 L 220 230 L 220 50 Z" opacity="0.6"/>
@@ -808,17 +979,17 @@
         <span class="head-tag">illustrative composite</span>
       </div>
       <div class="log">
-<span class="ts">23:11:04</span> <span class="lvl-info">INFO </span>  deploy.start build=#2143  <span class="tag">Deploys</span><br>
-<span class="ts">23:14:22</span> <span class="lvl-warn">WARN </span>  rollback initiated · cause=health-check<br>
-<span class="ts">02:47:11</span> <span class="lvl-err">ERROR</span>  psp.timeout operator=rails-3 sla_breach=13m  <span class="tag">Timeouts &amp; outages</span><br>
-<span class="ts">02:51:09</span> <span class="lvl-warn">WARN </span>  customer.complaints +47 in 4m  <span class="tag">Customer complaints</span><br>
-<span class="ts">03:18:34</span> <span class="lvl-err">ERROR</span>  reversal.silent  ledger_gap=$4,200  <span class="tag">Reversals</span><br>
-<span class="ts">06:30:00</span> <span class="lvl-info">INFO </span>  recon.cron.start rows=manual  <span class="tag">Recon</span><br>
-<span class="ts">09:12:51</span> <span class="lvl-warn">WARN </span>  corridor.sla mtr-7 day=89/180  <span class="tag">Corridor integrations</span><br>
-<span class="ts">11:04:18</span> <span class="lvl-warn">WARN </span>  audit.query.runtime  elapsed=11h  <span class="tag">Audits</span><br>
-<span class="ts">14:55:09</span> <span class="lvl-err">ERROR</span>  security.scan.fail  surface++  <span class="tag">A security surface</span><br>
-<span class="ts">17:32:00</span> <span class="lvl-warn">WARN </span>  compliance.aml.bolton corridor=ZA  <span class="tag">Compliance</span><br>
-<span class="ts">live</span>     <span class="lvl-err">ERROR</span>  cost.invisible  engineers=80% on infra  <span class="tag">The invisible cost</span><span class="blink">▍</span>
+<div><span class="ts">23:11:04</span> <span class="lvl-info">INFO </span>  deploy.start build=#2143  <span class="tag">Deploys</span></div>
+<div><span class="ts">23:14:22</span> <span class="lvl-warn">WARN </span>  rollback initiated · cause=health-check</div>
+<div><span class="ts">02:47:11</span> <span class="lvl-err">ERROR</span>  psp.timeout operator=rails-3 sla_breach=13m  <span class="tag">Timeouts &amp; outages</span></div>
+<div><span class="ts">02:51:09</span> <span class="lvl-warn">WARN </span>  customer.complaints +47 in 4m  <span class="tag">Customer complaints</span></div>
+<div><span class="ts">03:18:34</span> <span class="lvl-err">ERROR</span>  reversal.silent  ledger_gap=$4,200  <span class="tag">Reversals</span></div>
+<div><span class="ts">06:30:00</span> <span class="lvl-info">INFO </span>  recon.cron.start rows=manual  <span class="tag">Recon</span></div>
+<div><span class="ts">09:12:51</span> <span class="lvl-warn">WARN </span>  corridor.sla mtr-7 day=89/180  <span class="tag">Corridor integrations</span></div>
+<div><span class="ts">11:04:18</span> <span class="lvl-warn">WARN </span>  audit.query.runtime  elapsed=11h  <span class="tag">Audits</span></div>
+<div><span class="ts">14:55:09</span> <span class="lvl-err">ERROR</span>  security.scan.fail  surface++  <span class="tag">A security surface</span></div>
+<div><span class="ts">17:32:00</span> <span class="lvl-warn">WARN </span>  compliance.aml.bolton corridor=ZA  <span class="tag">Compliance</span></div>
+<div><span class="ts">live</span>     <span class="lvl-err">ERROR</span>  cost.invisible  engineers=80% on infra  <span class="tag">The invisible cost</span><span class="blink">▍</span></div>
       </div>
     </div>
     <p class="figcap"><b>Fig. I8.</b>An illustrative 24-hour log composed from patterns we hear in every CTO conversation.</p>
@@ -870,6 +1041,12 @@
   <div class="container">
     <div class="frame">
       <svg viewBox="0 0 960 280" aria-hidden="true">
+        <defs>
+          <path id="i10l1" d="M 60 80 L 240 80 L 300 140 L 480 140 L 540 80 L 720 80" fill="none"/>
+          <path id="i10l2" d="M 60 200 L 360 200 L 420 140 L 600 140 L 660 200 L 900 200" fill="none"/>
+          <path id="i10l3" d="M 240 80 L 240 240 L 480 240" fill="none"/>
+          <path id="i10l4" d="M 720 80 L 720 240 L 900 240" fill="none"/>
+        </defs>
         <!-- line 1 (crimson) — the customer-facing cascade -->
         <path class="line l1" d="M 60 80 L 240 80 L 300 140 L 480 140 L 540 80 L 720 80"/>
         <!-- line 2 (navy) — back-office -->
@@ -878,6 +1055,20 @@
         <path class="line l3" d="M 240 80 L 240 240 L 480 240"/>
         <!-- line 4 (teal) — velocity -->
         <path class="line l4" d="M 720 80 L 720 240 L 900 240"/>
+
+        <!-- trains travelling along each line -->
+        <circle r="4" fill="#8B1A1A">
+          <animateMotion dur="6s" repeatCount="indefinite"><mpath href="#i10l1"/></animateMotion>
+        </circle>
+        <circle r="4" fill="#0D2240">
+          <animateMotion dur="7s" repeatCount="indefinite" begin="0.7s"><mpath href="#i10l2"/></animateMotion>
+        </circle>
+        <circle r="3.5" fill="#B47A2E">
+          <animateMotion dur="5s" repeatCount="indefinite" begin="1.4s"><mpath href="#i10l3"/></animateMotion>
+        </circle>
+        <circle r="3.5" fill="#3B6B5C">
+          <animateMotion dur="5.5s" repeatCount="indefinite" begin="2.1s"><mpath href="#i10l4"/></animateMotion>
+        </circle>
 
         <!-- stations -->
         <circle class="station" cx="60"  cy="80"  r="6"/>  <text class="stn-label" x="58" y="70" text-anchor="end">Deploys</text>
@@ -916,12 +1107,17 @@
 </section>
 
 <script>
-  // Build heatmap (composite illustrative — 68% of days red)
+  // Build heatmap (composite illustrative — 68% of days red).
+  // Stagger animation-delay column-by-column for a "scanning through the
+  // year" reveal once the section enters view.
   (function () {
     const host = document.getElementById('heatmap');
     if (!host) return;
     const cells = [];
-    for (let i = 0; i < 371; i++) {
+    const TOTAL = 371; // 53 cols × 7 rows
+    for (let i = 0; i < TOTAL; i++) {
+      const col = Math.floor(i / 7); // column index
+      const delay = (col * 22) + 'ms';
       const r = Math.random();
       let cls = 'sq';
       if (r < 0.68) {
@@ -931,7 +1127,7 @@
         else if (s < 0.88) cls += ' l3';
         else cls += ' l4';
       }
-      cells.push(`<div class="${cls}"></div>`);
+      cells.push(`<div class="${cls}" style="animation-delay:${delay}"></div>`);
     }
     host.innerHTML = cells.join('');
   })();
