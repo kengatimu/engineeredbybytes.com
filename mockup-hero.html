@@ -511,67 +511,96 @@
       max-width: 56ch;
     }
 
-    /* ---------- F4 list — mono tag + serif body ----------
-       10 pains in scannable form, each with a dotted-namespace tag
-       (engineering-credible) and an editorial serif description. */
-    .problem__list {
-      list-style: none;
+    /* ---------- §2 A+C: themed clusters with compressed typography ----
+       Four sub-sections (transaction integrity, operational reliability,
+       security & compliance, velocity & cost). Each cluster has a
+       left-column header with italic crimson numeral + uppercase title +
+       pattern count; right column holds the items in dense form. */
+    .problem__clusters {
       width: 100%;
-      max-width: 780px;
+      max-width: 820px;
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 26px;
+      gap: 24px;
     }
 
-    /* ---------- Item — namespace tag + serif body ---------- */
+    .problem__cluster {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 28px;
+      align-items: start;
+      padding: 18px 0;
+      border-top: 1px solid var(--rule);
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.55s var(--ease), transform 0.55s var(--ease);
+    }
+    .problem__cluster:first-child {
+      border-top: none;
+      padding-top: 0;
+    }
+    .problem__clusters.is-active .problem__cluster {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .problem__clusters.is-active .problem__cluster:nth-child(1) { transition-delay: 0.00s; }
+    .problem__clusters.is-active .problem__cluster:nth-child(2) { transition-delay: 0.12s; }
+    .problem__clusters.is-active .problem__cluster:nth-child(3) { transition-delay: 0.24s; }
+    .problem__clusters.is-active .problem__cluster:nth-child(4) { transition-delay: 0.36s; }
+
+    .problem__cluster-head {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-top: 4px;
+    }
+    .problem__cluster-num {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 22px;
+      color: var(--crimson);
+      line-height: 1;
+    }
+    .problem__cluster-title {
+      font-family: var(--font-ui);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--navy);
+      line-height: 1.35;
+    }
+    .problem__cluster-count {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-faint);
+      letter-spacing: 0.06em;
+    }
+
+    .problem__cluster-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
     .problem__item {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      padding-left: 18px;
-      border-left: 2px solid var(--rule);
-      transition: border-color 0.4s var(--ease), padding-left 0.4s var(--ease);
-      opacity: 0;
-      transform: translateX(-8px);
+      gap: 4px;
     }
-    .problem__item:hover {
-      border-left-color: var(--crimson);
-      padding-left: 22px;
-    }
-    .problem__list.is-active .problem__item {
-      opacity: 1;
-      transform: translateX(0);
-      transition:
-        border-color 0.4s var(--ease),
-        padding-left 0.4s var(--ease),
-        opacity 0.55s var(--ease),
-        transform 0.55s var(--ease);
-    }
-    /* Stagger reveal of each line as the list enters viewport */
-    .problem__list.is-active .problem__item:nth-child(1)  { transition-delay: 0.00s, 0.00s, 0.00s, 0.00s; }
-    .problem__list.is-active .problem__item:nth-child(2)  { transition-delay: 0.00s, 0.00s, 0.07s, 0.07s; }
-    .problem__list.is-active .problem__item:nth-child(3)  { transition-delay: 0.00s, 0.00s, 0.14s, 0.14s; }
-    .problem__list.is-active .problem__item:nth-child(4)  { transition-delay: 0.00s, 0.00s, 0.21s, 0.21s; }
-    .problem__list.is-active .problem__item:nth-child(5)  { transition-delay: 0.00s, 0.00s, 0.28s, 0.28s; }
-    .problem__list.is-active .problem__item:nth-child(6)  { transition-delay: 0.00s, 0.00s, 0.35s, 0.35s; }
-    .problem__list.is-active .problem__item:nth-child(7)  { transition-delay: 0.00s, 0.00s, 0.42s, 0.42s; }
-    .problem__list.is-active .problem__item:nth-child(8)  { transition-delay: 0.00s, 0.00s, 0.49s, 0.49s; }
-    .problem__list.is-active .problem__item:nth-child(9)  { transition-delay: 0.00s, 0.00s, 0.56s, 0.56s; }
-    .problem__list.is-active .problem__item:nth-child(10) { transition-delay: 0.00s, 0.00s, 0.63s, 0.63s; }
-
     .problem__tag {
       font-family: var(--font-mono);
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.04em;
       color: var(--crimson);
     }
     .problem__desc {
       font-family: var(--font-display);
-      font-size: 17px;
+      font-size: 14.5px;
       color: var(--navy);
-      line-height: 1.5;
+      line-height: 1.45;
     }
     .problem__desc strong {
       font-weight: 700;
@@ -625,8 +654,8 @@
        language is now the typographic F4 list above, not animated
        scenes per pain.) */
 
-    /* Mobile tuning for §2 list */
-    @media (max-width: 600px) {
+    /* Mobile tuning for §2 clusters */
+    @media (max-width: 720px) {
       .problem {
         padding: 72px 20px 80px;
       }
@@ -636,19 +665,23 @@
       .problem__head {
         gap: 12px;
       }
-      .problem__list {
-        gap: 22px;
+      .problem__cluster {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 16px 0;
       }
-      .problem__item {
-        padding-left: 14px;
-        gap: 6px;
+      .problem__cluster-head {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 12px;
+        padding-top: 0;
       }
-      .problem__tag {
-        font-size: 11px;
+      .problem__cluster-num {
+        font-size: 18px;
       }
       .problem__desc {
-        font-size: 15.5px;
-        line-height: 1.55;
+        font-size: 14px;
+        line-height: 1.5;
       }
       .problem__close {
         margin-top: 44px;
@@ -667,8 +700,8 @@
       .network__packet {
         opacity: 0.6;
       }
-      /* §2 list: skip the stagger reveal — show everything immediately */
-      .problem__item {
+      /* §2 clusters: skip the stagger reveal — show everything immediately */
+      .problem__cluster {
         opacity: 1 !important;
         transform: none !important;
         transition: none !important;
@@ -860,67 +893,112 @@
 
   <!-- ============================================================
        §2 — THE PROBLEM
-       10 pains in F4 format (namespace tag + serif body).
-       Sourced from WEBSITE_V2_PAIN_TAXONOMY.md — covers themes
-       A (transaction certainty), C (operational resilience),
-       D (security & compliance), E (velocity), G (org & cost).
+       10 pains in A+C layout: four themed clusters with compressed
+       typography. Sourced from WEBSITE_V2_PAIN_TAXONOMY.md.
+         Cluster 1 — Transaction Integrity   (themes A.1, A.2, A.3)
+         Cluster 2 — Operational Reliability (themes C.3, D.3, G.3)
+         Cluster 3 — Security & Compliance   (themes D.1, D.2)
+         Cluster 4 — Velocity & Cost         (themes E.1, G.1)
        ============================================================ -->
   <section class="problem" id="problem">
     <div class="problem__container">
 
       <header class="problem__head">
         <span class="problem__eyebrow">The Problem</span>
-        <h2 class="problem__heading">Every payments shop has the same ten problems.</h2>
+        <h2 class="problem__heading">Every payments platform has the same ten problems.</h2>
         <p class="problem__lede">
-          Yours included. These are the patterns we hear in every conversation
-          with bank and fintech CTOs — across timeouts, reversals, audits,
-          security, compliance, and the engineering cost of holding it all
-          together.
+          These are the patterns we hear in every conversation with bank and
+          fintech CTOs. Grouped by where they live in your stack.
         </p>
       </header>
 
-      <ul class="problem__list" data-reveal>
-        <li class="problem__item">
-          <span class="problem__tag">timeout.outage</span>
-          <span class="problem__desc">Your customers see the outage before your dashboards do. Twitter is faster than monitoring.</span>
-        </li>
-        <li class="problem__item">
-          <span class="problem__tag">reversal.silent</span>
-          <span class="problem__desc">A reversal fails silently. No alert fires. Finance discovers the gap three days later during reconciliation.</span>
-        </li>
-        <li class="problem__item">
-          <span class="problem__tag">recon.manual</span>
-          <span class="problem__desc">Month-end reconciliation lives in spreadsheets. Four thousand rows. Manual matching. Weekend war rooms.</span>
-        </li>
-        <li class="problem__item">
-          <span class="problem__tag">audit.weeklong</span>
-          <span class="problem__desc">"Show me Q3 reversals by reason code." One engineer. Five dashboards. Five days. Every quarter.</span>
-        </li>
-        <li class="problem__item">
-          <span class="problem__tag">deploy.midnight</span>
-          <span class="problem__desc">Releases at 11pm because daytime is too risky. Rollbacks at 2am. On-call paged. Engineering trust erodes with every sprint.</span>
-        </li>
-        <li class="problem__item">
-          <span class="problem__tag">corridor.6mo</span>
-          <span class="problem__desc">Every new operator is a six-month integration project. New protocol, new AML pipeline, new audit trail — built from scratch.</span>
-        </li>
-        <li class="problem__item">
-          <span class="problem__tag">customer.complaints</span>
-          <span class="problem__desc">A missing transaction. Five systems to query. Two days to give the customer an answer — by then they're gone.</span>
-        </li>
-        <li class="problem__item">
-          <span class="problem__tag">security.surface</span>
-          <span class="problem__desc">Every new integration is a new attack vector. Ten operators equals ten places encryption can be wrong — and ten audit findings every year.</span>
-        </li>
-        <li class="problem__item">
-          <span class="problem__tag">compliance.bolton</span>
-          <span class="problem__desc">AML, KYC, and sanctions screening retro-fitted after every new corridor goes live. Compliance is always playing catch-up to engineering.</span>
-        </li>
-        <li class="problem__item">
-          <span class="problem__tag">cost.invisible</span>
-          <span class="problem__desc">Eighty percent of your engineering team keeps payments alive. Twenty percent ships the products that actually win business.</span>
-        </li>
-      </ul>
+      <div class="problem__clusters" data-reveal>
+
+        <!-- ─── Cluster 1: Transaction Integrity ─── -->
+        <div class="problem__cluster">
+          <div class="problem__cluster-head">
+            <span class="problem__cluster-num"><em>01</em></span>
+            <span class="problem__cluster-title">Transaction Integrity</span>
+            <span class="problem__cluster-count">3 patterns</span>
+          </div>
+          <ul class="problem__cluster-list">
+            <li class="problem__item">
+              <span class="problem__tag">timeout.outage</span>
+              <span class="problem__desc">Your customers see the outage before your dashboards do. Twitter is faster than monitoring.</span>
+            </li>
+            <li class="problem__item">
+              <span class="problem__tag">reversal.silent</span>
+              <span class="problem__desc">A reversal fails silently. Finance discovers the gap three days later during reconciliation.</span>
+            </li>
+            <li class="problem__item">
+              <span class="problem__tag">recon.manual</span>
+              <span class="problem__desc">Month-end in spreadsheets. Four thousand rows. Manual matching. Weekend war rooms.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- ─── Cluster 2: Operational Reliability ─── -->
+        <div class="problem__cluster">
+          <div class="problem__cluster-head">
+            <span class="problem__cluster-num"><em>02</em></span>
+            <span class="problem__cluster-title">Operational Reliability</span>
+            <span class="problem__cluster-count">3 patterns</span>
+          </div>
+          <ul class="problem__cluster-list">
+            <li class="problem__item">
+              <span class="problem__tag">audit.weeklong</span>
+              <span class="problem__desc">"Show me Q3 reversals by reason code." One engineer. Five dashboards. Five days. Every quarter.</span>
+            </li>
+            <li class="problem__item">
+              <span class="problem__tag">deploy.midnight</span>
+              <span class="problem__desc">Releases at 11pm because daytime is too risky. Rollbacks at 2am. On-call paged.</span>
+            </li>
+            <li class="problem__item">
+              <span class="problem__tag">customer.complaints</span>
+              <span class="problem__desc">A missing transaction. Five systems to query. Two days to give the customer an answer — by then they're gone.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- ─── Cluster 3: Security & Compliance ─── -->
+        <div class="problem__cluster">
+          <div class="problem__cluster-head">
+            <span class="problem__cluster-num"><em>03</em></span>
+            <span class="problem__cluster-title">Security &amp; Compliance</span>
+            <span class="problem__cluster-count">2 patterns</span>
+          </div>
+          <ul class="problem__cluster-list">
+            <li class="problem__item">
+              <span class="problem__tag">security.surface</span>
+              <span class="problem__desc">Every new integration is a new attack vector. Ten operators equals ten places encryption can be wrong.</span>
+            </li>
+            <li class="problem__item">
+              <span class="problem__tag">compliance.bolton</span>
+              <span class="problem__desc">AML, KYC, and sanctions screening retro-fitted after every new corridor goes live.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- ─── Cluster 4: Velocity & Cost ─── -->
+        <div class="problem__cluster">
+          <div class="problem__cluster-head">
+            <span class="problem__cluster-num"><em>04</em></span>
+            <span class="problem__cluster-title">Velocity &amp; Cost</span>
+            <span class="problem__cluster-count">2 patterns</span>
+          </div>
+          <ul class="problem__cluster-list">
+            <li class="problem__item">
+              <span class="problem__tag">corridor.6mo</span>
+              <span class="problem__desc">Every new operator is a six-month integration project — new protocol, new AML, new audit trail, built from scratch.</span>
+            </li>
+            <li class="problem__item">
+              <span class="problem__tag">cost.invisible</span>
+              <span class="problem__desc">Eighty percent of your engineering team keeps payments alive. Twenty percent ships the products that actually win business.</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
 
       <div class="problem__close">
         <p class="problem__close-line">
