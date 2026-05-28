@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>§3 The Solution — 3 options — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --text-body: rgba(13,34,64,0.82);
+      --text-muted: rgba(13,34,64,0.62);
+      --text-faint: rgba(13,34,64,0.42);
+      --rule: rgba(13,34,64,0.10);
+      --rule-soft: rgba(13,34,64,0.06);
+      --green: #3B6B5C;
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-ui); background: var(--cream-warm); color: var(--text-body); -webkit-font-smoothing: antialiased; }
+
+    /* switcher */
+    .switcher {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); color: var(--cream-warm);
+      padding: 14px 28px;
+      display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+      font: 500 13px/1 var(--font-ui);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .switcher b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 12px; }
+    .switcher a { color: rgba(255,255,255,0.7); padding: 6px 10px; border-radius: 4px; }
+    .switcher a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    .opt-label {
+      max-width: 1100px; margin: 0 auto; padding: 32px 24px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap;
+    }
+    .opt-label__tag { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--crimson); }
+    .opt-label__title { font: 700 17px/1.3 var(--font-display); color: var(--navy); }
+    .opt-label__note { font: 400 13px/1.45 var(--font-ui); color: var(--text-muted); margin-left: auto; max-width: 540px; }
+
+    /* ──────────────── shared §3 scaffolding (matches §2) ──────────────── */
+    .solution {
+      padding: 32px 24px 64px;
+      background: var(--cream-warm);
+    }
+    .solution__container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .solution__head { max-width: 780px; display: flex; flex-direction: column; gap: 10px; }
+    .solution__eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .solution__eyebrow::before {
+      content: ''; width: 28px; height: 1.5px; background: var(--crimson);
+    }
+    .solution__heading {
+      font: 400 clamp(26px, 3.4vw, 36px)/1.2 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.008em;
+      margin: 0;
+    }
+    .solution__heading em {
+      font-style: italic; color: var(--navy); font-weight: 400;
+    }
+    .solution__bridge {
+      margin: 10px 0 0;
+      font: italic 400 clamp(15px, 1.6vw, 18px)/1.35 var(--font-display);
+      color: rgba(13,34,64,0.6);
+      letter-spacing: -0.003em;
+    }
+
+    /* ──────────────── solutions list (used in A, B, C) ──────────────── */
+    .solutions {
+      list-style: none;
+      margin: 0; padding: 0;
+      max-width: 880px;
+      display: flex; flex-direction: column;
+      gap: 10px;
+      font: 400 15px/1.55 var(--font-ui);
+      color: rgba(13,34,64,0.82);
+    }
+    .solutions li .pain {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      color: var(--crimson);
+      font-size: 0.96em;
+    }
+    .solutions li .em {
+      margin: 0 6px;
+      color: rgba(13,34,64,0.42);
+    }
+    .solutions li b {
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    /* ──────────────── tangle (Part A — used in B only) ──────────────── */
+    .tangle {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 20px 0 14px;
+      position: relative;
+    }
+    .tangle-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0 6px 14px;
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .tangle-head b { color: var(--navy); font-weight: 500; }
+    .tangle-svg { width: 100%; height: 320px; display: block; }
+    .tangle-svg .node { fill: var(--cream-warm); stroke: var(--navy); stroke-width: 1.5; }
+    .tangle-svg .node-rim { fill: none; stroke: var(--navy); stroke-width: 1; opacity: 0.25; }
+    .tangle-svg .node-label { fill: var(--navy); font: 500 11px var(--font-ui); }
+    .tangle-svg .ebb-node {
+      fill: var(--navy); stroke: var(--navy); opacity: 0;
+      transform-origin: center; transform-box: fill-box;
+    }
+    .tangle-svg .ebb-label { fill: var(--cream-warm); font: 700 13px var(--font-display); opacity: 0; }
+    .tangle-svg .tangle-line { stroke: var(--crimson); stroke-width: 1; opacity: 0; fill: none; }
+    .tangle-svg .spoke-line { stroke: var(--navy); stroke-width: 1.5; opacity: 0; fill: none; }
+    .tangle.is-active .tangle-line {
+      animation: tIn 1.2s ease-out forwards, tOut 1.5s ease-out forwards;
+      animation-delay: 0.8s, 4s;
+    }
+    .tangle.is-active .ebb-node { animation: ebbIn 0.8s ease-out forwards; animation-delay: 4.5s; }
+    .tangle.is-active .ebb-label { animation: ebbIn 0.8s ease-out forwards; animation-delay: 4.8s; }
+    .tangle.is-active .spoke-line { animation: spokeIn 0.8s ease-out forwards; animation-delay: 4.8s; }
+    @keyframes tIn { from { opacity: 0; } to { opacity: 0.55; } }
+    @keyframes tOut { to { opacity: 0; } }
+    @keyframes ebbIn { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: scale(1); } }
+    @keyframes spokeIn { from { opacity: 0; } to { opacity: 1; } }
+    .tangle-caption {
+      margin-top: 16px; padding: 0 6px;
+      font: italic 400 clamp(16px, 2vw, 20px)/1.3 var(--font-display);
+      color: var(--navy);
+      max-width: 720px;
+      opacity: 0;
+    }
+    .tangle-caption em { color: var(--crimson); }
+    .tangle.is-active .tangle-caption {
+      animation: ebbIn 0.8s ease-out forwards; animation-delay: 5.2s;
+    }
+    .tangle-replay {
+      position: absolute; top: 14px; right: 14px;
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-faint);
+      background: transparent;
+      border: 1px solid var(--rule); padding: 6px 10px;
+      cursor: pointer;
+    }
+    .tangle-replay:hover { color: var(--crimson); border-color: var(--crimson); }
+
+    /* ──────────────── architecture (Part B — used in B and C) ──────────────── */
+    .arch {
+      border-top: 1px solid var(--rule);
+      padding-top: 20px;
+    }
+    .arch-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0 6px 14px;
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .arch-head b { color: var(--navy); font-weight: 500; }
+    .arch-head .status { color: var(--green); font-style: italic; }
+    .arch-svg { width: 100%; height: 380px; display: block; }
+    .arch-svg .col-label { fill: var(--text-muted); font: 600 10px var(--font-ui); letter-spacing: 0.18em; text-transform: uppercase; }
+    .arch-svg .col-sub { fill: var(--text-faint); font: 400 10px var(--font-mono); letter-spacing: 0.06em; }
+    .arch-svg .cbs-node, .arch-svg .net-node {
+      fill: var(--cream-warm); stroke: var(--navy); stroke-width: 1; opacity: 0.7;
+    }
+    .arch-svg .cbs-text, .arch-svg .net-text { fill: var(--navy); font: 500 11px var(--font-ui); }
+    .arch-svg .gateway { fill: var(--navy); stroke: var(--navy); }
+    .arch-svg .gateway-label { fill: var(--cream-warm); font: 700 14px var(--font-display); }
+    .arch-svg .gateway-sub { fill: rgba(242,239,232,0.55); font: 500 9px var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; }
+    .arch-svg .check-dot { fill: var(--cream-warm); stroke: rgba(242,239,232,0.4); stroke-width: 1; }
+    .arch-svg .check-label { fill: rgba(242,239,232,0.65); font: 500 9.5px var(--font-mono); letter-spacing: 0.06em; }
+    .arch-svg .edge { stroke: rgba(13,34,64,0.18); stroke-width: 1; fill: none; }
+    .arch-svg .txn { fill: var(--crimson); }
+    .arch-svg .check-light { fill: var(--crimson); opacity: 0; }
+    .arch-svg .check-light.c1 { animation: lightUp 12s linear infinite; animation-delay: 1.5s; }
+    .arch-svg .check-light.c2 { animation: lightUp 12s linear infinite; animation-delay: 2.0s; }
+    .arch-svg .check-light.c3 { animation: lightUp 12s linear infinite; animation-delay: 2.5s; }
+    .arch-svg .check-light.c4 { animation: lightUp 12s linear infinite; animation-delay: 3.0s; }
+    .arch-svg .check-light.c5 { animation: lightUp 12s linear infinite; animation-delay: 3.5s; }
+    @keyframes lightUp { 0%, 4% { opacity: 0; } 6%, 14% { opacity: 1; } 18%, 100% { opacity: 0; } }
+    .arch-svg .reversal-tag {
+      fill: var(--crimson); font: italic 12px var(--font-display);
+      opacity: 0; animation: revealTag 12s linear infinite; animation-delay: 9.5s;
+    }
+    @keyframes revealTag { 0%, 6% { opacity: 0; } 10%, 16% { opacity: 1; } 20% { opacity: 0; } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01s !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="switcher">
+  <b>§3 — 3 layout options</b>
+  <a href="#optA">A · List only</a>
+  <a href="#optB">B · Tangle + list + diagram</a>
+  <a href="#optC">C · List + diagram</a>
+</nav>
+
+<!-- ═══════════════════════════════ A ═══════════════════════════════ -->
+<div class="opt-label" id="optA-label">
+  <span class="opt-label__tag">A</span>
+  <span class="opt-label__title">Prose list only — pure symmetry with §2</span>
+  <span class="opt-label__note">10 solutions in the exact same format as §2's 10 pains. No diagrams. Cleanest mapping, least visual variety.</span>
+</div>
+<section class="solution" id="optA">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">
+        Every pattern <em>— resolved at the layer.</em>
+      </h2>
+      <p class="solution__bridge">One infrastructure layer between your bank and every operator, with every capability built in:</p>
+    </header>
+    <ul class="solutions" data-list-A></ul>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ B ═══════════════════════════════ -->
+<div class="opt-label" id="optB-label">
+  <span class="opt-label__tag">B</span>
+  <span class="opt-label__title">Tangle resolve + list + architecture diagram</span>
+  <span class="opt-label__note">Tangle metaphor at the top, prose list in the middle, architecture diagram at the bottom. Maximum content — risks length.</span>
+</div>
+<section class="solution" id="optB">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">
+        Every pattern <em>— resolved at the layer.</em>
+      </h2>
+      <p class="solution__bridge">One infrastructure layer between your bank and every operator, with every capability built in.</p>
+    </header>
+
+    <!-- Tangle -->
+    <div class="tangle" id="tangleB">
+      <div class="tangle-head">
+        <span><b>before EBB</b> · every operator is its own integration</span>
+        <span style="color:var(--crimson); font-style:italic; font-family:var(--font-display); text-transform:none; font-size:12px;">watch →</span>
+      </div>
+      <button type="button" class="tangle-replay" data-replay="B">replay</button>
+      <svg class="tangle-svg" viewBox="0 0 760 320" aria-hidden="true">
+        <g><!-- 15 tangle lines --></g>
+        <g><!-- 6 spokes --></g>
+        <rect class="ebb-node" x="350" y="138" width="60" height="44" rx="4"/>
+        <text class="ebb-label" x="380" y="166" text-anchor="middle">EBB</text>
+        <g><!-- nodes --></g>
+      </svg>
+      <p class="tangle-caption">From <em>every-to-every</em> to <em>one-to-everything.</em></p>
+    </div>
+
+    <!-- List -->
+    <ul class="solutions" data-list-B></ul>
+
+    <!-- Architecture diagram -->
+    <div class="arch">
+      <div class="arch-head">
+        <span><b>inside the gateway</b> · checkpoints, flow, reversals</span>
+        <span class="status">live transaction</span>
+      </div>
+      <svg class="arch-svg" viewBox="0 0 1000 380" data-arch="B"></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════ C ═══════════════════════════════ -->
+<div class="opt-label" id="optC-label">
+  <span class="opt-label__tag">C</span>
+  <span class="opt-label__title">List + architecture diagram <em>(my pick)</em></span>
+  <span class="opt-label__note">10 solutions front and centre (mirrors §2), architecture diagram below as supporting visual evidence. Drops the tangle metaphor.</span>
+</div>
+<section class="solution" id="optC">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">
+        Every pattern <em>— resolved at the layer.</em>
+      </h2>
+      <p class="solution__bridge">One infrastructure layer between your bank and every operator, with every capability built in:</p>
+    </header>
+
+    <!-- List -->
+    <ul class="solutions" data-list-C></ul>
+
+    <!-- Architecture diagram -->
+    <div class="arch">
+      <div class="arch-head">
+        <span><b>inside the gateway</b> · checkpoints, flow, reversals</span>
+        <span class="status">live transaction</span>
+      </div>
+      <svg class="arch-svg" viewBox="0 0 1000 380" data-arch="C"></svg>
+    </div>
+  </div>
+</section>
+
+<script>
+  /* ───────────────────────────────────────────────────────────────
+     Shared data — the 10 pain→solution mappings
+     Used to render the lists in all 3 options identically.
+     ─────────────────────────────────────────────────────────────── */
+  const SOLUTIONS = [
+    { pain: 'Timeouts & outages',     sol: '<b>resilient routing</b> across operators — failover before customers notice.' },
+    { pain: 'Reversals',              sol: '<b>auto-reversal in milliseconds</b> — finance never sees the gap open.' },
+    { pain: 'Recon',                  sol: '<b>automatic reconciliation</b> against every operator, in real time.' },
+    { pain: 'Audits',                 sol: '<b>queryable trails in seconds</b> — every transaction, every checkpoint, logged.' },
+    { pain: 'Customer complaints',    sol: '<b>single transaction view</b> — one query, full history, no system-hopping.' },
+    { pain: 'Corridor integrations',  sol: '<b>new corridors live in 4–8 weeks</b> — every protocol pre-integrated.' },
+    { pain: 'Deploys',                sol: '<b>safe controlled deployments</b> — daytime-safe, rollback in seconds.' },
+    { pain: 'A security surface',     sol: '<b>defence-in-depth on every payload</b> — signature, mTLS, encryption per hop.' },
+    { pain: 'Compliance',             sol: '<b>AML, KYC, sanctions screening built in</b> — every payload, every corridor.' },
+    { pain: 'The invisible cost',     sol: '<b>your engineers ship product</b> — we own the platform underneath.' },
+  ];
+  function renderList(host) {
+    if (!host) return;
+    host.innerHTML = SOLUTIONS.map(s =>
+      `<li><span class="pain">${s.pain}</span> <span class="em">—</span> ${s.sol}</li>`
+    ).join('');
+  }
+  renderList(document.querySelector('[data-list-A]'));
+  renderList(document.querySelector('[data-list-B]'));
+  renderList(document.querySelector('[data-list-C]'));
+
+  /* ───────────────────────────────────────────────────────────────
+     Tangle SVG content (only B uses it)
+     ─────────────────────────────────────────────────────────────── */
+  const tanglePos = [
+    { x:380, y:60,  label:'Mobile money',  anchor:'middle', dx:0,  dy:-28 },
+    { x:540, y:100, label:'Switches',      anchor:'start',  dx:28, dy:0   },
+    { x:540, y:220, label:'Card networks', anchor:'start',  dx:28, dy:4   },
+    { x:380, y:260, label:'Cross-border',  anchor:'middle', dx:0,  dy:36  },
+    { x:220, y:220, label:'CBS',           anchor:'end',    dx:-28,dy:4   },
+    { x:220, y:100, label:'Risk & AML',    anchor:'end',    dx:-28,dy:0   },
+  ];
+  function pairs(n) {
+    const out = [];
+    for (let i = 0; i < n; i++)
+      for (let j = i+1; j < n; j++) out.push([i,j]);
+    return out;
+  }
+  const tanglePairs = pairs(6);
+  function renderTangle(svg) {
+    if (!svg) return;
+    const tlines = tanglePairs.map(([a,b]) => {
+      const A = tanglePos[a], B = tanglePos[b];
+      return `<line class="tangle-line" x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}"/>`;
+    }).join('');
+    const spokes = tanglePos.map(p =>
+      `<line class="spoke-line" x1="${p.x}" y1="${p.y}" x2="380" y2="160"/>`
+    ).join('');
+    const nodes = tanglePos.map(p =>
+      `<g><circle class="node-rim" cx="${p.x}" cy="${p.y}" r="22"/>
+          <circle class="node" cx="${p.x}" cy="${p.y}" r="14"/>
+          <text class="node-label" x="${p.x + p.dx}" y="${p.y + p.dy}" text-anchor="${p.anchor}">${p.label}</text></g>`
+    ).join('');
+    // Insert before the EBB rect (which is already in markup)
+    const ebb = svg.querySelectorAll('.ebb-node, .ebb-label');
+    svg.querySelectorAll('g')[0].innerHTML = tlines;
+    svg.querySelectorAll('g')[1].innerHTML = spokes;
+    svg.querySelectorAll('g')[2].innerHTML = nodes;
+  }
+  renderTangle(document.querySelector('#tangleB .tangle-svg'));
+
+  /* ───────────────────────────────────────────────────────────────
+     Architecture diagram content (B and C use it)
+     ─────────────────────────────────────────────────────────────── */
+  function renderArch(svg) {
+    if (!svg) return;
+    svg.innerHTML = `
+      <defs>
+        <path id="txn-p1-${svg.dataset.arch}" d="M 100 80  L 320 80  L 400 180 L 600 180 L 700 80  L 900 80"  fill="none"/>
+        <path id="txn-p2-${svg.dataset.arch}" d="M 100 180 L 320 180 L 400 180 L 600 180 L 700 180 L 900 180" fill="none"/>
+        <path id="txn-rev-${svg.dataset.arch}" d="M 100 80  L 320 80  L 400 180 L 500 180 L 400 180 L 320 80 L 100 80" fill="none"/>
+      </defs>
+      <text class="col-label" x="100" y="32">Your stack</text>
+      <text class="col-sub"   x="100" y="46">core banking</text>
+      <text class="col-label" x="400" y="32">EBB Gateway</text>
+      <text class="col-sub"   x="400" y="46">infrastructure layer</text>
+      <text class="col-label" x="900" y="32" text-anchor="end">Networks</text>
+      <text class="col-sub"   x="900" y="46" text-anchor="end">operators &amp; rails</text>
+      <g>
+        <rect class="cbs-node" x="60" y="64" width="120" height="32" rx="3"/>
+        <text class="cbs-text" x="120" y="84" text-anchor="middle">Finacle / T24</text>
+        <rect class="cbs-node" x="60" y="164" width="120" height="32" rx="3"/>
+        <text class="cbs-text" x="120" y="184" text-anchor="middle">FlexCube</text>
+        <rect class="cbs-node" x="60" y="264" width="120" height="32" rx="3"/>
+        <text class="cbs-text" x="120" y="284" text-anchor="middle">Custom CBS</text>
+      </g>
+      <g>
+        <line class="edge" x1="180" y1="80"  x2="380" y2="80"/>
+        <line class="edge" x1="180" y1="180" x2="380" y2="180"/>
+        <line class="edge" x1="180" y1="280" x2="380" y2="280"/>
+        <line class="edge" x1="380" y1="80"  x2="400" y2="180"/>
+        <line class="edge" x1="380" y1="180" x2="400" y2="180"/>
+        <line class="edge" x1="380" y1="280" x2="400" y2="180"/>
+      </g>
+      <rect class="gateway" x="400" y="100" width="200" height="160" rx="6"/>
+      <text class="gateway-label" x="500" y="124" text-anchor="middle">EBB</text>
+      <text class="gateway-sub"   x="500" y="140" text-anchor="middle">payment gateway</text>
+      <g transform="translate(420, 156)">
+        <circle class="check-dot" cx="0" cy="0" r="4"/>  <circle class="check-light c1" cx="0" cy="0" r="6"/>  <text class="check-label" x="12" y="3">signature</text>
+        <circle class="check-dot" cx="0" cy="20" r="4"/> <circle class="check-light c2" cx="0" cy="20" r="6"/> <text class="check-label" x="12" y="23">mTLS</text>
+        <circle class="check-dot" cx="0" cy="40" r="4"/> <circle class="check-light c3" cx="0" cy="40" r="6"/> <text class="check-label" x="12" y="43">AML screen</text>
+        <circle class="check-dot" cx="0" cy="60" r="4"/> <circle class="check-light c4" cx="0" cy="60" r="6"/> <text class="check-label" x="12" y="63">PCI masking</text>
+        <circle class="check-dot" cx="0" cy="80" r="4"/> <circle class="check-light c5" cx="0" cy="80" r="6"/> <text class="check-label" x="12" y="83">audit log</text>
+      </g>
+      <g>
+        <line class="edge" x1="600" y1="180" x2="620" y2="80"/>
+        <line class="edge" x1="600" y1="180" x2="620" y2="180"/>
+        <line class="edge" x1="600" y1="180" x2="620" y2="280"/>
+        <line class="edge" x1="620" y1="80"  x2="820" y2="80"/>
+        <line class="edge" x1="620" y1="180" x2="820" y2="180"/>
+        <line class="edge" x1="620" y1="280" x2="820" y2="280"/>
+      </g>
+      <g>
+        <rect class="net-node" x="820" y="64" width="120" height="32" rx="3"/>
+        <text class="net-text" x="880" y="84" text-anchor="middle">Mobile money</text>
+        <rect class="net-node" x="820" y="164" width="120" height="32" rx="3"/>
+        <text class="net-text" x="880" y="184" text-anchor="middle">Card networks</text>
+        <rect class="net-node" x="820" y="264" width="120" height="32" rx="3"/>
+        <text class="net-text" x="880" y="284" text-anchor="middle">Cross-border</text>
+      </g>
+      <circle class="txn" r="4">
+        <animateMotion dur="12s" repeatCount="indefinite" begin="0s"><mpath href="#txn-p1-${svg.dataset.arch}"/></animateMotion>
+        <animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.05;0.4;0.42;1" dur="12s" begin="0s" repeatCount="indefinite"/>
+      </circle>
+      <circle class="txn" r="4">
+        <animateMotion dur="12s" repeatCount="indefinite" begin="4s"><mpath href="#txn-p2-${svg.dataset.arch}"/></animateMotion>
+        <animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.05;0.4;0.42;1" dur="12s" begin="4s" repeatCount="indefinite"/>
+      </circle>
+      <circle class="txn" r="4">
+        <animateMotion dur="12s" repeatCount="indefinite" begin="8s"><mpath href="#txn-rev-${svg.dataset.arch}"/></animateMotion>
+        <animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;0.05;0.55;0.58;1" dur="12s" begin="8s" repeatCount="indefinite"/>
+      </circle>
+      <text class="reversal-tag" x="500" y="278" text-anchor="middle">Reversed in 200ms</text>
+    `;
+  }
+  document.querySelectorAll('[data-arch]').forEach(renderArch);
+
+  /* Tangle trigger + replay */
+  (function () {
+    const tangle = document.getElementById('tangleB');
+    if (!tangle) return;
+    const trigger = () => {
+      tangle.classList.remove('is-active');
+      void tangle.offsetWidth;
+      tangle.classList.add('is-active');
+    };
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { trigger(); io.unobserve(tangle); } });
+      }, { threshold: 0.3 });
+      io.observe(tangle);
+    } else {
+      trigger();
+    }
+    const btn = tangle.querySelector('[data-replay]');
+    if (btn) btn.addEventListener('click', trigger);
+  })();
+</script>
+
+</body>
+</html>
