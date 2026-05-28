@@ -1,0 +1,658 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>§2 Visualization Concepts — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0D2240;
+      --navy-soft: #1A3358;
+      --cream-warm: #F2EFE8;
+      --cream-2: #E8E4DA;
+      --crimson: #8B1A1A;
+      --amber: #B47A2E;
+      --teal: #3B6B5C;
+      --ink: #0D2240;
+      --ink-2: rgba(13,34,64,0.72);
+      --ink-3: rgba(13,34,64,0.55);
+      --ink-4: rgba(13,34,64,0.28);
+      --rule: rgba(13,34,64,0.14);
+      --rule-strong: rgba(13,34,64,0.28);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--cream-warm); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; }
+
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--navy); color: #F2EFE8;
+      padding: 14px 28px;
+      display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+      font: 500 13px/1 'Inter', sans-serif;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 12px; }
+    .nav a { color: rgba(255,255,255,0.78); text-decoration: none; padding: 6px 10px; border-radius: 4px; }
+    .nav a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    .variant-label {
+      max-width: 1180px; margin: 56px auto 0; padding: 28px 28px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap;
+    }
+    .variant-label__tag { font: 500 11px/1 'JetBrains Mono', monospace; letter-spacing: 0.12em; text-transform: uppercase; color: var(--crimson); }
+    .variant-label__title { font: 700 18px/1.3 'Libre Baskerville', serif; }
+    .variant-label__note { font: 400 13px/1.4 'Inter', sans-serif; color: var(--ink-3); margin-left: auto; max-width: 540px; }
+
+    .section { padding: 56px 28px 72px; }
+    .container { max-width: 1180px; margin: 0 auto; }
+    .head { max-width: 720px; margin-bottom: 40px; }
+    .eyebrow {
+      display: inline-block;
+      font: 500 12px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--crimson);
+      padding-bottom: 8px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 18px;
+    }
+    .h2 { font: 400 32px/1.2 'Libre Baskerville', serif; margin: 0 0 14px; }
+    .lede { font: 400 15px/1.55 'Inter', sans-serif; color: var(--ink-2); margin: 0; }
+
+    /* ════════════ X1: Stack diagram with pain pins ════════════ */
+    .x1 .stack {
+      border: 1px solid var(--rule);
+      background: rgba(255,255,255,0.5);
+      padding: 0;
+    }
+    .x1 .layer {
+      display: grid;
+      grid-template-columns: 200px 1fr 1fr;
+      border-bottom: 1px solid var(--rule);
+      min-height: 92px;
+    }
+    .x1 .layer:last-child { border-bottom: 0; }
+    .x1 .layer-name {
+      padding: 18px 20px;
+      background: rgba(13,34,64,0.04);
+      border-right: 1px solid var(--rule);
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .x1 .layer-name b {
+      font: 700 13px/1.2 'Libre Baskerville', serif;
+      color: var(--ink);
+    }
+    .x1 .layer-name span {
+      font: 500 10px/1.2 'JetBrains Mono', monospace;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink-3); margin-top: 4px;
+    }
+    .x1 .pains {
+      padding: 14px 20px;
+      display: flex; flex-direction: column; gap: 10px;
+      border-right: 1px solid var(--rule);
+    }
+    .x1 .pain-row {
+      display: grid; grid-template-columns: 14px 1fr; gap: 10px; align-items: baseline;
+    }
+    .x1 .pain-row::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--crimson); margin-top: 7px;
+    }
+    .x1 .pain-row b {
+      font: 500 12px/1.3 'JetBrains Mono', monospace;
+      color: var(--crimson); display: block;
+    }
+    .x1 .pain-row span {
+      font: 400 13px/1.45 'Libre Baskerville', serif;
+      color: var(--ink); display: block; margin-top: 2px;
+    }
+    .x1 .cost {
+      padding: 18px 20px;
+      display: flex; flex-direction: column; justify-content: center; gap: 4px;
+    }
+    .x1 .cost b {
+      font: 700 22px/1 'Libre Baskerville', serif;
+      color: var(--crimson);
+    }
+    .x1 .cost span {
+      font: 400 12px/1.4 'Inter', sans-serif;
+      color: var(--ink-3);
+    }
+    .x1 .flow-arrow {
+      text-align: center; padding: 8px 0;
+      font: 500 14px/1 'JetBrains Mono', monospace;
+      color: var(--ink-4);
+    }
+
+    /* ════════════ X2: Transaction lifecycle timeline ════════════ */
+    .x2 .timeline {
+      position: relative;
+      padding: 40px 0 200px;
+      margin-top: 20px;
+    }
+    .x2 .axis {
+      position: relative;
+      height: 2px;
+      background: var(--ink);
+      margin: 0 40px;
+    }
+    .x2 .axis::before, .x2 .axis::after {
+      content: ''; position: absolute;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--ink);
+      top: -5px;
+    }
+    .x2 .axis::before { left: -6px; }
+    .x2 .axis::after { right: -6px; }
+    .x2 .tick {
+      position: absolute;
+      top: -8px;
+      width: 1px; height: 18px;
+      background: var(--ink-3);
+    }
+    .x2 .tick-label {
+      position: absolute;
+      top: 14px;
+      transform: translateX(-50%);
+      font: 500 10px/1.2 'JetBrains Mono', monospace;
+      letter-spacing: 0.06em;
+      color: var(--ink-3);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .x2 .pin {
+      position: absolute;
+      top: -200px;
+      transform: translateX(-50%);
+      width: 200px;
+    }
+    .x2 .pin-line {
+      position: absolute;
+      left: 50%; bottom: -8px;
+      width: 1px; height: 60px;
+      background: var(--crimson);
+    }
+    .x2 .pin-dot {
+      position: absolute;
+      left: 50%; bottom: -14px;
+      width: 12px; height: 12px;
+      background: var(--crimson);
+      border: 2px solid var(--cream-warm);
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+    .x2 .pin-card {
+      background: rgba(255,255,255,0.7);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--crimson);
+      padding: 10px 12px;
+      margin-bottom: 60px;
+    }
+    .x2 .pin-card b {
+      font: 500 11px/1.2 'JetBrains Mono', monospace;
+      color: var(--crimson);
+      display: block; margin-bottom: 4px;
+    }
+    .x2 .pin-card span {
+      font: 400 12px/1.4 'Libre Baskerville', serif;
+      color: var(--ink); display: block;
+    }
+    .x2 .pin.below { top: 30px; }
+    .x2 .pin.below .pin-line { top: -8px; bottom: auto; }
+    .x2 .pin.below .pin-dot { top: -14px; bottom: auto; }
+    .x2 .pin.below .pin-card { margin-bottom: 0; margin-top: 60px; }
+
+    /* ════════════ X3: Engineering cost ledger ════════════ */
+    .x3 .ledger {
+      border: 1px solid var(--rule);
+      background: rgba(255,255,255,0.5);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .x3 .ledger-head {
+      padding: 20px 24px;
+      background: var(--navy); color: var(--cream-warm);
+      display: flex; justify-content: space-between; align-items: baseline;
+      border-bottom: 1px solid var(--rule);
+    }
+    .x3 .ledger-head b {
+      font: 700 14px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .x3 .ledger-head span {
+      font: 400 11px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.08em; opacity: 0.7;
+    }
+    .x3 table { width: 100%; border-collapse: collapse; }
+    .x3 thead th {
+      font: 500 10px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--ink-3); text-align: left;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .x3 thead th.num { text-align: right; }
+    .x3 tbody td {
+      padding: 14px 24px;
+      border-bottom: 1px dashed var(--rule);
+      vertical-align: top;
+    }
+    .x3 tbody tr:last-child td { border-bottom: 1px solid var(--ink); }
+    .x3 .item b {
+      font: 500 12px/1.3 'JetBrains Mono', monospace;
+      color: var(--crimson); display: block; margin-bottom: 3px;
+    }
+    .x3 .item span {
+      font: 400 13px/1.5 'Libre Baskerville', serif;
+      color: var(--ink);
+    }
+    .x3 .days {
+      text-align: right;
+      font: 500 16px/1 'JetBrains Mono', monospace;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+    .x3 .bar {
+      display: inline-block;
+      vertical-align: middle;
+      height: 6px;
+      background: var(--crimson);
+      margin-right: 10px;
+      opacity: 0.7;
+    }
+    .x3 .total {
+      padding: 20px 24px;
+      display: flex; justify-content: space-between; align-items: baseline;
+      background: rgba(139,26,26,0.06);
+    }
+    .x3 .total b {
+      font: 700 14px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--ink);
+    }
+    .x3 .total span {
+      font: 700 28px/1 'Libre Baskerville', serif;
+      color: var(--crimson);
+    }
+    .x3 .total small {
+      display: block;
+      font: 400 11px/1.4 'Inter', sans-serif;
+      color: var(--ink-3);
+      margin-top: 6px;
+      text-align: right;
+    }
+
+    /* ════════════ X4: SRE status board ════════════ */
+    .x4 .board {
+      background: #0a1929;
+      border-radius: 4px;
+      padding: 0;
+      font-family: 'JetBrains Mono', monospace;
+      overflow: hidden;
+    }
+    .x4 .board-head {
+      padding: 16px 20px;
+      background: #08111d;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .x4 .board-title {
+      font: 500 12px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: #e8ecf0;
+    }
+    .x4 .board-meta {
+      display: flex; gap: 18px;
+      font: 400 11px/1 'JetBrains Mono', monospace;
+      color: rgba(232,236,240,0.55);
+    }
+    .x4 .pulse {
+      display: inline-block; width: 8px; height: 8px;
+      background: #e74c3c; border-radius: 50%;
+      margin-right: 6px; vertical-align: middle;
+      box-shadow: 0 0 0 0 rgba(231,76,60,0.5);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(231,76,60,0.5); }
+      70% { box-shadow: 0 0 0 8px rgba(231,76,60,0); }
+      100% { box-shadow: 0 0 0 0 rgba(231,76,60,0); }
+    }
+    .x4 .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .x4 .stat {
+      padding: 16px 20px;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+    .x4 .stat:last-child { border-right: 0; }
+    .x4 .stat-label {
+      font: 500 10px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(232,236,240,0.5);
+      margin-bottom: 8px;
+    }
+    .x4 .stat-value {
+      font: 700 20px/1 'JetBrains Mono', monospace;
+      color: #e8ecf0;
+    }
+    .x4 .stat-value.red { color: #e74c3c; }
+    .x4 .stat-value.amber { color: #f0a830; }
+    .x4 .incidents { padding: 0; }
+    .x4 .inc-head, .x4 .inc-row {
+      display: grid;
+      grid-template-columns: 60px 70px 1fr 80px 80px;
+      gap: 12px;
+      padding: 10px 20px;
+      align-items: baseline;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .x4 .inc-head {
+      font: 500 10px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: rgba(232,236,240,0.4);
+      padding-top: 12px; padding-bottom: 12px;
+      background: rgba(255,255,255,0.02);
+    }
+    .x4 .inc-row {
+      font: 400 12px/1.4 'JetBrains Mono', monospace;
+      color: rgba(232,236,240,0.85);
+    }
+    .x4 .inc-row:last-child { border-bottom: 0; }
+    .x4 .inc-row:hover { background: rgba(255,255,255,0.03); }
+    .x4 .inc-id { color: rgba(232,236,240,0.4); }
+    .x4 .inc-sev[data-s="P0"] { color: #e74c3c; font-weight: 500; }
+    .x4 .inc-sev[data-s="P1"] { color: #f0a830; font-weight: 500; }
+    .x4 .inc-sev[data-s="P2"] { color: rgba(232,236,240,0.6); }
+    .x4 .inc-name b {
+      display: block;
+      color: #e8ecf0; font-weight: 500;
+    }
+    .x4 .inc-name span {
+      display: block;
+      color: rgba(232,236,240,0.5);
+      font-size: 11px;
+      margin-top: 2px;
+    }
+    .x4 .inc-owner, .x4 .inc-age { color: rgba(232,236,240,0.55); }
+
+    @media (max-width: 800px) {
+      .x1 .layer { grid-template-columns: 1fr; }
+      .x1 .cost { border-top: 1px solid var(--rule); }
+      .x2 .timeline { display: none; }
+      .x4 .stats { grid-template-columns: repeat(2, 1fr); }
+      .x4 .inc-head, .x4 .inc-row { grid-template-columns: 50px 60px 1fr; }
+      .x4 .inc-owner, .x4 .inc-age, .x4 .inc-head span:nth-child(4), .x4 .inc-head span:nth-child(5) { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <b>§2 Visualizations</b>
+    <a href="#x1">X1 Stack diagram</a>
+    <a href="#x2">X2 Timeline</a>
+    <a href="#x3">X3 Cost ledger</a>
+    <a href="#x4">X4 Status board</a>
+  </nav>
+
+  <!-- ════════════ X1 ════════════ -->
+  <div class="variant-label" id="x1">
+    <span class="variant-label__tag">X1</span>
+    <span class="variant-label__title">Payment stack diagram</span>
+    <span class="variant-label__note">Architecture layers with pain pins. Right column shows annual cost per layer. Reads like a whitepaper diagram.</span>
+  </div>
+  <section class="section x1">
+    <div class="container">
+      <header class="head">
+        <span class="eyebrow">The Problem</span>
+        <h2 class="h2">Every layer of your payment stack leaks.</h2>
+        <p class="lede">Mapped to where the pain actually lives. These are the patterns we hear in every CTO conversation.</p>
+      </header>
+
+      <div class="stack">
+        <div class="layer">
+          <div class="layer-name"><b>Client &amp; Channels</b><span>Layer 1</span></div>
+          <div class="pains">
+            <div class="pain-row"><div><b>customer.complaints</b><span>A missing transaction. Five systems. Two days to answer — customer is gone.</span></div></div>
+          </div>
+          <div class="cost"><b>~40d/yr</b><span>support &amp; investigation</span></div>
+        </div>
+
+        <div class="flow-arrow">↓</div>
+
+        <div class="layer">
+          <div class="layer-name"><b>Gateway &amp; Switch</b><span>Layer 2</span></div>
+          <div class="pains">
+            <div class="pain-row"><div><b>timeout.outage</b><span>Customers see the outage before your dashboards do. Twitter is faster than monitoring.</span></div></div>
+            <div class="pain-row"><div><b>security.surface</b><span>Every new integration is a new attack vector. Ten operators = ten places encryption can be wrong.</span></div></div>
+          </div>
+          <div class="cost"><b>~60d/yr</b><span>incident response &amp; hardening</span></div>
+        </div>
+
+        <div class="flow-arrow">↓</div>
+
+        <div class="layer">
+          <div class="layer-name"><b>Operator Rails</b><span>Layer 3</span></div>
+          <div class="pains">
+            <div class="pain-row"><div><b>corridor.6mo</b><span>Every new operator is a six-month integration — new protocol, AML, audit trail, built from scratch.</span></div></div>
+            <div class="pain-row"><div><b>compliance.bolton</b><span>AML, KYC, sanctions screening retro-fitted after every corridor goes live.</span></div></div>
+          </div>
+          <div class="cost"><b>~180d/yr</b><span>per new corridor</span></div>
+        </div>
+
+        <div class="flow-arrow">↓</div>
+
+        <div class="layer">
+          <div class="layer-name"><b>Settlement &amp; Recon</b><span>Layer 4</span></div>
+          <div class="pains">
+            <div class="pain-row"><div><b>reversal.silent</b><span>A reversal fails silently. Finance discovers the gap three days later.</span></div></div>
+            <div class="pain-row"><div><b>recon.manual</b><span>Month-end in spreadsheets. Four thousand rows. Weekend war rooms.</span></div></div>
+          </div>
+          <div class="cost"><b>~50d/yr</b><span>finance + eng pair-time</span></div>
+        </div>
+
+        <div class="flow-arrow">↓</div>
+
+        <div class="layer">
+          <div class="layer-name"><b>Ops &amp; Reporting</b><span>Layer 5</span></div>
+          <div class="pains">
+            <div class="pain-row"><div><b>audit.weeklong</b><span>"Show me Q3 reversals by reason code." One engineer, five dashboards, five days, every quarter.</span></div></div>
+            <div class="pain-row"><div><b>deploy.midnight</b><span>Releases at 11pm because daytime is too risky. Rollbacks at 2am.</span></div></div>
+            <div class="pain-row"><div><b>cost.invisible</b><span>80% of engineering keeps payments alive. 20% ships product that wins business.</span></div></div>
+          </div>
+          <div class="cost"><b>~120d/yr</b><span>toil &amp; audit prep</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ X2 ════════════ -->
+  <div class="variant-label" id="x2">
+    <span class="variant-label__tag">X2</span>
+    <span class="variant-label__title">Transaction lifecycle timeline</span>
+    <span class="variant-label__note">Horizontal time axis from T+0 to T+90d. Pains plotted at the moment they strike. Tells a story chronologically.</span>
+  </div>
+  <section class="section x2">
+    <div class="container">
+      <header class="head">
+        <span class="eyebrow">The Problem</span>
+        <h2 class="h2">A single transaction. Ninety days of pain.</h2>
+        <p class="lede">Plot the lifecycle of one payment. The ten failures every bank and fintech CTO knows by heart appear right on schedule.</p>
+      </header>
+
+      <div class="timeline">
+        <div class="axis">
+          <!-- Pins above axis -->
+          <div class="pin" style="left: 4%;">
+            <div class="pin-card"><b>timeout.outage</b><span>Customers tweet before dashboards page.</span></div>
+            <div class="pin-line"></div><div class="pin-dot"></div>
+          </div>
+          <div class="pin" style="left: 22%;">
+            <div class="pin-card"><b>customer.complaints</b><span>Five systems to query. Two days to answer.</span></div>
+            <div class="pin-line"></div><div class="pin-dot"></div>
+          </div>
+          <div class="pin" style="left: 50%;">
+            <div class="pin-card"><b>recon.manual</b><span>Month-end. 4,000 rows. Weekend war room.</span></div>
+            <div class="pin-line"></div><div class="pin-dot"></div>
+          </div>
+          <div class="pin" style="left: 78%;">
+            <div class="pin-card"><b>audit.weeklong</b><span>One engineer. Five dashboards. Five days.</span></div>
+            <div class="pin-line"></div><div class="pin-dot"></div>
+          </div>
+
+          <!-- Pins below axis -->
+          <div class="pin below" style="left: 12%;">
+            <div class="pin-line"></div><div class="pin-dot"></div>
+            <div class="pin-card"><b>reversal.silent</b><span>Finance finds the gap three days later.</span></div>
+          </div>
+          <div class="pin below" style="left: 35%;">
+            <div class="pin-line"></div><div class="pin-dot"></div>
+            <div class="pin-card"><b>deploy.midnight</b><span>11pm release. 2am rollback. On-call paged.</span></div>
+          </div>
+          <div class="pin below" style="left: 62%;">
+            <div class="pin-line"></div><div class="pin-dot"></div>
+            <div class="pin-card"><b>security.surface</b><span>Every new operator is a new attack vector.</span></div>
+          </div>
+          <div class="pin below" style="left: 88%;">
+            <div class="pin-line"></div><div class="pin-dot"></div>
+            <div class="pin-card"><b>compliance.bolton</b><span>AML retro-fitted after the corridor ships.</span></div>
+          </div>
+
+          <!-- Ticks -->
+          <div class="tick" style="left: 0%;"><div class="tick-label" style="left:50%;">T+0</div></div>
+          <div class="tick" style="left: 25%;"><div class="tick-label" style="left:50%;">+24h</div></div>
+          <div class="tick" style="left: 50%;"><div class="tick-label" style="left:50%;">+30d</div></div>
+          <div class="tick" style="left: 75%;"><div class="tick-label" style="left:50%;">+90d</div></div>
+          <div class="tick" style="left: 100%;"><div class="tick-label" style="left:50%;">+1yr</div></div>
+        </div>
+      </div>
+
+      <p style="font: 400 13px/1.5 'Inter', sans-serif; color: var(--ink-3); margin-top: 24px; max-width: 720px;">
+        And running underneath the whole timeline: <span style="font-family:'JetBrains Mono',monospace; color: var(--crimson);">corridor.6mo</span> — every new operator restarts the clock — and <span style="font-family:'JetBrains Mono',monospace; color: var(--crimson);">cost.invisible</span>: 80% of engineering keeping the lights on instead of shipping product.
+      </p>
+    </div>
+  </section>
+
+  <!-- ════════════ X3 ════════════ -->
+  <div class="variant-label" id="x3">
+    <span class="variant-label__tag">X3</span>
+    <span class="variant-label__title">Engineering cost ledger</span>
+    <span class="variant-label__note">Pains rendered as a financial statement. Engineer-days/year per item, totalled. Hits the CFO/CTO joint nerve.</span>
+  </div>
+  <section class="section x3">
+    <div class="container">
+      <header class="head">
+        <span class="eyebrow">The Problem</span>
+        <h2 class="h2">The bill is in engineering days.</h2>
+        <p class="lede">An accounting of what these ten patterns actually cost a 30-engineer payments team in a year. Illustrative — but every line item is one we've heard described.</p>
+      </header>
+
+      <div class="ledger">
+        <div class="ledger-head">
+          <b>Statement of toil · FY illustrative</b>
+          <span>account: payments.engineering</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th class="num">Days / yr</th>
+            </tr>
+          </thead>
+          <tbody data-ledger></tbody>
+        </table>
+        <div class="total">
+          <div>
+            <b>Total engineering days burned</b>
+            <small>≈ 80% of a 30-engineer team's capacity</small>
+          </div>
+          <div>
+            <span>~450</span>
+            <small>days / year on toil, not product</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ X4 ════════════ -->
+  <div class="variant-label" id="x4">
+    <span class="variant-label__tag">X4</span>
+    <span class="variant-label__title">SRE status board</span>
+    <span class="variant-label__note">Mock incident dashboard. All ten pains as "active issues" with severity, owner, age. Pure developer credibility — looks like Grafana/Datadog.</span>
+  </div>
+  <section class="section x4">
+    <div class="container">
+      <header class="head">
+        <span class="eyebrow">The Problem</span>
+        <h2 class="h2">Every payments team's status board looks like this.</h2>
+        <p class="lede">Ten incidents nobody can close because nobody owns the platform underneath them. We have.</p>
+      </header>
+
+      <div class="board">
+        <div class="board-head">
+          <div class="board-title"><span class="pulse"></span>payments-platform · status</div>
+          <div class="board-meta">
+            <span>uptime: 99.4%</span>
+            <span>open: 10</span>
+            <span>P0: 3</span>
+            <span>updated: live</span>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat"><div class="stat-label">Open incidents</div><div class="stat-value red">10</div></div>
+          <div class="stat"><div class="stat-label">P0 / critical</div><div class="stat-value red">3</div></div>
+          <div class="stat"><div class="stat-label">Avg age</div><div class="stat-value amber">147d</div></div>
+          <div class="stat"><div class="stat-label">Eng days / yr</div><div class="stat-value">~450</div></div>
+        </div>
+        <div class="incidents">
+          <div class="inc-head">
+            <span>id</span><span>sev</span><span>symptom</span><span>owner</span><span>age</span>
+          </div>
+          <div data-board></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const PAINS = [
+      { id: '01', sev: 'P0', tag: 'timeout.outage',      desc: 'Customers see outage before dashboards do.',          owner: 'platform', age: '∞',   days: 60 },
+      { id: '02', sev: 'P0', tag: 'reversal.silent',     desc: 'Reversal fails silently. Finance finds gap 3d later.', owner: 'rails',    age: '212d', days: 35 },
+      { id: '03', sev: 'P1', tag: 'recon.manual',        desc: 'Month-end in spreadsheets. 4,000 rows. Weekends.',     owner: 'finance',  age: '∞',   days: 50 },
+      { id: '04', sev: 'P1', tag: 'audit.weeklong',      desc: 'Q3 reversals by reason code: 1 eng × 5 days × 4 qtrs.', owner: 'data',     age: '∞',   days: 20 },
+      { id: '05', sev: 'P1', tag: 'deploy.midnight',     desc: '11pm releases. 2am rollbacks. On-call paged.',          owner: 'platform', age: '∞',   days: 40 },
+      { id: '06', sev: 'P1', tag: 'customer.complaints', desc: '5 systems. 2 days to answer. Customer is gone.',       owner: 'support',  age: '∞',   days: 40 },
+      { id: '07', sev: 'P0', tag: 'security.surface',    desc: 'Every new operator is a new attack vector.',            owner: 'security', age: '147d', days: 30 },
+      { id: '08', sev: 'P1', tag: 'compliance.bolton',   desc: 'AML / KYC retro-fitted after each corridor ships.',     owner: 'risk',     age: '94d',  days: 35 },
+      { id: '09', sev: 'P2', tag: 'corridor.6mo',        desc: 'Every new operator = 6-month integration project.',     owner: 'platform', age: '∞',   days: 120 },
+      { id: '10', sev: 'P2', tag: 'cost.invisible',      desc: '80% of engineering keeps payments alive.',              owner: 'cto',      age: '∞',   days: 20 },
+    ];
+
+    // X3 ledger
+    const maxDays = Math.max(...PAINS.map(p => p.days));
+    document.querySelector('[data-ledger]').innerHTML = PAINS.map(p => `
+      <tr>
+        <td class="item"><b>${p.tag}</b><span>${p.desc}</span></td>
+        <td class="days"><span class="bar" style="width:${(p.days/maxDays)*120}px"></span>${p.days}d</td>
+      </tr>
+    `).join('');
+
+    // X4 status board
+    document.querySelector('[data-board]').innerHTML = PAINS.map(p => `
+      <div class="inc-row">
+        <span class="inc-id">INC-${p.id}</span>
+        <span class="inc-sev" data-s="${p.sev}">${p.sev}</span>
+        <span class="inc-name"><b>${p.tag}</b><span>${p.desc}</span></span>
+        <span class="inc-owner">${p.owner}</span>
+        <span class="inc-age">${p.age}</span>
+      </div>
+    `).join('');
+  </script>
+</body>
+</html>
