@@ -1,0 +1,941 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>§2 — 10 Illustration Concepts — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream: #F8F6F1;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --crimson-soft: rgba(139,26,26,0.12);
+      --text-body: rgba(13,34,64,0.82);
+      --text-muted: rgba(13,34,64,0.62);
+      --text-faint: rgba(13,34,64,0.42);
+      --rule: rgba(13,34,64,0.10);
+      --rule-soft: rgba(13,34,64,0.06);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-ui); background: var(--cream-warm); color: var(--text-body); -webkit-font-smoothing: antialiased; }
+
+    /* switcher */
+    .switcher {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); color: var(--cream);
+      padding: 12px 28px;
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+      font: 500 12px/1 var(--font-ui);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .switcher b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 8px; }
+    .switcher a { color: rgba(255,255,255,0.7); padding: 5px 8px; border-radius: 4px; }
+    .switcher a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    .label {
+      max-width: 1180px; margin: 0 auto; padding: 32px 32px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap;
+    }
+    .label__tag { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--crimson); }
+    .label__title { font: 700 17px/1.3 var(--font-display); color: var(--navy); }
+    .label__note { font: 400 13px/1.45 var(--font-ui); color: var(--text-muted); margin-left: auto; max-width: 560px; }
+
+    .section { padding: 28px 32px 56px; }
+    .container { max-width: 1180px; margin: 0 auto; }
+    .figcap {
+      margin-top: 14px;
+      padding: 0;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: rgba(13,34,64,0.5);
+      text-align: left;
+    }
+    .figcap b {
+      font-family: var(--font-mono);
+      font-style: normal;
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-right: 8px;
+      vertical-align: 1px;
+    }
+
+    /* ═════════ I1 — ECG HEARTBEAT (baseline) ═════════ */
+    .i1 .frame {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      background:
+        repeating-linear-gradient(to right, transparent 0, transparent 119px, rgba(13,34,64,0.04) 119px, rgba(13,34,64,0.04) 120px);
+    }
+    .i1 svg { width: 100%; height: 200px; display: block; }
+    .i1 .line { fill: none; stroke: var(--navy); stroke-width: 1.5; }
+    .i1 .marker { fill: var(--crimson); }
+    .i1 .ring { fill: var(--crimson); opacity: 0; animation: pulseRing 2.2s ease-out infinite; }
+    .i1 .ring:nth-of-type(2) { animation-delay: 0.5s; }
+    .i1 .ring:nth-of-type(3) { animation-delay: 1.0s; }
+    .i1 .ring:nth-of-type(4) { animation-delay: 1.5s; }
+    @keyframes pulseRing {
+      0%   { r: 4; opacity: 0.55; }
+      100% { r: 22; opacity: 0; }
+    }
+    .i1 .labels { position: relative; height: 36px; }
+    .i1 .lab {
+      position: absolute; transform: translateX(-50%);
+      font: italic 13px/1 var(--font-display);
+      color: var(--crimson);
+      padding-top: 16px;
+    }
+    .i1 .lab::before {
+      content: ''; display: block;
+      width: 1px; height: 10px;
+      background: var(--crimson);
+      position: absolute; top: 0; left: 50%;
+    }
+
+    /* ═════════ I2 — PAYMENT STACK DIAGRAM ═════════ */
+    .i2 .stack {
+      max-width: 760px;
+      margin: 0 auto;
+      display: flex; flex-direction: column; gap: 0;
+      border: 1px solid var(--rule);
+      background: rgba(255,255,255,0.4);
+    }
+    .i2 .layer {
+      display: grid; grid-template-columns: 200px 1fr auto;
+      gap: 24px; align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .i2 .layer:last-child { border-bottom: 0; }
+    .i2 .layer-label {
+      font: 600 10px/1 var(--font-ui);
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--navy);
+    }
+    .i2 .layer-label small {
+      display: block;
+      margin-top: 4px;
+      font: 400 9px/1 var(--font-mono);
+      letter-spacing: 0.06em;
+      color: var(--text-faint);
+      text-transform: lowercase;
+    }
+    .i2 .layer-failures {
+      display: flex; gap: 18px; flex-wrap: wrap;
+      font: italic 13px/1.4 var(--font-display);
+      color: var(--crimson);
+    }
+    .i2 .layer-failures span { display: inline-flex; align-items: center; gap: 6px; }
+    .i2 .layer-failures span::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--crimson);
+    }
+    .i2 .layer-count {
+      font: 500 11px/1 var(--font-mono);
+      color: var(--crimson);
+      letter-spacing: 0.08em;
+    }
+
+    /* ═════════ I3 — NETWORK TOPOLOGY ═════════ */
+    .i3 .frame {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 32px;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .i3 svg { width: 100%; height: 280px; display: block; }
+    .i3 .edge { stroke: rgba(13,34,64,0.15); stroke-width: 1; fill: none; }
+    .i3 .edge.fail { stroke: var(--crimson); stroke-dasharray: 3 3; stroke-width: 1.5; }
+    .i3 .node-rim { fill: none; stroke: var(--navy); stroke-width: 1; opacity: 0.3; }
+    .i3 .node { fill: var(--navy); }
+    .i3 .ebb {
+      fill: var(--cream-warm); stroke: var(--navy); stroke-width: 2;
+    }
+    .i3 .ebb-text { fill: var(--navy); font: 700 14px var(--font-display); }
+    .i3 .label { fill: rgba(13,34,64,0.55); font: 500 10px var(--font-ui); letter-spacing: 0.05em; }
+    .i3 .label.fail { fill: var(--crimson); font-family: var(--font-display); font-style: italic; font-weight: 400; font-size: 11px; letter-spacing: 0; }
+    .i3 .fail-mark { fill: var(--crimson); }
+
+    /* ═════════ I4 — 24-HOUR CLOCK ═════════ */
+    .i4 .frame {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 20px 0;
+    }
+    .i4 svg { width: 100%; height: 380px; display: block; }
+    .i4 .ring-bg { fill: none; stroke: var(--rule); stroke-width: 1; }
+    .i4 .ring-tick { stroke: rgba(13,34,64,0.18); stroke-width: 1; }
+    .i4 .hour-label { fill: var(--text-faint); font: 500 9px var(--font-mono); letter-spacing: 0.08em; }
+    .i4 .event { fill: var(--crimson); }
+    .i4 .event-ring { fill: none; stroke: var(--crimson); stroke-width: 1; opacity: 0.4; }
+    .i4 .ev-label { fill: var(--crimson); font: italic 11px var(--font-display); }
+    .i4 .center-label {
+      fill: rgba(13,34,64,0.4); font: italic 11px var(--font-display);
+      text-anchor: middle;
+    }
+
+    /* ═════════ I5 — HEATMAP CALENDAR ═════════ */
+    .i5 .frame {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 14px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .i5 .months {
+      display: grid; grid-template-columns: 24px repeat(53, 1fr);
+      column-gap: 3px;
+      font: 500 9px var(--font-mono);
+      letter-spacing: 0.06em;
+      color: var(--text-faint);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      padding: 8px 0 0;
+    }
+    .i5 .months .m { grid-column: span 4; }
+    .i5 .grid {
+      display: grid; grid-template-columns: 24px 1fr;
+      gap: 6px;
+      padding: 0 0 12px;
+    }
+    .i5 .days {
+      display: grid; grid-template-rows: repeat(7, 1fr);
+      gap: 3px;
+      font: 500 9px var(--font-mono);
+      color: var(--text-faint);
+      text-transform: uppercase;
+    }
+    .i5 .days span { line-height: 12px; }
+    .i5 .squares {
+      display: grid; grid-template-columns: repeat(53, 1fr);
+      grid-auto-rows: 12px;
+      grid-auto-flow: column;
+      gap: 3px;
+    }
+    .i5 .sq {
+      background: rgba(13,34,64,0.06);
+      border-radius: 2px;
+    }
+    .i5 .sq.l1 { background: rgba(139,26,26,0.25); }
+    .i5 .sq.l2 { background: rgba(139,26,26,0.5); }
+    .i5 .sq.l3 { background: rgba(139,26,26,0.75); }
+    .i5 .sq.l4 { background: var(--crimson); }
+    .i5 .legend {
+      display: flex; align-items: center; gap: 6px;
+      justify-content: flex-end;
+      font: 500 9px var(--font-mono);
+      color: var(--text-faint);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0 0 6px;
+    }
+    .i5 .legend .key {
+      width: 12px; height: 12px; border-radius: 2px;
+    }
+
+    /* ═════════ I6 — ICEBERG METAPHOR ═════════ */
+    .i6 .frame {
+      max-width: 760px;
+      margin: 0 auto;
+      position: relative;
+      height: 380px;
+      background:
+        linear-gradient(to bottom,
+          rgba(242,239,232,0) 0%,
+          rgba(242,239,232,0) 38%,
+          rgba(13,34,64,0.04) 38%,
+          rgba(13,34,64,0.12) 100%);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      overflow: hidden;
+    }
+    .i6 svg.berg { position: absolute; left: 50%; top: 0; height: 100%; transform: translateX(-50%); }
+    .i6 .berg-poly { fill: rgba(13,34,64,0.06); stroke: var(--navy); stroke-width: 1; }
+    .i6 .berg-poly.below { fill: rgba(13,34,64,0.12); }
+    .i6 .waterline {
+      position: absolute; left: 0; right: 0; top: 38%; height: 1px;
+      background: rgba(13,34,64,0.3);
+    }
+    .i6 .waterline::before {
+      content: 'waterline · what customers see';
+      position: absolute; right: 0; top: -16px;
+      font: 500 9px var(--font-mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(13,34,64,0.4);
+    }
+    .i6 .above-labels, .i6 .below-labels {
+      position: absolute; left: 24px; right: 24px;
+      display: flex; flex-direction: column; gap: 4px;
+      font: italic 12px/1.3 var(--font-display);
+      color: var(--crimson);
+    }
+    .i6 .above-labels { top: 16px; }
+    .i6 .below-labels { bottom: 16px; }
+    .i6 .above-labels small, .i6 .below-labels small {
+      font: 500 9px var(--font-mono);
+      font-style: normal;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(13,34,64,0.4);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* ═════════ I7 — SANKEY FLOW ═════════ */
+    .i7 .frame {
+      max-width: 980px;
+      margin: 0 auto;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 16px 0;
+    }
+    .i7 svg { width: 100%; height: 260px; display: block; }
+    .i7 .flow-main { fill: rgba(13,34,64,0.08); stroke: rgba(13,34,64,0.15); stroke-width: 1; }
+    .i7 .flow-leak { fill: rgba(139,26,26,0.18); stroke: rgba(139,26,26,0.45); stroke-width: 1; }
+    .i7 .leak-label {
+      fill: var(--crimson);
+      font: italic 11px var(--font-display);
+    }
+    .i7 .endpoint-label {
+      fill: var(--navy);
+      font: 600 10px var(--font-ui);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ═════════ I8 — TERMINAL LOG ═════════ */
+    .i8 .frame {
+      max-width: 880px;
+      margin: 0 auto;
+      background: #0d1929;
+      border-radius: 6px;
+      padding: 14px 18px;
+      box-shadow: 0 8px 24px -8px rgba(13,34,64,0.3);
+      font-family: var(--font-mono);
+    }
+    .i8 .head {
+      display: flex; align-items: center; gap: 6px;
+      padding-bottom: 10px; margin-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font-size: 10px;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .i8 .dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+    }
+    .i8 .dot.r { background: #e74c3c; }
+    .i8 .dot.a { background: #f0a830; }
+    .i8 .dot.g { background: #44ad57; }
+    .i8 .head-title { margin-left: 8px; }
+    .i8 .head-tag { margin-left: auto; color: rgba(231,76,60,0.85); }
+    .i8 .log {
+      font-size: 11.5px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.85);
+    }
+    .i8 .log .ts { color: rgba(255,255,255,0.4); }
+    .i8 .log .lvl-err { color: #e74c3c; font-weight: 600; }
+    .i8 .log .lvl-warn { color: #f0a830; font-weight: 600; }
+    .i8 .log .lvl-info { color: #5b8bd6; font-weight: 600; }
+    .i8 .log .tag { color: #ff9b76; }
+    .i8 .log .blink {
+      animation: blink 1.5s steps(2) infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ═════════ I9 — RISK MATRIX GRID ═════════ */
+    .i9 .frame {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 18px 0;
+    }
+    .i9 .matrix {
+      display: grid; grid-template-columns: 40px 1fr;
+      gap: 8px;
+    }
+    .i9 .y-axis {
+      display: flex; flex-direction: column-reverse; justify-content: space-between;
+      font: 500 9px var(--font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      align-items: center;
+    }
+    .i9 .y-label {
+      transform: rotate(180deg);
+      writing-mode: horizontal-tb;
+      margin: 4px 0;
+    }
+    .i9 .y-axis-title {
+      writing-mode: vertical-lr;
+      transform: rotate(180deg);
+      font: 600 10px var(--font-ui);
+      letter-spacing: 0.12em;
+      color: var(--navy);
+      text-transform: uppercase;
+      margin: 8px 0;
+    }
+    .i9 .plot {
+      position: relative;
+      aspect-ratio: 1;
+      background:
+        linear-gradient(to right, rgba(139,26,26,0.04) 0%, rgba(139,26,26,0.2) 100%),
+        linear-gradient(to top, rgba(139,26,26,0.02) 0%, rgba(139,26,26,0.18) 100%);
+      border: 1px solid var(--rule);
+    }
+    .i9 .grid-lines {
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(to right, transparent 0, transparent calc(20% - 1px), rgba(13,34,64,0.08) calc(20% - 1px), rgba(13,34,64,0.08) 20%),
+        repeating-linear-gradient(to top, transparent 0, transparent calc(20% - 1px), rgba(13,34,64,0.08) calc(20% - 1px), rgba(13,34,64,0.08) 20%);
+    }
+    .i9 .dot-plot {
+      position: absolute;
+      width: 18px; height: 18px;
+      transform: translate(-50%, 50%);
+      background: var(--crimson);
+      border: 2px solid var(--cream-warm);
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(139,26,26,0.3);
+    }
+    .i9 .dot-plot::after {
+      content: attr(data-label);
+      position: absolute;
+      left: 24px; top: 50%;
+      transform: translateY(-50%);
+      white-space: nowrap;
+      font: italic 11px var(--font-display);
+      color: var(--crimson);
+    }
+    .i9 .x-axis {
+      grid-column: 2;
+      display: flex; justify-content: space-between;
+      margin-top: 6px;
+      font: 500 9px var(--font-mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .i9 .x-axis-title {
+      grid-column: 2;
+      text-align: center;
+      margin-top: 6px;
+      font: 600 10px var(--font-ui);
+      letter-spacing: 0.12em;
+      color: var(--navy);
+      text-transform: uppercase;
+    }
+
+    /* ═════════ I10 — SUBWAY MAP ═════════ */
+    .i10 .frame {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 18px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+    .i10 svg { width: 100%; height: 280px; display: block; }
+    .i10 .line {
+      fill: none; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round;
+      opacity: 0.7;
+    }
+    .i10 .line.l1 { stroke: var(--crimson); }
+    .i10 .line.l2 { stroke: var(--navy); }
+    .i10 .line.l3 { stroke: #B47A2E; }
+    .i10 .line.l4 { stroke: #3B6B5C; }
+    .i10 .station {
+      fill: #fff; stroke: var(--navy); stroke-width: 2;
+    }
+    .i10 .station.major {
+      stroke: var(--crimson); stroke-width: 2.5;
+    }
+    .i10 .stn-label {
+      fill: var(--crimson); font: italic 11px var(--font-display);
+    }
+    .i10 .ln-label {
+      fill: var(--text-faint); font: 500 9px var(--font-mono);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+
+  </style>
+</head>
+<body>
+
+<nav class="switcher">
+  <b>§2 — 10 illustrations</b>
+  <a href="#i1">I1 ECG</a>
+  <a href="#i2">I2 Stack</a>
+  <a href="#i3">I3 Topology</a>
+  <a href="#i4">I4 Clock</a>
+  <a href="#i5">I5 Heatmap</a>
+  <a href="#i6">I6 Iceberg</a>
+  <a href="#i7">I7 Sankey</a>
+  <a href="#i8">I8 Terminal</a>
+  <a href="#i9">I9 Risk grid</a>
+  <a href="#i10">I10 Subway</a>
+</nav>
+
+<!-- ═══════ I1 ═══════ -->
+<div class="label" id="i1-label">
+  <span class="label__tag">I1</span>
+  <span class="label__title">ECG heartbeat — current baseline</span>
+  <span class="label__note">Steady throughput line with red drops at failure moments. Trading-chart aesthetic, vitals metaphor.</span>
+</div>
+<section class="section i1" id="i1">
+  <div class="container">
+    <div class="frame">
+      <svg viewBox="0 0 1200 200" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="0" y1="100" x2="1200" y2="100" stroke="rgba(13,34,64,0.08)" stroke-dasharray="2 4"/>
+        <path class="line" d="M 0 90 Q 30 85 60 95 T 120 92 L 130 92 L 140 180 L 150 92 Q 180 88 210 98 T 280 90 Q 320 82 360 95 T 420 90 L 430 90 L 442 165 L 454 90 Q 490 85 520 98 T 580 92 Q 620 90 660 95 T 720 88 L 728 88 L 740 185 L 752 88 Q 790 85 820 95 T 880 90 Q 920 88 960 98 T 1020 90 L 1028 90 L 1040 170 L 1052 90 Q 1090 88 1120 98 T 1200 92"/>
+        <g class="marker">
+          <circle cx="140" cy="180" r="4"/>
+          <circle cx="442" cy="165" r="4"/>
+          <circle cx="740" cy="185" r="4"/>
+          <circle cx="1040" cy="170" r="4"/>
+        </g>
+        <circle class="ring" cx="140" cy="180"/>
+        <circle class="ring" cx="442" cy="165"/>
+        <circle class="ring" cx="740" cy="185"/>
+        <circle class="ring" cx="1040" cy="170"/>
+      </svg>
+      <div class="labels">
+        <div class="lab" style="left: 11.7%;">Timeouts</div>
+        <div class="lab" style="left: 36.8%;">Reversals</div>
+        <div class="lab" style="left: 61.7%;">Recon</div>
+        <div class="lab" style="left: 86.7%;">Audits</div>
+      </div>
+    </div>
+    <p class="figcap"><b>Fig. I1.</b>An illustrative payments throughput. Each red drop marks a pattern from the list.</p>
+  </div>
+</section>
+
+<!-- ═══════ I2 ═══════ -->
+<div class="label" id="i2-label">
+  <span class="label__tag">I2</span>
+  <span class="label__title">Payment stack — failures per architectural layer</span>
+  <span class="label__note">Vertical column of stack layers; patterns annotated against the layer they break. Most architecturally concrete.</span>
+</div>
+<section class="section i2" id="i2">
+  <div class="container">
+    <div class="stack">
+      <div class="layer">
+        <div class="layer-label">Client &amp; Channels<small>customer-facing</small></div>
+        <div class="layer-failures"><span>Customer complaints</span></div>
+        <div class="layer-count">1</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">Gateway &amp; Switch<small>routing</small></div>
+        <div class="layer-failures"><span>Timeouts &amp; outages</span><span>A security surface</span></div>
+        <div class="layer-count">2</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">Operator Rails<small>integration</small></div>
+        <div class="layer-failures"><span>Corridor integrations</span><span>Compliance</span></div>
+        <div class="layer-count">2</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">Settlement &amp; Recon<small>back-office</small></div>
+        <div class="layer-failures"><span>Reversals</span><span>Recon</span></div>
+        <div class="layer-count">2</div>
+      </div>
+      <div class="layer">
+        <div class="layer-label">Ops &amp; Reporting<small>visibility</small></div>
+        <div class="layer-failures"><span>Audits</span><span>Deploys</span><span>The invisible cost</span></div>
+        <div class="layer-count">3</div>
+      </div>
+    </div>
+    <p class="figcap"><b>Fig. I2.</b>Patterns mapped to the layer of the stack where each breaks.</p>
+  </div>
+</section>
+
+<!-- ═══════ I3 ═══════ -->
+<div class="label" id="i3-label">
+  <span class="label__tag">I3</span>
+  <span class="label__title">Network topology — radial system view</span>
+  <span class="label__note">Bank ↔ EBB ↔ operators. Failure patterns highlighted on the connection where they live.</span>
+</div>
+<section class="section i3" id="i3">
+  <div class="container">
+    <div class="frame">
+      <svg viewBox="0 0 760 280" aria-hidden="true">
+        <!-- edges -->
+        <line class="edge fail" x1="80" y1="140" x2="320" y2="140"/>
+        <line class="edge fail" x1="440" y1="140" x2="680" y2="60"/>
+        <line class="edge fail" x1="440" y1="140" x2="680" y2="140"/>
+        <line class="edge" x1="440" y1="140" x2="680" y2="220"/>
+        <line class="edge" x1="440" y1="140" x2="600" y2="240"/>
+
+        <!-- bank -->
+        <circle class="node-rim" cx="80" cy="140" r="22"/>
+        <circle class="node" cx="80" cy="140" r="14"/>
+        <text class="label" x="80" y="180" text-anchor="middle">Your bank</text>
+        <text class="label" x="80" y="194" text-anchor="middle">core</text>
+        <text class="label fail" x="200" y="130" text-anchor="middle">Timeouts &amp; outages</text>
+
+        <!-- ebb -->
+        <rect class="ebb" x="320" y="100" width="120" height="80" rx="6"/>
+        <text class="ebb-text" x="380" y="146" text-anchor="middle">EBB</text>
+        <text class="label" x="380" y="200" text-anchor="middle">infrastructure layer</text>
+
+        <!-- operators -->
+        <circle class="node-rim" cx="680" cy="60" r="18"/>
+        <circle class="node" cx="680" cy="60" r="11"/>
+        <text class="label" x="690" y="40">Mobile money</text>
+        <text class="label fail" x="540" y="80">Corridor integrations</text>
+
+        <circle class="node-rim" cx="680" cy="140" r="18"/>
+        <circle class="node" cx="680" cy="140" r="11"/>
+        <text class="label" x="690" y="170">Card networks</text>
+        <text class="label fail" x="555" y="130">A security surface</text>
+
+        <circle class="node-rim" cx="680" cy="220" r="18"/>
+        <circle class="node" cx="680" cy="220" r="11"/>
+        <text class="label" x="690" y="250">Switches</text>
+
+        <circle class="node-rim" cx="600" cy="240" r="14"/>
+        <circle class="node" cx="600" cy="240" r="9"/>
+        <text class="label" x="612" y="262">Cross-border</text>
+      </svg>
+    </div>
+    <p class="figcap"><b>Fig. I3.</b>Topology of a payments platform — failures pinned to the edges where they break.</p>
+  </div>
+</section>
+
+<!-- ═══════ I4 ═══════ -->
+<div class="label" id="i4-label">
+  <span class="label__tag">I4</span>
+  <span class="label__title">24-hour clock — when failures cluster</span>
+  <span class="label__note">Circular timeline showing the time-of-day pattern: midnight deploys, dawn rollbacks, month-end recon, etc.</span>
+</div>
+<section class="section i4" id="i4">
+  <div class="container">
+    <div class="frame">
+      <svg viewBox="0 0 380 380" aria-hidden="true">
+        <!-- outer ring -->
+        <circle class="ring-bg" cx="190" cy="190" r="150"/>
+        <circle class="ring-bg" cx="190" cy="190" r="110"/>
+        <!-- hour ticks every 3h -->
+        <g>
+          <line class="ring-tick" x1="190" y1="40" x2="190" y2="50"/>
+          <line class="ring-tick" x1="343.5" y1="115" x2="335" y2="118.5"/>
+          <line class="ring-tick" x1="343.5" y1="265" x2="335" y2="261.5"/>
+          <line class="ring-tick" x1="190" y1="340" x2="190" y2="330"/>
+          <line class="ring-tick" x1="40" y1="265" x2="48.5" y2="261.5"/>
+          <line class="ring-tick" x1="40" y1="115" x2="48.5" y2="118.5"/>
+        </g>
+        <!-- hour labels -->
+        <text class="hour-label" x="190" y="30" text-anchor="middle">00:00</text>
+        <text class="hour-label" x="358" y="120" text-anchor="start">06:00</text>
+        <text class="hour-label" x="358" y="270" text-anchor="start">12:00</text>
+        <text class="hour-label" x="190" y="358" text-anchor="middle">18:00</text>
+        <text class="hour-label" x="22" y="270" text-anchor="end">21:00</text>
+        <text class="hour-label" x="22" y="120" text-anchor="end">03:00</text>
+
+        <!-- event dots at failure times -->
+        <!-- 23:00 deploys.midnight -->
+        <circle class="event-ring" cx="190" cy="40" r="14"/>
+        <circle class="event" cx="190" cy="40" r="5"/>
+        <text class="ev-label" x="190" y="18" text-anchor="middle">Deploys</text>
+
+        <!-- 02:00 rollback -->
+        <circle class="event-ring" cx="115" cy="73" r="14"/>
+        <circle class="event" cx="115" cy="73" r="5"/>
+        <text class="ev-label" x="100" y="60" text-anchor="end">Rollbacks</text>
+
+        <!-- 02:47 timeout -->
+        <circle class="event-ring" cx="82" cy="120" r="14"/>
+        <circle class="event" cx="82" cy="120" r="5"/>
+        <text class="ev-label" x="66" y="118" text-anchor="end">Timeouts</text>
+
+        <!-- 08:00 customer complaints -->
+        <circle class="event-ring" cx="333" cy="190" r="14"/>
+        <circle class="event" cx="333" cy="190" r="5"/>
+        <text class="ev-label" x="354" y="194" text-anchor="start">Complaints</text>
+
+        <!-- 09:00 reversal -->
+        <circle class="event-ring" cx="320" cy="240" r="14"/>
+        <circle class="event" cx="320" cy="240" r="5"/>
+        <text class="ev-label" x="340" y="245" text-anchor="start">Reversals</text>
+
+        <!-- 14:00 audits -->
+        <circle class="event-ring" cx="247" cy="333" r="14"/>
+        <circle class="event" cx="247" cy="333" r="5"/>
+        <text class="ev-label" x="247" y="358" text-anchor="middle">Audits</text>
+
+        <!-- month-end label -->
+        <text class="center-label" x="190" y="186">recurring</text>
+        <text class="center-label" x="190" y="200">failure clock</text>
+      </svg>
+    </div>
+    <p class="figcap"><b>Fig. I4.</b>The time-of-day rhythm — when each pattern surfaces in a typical week.</p>
+  </div>
+</section>
+
+<!-- ═══════ I5 ═══════ -->
+<div class="label" id="i5-label">
+  <span class="label__tag">I5</span>
+  <span class="label__title">Heatmap calendar — one year of incidents</span>
+  <span class="label__note">GitHub-contribution-style grid. Red squares mark days with at least one pattern surfacing.</span>
+</div>
+<section class="section i5" id="i5">
+  <div class="container">
+    <div class="frame">
+      <div class="months">
+        <div></div>
+        <div class="m">Jun</div><div class="m">Aug</div><div class="m">Oct</div><div class="m">Dec</div>
+        <div class="m">Feb</div><div class="m">Apr</div><div class="m">Jun</div>
+      </div>
+      <div class="grid">
+        <div class="days">
+          <span>Mon</span><span></span><span>Wed</span><span></span><span>Fri</span><span></span><span>Sun</span>
+        </div>
+        <div class="squares" id="heatmap"></div>
+      </div>
+      <div class="legend">
+        <span>less</span>
+        <span class="key" style="background: rgba(13,34,64,0.06)"></span>
+        <span class="key" style="background: rgba(139,26,26,0.25)"></span>
+        <span class="key" style="background: rgba(139,26,26,0.5)"></span>
+        <span class="key" style="background: rgba(139,26,26,0.75)"></span>
+        <span class="key" style="background: var(--crimson)"></span>
+        <span>more</span>
+      </div>
+    </div>
+    <p class="figcap"><b>Fig. I5.</b>One illustrative fintech-year. Most days carry at least one pattern.</p>
+  </div>
+</section>
+
+<!-- ═══════ I6 ═══════ -->
+<div class="label" id="i6-label">
+  <span class="label__tag">I6</span>
+  <span class="label__title">Iceberg — what customers see vs. what engineers fight</span>
+  <span class="label__note">Top: visible failures. Bottom (submerged): the engineering toil nobody sees. Strongest emotional framing.</span>
+</div>
+<section class="section i6" id="i6">
+  <div class="container">
+    <div class="frame">
+      <svg class="berg" viewBox="0 0 220 380" preserveAspectRatio="xMidYMid meet">
+        <polygon class="berg-poly" points="110,30 50,142 170,142"/>
+        <polygon class="berg-poly below" points="50,144 170,144 200,300 110,360 20,300"/>
+      </svg>
+      <div class="waterline"></div>
+      <div class="above-labels">
+        <small>Above water — what customers &amp; tweets see</small>
+        <span>Timeouts &amp; outages · Customer complaints</span>
+      </div>
+      <div class="below-labels">
+        <small>Below water — what engineering carries</small>
+        <span>Recon · Audits · Deploys · A security surface ·</span>
+        <span>Compliance · Corridor integrations · Reversals · The invisible cost</span>
+      </div>
+    </div>
+    <p class="figcap"><b>Fig. I6.</b>Two patterns surface where customers can see. Eight live below the waterline.</p>
+  </div>
+</section>
+
+<!-- ═══════ I7 ═══════ -->
+<div class="label" id="i7-label">
+  <span class="label__tag">I7</span>
+  <span class="label__title">Sankey flow — where transactions leak</span>
+  <span class="label__note">100% transactions enter on the left. Streams leak out at each failure pattern. The thinner the line, the more value lost.</span>
+</div>
+<section class="section i7" id="i7">
+  <div class="container">
+    <div class="frame">
+      <svg viewBox="0 0 980 260" preserveAspectRatio="none" aria-hidden="true">
+        <!-- main flow -->
+        <path class="flow-main" d="M 0 60 L 0 200 L 980 240 L 980 180 Z"/>
+
+        <!-- leak 1: timeouts -->
+        <path class="flow-leak" d="M 180 60 L 180 200 L 220 230 L 220 50 Z" opacity="0.6"/>
+        <text class="leak-label" x="200" y="40" text-anchor="middle">Timeouts</text>
+
+        <!-- leak 2: reversals -->
+        <path class="flow-leak" d="M 360 90 L 360 220 L 395 235 L 395 80 Z" opacity="0.5"/>
+        <text class="leak-label" x="378" y="68" text-anchor="middle">Reversals</text>
+
+        <!-- leak 3: recon issues -->
+        <path class="flow-leak" d="M 540 110 L 540 230 L 575 240 L 575 100 Z" opacity="0.45"/>
+        <text class="leak-label" x="558" y="92" text-anchor="middle">Recon gaps</text>
+
+        <!-- leak 4: customer complaints -->
+        <path class="flow-leak" d="M 720 130 L 720 235 L 755 244 L 755 122 Z" opacity="0.4"/>
+        <text class="leak-label" x="738" y="116" text-anchor="middle">Complaints</text>
+
+        <!-- start / end labels -->
+        <text class="endpoint-label" x="0" y="20">100% transactions</text>
+        <text class="endpoint-label" x="980" y="20" text-anchor="end">~ settled</text>
+      </svg>
+    </div>
+    <p class="figcap"><b>Fig. I7.</b>Illustrative leakage map — value bleeds out at every break.</p>
+  </div>
+</section>
+
+<!-- ═══════ I8 ═══════ -->
+<div class="label" id="i8-label">
+  <span class="label__tag">I8</span>
+  <span class="label__title">Terminal log — patterns as engineering events</span>
+  <span class="label__note">Mock server log. Each line is a pattern surfacing as a real engineering event. Maximum developer credibility.</span>
+</div>
+<section class="section i8" id="i8">
+  <div class="container">
+    <div class="frame">
+      <div class="head">
+        <span class="dot r"></span><span class="dot a"></span><span class="dot g"></span>
+        <span class="head-title">payments-platform · last 24h</span>
+        <span class="head-tag">illustrative composite</span>
+      </div>
+      <div class="log">
+<span class="ts">23:11:04</span> <span class="lvl-info">INFO </span>  deploy.start build=#2143  <span class="tag">Deploys</span><br>
+<span class="ts">23:14:22</span> <span class="lvl-warn">WARN </span>  rollback initiated · cause=health-check<br>
+<span class="ts">02:47:11</span> <span class="lvl-err">ERROR</span>  psp.timeout operator=rails-3 sla_breach=13m  <span class="tag">Timeouts &amp; outages</span><br>
+<span class="ts">02:51:09</span> <span class="lvl-warn">WARN </span>  customer.complaints +47 in 4m  <span class="tag">Customer complaints</span><br>
+<span class="ts">03:18:34</span> <span class="lvl-err">ERROR</span>  reversal.silent  ledger_gap=$4,200  <span class="tag">Reversals</span><br>
+<span class="ts">06:30:00</span> <span class="lvl-info">INFO </span>  recon.cron.start rows=manual  <span class="tag">Recon</span><br>
+<span class="ts">09:12:51</span> <span class="lvl-warn">WARN </span>  corridor.sla mtr-7 day=89/180  <span class="tag">Corridor integrations</span><br>
+<span class="ts">11:04:18</span> <span class="lvl-warn">WARN </span>  audit.query.runtime  elapsed=11h  <span class="tag">Audits</span><br>
+<span class="ts">14:55:09</span> <span class="lvl-err">ERROR</span>  security.scan.fail  surface++  <span class="tag">A security surface</span><br>
+<span class="ts">17:32:00</span> <span class="lvl-warn">WARN </span>  compliance.aml.bolton corridor=ZA  <span class="tag">Compliance</span><br>
+<span class="ts">live</span>     <span class="lvl-err">ERROR</span>  cost.invisible  engineers=80% on infra  <span class="tag">The invisible cost</span><span class="blink">▍</span>
+      </div>
+    </div>
+    <p class="figcap"><b>Fig. I8.</b>An illustrative 24-hour log composed from patterns we hear in every CTO conversation.</p>
+  </div>
+</section>
+
+<!-- ═══════ I9 ═══════ -->
+<div class="label" id="i9-label">
+  <span class="label__tag">I9</span>
+  <span class="label__title">Risk matrix — frequency × severity</span>
+  <span class="label__note">Classic CISO/risk-officer 5×5 grid. Each pattern plotted by how often it hits vs. how bad each hit is.</span>
+</div>
+<section class="section i9" id="i9">
+  <div class="container">
+    <div class="frame">
+      <div class="matrix">
+        <div class="y-axis">
+          <span class="y-axis-title">Severity →</span>
+        </div>
+        <div class="plot">
+          <div class="grid-lines"></div>
+          <!-- pattern dots (left % = frequency, bottom % = severity) -->
+          <div class="dot-plot" data-label="Timeouts &amp; outages" style="left: 78%; bottom: 78%;"></div>
+          <div class="dot-plot" data-label="Reversals" style="left: 55%; bottom: 84%;"></div>
+          <div class="dot-plot" data-label="Recon" style="left: 88%; bottom: 50%;"></div>
+          <div class="dot-plot" data-label="Audits" style="left: 36%; bottom: 60%;"></div>
+          <div class="dot-plot" data-label="Customer complaints" style="left: 70%; bottom: 65%;"></div>
+          <div class="dot-plot" data-label="Corridor integrations" style="left: 22%; bottom: 75%;"></div>
+          <div class="dot-plot" data-label="Deploys" style="left: 48%; bottom: 42%;"></div>
+          <div class="dot-plot" data-label="A security surface" style="left: 30%; bottom: 92%;"></div>
+          <div class="dot-plot" data-label="Compliance" style="left: 18%; bottom: 88%;"></div>
+          <div class="dot-plot" data-label="The invisible cost" style="left: 95%; bottom: 70%;"></div>
+        </div>
+        <div></div>
+        <div class="x-axis-title">Frequency →</div>
+      </div>
+    </div>
+    <p class="figcap"><b>Fig. I9.</b>An illustrative risk plot — frequency on the x-axis, severity on the y. Top-right is where the platform burns.</p>
+  </div>
+</section>
+
+<!-- ═══════ I10 ═══════ -->
+<div class="label" id="i10-label">
+  <span class="label__tag">I10</span>
+  <span class="label__title">Subway map — how patterns cascade</span>
+  <span class="label__note">Patterns drawn as stations. Lines show the causal flow: one failure triggers the next. Most unique, highest risk.</span>
+</div>
+<section class="section i10" id="i10">
+  <div class="container">
+    <div class="frame">
+      <svg viewBox="0 0 960 280" aria-hidden="true">
+        <!-- line 1 (crimson) — the customer-facing cascade -->
+        <path class="line l1" d="M 60 80 L 240 80 L 300 140 L 480 140 L 540 80 L 720 80"/>
+        <!-- line 2 (navy) — back-office -->
+        <path class="line l2" d="M 60 200 L 360 200 L 420 140 L 600 140 L 660 200 L 900 200"/>
+        <!-- line 3 (amber) — security/compliance -->
+        <path class="line l3" d="M 240 80 L 240 240 L 480 240"/>
+        <!-- line 4 (teal) — velocity -->
+        <path class="line l4" d="M 720 80 L 720 240 L 900 240"/>
+
+        <!-- stations -->
+        <circle class="station" cx="60"  cy="80"  r="6"/>  <text class="stn-label" x="58" y="70" text-anchor="end">Deploys</text>
+        <circle class="station major" cx="240" cy="80"  r="8"/>  <text class="stn-label" x="240" y="62" text-anchor="middle">Timeouts</text>
+        <circle class="station" cx="540" cy="80"  r="6"/>  <text class="stn-label" x="540" y="62" text-anchor="middle">Customer complaints</text>
+        <circle class="station" cx="720" cy="80"  r="6"/>  <text class="stn-label" x="722" y="70" text-anchor="start">A security surface</text>
+
+        <circle class="station" cx="300" cy="140" r="5"/>
+        <circle class="station major" cx="480" cy="140" r="8"/>  <text class="stn-label" x="480" y="170" text-anchor="middle">Reversals</text>
+        <circle class="station" cx="600" cy="140" r="5"/>
+
+        <circle class="station" cx="60"  cy="200" r="6"/>  <text class="stn-label" x="58" y="218" text-anchor="end">Recon</text>
+        <circle class="station" cx="360" cy="200" r="6"/>  <text class="stn-label" x="360" y="218" text-anchor="middle">Audits</text>
+        <circle class="station" cx="900" cy="200" r="6"/>  <text class="stn-label" x="902" y="218" text-anchor="start">The invisible cost</text>
+
+        <circle class="station" cx="240" cy="240" r="5"/>
+        <circle class="station" cx="480" cy="240" r="6"/>  <text class="stn-label" x="480" y="262" text-anchor="middle">Compliance</text>
+        <circle class="station" cx="720" cy="240" r="5"/>
+        <circle class="station" cx="900" cy="240" r="6"/>  <text class="stn-label" x="902" y="262" text-anchor="start">Corridor integrations</text>
+
+        <!-- legend -->
+        <g transform="translate(60, 30)">
+          <rect x="0" y="-6" width="14" height="3" rx="1.5" fill="#8B1A1A" opacity="0.7"/>
+          <text class="ln-label" x="20" y="0">Customer line</text>
+          <rect x="120" y="-6" width="14" height="3" rx="1.5" fill="#0D2240" opacity="0.7"/>
+          <text class="ln-label" x="140" y="0">Back-office line</text>
+          <rect x="252" y="-6" width="14" height="3" rx="1.5" fill="#B47A2E" opacity="0.7"/>
+          <text class="ln-label" x="272" y="0">Risk &amp; compliance</text>
+          <rect x="402" y="-6" width="14" height="3" rx="1.5" fill="#3B6B5C" opacity="0.7"/>
+          <text class="ln-label" x="422" y="0">Velocity &amp; cost</text>
+        </g>
+      </svg>
+    </div>
+    <p class="figcap"><b>Fig. I10.</b>The cascade — every pattern is a station, every line a way failures travel.</p>
+  </div>
+</section>
+
+<script>
+  // Build heatmap (composite illustrative — 68% of days red)
+  (function () {
+    const host = document.getElementById('heatmap');
+    if (!host) return;
+    const cells = [];
+    for (let i = 0; i < 371; i++) {
+      const r = Math.random();
+      let cls = 'sq';
+      if (r < 0.68) {
+        const s = Math.random();
+        if (s < 0.35) cls += ' l1';
+        else if (s < 0.65) cls += ' l2';
+        else if (s < 0.88) cls += ' l3';
+        else cls += ' l4';
+      }
+      cells.push(`<div class="${cls}"></div>`);
+    }
+    host.innerHTML = cells.join('');
+  })();
+</script>
+
+</body>
+</html>
