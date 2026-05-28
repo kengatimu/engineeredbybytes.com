@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>§3 The Solution — 5 creative concepts — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --green: #3B6B5C;
+      --green-soft: rgba(59,107,92,0.12);
+      --text-body: rgba(13,34,64,0.82);
+      --text-muted: rgba(13,34,64,0.62);
+      --text-faint: rgba(13,34,64,0.42);
+      --rule: rgba(13,34,64,0.10);
+      --rule-soft: rgba(13,34,64,0.06);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-ui); background: var(--cream-warm); color: var(--text-body); -webkit-font-smoothing: antialiased; }
+
+    .switcher {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); color: var(--cream-warm);
+      padding: 14px 28px;
+      display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+      font: 500 12px/1 var(--font-ui);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .switcher b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 12px; }
+    .switcher a { color: rgba(255,255,255,0.7); padding: 6px 10px; border-radius: 4px; }
+    .switcher a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .opt-label {
+      max-width: 1180px; margin: 0 auto; padding: 32px 24px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap;
+    }
+    .opt-label__tag { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--crimson); }
+    .opt-label__title { font: 700 17px/1.3 var(--font-display); color: var(--navy); }
+    .opt-label__title em { color: var(--crimson); font-style: italic; }
+    .opt-label__note { font: 400 13px/1.45 var(--font-ui); color: var(--text-muted); margin-left: auto; max-width: 580px; }
+
+    /* shared §3 scaffolding */
+    .solution { padding: 24px 24px 64px; }
+    .solution__container { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+    .solution__head { max-width: 780px; display: flex; flex-direction: column; gap: 10px; }
+    .solution__eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .solution__eyebrow::before { content: ''; width: 28px; height: 1.5px; background: var(--crimson); }
+    .solution__heading {
+      font: 400 clamp(26px, 3.4vw, 36px)/1.2 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.008em;
+    }
+    .solution__heading em { font-style: italic; color: var(--navy); font-weight: 400; }
+    .solution__bridge {
+      margin: 10px 0 0;
+      font: italic 400 clamp(15px, 1.6vw, 18px)/1.35 var(--font-display);
+      color: rgba(13,34,64,0.6);
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       S1 — MIRROR ECG: §2's chart, but resolved
+       ════════════════════════════════════════════════════════════════ */
+    .s1 .pulse {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      background: repeating-linear-gradient(to right, transparent 0, transparent 119px, rgba(13,34,64,0.04) 119px, rgba(13,34,64,0.04) 120px);
+    }
+    .s1 .pulse-meta {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 12px 8px;
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .s1 .pulse-meta b { color: var(--navy); font-weight: 500; }
+    .s1 .pulse-meta .ok {
+      color: var(--green); display: inline-flex; align-items: center; gap: 6px;
+    }
+    .s1 .pulse-meta .ok::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      animation: okPulse 2.4s ease-in-out infinite;
+    }
+    @keyframes okPulse { 0%,100% { opacity:1; } 50% { opacity: 0.4; } }
+    .s1 .pulse svg { width: 100%; height: 200px; display: block; }
+    .s1 .pulse svg .line { fill: none; stroke: var(--navy); stroke-width: 1.5; opacity: 0.55; }
+    .s1 .pulse svg .scan {
+      fill: var(--green);
+    }
+    .s1 .pulse svg .ghost {
+      fill: none; stroke: var(--crimson); stroke-width: 1; stroke-dasharray: 3 5;
+      opacity: 0.12;
+    }
+    .s1 .pulse-caption {
+      padding: 14px 8px 0;
+      font: italic 400 13px/1.5 var(--font-display);
+      color: rgba(13,34,64,0.5);
+      text-align: left;
+    }
+    .s1 .pulse-caption b {
+      font-family: var(--font-mono); font-style: normal;
+      font-weight: 500; font-size: 10px;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--green); margin-right: 8px; vertical-align: 1px;
+    }
+    .s1 .promises {
+      max-width: 880px; margin-top: 8px;
+      list-style: none; padding: 0;
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 40px;
+    }
+    .s1 .promises li {
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .s1 .promises .what {
+      font: italic 400 clamp(17px, 2vw, 21px)/1.3 var(--font-display);
+      color: var(--navy);
+    }
+    .s1 .promises .how {
+      font: 400 13.5px/1.55 var(--font-ui);
+      color: var(--text-muted);
+    }
+    @media (max-width: 720px) {
+      .s1 .promises { grid-template-columns: 1fr; }
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       S2 — PATCH NOTES: engineering-credible changelog
+       ════════════════════════════════════════════════════════════════ */
+    .s2 .notes {
+      background: #0a1118;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px -30px rgba(13,34,64,0.4);
+      max-width: 980px;
+    }
+    .s2 .notes-head {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font: 500 11px/1 var(--font-mono);
+      letter-spacing: 0.1em;
+      color: rgba(232,236,240,0.4);
+    }
+    .s2 .notes-head .dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+    }
+    .s2 .notes-head .dot.g { background: #44ad57; }
+    .s2 .notes-head .dot.a { background: #f0a830; }
+    .s2 .notes-head .dot.r { background: #e74c3c; }
+    .s2 .notes-head .title { margin-left: 8px; color: rgba(232,236,240,0.7); }
+    .s2 .notes-head .ver { margin-left: auto; color: rgba(255,159,118,0.85); }
+    .s2 .notes-body {
+      padding: 18px 22px 22px;
+      font: 400 13px/1.85 var(--font-mono);
+      color: rgba(232,236,240,0.92);
+    }
+    .s2 .notes-body .release {
+      color: rgba(232,236,240,0.5);
+      margin-bottom: 10px;
+    }
+    .s2 .notes-body .release em {
+      color: #ff9b76; font-style: normal;
+    }
+    .s2 .notes-body .line {
+      display: grid;
+      grid-template-columns: 80px 220px 1fr;
+      gap: 12px;
+      opacity: 0;
+      animation: noteIn 0.4s ease-out forwards;
+    }
+    .s2 .notes-body .line:nth-child(2) { animation-delay: 0.2s; }
+    .s2 .notes-body .line:nth-child(3) { animation-delay: 0.32s; }
+    .s2 .notes-body .line:nth-child(4) { animation-delay: 0.44s; }
+    .s2 .notes-body .line:nth-child(5) { animation-delay: 0.56s; }
+    .s2 .notes-body .line:nth-child(6) { animation-delay: 0.68s; }
+    .s2 .notes-body .line:nth-child(7) { animation-delay: 0.80s; }
+    .s2 .notes-body .line:nth-child(8) { animation-delay: 0.92s; }
+    .s2 .notes-body .line:nth-child(9) { animation-delay: 1.04s; }
+    .s2 .notes-body .line:nth-child(10) { animation-delay: 1.16s; }
+    .s2 .notes-body .line:nth-child(11) { animation-delay: 1.28s; }
+    .s2 .notes-body .line:nth-child(12) { animation-delay: 1.40s; }
+    @keyframes noteIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .s2 .notes-body .tag {
+      color: #44ad57; font-weight: 700;
+    }
+    .s2 .notes-body .pat { color: #ff9b76; }
+    .s2 .notes-body .fix { color: rgba(232,236,240,0.92); }
+    .s2 .notes-body .arrow { color: rgba(232,236,240,0.35); margin: 0 4px; }
+    .s2 .notes-body .footer-line {
+      margin-top: 14px; padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: rgba(232,236,240,0.45);
+      font-style: italic;
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       S3 — DASHBOARD MOCKUP: product-proof
+       ════════════════════════════════════════════════════════════════ */
+    .s3 .dash {
+      background: #0d1929;
+      border-radius: 8px;
+      padding: 18px;
+      box-shadow: 0 30px 80px -30px rgba(13,34,64,0.4);
+      max-width: 1180px;
+      color: rgba(232,236,240,0.9);
+      font-family: var(--font-ui);
+    }
+    .s3 .dash-head {
+      display: flex; align-items: center; gap: 14px;
+      padding-bottom: 14px; margin-bottom: 14px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .s3 .dash-title {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 16px;
+      color: rgba(232,236,240,0.95);
+    }
+    .s3 .dash-sub {
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(232,236,240,0.4);
+    }
+    .s3 .dash-status {
+      margin-left: auto;
+      display: inline-flex; align-items: center; gap: 8px;
+      font: 500 11px/1 var(--font-mono);
+      letter-spacing: 0.06em;
+      color: #44ad57;
+    }
+    .s3 .dash-status::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: #44ad57;
+      animation: okPulse 2s ease-in-out infinite;
+    }
+    .s3 .dash-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+    .s3 .panel {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 6px;
+      padding: 14px 16px;
+    }
+    .s3 .panel-title {
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(232,236,240,0.5);
+      margin-bottom: 10px;
+    }
+    .s3 .panel-title b { color: rgba(232,236,240,0.85); font-weight: 700; }
+    .s3 .stat-row {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    }
+    .s3 .stat {
+      padding: 0;
+    }
+    .s3 .stat-value {
+      font: 700 18px/1 var(--font-mono);
+      color: rgba(232,236,240,0.95);
+    }
+    .s3 .stat-value.g { color: #44ad57; }
+    .s3 .stat-value.a { color: #f0a830; }
+    .s3 .stat-label {
+      margin-top: 4px;
+      font: 500 9px/1 var(--font-mono);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(232,236,240,0.45);
+    }
+    .s3 .chart-panel { grid-row: 2; grid-column: 1; }
+    .s3 .chart-svg { width: 100%; height: 140px; display: block; }
+    .s3 .chart-svg .line { fill: none; stroke: #5b8bd6; stroke-width: 1.5; opacity: 0.9; }
+    .s3 .chart-svg .area { fill: rgba(91,139,214,0.12); }
+    .s3 .feed {
+      grid-row: 2; grid-column: 2;
+      max-height: 220px; overflow: hidden;
+    }
+    .s3 .feed-row {
+      display: grid; grid-template-columns: 52px 60px 1fr;
+      gap: 8px;
+      padding: 5px 0;
+      font: 400 11.5px/1.5 var(--font-mono);
+      border-bottom: 1px dashed rgba(255,255,255,0.05);
+    }
+    .s3 .feed-row:last-child { border-bottom: 0; }
+    .s3 .feed-row .t { color: rgba(232,236,240,0.4); }
+    .s3 .feed-row .ok { color: #44ad57; font-weight: 700; }
+    .s3 .feed-row .rec { color: #f0a830; font-weight: 700; }
+    .s3 .feed-row .body { color: rgba(232,236,240,0.9); }
+    .s3 .feed-row.fresh {
+      animation: feedIn 0.5s ease-out;
+    }
+    @keyframes feedIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* ════════════════════════════════════════════════════════════════
+       S4 — CAPABILITY CINEMA: cycling animated scenes
+       ════════════════════════════════════════════════════════════════ */
+    .s4 .reel {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      background: rgba(13,34,64,0.02);
+      padding: 24px;
+      position: relative;
+      min-height: 320px;
+      overflow: hidden;
+    }
+    .s4 .reel-frame {
+      display: grid; grid-template-columns: 220px 1fr;
+      gap: 36px;
+      align-items: center;
+      min-height: 260px;
+    }
+    .s4 .reel-text {
+      opacity: 0;
+      animation: frameIn 1s ease forwards;
+    }
+    @keyframes frameIn { to { opacity: 1; } }
+    .s4 .reel-cap {
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 12px;
+    }
+    .s4 .reel-name {
+      font: italic 400 clamp(22px, 2.6vw, 30px)/1.2 var(--font-display);
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+    .s4 .reel-desc {
+      font: 400 14px/1.6 var(--font-ui);
+      color: var(--text-muted);
+    }
+    .s4 .reel-stage {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      min-height: 220px;
+    }
+    .s4 .reel-stage svg { width: 100%; max-width: 480px; height: 220px; }
+    .s4 .reel-progress {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--rule);
+    }
+    .s4 .reel-progress-bar {
+      height: 100%;
+      background: var(--crimson);
+      width: 16.6%;
+      animation: reelProgress 30s linear infinite;
+    }
+    @keyframes reelProgress {
+      0%   { width: 0%; }
+      100% { width: 100%; }
+    }
+    .s4 .reel-frames {
+      animation: reelCycle 30s steps(6) infinite;
+    }
+    @keyframes reelCycle {
+      /* placeholder — scenes managed by JS for clarity */
+    }
+    .s4 .reel-counter {
+      position: absolute; top: 12px; right: 16px;
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .s4 .reel-counter b { color: var(--crimson); font-weight: 700; }
+
+    /* Capability illustrations */
+    .s4 .scene { fill: none; stroke: var(--navy); stroke-width: 1.5; }
+    .s4 .scene-crimson { stroke: var(--crimson); fill: var(--crimson); }
+    .s4 .scene-green { stroke: var(--green); fill: var(--green); }
+    @media (max-width: 760px) {
+      .s4 .reel-frame { grid-template-columns: 1fr; gap: 18px; }
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       S5 — CODE DIFF: git-style before/after
+       ════════════════════════════════════════════════════════════════ */
+    .s5 .diff {
+      background: #0a1118;
+      border-radius: 6px;
+      box-shadow: 0 20px 60px -30px rgba(13,34,64,0.4);
+      overflow: hidden;
+      max-width: 980px;
+    }
+    .s5 .diff-head {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      font: 500 11px/1 var(--font-mono);
+      letter-spacing: 0.06em;
+      color: rgba(232,236,240,0.5);
+    }
+    .s5 .diff-head .dot {
+      width: 9px; height: 9px; border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+    }
+    .s5 .diff-head .dot.r { background: #e74c3c; }
+    .s5 .diff-head .dot.a { background: #f0a830; }
+    .s5 .diff-head .dot.g { background: #44ad57; }
+    .s5 .diff-head .label { margin-left: 8px; color: rgba(232,236,240,0.75); font-weight: 700; }
+    .s5 .diff-head .path { color: rgba(232,236,240,0.5); }
+    .s5 .diff-body {
+      padding: 14px 0;
+      font: 400 13.5px/1.85 var(--font-mono);
+    }
+    .s5 .diff-hunk {
+      padding: 4px 22px;
+      color: rgba(245,219,150,0.65);
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 6px;
+    }
+    .s5 .diff-line {
+      padding: 0 22px;
+      display: grid; grid-template-columns: 20px 1fr;
+      gap: 8px;
+      opacity: 0;
+      animation: diffIn 0.3s ease-out forwards;
+    }
+    .s5 .diff-line .sign { font-weight: 700; }
+    .s5 .diff-line.minus {
+      background: rgba(231,76,60,0.08);
+      color: rgba(231,76,60,0.95);
+    }
+    .s5 .diff-line.plus {
+      background: rgba(68,173,87,0.08);
+      color: rgba(68,173,87,0.95);
+    }
+    .s5 .diff-line.context { color: rgba(232,236,240,0.5); }
+    .s5 .diff-line.minus .sign { color: #e74c3c; }
+    .s5 .diff-line.plus .sign { color: #44ad57; }
+    .s5 .diff-body > *:nth-child(n) { animation-delay: calc(var(--i, 0) * 0.08s); }
+    @keyframes diffIn {
+      from { opacity: 0; transform: translateX(-4px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01s !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="switcher">
+  <b>§3 — 5 creative concepts</b>
+  <a href="#s1">S1 Mirror ECG</a>
+  <a href="#s2">S2 Patch notes</a>
+  <a href="#s3">S3 Dashboard</a>
+  <a href="#s4">S4 Capability cinema</a>
+  <a href="#s5">S5 Code diff</a>
+</nav>
+
+<!-- ═════════════════════════════ S1 ═════════════════════════════ -->
+<div class="opt-label" id="s1-label">
+  <span class="opt-label__tag">S1</span>
+  <span class="opt-label__title">Mirror ECG — §2's chart, <em>resolved</em></span>
+  <span class="opt-label__note">§2 showed pulse drops. §3 shows the same chart with the line steady, drops gone, ghost outline of the old failures visible. Most emotionally direct answer to §2.</span>
+</div>
+<section class="solution s1" id="s1">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">And this is your platform <em>with EBB underneath.</em></h2>
+      <p class="solution__bridge">Same chart. Same scale. The drops are gone.</p>
+    </header>
+    <div class="pulse">
+      <div class="pulse-meta">
+        <span><b>payments throughput</b> · same illustrative composite, post-EBB</span>
+        <span class="ok">steady · no drops</span>
+      </div>
+      <svg viewBox="0 0 1200 200" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="0" y1="100" x2="1200" y2="100" stroke="rgba(13,34,64,0.08)" stroke-dasharray="2 4"/>
+        <!-- Ghost: the §2 broken line, faded to ~12% — shows what it was -->
+        <path class="ghost" d="
+          M 0 90 Q 30 85 60 95 T 120 92 L 130 92 L 140 175 L 150 92
+          Q 180 88 210 98 T 280 90 Q 320 82 360 95 T 420 90
+          L 430 90 L 442 165 L 454 90 Q 490 85 520 98 T 580 92
+          Q 620 90 660 95 T 720 88 L 728 88 L 740 180 L 752 88
+          Q 790 85 820 95 T 880 90 Q 920 88 960 98 T 1020 90
+          L 1028 90 L 1040 170 L 1052 90 Q 1090 88 1120 98 T 1200 92"/>
+        <!-- Resolved: a calm steady line -->
+        <path id="s1path" class="line" d="
+          M 0 92 C 80 88 160 96 240 92 S 400 88 480 92 S 640 96 720 92
+          S 880 88 960 92 S 1120 96 1200 92"/>
+        <circle class="scan" r="3.5">
+          <animateMotion dur="8s" repeatCount="indefinite"><mpath href="#s1path"/></animateMotion>
+        </circle>
+      </svg>
+      <p class="pulse-caption"><b>Fig.</b>The faint dashed line behind is what your platform looks like today. The solid line is what it looks like with EBB underneath.</p>
+    </div>
+    <ul class="promises">
+      <li><span class="what">Resilient routing</span><span class="how">Failover across operators before customers notice.</span></li>
+      <li><span class="what">Auto-reversal in milliseconds</span><span class="how">No silent gaps. Finance never finds them on Friday.</span></li>
+      <li><span class="what">Real-time reconciliation</span><span class="how">Every operator, continuously. No month-end spreadsheets.</span></li>
+      <li><span class="what">Audit trails queryable in seconds</span><span class="how">Every transaction, every checkpoint, logged.</span></li>
+      <li><span class="what">Defence-in-depth on every payload</span><span class="how">Signature, mTLS, encryption, AML — per hop.</span></li>
+      <li><span class="what">New corridors in 4–8 weeks</span><span class="how">Every protocol, every regulator, pre-integrated.</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ═════════════════════════════ S2 ═════════════════════════════ -->
+<div class="opt-label" id="s2-label">
+  <span class="opt-label__tag">S2</span>
+  <span class="opt-label__title">Patch notes — <em>engineering changelog</em></span>
+  <span class="opt-label__note">Solutions rendered as a release-notes file. Each pain from §2 is a closed ticket. Developer-credible, novel format, instantly readable by a CTO.</span>
+</div>
+<section class="solution s2" id="s2">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">Ten patterns. <em>Ten closed tickets.</em></h2>
+      <p class="solution__bridge">Each recurring pattern, engineered out at the infrastructure layer.</p>
+    </header>
+    <div class="notes">
+      <div class="notes-head">
+        <span class="dot r"></span><span class="dot a"></span><span class="dot g"></span>
+        <span class="title">EBB / payment-platform / CHANGELOG.md</span>
+        <span class="ver">v2.0 · pattern eliminations</span>
+      </div>
+      <div class="notes-body">
+        <div class="release">## release · <em>shipped continuously</em></div>
+        <div class="line"><span class="tag">[FIXED]</span> <span class="pat">timeout.outage</span> <span class="fix"><span class="arrow">→</span> resilient routing across operators</span></div>
+        <div class="line"><span class="tag">[FIXED]</span> <span class="pat">reversal.silent</span> <span class="fix"><span class="arrow">→</span> auto-reversal in milliseconds</span></div>
+        <div class="line"><span class="tag">[FIXED]</span> <span class="pat">recon.manual</span> <span class="fix"><span class="arrow">→</span> automatic reconciliation, real-time</span></div>
+        <div class="line"><span class="tag">[FIXED]</span> <span class="pat">audit.weeklong</span> <span class="fix"><span class="arrow">→</span> queryable trails in seconds</span></div>
+        <div class="line"><span class="tag">[FIXED]</span> <span class="pat">customer.complaints</span> <span class="fix"><span class="arrow">→</span> single transaction view, one query</span></div>
+        <div class="line"><span class="tag">[FIXED]</span> <span class="pat">corridor.6mo</span> <span class="fix"><span class="arrow">→</span> new corridors live in 4–8 weeks</span></div>
+        <div class="line"><span class="tag">[FIXED]</span> <span class="pat">deploy.midnight</span> <span class="fix"><span class="arrow">→</span> safe controlled deployments</span></div>
+        <div class="line"><span class="tag">[FIXED]</span> <span class="pat">security.surface</span> <span class="fix"><span class="arrow">→</span> defence-in-depth on every payload</span></div>
+        <div class="line"><span class="tag">[FIXED]</span> <span class="pat">compliance.bolton</span> <span class="fix"><span class="arrow">→</span> AML, KYC, sanctions screening built in</span></div>
+        <div class="line"><span class="tag">[FIXED]</span> <span class="pat">cost.invisible</span> <span class="fix"><span class="arrow">→</span> your engineers ship product, we own the platform</span></div>
+        <div class="footer-line"># every pattern from §2 — engineered out at the layer, not bolted on after the incident</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════ S3 ═════════════════════════════ -->
+<div class="opt-label" id="s3-label">
+  <span class="opt-label__tag">S3</span>
+  <span class="opt-label__title">Dashboard — <em>what your ops team sees</em></span>
+  <span class="opt-label__note">A realistic EBB ops mockup. Live transaction feed, calm KPIs, no red alerts. Product-proof — shifts the conversation from "marketing pitch" to "this is the actual product."</span>
+</div>
+<section class="solution s3" id="s3">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">What your ops team sees <em>with EBB.</em></h2>
+      <p class="solution__bridge">Real-time. Single pane. Every checkpoint visible. Nothing to chase.</p>
+    </header>
+    <div class="dash">
+      <div class="dash-head">
+        <div>
+          <div class="dash-title">EBB Gateway</div>
+          <div class="dash-sub">Bank / production / live</div>
+        </div>
+        <span class="dash-status">all systems normal</span>
+      </div>
+      <div class="dash-grid">
+        <div class="panel" style="grid-column: 1 / -1;">
+          <div class="panel-title">last 24h · <b>throughput</b></div>
+          <div class="stat-row">
+            <div class="stat"><div class="stat-value g">10.2M</div><div class="stat-label">transactions</div></div>
+            <div class="stat"><div class="stat-value g">99.99%</div><div class="stat-label">success rate</div></div>
+            <div class="stat"><div class="stat-value g">142ms</div><div class="stat-label">median latency</div></div>
+            <div class="stat"><div class="stat-value">0</div><div class="stat-label">silent reversals</div></div>
+          </div>
+        </div>
+        <div class="panel chart-panel">
+          <div class="panel-title"><b>throughput</b> · txn/sec · live</div>
+          <svg class="chart-svg" viewBox="0 0 600 140" preserveAspectRatio="none">
+            <path class="area" d="M 0 80 C 60 70 120 90 180 75 S 300 65 360 75 S 480 85 540 75 S 600 70 600 70 L 600 140 L 0 140 Z"/>
+            <path class="line" d="M 0 80 C 60 70 120 90 180 75 S 300 65 360 75 S 480 85 540 75 S 600 70 600 70"/>
+          </svg>
+        </div>
+        <div class="panel feed">
+          <div class="panel-title"><b>live</b> · transactions</div>
+          <div id="dashFeed"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════ S4 ═════════════════════════════ -->
+<div class="opt-label" id="s4-label">
+  <span class="opt-label__tag">S4</span>
+  <span class="opt-label__title">Capability cinema — <em>animated reel</em></span>
+  <span class="opt-label__note">A single hero "screen" cycles through 6 capabilities, each a 5s micro-scene. User watches half a minute, sees the whole stack working. Cinematic, sequential.</span>
+</div>
+<section class="solution s4" id="s4">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">Six capabilities. <em>One layer.</em></h2>
+      <p class="solution__bridge">Each one closes a pattern from §2. Watch them.</p>
+    </header>
+    <div class="reel">
+      <span class="reel-counter">capability <b id="reelNum">1</b> / 6</span>
+      <div class="reel-frame" id="reelFrame">
+        <div class="reel-text" id="reelText">
+          <div class="reel-cap">resilient routing</div>
+          <div class="reel-name">When one rail fails, route the next.</div>
+          <div class="reel-desc">Multi-operator failover before your dashboards notice. Closes <em>timeout.outage</em>.</div>
+        </div>
+        <div class="reel-stage" id="reelStage"></div>
+      </div>
+      <div class="reel-progress"><div class="reel-progress-bar"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════ S5 ═════════════════════════════ -->
+<div class="opt-label" id="s5-label">
+  <span class="opt-label__tag">S5</span>
+  <span class="opt-label__title">Code diff — <em>what gets replaced</em></span>
+  <span class="opt-label__note">Git-diff format showing what comes out of the stack and what comes in. The most dramatic before/after. Engineering-flex.</span>
+</div>
+<section class="solution s5" id="s5">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">Your payment stack, <em>diffed.</em></h2>
+      <p class="solution__bridge">What comes out. What goes in. The numbers tell the story.</p>
+    </header>
+    <div class="diff">
+      <div class="diff-head">
+        <span class="dot r"></span><span class="dot a"></span><span class="dot g"></span>
+        <span class="label">git diff</span>
+        <span class="path">payments-platform/architecture.md</span>
+      </div>
+      <div class="diff-body">
+        <div class="diff-hunk">@@ Your payment integration stack @@</div>
+        <div class="diff-line minus" style="--i:1"><span class="sign">-</span><span>47 operator integration adapters · one per rail</span></div>
+        <div class="diff-line minus" style="--i:2"><span class="sign">-</span><span>12 reconciliation cron jobs · run weekly, fail quietly</span></div>
+        <div class="diff-line minus" style="--i:3"><span class="sign">-</span><span>8 manual recovery runbooks · 'follow steps 1–37'</span></div>
+        <div class="diff-line minus" style="--i:4"><span class="sign">-</span><span>23 monitoring dashboards · five engineers needed to read them</span></div>
+        <div class="diff-line minus" style="--i:5"><span class="sign">-</span><span>6 month corridor projects · three integration teams deep</span></div>
+        <div class="diff-line minus" style="--i:6"><span class="sign">-</span><span>midnight deploys · daytime is too risky</span></div>
+        <div class="diff-line minus" style="--i:7"><span class="sign">-</span><span>compliance retrofitted after every market launch</span></div>
+        <div class="diff-line minus" style="--i:8"><span class="sign">-</span><span>80% engineering on infrastructure · 20% on product</span></div>
+        <div class="diff-line context" style="--i:9"><span></span><span>···</span></div>
+        <div class="diff-line plus" style="--i:10"><span class="sign">+</span><span>1 EBB Gateway · every checkpoint, every operator</span></div>
+        <div class="diff-line plus" style="--i:11"><span class="sign">+</span><span>resilient routing across rails · failover before customers notice</span></div>
+        <div class="diff-line plus" style="--i:12"><span class="sign">+</span><span>auto-reversal in milliseconds · no silent gaps</span></div>
+        <div class="diff-line plus" style="--i:13"><span class="sign">+</span><span>continuous reconciliation · spreadsheets retired</span></div>
+        <div class="diff-line plus" style="--i:14"><span class="sign">+</span><span>queryable audit trails · regulator-ready</span></div>
+        <div class="diff-line plus" style="--i:15"><span class="sign">+</span><span>new corridors live in 4–8 weeks · every protocol pre-integrated</span></div>
+        <div class="diff-line plus" style="--i:16"><span class="sign">+</span><span>safe controlled deployments · daytime, rollback in seconds</span></div>
+        <div class="diff-line plus" style="--i:17"><span class="sign">+</span><span>defence-in-depth on every payload · signature, mTLS, encryption per hop</span></div>
+        <div class="diff-line plus" style="--i:18"><span class="sign">+</span><span>AML, KYC, sanctions screening built in · not bolted on</span></div>
+        <div class="diff-line plus" style="--i:19"><span class="sign">+</span><span>20% engineering on infrastructure · 80% on product</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  /* S3 — live transaction feed */
+  (function () {
+    const feed = document.getElementById('dashFeed');
+    if (!feed) return;
+    const events = [
+      { t:'live',    code:'OK',  body:'txn_3f9a · KES 12,400 · settled · 142ms' },
+      { t:'+0.3s',   code:'OK',  body:'txn_3f9b · USD 320   · settled · 98ms'  },
+      { t:'+1.1s',   code:'REC', body:'txn_3e7c · reversal · auto-recovered · 187ms' },
+      { t:'+1.4s',   code:'OK',  body:'txn_3f9c · KES 480   · settled · 124ms' },
+      { t:'+2.0s',   code:'OK',  body:'txn_3f9d · USD 8,200 · settled · 156ms' },
+      { t:'+2.5s',   code:'OK',  body:'txn_3f9e · GBP 240   · settled · 132ms' },
+      { t:'+2.9s',   code:'OK',  body:'txn_3f9f · USD 1,500 · settled · 144ms' },
+      { t:'+3.4s',   code:'OK',  body:'txn_3fa0 · KES 9,800 · settled · 119ms' },
+    ];
+    feed.innerHTML = events.map(e =>
+      `<div class="feed-row"><span class="t">${e.t}</span><span class="${e.code==='OK'?'ok':'rec'}">${e.code}</span><span class="body">${e.body}</span></div>`
+    ).join('');
+  })();
+
+  /* S4 — capability cinema cycling */
+  (function () {
+    const text = document.getElementById('reelText');
+    const stage = document.getElementById('reelStage');
+    const num = document.getElementById('reelNum');
+    if (!text || !stage) return;
+    const scenes = [
+      {
+        cap: 'resilient routing',
+        name: 'When one rail fails, route the next.',
+        desc: 'Multi-operator failover before your dashboards notice. Closes <em>timeout.outage</em>.',
+        svg: `<svg viewBox="0 0 480 220" aria-hidden="true">
+          <circle class="scene" cx="60" cy="110" r="20"/>
+          <text x="60" y="160" text-anchor="middle" fill="#0D2240" font-family="Inter" font-size="11" font-weight="500">bank</text>
+          <circle class="scene" cx="240" cy="110" r="24"/>
+          <text x="240" y="115" text-anchor="middle" fill="#0D2240" font-family="Libre Baskerville" font-size="13" font-weight="700">EBB</text>
+          <circle class="scene scene-crimson" cx="420" cy="60" r="16" opacity="0.5"/>
+          <line x1="84" y1="110" x2="216" y2="110" stroke="#0D2240" stroke-width="1.5"/>
+          <line x1="264" y1="105" x2="404" y2="65" stroke="#8B1A1A" stroke-width="1.5" stroke-dasharray="4 3"/>
+          <line x1="264" y1="115" x2="404" y2="160" stroke="#0D2240" stroke-width="1.5"/>
+          <circle class="scene scene-green" cx="420" cy="160" r="16"/>
+          <text x="420" y="40" text-anchor="middle" fill="#8B1A1A" font-family="Libre Baskerville" font-style="italic" font-size="11">rail A · down</text>
+          <text x="420" y="195" text-anchor="middle" fill="#3B6B5C" font-family="Libre Baskerville" font-style="italic" font-size="11">rail B · routed</text>
+        </svg>`
+      },
+      {
+        cap: 'auto-reversal',
+        name: 'Reversed in milliseconds. Not three days later.',
+        desc: 'Failed transactions reverse before reconciliation ever runs. Closes <em>reversal.silent</em>.',
+        svg: `<svg viewBox="0 0 480 220" aria-hidden="true">
+          <rect class="scene" x="40" y="80" width="120" height="60" rx="3"/>
+          <text x="100" y="105" text-anchor="middle" fill="#0D2240" font-family="Inter" font-size="11" font-weight="500">txn submitted</text>
+          <text x="100" y="125" text-anchor="middle" fill="#8B1A1A" font-family="JetBrains Mono" font-size="10">$12,400</text>
+          <path d="M 160 110 L 240 110" stroke="#8B1A1A" stroke-width="1.5" stroke-dasharray="4 3" fill="none"/>
+          <text x="200" y="100" text-anchor="middle" fill="#8B1A1A" font-family="Libre Baskerville" font-style="italic" font-size="11">failed</text>
+          <path d="M 240 110 L 240 60 L 160 60 L 160 80" stroke="#3B6B5C" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+          <defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M 0 0 L 6 3 L 0 6 z" fill="#3B6B5C"/></marker></defs>
+          <text x="200" y="50" text-anchor="middle" fill="#3B6B5C" font-family="Libre Baskerville" font-style="italic" font-size="11">reversed · 200ms</text>
+          <rect class="scene scene-green" x="280" y="80" width="160" height="60" rx="3" fill="rgba(59,107,92,0.08)"/>
+          <text x="360" y="105" text-anchor="middle" fill="#3B6B5C" font-family="Inter" font-size="11" font-weight="500">ledger balanced</text>
+          <text x="360" y="125" text-anchor="middle" fill="#3B6B5C" font-family="JetBrains Mono" font-size="10">+$0.00 net</text>
+        </svg>`
+      },
+      {
+        cap: 'real-time reconciliation',
+        name: 'Every operator. Continuously. No spreadsheets.',
+        desc: 'Books match the rails second-by-second, not month-end. Closes <em>recon.manual</em>.',
+        svg: `<svg viewBox="0 0 480 220" aria-hidden="true">
+          <text x="80" y="40" text-anchor="middle" fill="#666" font-family="JetBrains Mono" font-size="10" letter-spacing="0.1em">YOUR BOOKS</text>
+          <text x="400" y="40" text-anchor="middle" fill="#666" font-family="JetBrains Mono" font-size="10" letter-spacing="0.1em">OPERATOR LEDGERS</text>
+          <g>
+            <rect class="scene" x="40" y="60" width="80" height="22" rx="2"/>
+            <text x="80" y="76" text-anchor="middle" fill="#0D2240" font-family="JetBrains Mono" font-size="10">$12,400</text>
+            <rect class="scene scene-green" x="40" y="90" width="80" height="22" rx="2" fill="rgba(59,107,92,0.08)"/>
+            <text x="80" y="106" text-anchor="middle" fill="#3B6B5C" font-family="JetBrains Mono" font-size="10">$2,840</text>
+            <rect class="scene" x="40" y="120" width="80" height="22" rx="2"/>
+            <text x="80" y="136" text-anchor="middle" fill="#0D2240" font-family="JetBrains Mono" font-size="10">$8,750</text>
+            <rect class="scene scene-green" x="40" y="150" width="80" height="22" rx="2" fill="rgba(59,107,92,0.08)"/>
+            <text x="80" y="166" text-anchor="middle" fill="#3B6B5C" font-family="JetBrains Mono" font-size="10">$320</text>
+          </g>
+          <line x1="120" y1="71" x2="360" y2="71" stroke="#3B6B5C" stroke-dasharray="3 3"/>
+          <line x1="120" y1="101" x2="360" y2="101" stroke="#3B6B5C" stroke-dasharray="3 3"/>
+          <line x1="120" y1="131" x2="360" y2="131" stroke="#3B6B5C" stroke-dasharray="3 3"/>
+          <line x1="120" y1="161" x2="360" y2="161" stroke="#3B6B5C" stroke-dasharray="3 3"/>
+          <g>
+            <rect class="scene" x="360" y="60" width="80" height="22" rx="2"/>
+            <text x="400" y="76" text-anchor="middle" fill="#0D2240" font-family="JetBrains Mono" font-size="10">$12,400</text>
+            <rect class="scene scene-green" x="360" y="90" width="80" height="22" rx="2" fill="rgba(59,107,92,0.08)"/>
+            <text x="400" y="106" text-anchor="middle" fill="#3B6B5C" font-family="JetBrains Mono" font-size="10">$2,840</text>
+            <rect class="scene" x="360" y="120" width="80" height="22" rx="2"/>
+            <text x="400" y="136" text-anchor="middle" fill="#0D2240" font-family="JetBrains Mono" font-size="10">$8,750</text>
+            <rect class="scene scene-green" x="360" y="150" width="80" height="22" rx="2" fill="rgba(59,107,92,0.08)"/>
+            <text x="400" y="166" text-anchor="middle" fill="#3B6B5C" font-family="JetBrains Mono" font-size="10">$320</text>
+          </g>
+          <text x="240" y="200" text-anchor="middle" fill="#3B6B5C" font-family="Libre Baskerville" font-style="italic" font-size="11">all four · in real-time</text>
+        </svg>`
+      },
+      {
+        cap: 'defence in depth',
+        name: 'Every payload, signed and screened.',
+        desc: 'Signature, mTLS, AML, encryption — at every hop. Closes <em>security.surface</em>.',
+        svg: `<svg viewBox="0 0 480 220" aria-hidden="true">
+          <rect class="scene" x="40" y="90" width="60" height="40" rx="3"/>
+          <text x="70" y="115" text-anchor="middle" fill="#0D2240" font-family="Inter" font-size="11">in</text>
+          <rect class="scene" x="380" y="90" width="60" height="40" rx="3"/>
+          <text x="410" y="115" text-anchor="middle" fill="#0D2240" font-family="Inter" font-size="11">out</text>
+          <line x1="100" y1="110" x2="380" y2="110" stroke="rgba(13,34,64,0.2)" stroke-width="1"/>
+          <g>
+            <circle class="scene scene-green" cx="150" cy="110" r="9"/>
+            <text x="150" y="138" text-anchor="middle" fill="#3B6B5C" font-family="JetBrains Mono" font-size="9">signature</text>
+          </g>
+          <g>
+            <circle class="scene scene-green" cx="210" cy="110" r="9"/>
+            <text x="210" y="138" text-anchor="middle" fill="#3B6B5C" font-family="JetBrains Mono" font-size="9">mTLS</text>
+          </g>
+          <g>
+            <circle class="scene scene-green" cx="270" cy="110" r="9"/>
+            <text x="270" y="138" text-anchor="middle" fill="#3B6B5C" font-family="JetBrains Mono" font-size="9">AML</text>
+          </g>
+          <g>
+            <circle class="scene scene-green" cx="330" cy="110" r="9"/>
+            <text x="330" y="138" text-anchor="middle" fill="#3B6B5C" font-family="JetBrains Mono" font-size="9">PCI mask</text>
+          </g>
+          <text x="240" y="68" text-anchor="middle" fill="#0D2240" font-family="Libre Baskerville" font-style="italic" font-size="11">every hop · every payload</text>
+        </svg>`
+      },
+      {
+        cap: 'corridor in weeks',
+        name: 'New rails ship in 4–8 weeks, not 6 months.',
+        desc: 'Every protocol, every regulator template pre-integrated. Closes <em>corridor.6mo</em>.',
+        svg: `<svg viewBox="0 0 480 220" aria-hidden="true">
+          <text x="80" y="40" text-anchor="middle" fill="#666" font-family="JetBrains Mono" font-size="10" letter-spacing="0.1em">WEEK</text>
+          <g>
+            <rect x="40" y="60" width="60" height="14" fill="rgba(13,34,64,0.08)" rx="2"/>
+            <text x="70" y="71" text-anchor="middle" fill="#666" font-family="JetBrains Mono" font-size="9">0</text>
+            <rect x="105" y="60" width="60" height="14" fill="rgba(13,34,64,0.08)" rx="2"/>
+            <text x="135" y="71" text-anchor="middle" fill="#666" font-family="JetBrains Mono" font-size="9">2</text>
+            <rect x="170" y="60" width="60" height="14" fill="rgba(59,107,92,0.4)" rx="2"/>
+            <text x="200" y="71" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="9">4</text>
+            <rect x="235" y="60" width="60" height="14" fill="rgba(59,107,92,0.4)" rx="2"/>
+            <text x="265" y="71" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="9">6</text>
+            <rect x="300" y="60" width="60" height="14" fill="rgba(59,107,92,0.4)" rx="2"/>
+            <text x="330" y="71" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="9">8</text>
+            <rect x="365" y="60" width="60" height="14" fill="rgba(13,34,64,0.08)" rx="2"/>
+            <text x="395" y="71" text-anchor="middle" fill="#666" font-family="JetBrains Mono" font-size="9">24</text>
+          </g>
+          <text x="180" y="100" text-anchor="end" fill="#3B6B5C" font-family="Libre Baskerville" font-style="italic" font-size="13">EBB corridor live · 4–8 wks</text>
+          <line x1="200" y1="95" x2="265" y2="80" stroke="#3B6B5C" stroke-width="1.5"/>
+          <text x="425" y="100" text-anchor="end" fill="#8B1A1A" font-family="Libre Baskerville" font-style="italic" font-size="13">legacy build · 6 mo</text>
+          <line x1="395" y1="95" x2="395" y2="80" stroke="#8B1A1A" stroke-width="1.5"/>
+          <text x="240" y="170" text-anchor="middle" fill="#0D2240" font-family="Libre Baskerville" font-style="italic" font-size="12">protocols, AML templates, audit schema · pre-built</text>
+        </svg>`
+      },
+      {
+        cap: 'team velocity',
+        name: '80% of engineering. Returned to product.',
+        desc: 'EBB owns the platform; your engineers ship what wins business. Closes <em>cost.invisible</em>.',
+        svg: `<svg viewBox="0 0 480 220" aria-hidden="true">
+          <text x="80" y="40" text-anchor="middle" fill="#666" font-family="JetBrains Mono" font-size="10" letter-spacing="0.1em">BEFORE</text>
+          <text x="400" y="40" text-anchor="middle" fill="#666" font-family="JetBrains Mono" font-size="10" letter-spacing="0.1em">AFTER</text>
+          <g>
+            <rect x="40" y="60" width="80" height="100" fill="rgba(139,26,26,0.3)" rx="3"/>
+            <text x="80" y="115" text-anchor="middle" fill="#fff" font-family="Libre Baskerville" font-weight="700" font-size="18">80%</text>
+            <text x="80" y="135" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="9">infra</text>
+            <rect x="40" y="160" width="80" height="20" fill="rgba(59,107,92,0.4)" rx="3"/>
+            <text x="80" y="174" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="10">20% product</text>
+          </g>
+          <g>
+            <rect x="360" y="60" width="80" height="20" fill="rgba(139,26,26,0.3)" rx="3"/>
+            <text x="400" y="74" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="10">20% infra</text>
+            <rect x="360" y="80" width="80" height="100" fill="rgba(59,107,92,0.4)" rx="3"/>
+            <text x="400" y="135" text-anchor="middle" fill="#fff" font-family="Libre Baskerville" font-weight="700" font-size="18">80%</text>
+            <text x="400" y="155" text-anchor="middle" fill="#fff" font-family="JetBrains Mono" font-size="9">product</text>
+          </g>
+          <line x1="120" y1="120" x2="360" y2="120" stroke="#0D2240" stroke-width="1" stroke-dasharray="3 4"/>
+          <text x="240" y="115" text-anchor="middle" fill="#0D2240" font-family="Libre Baskerville" font-style="italic" font-size="12">EBB owns the platform</text>
+          <text x="240" y="200" text-anchor="middle" fill="#0D2240" font-family="Libre Baskerville" font-style="italic" font-size="11">your engineers ship what wins business</text>
+        </svg>`
+      },
+    ];
+    let i = 0;
+    function show() {
+      const s = scenes[i % scenes.length];
+      text.innerHTML = `<div class="reel-cap">${s.cap}</div>
+        <div class="reel-name">${s.name}</div>
+        <div class="reel-desc">${s.desc}</div>`;
+      stage.innerHTML = s.svg;
+      num.textContent = (i % scenes.length) + 1;
+      // re-trigger frame-in fade
+      text.style.animation = 'none';
+      void text.offsetWidth;
+      text.style.animation = '';
+      i++;
+    }
+    show();
+    setInterval(show, 5000);
+  })();
+</script>
+
+</body>
+</html>
