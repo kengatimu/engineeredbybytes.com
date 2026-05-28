@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>§3 The Solution — EBB V2 mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream: #F8F6F1;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --text-body: rgba(13,34,64,0.82);
+      --text-muted: rgba(13,34,64,0.62);
+      --text-faint: rgba(13,34,64,0.42);
+      --rule: rgba(13,34,64,0.10);
+      --rule-soft: rgba(13,34,64,0.06);
+      --green: #3B6B5C;
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    body { font-family: var(--font-ui); background: var(--cream-warm); color: var(--text-body); -webkit-font-smoothing: antialiased; }
+
+    /* ────────────────────────────────────────────────────────────
+       §3 SOLUTION — shared scaffolding (matches §2 design language)
+       ──────────────────────────────────────────────────────────── */
+    .solution {
+      padding: 80px 24px 64px;
+      background: var(--cream-warm);
+      border-top: 1px solid var(--rule);
+    }
+    .solution__container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .solution__head { max-width: 760px; display: flex; flex-direction: column; gap: 10px; }
+    .solution__eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .solution__eyebrow::before {
+      content: ''; width: 28px; height: 1.5px; background: var(--crimson);
+    }
+    .solution__heading {
+      font: 400 clamp(26px, 3.4vw, 36px)/1.2 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.008em;
+      margin: 0;
+    }
+    .solution__heading em {
+      font-style: italic;
+      color: var(--navy);
+      font-weight: 400;
+    }
+    .solution__bridge {
+      margin: 10px 0 0;
+      font: italic 400 clamp(15px, 1.6vw, 18px)/1.35 var(--font-display);
+      color: rgba(13,34,64,0.6);
+      letter-spacing: -0.003em;
+    }
+
+    /* ────────────────────────────────────────────────────────────
+       PART A — Tangle → hub-and-spoke resolve
+       ──────────────────────────────────────────────────────────── */
+    .partA {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 20px 0 14px;
+      position: relative;
+    }
+    .partA-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0 6px 14px;
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .partA-head b { color: var(--navy); font-weight: 500; }
+    .partA-head .step {
+      color: var(--crimson);
+      font-style: italic;
+      letter-spacing: 0.04em;
+      font-family: var(--font-display);
+      text-transform: none;
+      font-size: 12px;
+    }
+    .tangle-svg { width: 100%; height: 360px; display: block; }
+
+    /* Nodes (6 outer + 1 center EBB) */
+    .tangle-svg .node {
+      fill: var(--cream-warm);
+      stroke: var(--navy);
+      stroke-width: 1.5;
+    }
+    .tangle-svg .node-rim {
+      fill: none;
+      stroke: var(--navy);
+      stroke-width: 1;
+      opacity: 0.25;
+    }
+    .tangle-svg .node-label {
+      fill: var(--navy);
+      font: 500 11px var(--font-ui);
+      letter-spacing: 0.04em;
+    }
+    .tangle-svg .ebb-node {
+      fill: var(--navy);
+      stroke: var(--navy);
+      opacity: 0;
+      transform-origin: center;
+      transform-box: fill-box;
+    }
+    .tangle-svg .ebb-label {
+      fill: var(--cream-warm);
+      font: 700 13px var(--font-display);
+      opacity: 0;
+    }
+
+    /* Tangle lines (every-to-every) — start invisible, draw in, then fade */
+    .tangle-svg .tangle-line {
+      stroke: var(--crimson);
+      stroke-width: 1;
+      fill: none;
+      opacity: 0;
+    }
+    /* Spoke lines (each outer node → EBB) — start invisible, fade in after tangle fades */
+    .tangle-svg .spoke-line {
+      stroke: var(--navy);
+      stroke-width: 1.5;
+      fill: none;
+      opacity: 0;
+    }
+
+    /* Animation states triggered by .is-active on .partA */
+    .partA.is-active .tangle-line {
+      animation: tangleIn 1.2s ease-out forwards, tangleOut 1.5s ease-out forwards;
+      animation-delay: 0.8s, 4s;
+    }
+    .partA.is-active .ebb-node {
+      animation: ebbIn 0.8s ease-out forwards;
+      animation-delay: 4.5s;
+    }
+    .partA.is-active .ebb-label {
+      animation: ebbIn 0.8s ease-out forwards;
+      animation-delay: 4.8s;
+    }
+    .partA.is-active .spoke-line {
+      animation: spokeIn 0.8s ease-out forwards;
+      animation-delay: 4.8s;
+    }
+    @keyframes tangleIn {
+      from { opacity: 0; stroke-dashoffset: 200; }
+      to   { opacity: 0.55; stroke-dashoffset: 0; }
+    }
+    @keyframes tangleOut {
+      to { opacity: 0; }
+    }
+    @keyframes ebbIn {
+      from { opacity: 0; transform: scale(0.6); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes spokeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    .partA-caption {
+      margin-top: 18px;
+      padding: 0 6px;
+      font: italic 400 clamp(16px, 2vw, 22px)/1.3 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.005em;
+      max-width: 720px;
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    .partA-caption em {
+      color: var(--crimson);
+      font-style: italic;
+      position: relative;
+    }
+    .partA.is-active .partA-caption {
+      animation: capIn 0.8s ease-out forwards;
+      animation-delay: 5.2s;
+    }
+    @keyframes capIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Replay button */
+    .partA-replay {
+      position: absolute;
+      top: 14px; right: 14px;
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--text-faint);
+      background: transparent;
+      border: 1px solid var(--rule);
+      padding: 6px 10px;
+      cursor: pointer;
+      transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+    }
+    .partA-replay:hover { color: var(--crimson); border-color: var(--crimson); }
+
+    /* ────────────────────────────────────────────────────────────
+       PART B — Architecture diagram with flowing transaction
+       ──────────────────────────────────────────────────────────── */
+    .partB {
+      border-top: 1px solid var(--rule);
+      padding-top: 24px;
+    }
+    .partB-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 0 6px 16px;
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .partB-head b { color: var(--navy); font-weight: 500; }
+    .partB-head .status { color: var(--green); font-style: italic; }
+    .arch-svg { width: 100%; height: 420px; display: block; }
+
+    .arch-svg .col-label {
+      fill: var(--text-muted);
+      font: 600 10px var(--font-ui);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .arch-svg .col-sub {
+      fill: var(--text-faint);
+      font: 400 10px var(--font-mono);
+      letter-spacing: 0.06em;
+    }
+    .arch-svg .cbs-node {
+      fill: var(--cream-warm);
+      stroke: var(--navy);
+      stroke-width: 1;
+      opacity: 0.7;
+    }
+    .arch-svg .cbs-text {
+      fill: var(--navy);
+      font: 500 11px var(--font-ui);
+    }
+    .arch-svg .net-node {
+      fill: var(--cream-warm);
+      stroke: var(--navy);
+      stroke-width: 1;
+      opacity: 0.7;
+    }
+    .arch-svg .net-text {
+      fill: var(--navy);
+      font: 500 10.5px var(--font-ui);
+    }
+
+    /* EBB Gateway block in the middle */
+    .arch-svg .gateway {
+      fill: var(--navy);
+      stroke: var(--navy);
+    }
+    .arch-svg .gateway-label {
+      fill: var(--cream-warm);
+      font: 700 14px var(--font-display);
+    }
+    .arch-svg .gateway-sub {
+      fill: rgba(242,239,232,0.55);
+      font: 500 9px var(--font-mono);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Checkpoints inside the gateway */
+    .arch-svg .check-dot {
+      fill: var(--cream-warm);
+      stroke: rgba(242,239,232,0.4);
+      stroke-width: 1;
+      transition: fill 0.3s var(--ease);
+    }
+    .arch-svg .check-label {
+      fill: rgba(242,239,232,0.65);
+      font: 500 9.5px var(--font-mono);
+      letter-spacing: 0.06em;
+    }
+
+    /* Lines from CBS to gateway and gateway to networks */
+    .arch-svg .edge {
+      stroke: rgba(13,34,64,0.18);
+      stroke-width: 1;
+      fill: none;
+    }
+
+    /* Animated transaction dot */
+    .arch-svg .txn {
+      fill: var(--crimson);
+    }
+
+    /* Checkpoint lights — animated to "light up" sequentially */
+    .arch-svg .check-light {
+      fill: var(--crimson);
+      opacity: 0;
+    }
+    .arch-svg .check-light.c1 { animation: lightUp 12s linear infinite; animation-delay: 1.5s; }
+    .arch-svg .check-light.c2 { animation: lightUp 12s linear infinite; animation-delay: 2.0s; }
+    .arch-svg .check-light.c3 { animation: lightUp 12s linear infinite; animation-delay: 2.5s; }
+    .arch-svg .check-light.c4 { animation: lightUp 12s linear infinite; animation-delay: 3.0s; }
+    .arch-svg .check-light.c5 { animation: lightUp 12s linear infinite; animation-delay: 3.5s; }
+    @keyframes lightUp {
+      0%   { opacity: 0; }
+      6%   { opacity: 1; }
+      10%  { opacity: 1; }
+      16%  { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    .arch-svg .reversal-tag {
+      fill: var(--crimson);
+      font: italic 12px var(--font-display);
+      opacity: 0;
+      animation: revealTag 12s linear infinite;
+      animation-delay: 9.5s;
+    }
+    @keyframes revealTag {
+      0%, 6%   { opacity: 0; transform: translateY(4px); }
+      10%, 16% { opacity: 1; transform: translateY(0); }
+      20%      { opacity: 0; }
+    }
+
+    /* Tile/legend strip below diagram */
+    .partB-legend {
+      margin-top: 16px;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+      padding: 0 6px;
+      font: 400 12px/1.4 var(--font-ui);
+      color: var(--text-muted);
+    }
+    .partB-legend .item {
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .partB-legend .swatch {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--crimson);
+    }
+    .partB-legend .swatch.healthy { background: var(--green); }
+
+    /* Bridge to §4 */
+    .solution__bridge-link-row {
+      margin-top: 24px; padding-top: 16px;
+      border-top: 1px solid var(--rule);
+      display: flex; justify-content: center;
+    }
+    .solution__bridge-link {
+      display: inline-flex; flex-direction: column; align-items: center; gap: 8px;
+      font: 700 11px/1 var(--font-ui);
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 4px 8px;
+      transition: color 0.25s var(--ease);
+    }
+    .solution__bridge-link:hover { color: var(--crimson); }
+    .solution__bridge-arrow {
+      width: 14px; height: 14px; color: currentColor;
+      animation: bob 2.6s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(3px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01s !important;
+        animation-iteration-count: 1 !important;
+      }
+      .partA.is-active .tangle-line { animation: none; opacity: 0; }
+      .partA.is-active .ebb-node,
+      .partA.is-active .ebb-label,
+      .partA.is-active .spoke-line,
+      .partA.is-active .partA-caption {
+        animation: none; opacity: 1; transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<section class="solution" id="solution">
+  <div class="solution__container">
+
+    <!-- Section header — matches §2 design language -->
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">
+        One layer between your bank <em>and every operator.</em>
+      </h2>
+      <p class="solution__bridge">The integration burden absorbed into one infrastructure layer — every checkpoint built in.</p>
+    </header>
+
+    <!-- ════════════════════════════════════════════════════════
+         PART A — Tangle → hub-and-spoke
+         ════════════════════════════════════════════════════════ -->
+    <div class="partA" id="partA">
+      <div class="partA-head">
+        <span><b>before EBB</b> · every operator is its own integration</span>
+        <span class="step" data-step>watch →</span>
+      </div>
+
+      <button type="button" class="partA-replay" data-replay aria-label="Replay animation">replay</button>
+
+      <svg class="tangle-svg" viewBox="0 0 760 320" aria-hidden="true">
+        <!-- 6 peripheral nodes positioned hexagonally around centre (380, 160) -->
+        <!-- positions: top, top-right, bottom-right, bottom, bottom-left, top-left -->
+        <defs>
+          <!-- tangle lines — every-to-every (15 pairs) -->
+          <!-- naming convention: t_AB where A and B are node indices 0-5 -->
+        </defs>
+
+        <!-- Tangle lines (15 — every pair) — drawn first so nodes sit on top -->
+        <g>
+          <line class="tangle-line" x1="380" y1="60"  x2="540" y2="100"/>
+          <line class="tangle-line" x1="380" y1="60"  x2="540" y2="220"/>
+          <line class="tangle-line" x1="380" y1="60"  x2="380" y2="260"/>
+          <line class="tangle-line" x1="380" y1="60"  x2="220" y2="220"/>
+          <line class="tangle-line" x1="380" y1="60"  x2="220" y2="100"/>
+          <line class="tangle-line" x1="540" y1="100" x2="540" y2="220"/>
+          <line class="tangle-line" x1="540" y1="100" x2="380" y2="260"/>
+          <line class="tangle-line" x1="540" y1="100" x2="220" y2="220"/>
+          <line class="tangle-line" x1="540" y1="100" x2="220" y2="100"/>
+          <line class="tangle-line" x1="540" y1="220" x2="380" y2="260"/>
+          <line class="tangle-line" x1="540" y1="220" x2="220" y2="220"/>
+          <line class="tangle-line" x1="540" y1="220" x2="220" y2="100"/>
+          <line class="tangle-line" x1="380" y1="260" x2="220" y2="220"/>
+          <line class="tangle-line" x1="380" y1="260" x2="220" y2="100"/>
+          <line class="tangle-line" x1="220" y1="220" x2="220" y2="100"/>
+        </g>
+
+        <!-- Spokes (6, from each outer node to centre) — drawn after tangle so they'll appear on top -->
+        <g>
+          <line class="spoke-line" x1="380" y1="60"  x2="380" y2="160"/>
+          <line class="spoke-line" x1="540" y1="100" x2="380" y2="160"/>
+          <line class="spoke-line" x1="540" y1="220" x2="380" y2="160"/>
+          <line class="spoke-line" x1="380" y1="260" x2="380" y2="160"/>
+          <line class="spoke-line" x1="220" y1="220" x2="380" y2="160"/>
+          <line class="spoke-line" x1="220" y1="100" x2="380" y2="160"/>
+        </g>
+
+        <!-- EBB centre node — square, fades in after tangle fades -->
+        <rect class="ebb-node" x="350" y="138" width="60" height="44" rx="4"/>
+        <text class="ebb-label" x="380" y="166" text-anchor="middle">EBB</text>
+
+        <!-- 6 outer nodes -->
+        <g>
+          <circle class="node-rim" cx="380" cy="60" r="22"/>
+          <circle class="node" cx="380" cy="60" r="14"/>
+          <text class="node-label" x="380" y="32" text-anchor="middle">Mobile money</text>
+
+          <circle class="node-rim" cx="540" cy="100" r="22"/>
+          <circle class="node" cx="540" cy="100" r="14"/>
+          <text class="node-label" x="568" y="100" text-anchor="start">Switches</text>
+
+          <circle class="node-rim" cx="540" cy="220" r="22"/>
+          <circle class="node" cx="540" cy="220" r="14"/>
+          <text class="node-label" x="568" y="224" text-anchor="start">Card networks</text>
+
+          <circle class="node-rim" cx="380" cy="260" r="22"/>
+          <circle class="node" cx="380" cy="260" r="14"/>
+          <text class="node-label" x="380" y="296" text-anchor="middle">Cross-border</text>
+
+          <circle class="node-rim" cx="220" cy="220" r="22"/>
+          <circle class="node" cx="220" cy="220" r="14"/>
+          <text class="node-label" x="192" y="224" text-anchor="end">CBS</text>
+
+          <circle class="node-rim" cx="220" cy="100" r="22"/>
+          <circle class="node" cx="220" cy="100" r="14"/>
+          <text class="node-label" x="192" y="100" text-anchor="end">Risk &amp; AML</text>
+        </g>
+      </svg>
+
+      <p class="partA-caption">
+        From <em>every-to-every</em> to <em>one-to-everything.</em>
+      </p>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         PART B — Architecture diagram with flowing transaction
+         ════════════════════════════════════════════════════════ -->
+    <div class="partB" id="partB">
+      <div class="partB-head">
+        <span><b>after EBB</b> · one gateway, every checkpoint, every network</span>
+        <span class="status">live transaction</span>
+      </div>
+
+      <svg class="arch-svg" viewBox="0 0 1000 380" aria-hidden="true">
+        <defs>
+          <!-- transaction motion paths: source → gateway → destination -->
+          <path id="txn-path-1" d="M 100 80  L 320 80  L 400 180 L 600 180 L 700 80  L 900 80"  fill="none"/>
+          <path id="txn-path-2" d="M 100 180 L 320 180 L 400 180 L 600 180 L 700 180 L 900 180" fill="none"/>
+          <path id="txn-path-3" d="M 100 280 L 320 280 L 400 180 L 600 180 L 700 280 L 900 280" fill="none"/>
+          <path id="txn-rev"    d="M 100 80  L 320 80  L 400 180 L 500 180 L 400 180 L 320 80 L 100 80" fill="none"/>
+        </defs>
+
+        <!-- Column headers -->
+        <text class="col-label" x="100" y="32">Your stack</text>
+        <text class="col-sub"   x="100" y="46">core banking</text>
+
+        <text class="col-label" x="400" y="32">EBB Gateway</text>
+        <text class="col-sub"   x="400" y="46">infrastructure layer</text>
+
+        <text class="col-label" x="900" y="32" text-anchor="end">Networks</text>
+        <text class="col-sub"   x="900" y="46" text-anchor="end">operators &amp; rails</text>
+
+        <!-- LEFT: Your stack — 3 CBS nodes -->
+        <g>
+          <rect class="cbs-node" x="60" y="64" width="120" height="32" rx="3"/>
+          <text class="cbs-text" x="120" y="84" text-anchor="middle">Finacle / T24</text>
+
+          <rect class="cbs-node" x="60" y="164" width="120" height="32" rx="3"/>
+          <text class="cbs-text" x="120" y="184" text-anchor="middle">FlexCube</text>
+
+          <rect class="cbs-node" x="60" y="264" width="120" height="32" rx="3"/>
+          <text class="cbs-text" x="120" y="284" text-anchor="middle">Custom CBS</text>
+        </g>
+
+        <!-- Edges from CBS to gateway -->
+        <g>
+          <line class="edge" x1="180" y1="80"  x2="380" y2="80"/>
+          <line class="edge" x1="180" y1="180" x2="380" y2="180"/>
+          <line class="edge" x1="180" y1="280" x2="380" y2="280"/>
+          <line class="edge" x1="380" y1="80"  x2="400" y2="180"/>
+          <line class="edge" x1="380" y1="180" x2="400" y2="180"/>
+          <line class="edge" x1="380" y1="280" x2="400" y2="180"/>
+        </g>
+
+        <!-- CENTRE: EBB Gateway -->
+        <rect class="gateway" x="400" y="100" width="200" height="160" rx="6"/>
+        <text class="gateway-label" x="500" y="124" text-anchor="middle">EBB</text>
+        <text class="gateway-sub"   x="500" y="140" text-anchor="middle">payment gateway</text>
+
+        <!-- 5 checkpoint rows inside gateway -->
+        <g transform="translate(420, 156)">
+          <!-- c1: signature -->
+          <circle class="check-dot" cx="0" cy="0" r="4"/>
+          <circle class="check-light c1" cx="0" cy="0" r="6"/>
+          <text class="check-label" x="12" y="3">signature</text>
+
+          <!-- c2: mTLS -->
+          <circle class="check-dot" cx="0" cy="20" r="4"/>
+          <circle class="check-light c2" cx="0" cy="20" r="6"/>
+          <text class="check-label" x="12" y="23">mTLS</text>
+
+          <!-- c3: AML -->
+          <circle class="check-dot" cx="0" cy="40" r="4"/>
+          <circle class="check-light c3" cx="0" cy="40" r="6"/>
+          <text class="check-label" x="12" y="43">AML screen</text>
+
+          <!-- c4: PCI masking -->
+          <circle class="check-dot" cx="0" cy="60" r="4"/>
+          <circle class="check-light c4" cx="0" cy="60" r="6"/>
+          <text class="check-label" x="12" y="63">PCI masking</text>
+
+          <!-- c5: audit -->
+          <circle class="check-dot" cx="0" cy="80" r="4"/>
+          <circle class="check-light c5" cx="0" cy="80" r="6"/>
+          <text class="check-label" x="12" y="83">audit log</text>
+        </g>
+
+        <!-- Edges from gateway to networks -->
+        <g>
+          <line class="edge" x1="600" y1="180" x2="620" y2="80"/>
+          <line class="edge" x1="600" y1="180" x2="620" y2="180"/>
+          <line class="edge" x1="600" y1="180" x2="620" y2="280"/>
+          <line class="edge" x1="620" y1="80"  x2="820" y2="80"/>
+          <line class="edge" x1="620" y1="180" x2="820" y2="180"/>
+          <line class="edge" x1="620" y1="280" x2="820" y2="280"/>
+        </g>
+
+        <!-- RIGHT: Networks — 3 destination nodes -->
+        <g>
+          <rect class="net-node" x="820" y="64" width="120" height="32" rx="3"/>
+          <text class="net-text" x="880" y="84" text-anchor="middle">Mobile money</text>
+
+          <rect class="net-node" x="820" y="164" width="120" height="32" rx="3"/>
+          <text class="net-text" x="880" y="184" text-anchor="middle">Card networks</text>
+
+          <rect class="net-node" x="820" y="264" width="120" height="32" rx="3"/>
+          <text class="net-text" x="880" y="284" text-anchor="middle">Cross-border</text>
+        </g>
+
+        <!-- ANIMATED transaction dot — staggered loops along different paths -->
+        <circle class="txn" r="4">
+          <animateMotion dur="12s" repeatCount="indefinite" begin="0s">
+            <mpath href="#txn-path-1"/>
+          </animateMotion>
+          <animate attributeName="opacity"
+                   values="0;1;1;0;0"
+                   keyTimes="0;0.05;0.4;0.42;1"
+                   dur="12s"
+                   begin="0s"
+                   repeatCount="indefinite"/>
+        </circle>
+        <circle class="txn" r="4">
+          <animateMotion dur="12s" repeatCount="indefinite" begin="4s">
+            <mpath href="#txn-path-2"/>
+          </animateMotion>
+          <animate attributeName="opacity"
+                   values="0;1;1;0;0"
+                   keyTimes="0;0.05;0.4;0.42;1"
+                   dur="12s"
+                   begin="4s"
+                   repeatCount="indefinite"/>
+        </circle>
+        <!-- third loop = reversal demo: enters, mid-flow, returns -->
+        <circle class="txn" r="4">
+          <animateMotion dur="12s" repeatCount="indefinite" begin="8s">
+            <mpath href="#txn-rev"/>
+          </animateMotion>
+          <animate attributeName="opacity"
+                   values="0;1;1;0;0"
+                   keyTimes="0;0.05;0.55;0.58;1"
+                   dur="12s"
+                   begin="8s"
+                   repeatCount="indefinite"/>
+        </circle>
+
+        <!-- Reversal callout tag appears during the reversal loop -->
+        <text class="reversal-tag" x="500" y="278" text-anchor="middle">Reversed in 200ms</text>
+      </svg>
+
+      <div class="partB-legend">
+        <span class="item"><span class="swatch"></span>Live transaction</span>
+        <span class="item"><span class="swatch healthy"></span>Checkpoint passed</span>
+        <span class="item"><em>Reversal demo every 3rd loop</em></span>
+      </div>
+    </div>
+
+    <!-- Bridge to §4 -->
+    <div class="solution__bridge-link-row">
+      <a href="#capabilities" class="solution__bridge-link">
+        <span>The 12 capabilities</span>
+        <svg class="solution__bridge-arrow" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+          <path d="M7 2v10M3 8l4 4 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  /* Trigger Part A's tangle-resolve animation when section enters viewport.
+     Replay button re-triggers by removing and re-adding the class. */
+  (function () {
+    const partA = document.getElementById('partA');
+    if (!partA) return;
+    const trigger = () => {
+      partA.classList.remove('is-active');
+      // force reflow so animation restarts
+      void partA.offsetWidth;
+      partA.classList.add('is-active');
+    };
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) { trigger(); io.unobserve(partA); } });
+      }, { threshold: 0.3 });
+      io.observe(partA);
+    } else {
+      trigger();
+    }
+    const replayBtn = partA.querySelector('[data-replay]');
+    if (replayBtn) replayBtn.addEventListener('click', trigger);
+  })();
+</script>
+
+</body>
+</html>
