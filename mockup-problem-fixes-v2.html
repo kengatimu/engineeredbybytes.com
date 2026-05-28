@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>§2 Simplification Visualizer — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --ink: #0D2240;
+      --ink-2: rgba(13,34,64,0.72);
+      --ink-3: rgba(13,34,64,0.55);
+      --rule: rgba(13,34,64,0.14);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--cream-warm); color: var(--ink); font-family: 'Inter', system-ui, sans-serif; }
+
+    /* page nav */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--navy); color: #F2EFE8;
+      padding: 14px 28px;
+      display: flex; gap: 18px; align-items: center;
+      font: 500 13px/1 'Inter', sans-serif;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 12px; }
+    .nav a { color: rgba(255,255,255,0.78); text-decoration: none; padding: 6px 10px; border-radius: 4px; }
+    .nav a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    .variant-label {
+      max-width: 1100px; margin: 56px auto 0; padding: 0 28px;
+      display: flex; align-items: baseline; gap: 16px;
+      border-top: 1px solid var(--rule); padding-top: 28px;
+    }
+    .variant-label__tag {
+      font: 500 11px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .variant-label__title {
+      font: 700 18px/1.3 'Libre Baskerville', serif;
+      color: var(--ink);
+    }
+    .variant-label__note {
+      font: 400 13px/1.4 'Inter', sans-serif;
+      color: var(--ink-3);
+      margin-left: auto;
+    }
+
+    /* ─────────── Shared base styles (variant V0 baseline) ─────────── */
+    .problem { padding: 96px 28px 80px; }
+    .problem__container { max-width: 1100px; margin: 0 auto; }
+    .problem__head { max-width: 720px; margin-bottom: 56px; }
+    .problem__eyebrow {
+      display: inline-block;
+      font: 500 12px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--crimson);
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 24px;
+    }
+    .problem__heading {
+      font: 400 clamp(28px, 4vw, 44px)/1.15 'Libre Baskerville', serif;
+      color: var(--ink); margin: 0 0 18px;
+    }
+    .problem__lede {
+      font: 400 17px/1.55 'Inter', sans-serif;
+      color: var(--ink-2); margin: 0;
+    }
+    .problem__clusters {
+      display: flex; flex-direction: column; gap: 40px;
+    }
+    .problem__cluster {
+      display: grid; grid-template-columns: 200px 1fr; gap: 32px;
+      padding-top: 24px; border-top: 1px solid var(--rule);
+    }
+    .problem__cluster:first-child { border-top: 0; padding-top: 0; }
+    .problem__cluster-head {
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .problem__cluster-num {
+      font: 500 11px/1 'JetBrains Mono', monospace;
+      letter-spacing: 0.12em; color: var(--ink-3);
+    }
+    .problem__cluster-num em { font-style: normal; color: var(--crimson); }
+    .problem__cluster-title {
+      font: 700 16px/1.25 'Libre Baskerville', serif;
+      color: var(--ink);
+    }
+    .problem__cluster-count {
+      font: 400 12px/1 'Inter', sans-serif;
+      color: var(--ink-3); margin-top: 4px;
+    }
+    .problem__cluster-list {
+      list-style: none; padding: 0; margin: 0;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .problem__item {
+      display: grid; grid-template-columns: 180px 1fr; gap: 20px; align-items: baseline;
+    }
+    .problem__tag {
+      font: 500 12px/1.4 'JetBrains Mono', monospace;
+      color: var(--crimson); letter-spacing: 0.02em;
+    }
+    .problem__desc {
+      font: 400 15px/1.55 'Libre Baskerville', serif;
+      color: var(--ink);
+    }
+    @media (max-width: 720px) {
+      .problem__cluster { grid-template-columns: 1fr; gap: 14px; }
+      .problem__item { grid-template-columns: 1fr; gap: 4px; }
+    }
+
+    /* ─────────── V1: Inline cluster headers (drop 200px col) ─────────── */
+    .v1 .problem__cluster {
+      display: block;
+    }
+    .v1 .problem__cluster-head {
+      flex-direction: row; align-items: baseline; gap: 14px;
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+      border-bottom: 1px dashed var(--rule);
+    }
+    .v1 .problem__cluster-num { color: var(--crimson); }
+    .v1 .problem__cluster-title { font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em; font-family: 'Inter', sans-serif; font-weight: 600; }
+    .v1 .problem__cluster-count { margin-top: 0; }
+
+    /* ─────────── V2: Tighter typography ─────────── */
+    .v2 { padding-top: 64px; padding-bottom: 56px; }
+    .v2 .problem__head { margin-bottom: 40px; }
+    .v2 .problem__heading { font-size: 32px; line-height: 1.2; }
+    .v2 .problem__lede { font-size: 15px; }
+    .v2 .problem__eyebrow { margin-bottom: 18px; }
+
+    /* ─────────── V3: Drop pattern counts + tighten gaps ─────────── */
+    .v3 .problem__cluster-count { display: none; }
+    .v3 .problem__clusters { gap: 28px; }
+    .v3 .problem__cluster { padding-top: 18px; }
+    .v3 .problem__cluster-list { gap: 10px; }
+
+    /* ─────────── ALL: combined recommendation ─────────── */
+    .all { padding-top: 64px; padding-bottom: 56px; }
+    .all .problem__head { margin-bottom: 36px; }
+    .all .problem__heading { font-size: 32px; line-height: 1.2; }
+    .all .problem__lede { font-size: 15px; }
+    .all .problem__eyebrow { margin-bottom: 18px; }
+    .all .problem__cluster {
+      display: block; padding-top: 18px;
+    }
+    .all .problem__cluster-head {
+      flex-direction: row; align-items: baseline; gap: 14px;
+      padding-bottom: 12px; margin-bottom: 12px;
+      border-bottom: 1px dashed var(--rule);
+    }
+    .all .problem__cluster-num { color: var(--crimson); }
+    .all .problem__cluster-title {
+      font: 600 14px/1.25 'Inter', sans-serif;
+      text-transform: uppercase; letter-spacing: 0.08em;
+    }
+    .all .problem__cluster-count { display: none; }
+    .all .problem__clusters { gap: 26px; }
+    .all .problem__cluster-list { gap: 10px; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <b>§2 Visualizer</b>
+    <a href="#v0">V0 Baseline</a>
+    <a href="#v1">V1 Inline headers</a>
+    <a href="#v2">V2 Tighter type</a>
+    <a href="#v3">V3 No counts</a>
+    <a href="#all">★ All combined</a>
+  </nav>
+
+  <!-- ─────────── V0 Baseline (current A+C) ─────────── -->
+  <div class="variant-label" id="v0">
+    <span class="variant-label__tag">V0</span>
+    <span class="variant-label__title">Baseline — current A+C combined (live in mockup-hero.html)</span>
+    <span class="variant-label__note">For reference comparison</span>
+  </div>
+  <section class="problem v0">
+    <div class="problem__container">
+      <header class="problem__head">
+        <span class="problem__eyebrow">The Problem</span>
+        <h2 class="problem__heading">Every payments platform has the same ten problems.</h2>
+        <p class="problem__lede">These are the patterns we hear in every conversation with bank and fintech CTOs. Grouped by where they live in your stack.</p>
+      </header>
+      <div class="problem__clusters" data-clusters></div>
+    </div>
+  </section>
+
+  <!-- ─────────── V1: Inline cluster headers ─────────── -->
+  <div class="variant-label" id="v1">
+    <span class="variant-label__tag">V1</span>
+    <span class="variant-label__title">Change 1 only — Inline cluster headers (drop 200px column)</span>
+    <span class="variant-label__note">Headers become horizontal one-liners above each list</span>
+  </div>
+  <section class="problem v1">
+    <div class="problem__container">
+      <header class="problem__head">
+        <span class="problem__eyebrow">The Problem</span>
+        <h2 class="problem__heading">Every payments platform has the same ten problems.</h2>
+        <p class="problem__lede">These are the patterns we hear in every conversation with bank and fintech CTOs. Grouped by where they live in your stack.</p>
+      </header>
+      <div class="problem__clusters" data-clusters></div>
+    </div>
+  </section>
+
+  <!-- ─────────── V2: Tighter typography ─────────── -->
+  <div class="variant-label" id="v2">
+    <span class="variant-label__tag">V2</span>
+    <span class="variant-label__title">Change 2 only — Tighter header typography</span>
+    <span class="variant-label__note">H2 capped at 32px, smaller lede, less padding-top</span>
+  </div>
+  <section class="problem v2">
+    <div class="problem__container">
+      <header class="problem__head">
+        <span class="problem__eyebrow">The Problem</span>
+        <h2 class="problem__heading">Every payments platform has the same ten problems.</h2>
+        <p class="problem__lede">These are the patterns we hear in every conversation with bank and fintech CTOs. Grouped by where they live in your stack.</p>
+      </header>
+      <div class="problem__clusters" data-clusters></div>
+    </div>
+  </section>
+
+  <!-- ─────────── V3: Drop pattern counts + tighter gaps ─────────── -->
+  <div class="variant-label" id="v3">
+    <span class="variant-label__tag">V3</span>
+    <span class="variant-label__title">Change 3 only — Drop pattern counts, tighter gaps</span>
+    <span class="variant-label__note">"3 patterns" labels removed, clusters pulled closer</span>
+  </div>
+  <section class="problem v3">
+    <div class="problem__container">
+      <header class="problem__head">
+        <span class="problem__eyebrow">The Problem</span>
+        <h2 class="problem__heading">Every payments platform has the same ten problems.</h2>
+        <p class="problem__lede">These are the patterns we hear in every conversation with bank and fintech CTOs. Grouped by where they live in your stack.</p>
+      </header>
+      <div class="problem__clusters" data-clusters></div>
+    </div>
+  </section>
+
+  <!-- ─────────── ALL combined (recommendation) ─────────── -->
+  <div class="variant-label" id="all">
+    <span class="variant-label__tag">★ ALL</span>
+    <span class="variant-label__title">Recommended — all three combined</span>
+    <span class="variant-label__note">Inline headers + tighter type + no counts</span>
+  </div>
+  <section class="problem all">
+    <div class="problem__container">
+      <header class="problem__head">
+        <span class="problem__eyebrow">The Problem</span>
+        <h2 class="problem__heading">Every payments platform has the same ten problems.</h2>
+        <p class="problem__lede">These are the patterns we hear in every conversation with bank and fintech CTOs. Grouped by where they live in your stack.</p>
+      </header>
+      <div class="problem__clusters" data-clusters></div>
+    </div>
+  </section>
+
+  <script>
+    // shared cluster data — kept identical across variants for fair comparison
+    const CLUSTERS = [
+      {
+        n: '01', title: 'Transaction Integrity', count: '3 patterns',
+        items: [
+          ['timeout.outage', 'Your customers see the outage before your dashboards do. Twitter is faster than monitoring.'],
+          ['reversal.silent', 'A reversal fails silently. Finance discovers the gap three days later during reconciliation.'],
+          ['recon.manual', 'Month-end in spreadsheets. Four thousand rows. Manual matching. Weekend war rooms.'],
+        ],
+      },
+      {
+        n: '02', title: 'Operational Reliability', count: '3 patterns',
+        items: [
+          ['audit.weeklong', '"Show me Q3 reversals by reason code." One engineer. Five dashboards. Five days. Every quarter.'],
+          ['deploy.midnight', 'Releases at 11pm because daytime is too risky. Rollbacks at 2am. On-call paged.'],
+          ['customer.complaints', 'A missing transaction. Five systems to query. Two days to give the customer an answer — by then they’re gone.'],
+        ],
+      },
+      {
+        n: '03', title: 'Security & Compliance', count: '2 patterns',
+        items: [
+          ['security.surface', 'Every new integration is a new attack vector. Ten operators equals ten places encryption can be wrong.'],
+          ['compliance.bolton', 'AML, KYC, and sanctions screening retro-fitted after every new corridor goes live.'],
+        ],
+      },
+      {
+        n: '04', title: 'Velocity & Cost', count: '2 patterns',
+        items: [
+          ['corridor.6mo', 'Every new operator is a six-month integration project — new protocol, new AML, new audit trail, built from scratch.'],
+          ['cost.invisible', 'Eighty percent of your engineering team keeps payments alive. Twenty percent ships the products that actually win business.'],
+        ],
+      },
+    ];
+
+    function renderClusters(host) {
+      host.innerHTML = CLUSTERS.map(c => `
+        <div class="problem__cluster">
+          <div class="problem__cluster-head">
+            <span class="problem__cluster-num"><em>${c.n}</em></span>
+            <span class="problem__cluster-title">${c.title}</span>
+            <span class="problem__cluster-count">${c.count}</span>
+          </div>
+          <ul class="problem__cluster-list">
+            ${c.items.map(([t, d]) => `
+              <li class="problem__item">
+                <span class="problem__tag">${t}</span>
+                <span class="problem__desc">${d}</span>
+              </li>
+            `).join('')}
+          </ul>
+        </div>
+      `).join('');
+    }
+
+    document.querySelectorAll('[data-clusters]').forEach(renderClusters);
+  </script>
+</body>
+</html>
