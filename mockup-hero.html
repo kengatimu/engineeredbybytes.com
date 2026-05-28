@@ -1504,33 +1504,36 @@
         <p class="sr-only">
           Illustrative throughput chart for a payments platform. The line is mostly steady, with four sharp drops marking moments of failure that recur across every payment stack we have seen.
         </p>
-        <svg viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+        <svg viewBox="0 0 1200 240" preserveAspectRatio="none" aria-hidden="true">
           <line x1="0" y1="110" x2="1200" y2="110" stroke="rgba(13,34,64,0.08)" stroke-dasharray="2 4"/>
+          <!-- All four drops go to a uniform depth (y=200) so every red dot
+               and its expanding halo render identically. viewBox bottom
+               bumped 220 → 240 so the r=22 ring never clips. -->
           <path class="line" d="
             M 0 100
             Q 30 95, 60 105 T 120 102
             L 130 102 L 140 200 L 150 102
             Q 180 98, 210 108 T 280 100
             Q 320 92, 360 105 T 420 100
-            L 430 100 L 442 180 L 454 100
+            L 430 100 L 442 200 L 454 100
             Q 490 95, 520 108 T 580 102
             Q 620 100, 660 105 T 720 98
-            L 728 98 L 740 210 L 752 98
+            L 728 98 L 740 200 L 752 98
             Q 790 95, 820 105 T 880 100
             Q 920 98, 960 108 T 1020 100
-            L 1028 100 L 1040 190 L 1052 100
+            L 1028 100 L 1040 200 L 1052 100
             Q 1090 98, 1120 108 T 1200 102
           "/>
           <g class="marker">
-            <circle cx="140" cy="200" r="4"/>
-            <circle cx="442" cy="180" r="4"/>
-            <circle cx="740" cy="210" r="4"/>
-            <circle cx="1040" cy="190" r="4"/>
+            <circle cx="140"  cy="200" r="4"/>
+            <circle cx="442"  cy="200" r="4"/>
+            <circle cx="740"  cy="200" r="4"/>
+            <circle cx="1040" cy="200" r="4"/>
           </g>
-          <circle class="ring" cx="140" cy="200"/>
-          <circle class="ring" cx="442" cy="180"/>
-          <circle class="ring" cx="740" cy="210"/>
-          <circle class="ring" cx="1040" cy="190"/>
+          <circle class="ring" cx="140"  cy="200"/>
+          <circle class="ring" cx="442"  cy="200"/>
+          <circle class="ring" cx="740"  cy="200"/>
+          <circle class="ring" cx="1040" cy="200"/>
         </svg>
         <!-- Clickable drop labels — each opens the drawer scrolled to
              that pattern with a brief flash highlight. -->
