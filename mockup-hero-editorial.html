@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>Hero — 5 Editorial Variants — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream: #F8F6F1;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --white: #FFFFFF;
+      --text-body: #333333;
+      --text-muted: #666666;
+      --text-faint: #999999;
+      --rule: rgba(13, 34, 64, 0.10);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-ui); background: var(--cream); color: var(--text-body); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ──────────────── Switcher ──────────────── */
+    .switcher {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); color: var(--cream);
+      padding: 14px 28px;
+      display: flex; gap: 18px; align-items: center; flex-wrap: wrap;
+      font: 500 13px/1 var(--font-ui);
+    }
+    .switcher b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 12px; }
+    .switcher a { color: rgba(255,255,255,0.7); padding: 6px 10px; border-radius: 4px; }
+    .switcher a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .label {
+      max-width: 1280px; margin: 0 auto; padding: 28px 28px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; gap: 16px; align-items: baseline; flex-wrap: wrap;
+    }
+    .label__tag { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--crimson); }
+    .label__title { font: 700 17px/1.3 var(--font-display); }
+    .label__note { font: 400 13px/1.4 var(--font-ui); color: var(--text-muted); margin-left: auto; max-width: 560px; }
+
+    /* ──────────────── Hero scaffolding ──────────────── */
+    .hero {
+      position: relative;
+      min-height: 100dvh;
+      background: var(--cream);
+      padding: 28px 24px 48px;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+    .topnav {
+      max-width: 1280px; margin: 0 auto 0; width: 100%;
+      display: flex; justify-content: flex-end; padding: 0 8px;
+    }
+    .topnav__cta {
+      font: 600 13px/1 var(--font-ui);
+      color: var(--navy);
+      padding: 10px 18px;
+      border: 1.5px solid var(--navy);
+      border-radius: 3px;
+      transition: background 0.3s var(--ease), color 0.3s var(--ease);
+    }
+    .topnav__cta:hover { background: var(--navy); color: var(--white); }
+
+    .stage {
+      flex: 1;
+      max-width: 980px; margin: 0 auto; width: 100%;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+      padding-top: 32px;
+    }
+    .markmast { margin-bottom: 44px; }
+    .markmast img { height: 170px; width: auto; display: block; }
+    .markmast--sm img { height: 130px; }
+
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 24px;
+    }
+    .eyebrow::before {
+      content: ''; width: 28px; height: 1.5px;
+      background: var(--crimson); display: inline-block;
+    }
+
+    .headline {
+      font: 400 clamp(32px, 4.4vw, 52px)/1.18 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.01em;
+      margin-bottom: 22px;
+      max-width: 20ch;
+    }
+    .headline em { font-style: italic; color: var(--crimson); }
+    .headline strong { font-weight: 700; }
+
+    .sub {
+      font: 400 17px/1.7 var(--font-ui);
+      color: var(--text-muted);
+      max-width: 62ch;
+      margin-bottom: 40px;
+    }
+
+    .cta-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; justify-content: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 600 14px/1 var(--font-ui);
+      letter-spacing: 0.02em;
+      padding: 15px 28px;
+      border-radius: 3px;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+    }
+    .btn--primary { background: var(--crimson); color: var(--white); border-color: var(--crimson); }
+    .btn--primary:hover { background: #721515; border-color: #721515; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(139,26,26,0.32); }
+    .btn--ghost { background: transparent; color: var(--navy); border-color: var(--navy); }
+    .btn--ghost:hover { background: var(--navy); color: var(--white); }
+    .cta-row .small {
+      font: 500 12px/1 var(--font-ui);
+      color: var(--text-muted);
+      letter-spacing: 0.04em; text-transform: uppercase;
+      border-bottom: 1px solid var(--text-muted);
+      padding-bottom: 2px;
+    }
+    .cta-row .small:hover { color: var(--crimson); border-bottom-color: var(--crimson); }
+
+    .proof {
+      max-width: 1180px; margin: 0 auto; width: 100%;
+      padding-top: 32px;
+      border-top: 1px solid var(--rule);
+      display: flex; justify-content: center; gap: 64px; flex-wrap: wrap;
+    }
+    .proof__stat { text-align: center; max-width: 220px; }
+    .proof__num {
+      font: 400 22px/1 var(--font-display);
+      color: var(--navy);
+    }
+    .proof__num sup { font-size: 0.6em; color: var(--crimson); margin-left: 2px; }
+    .proof__num sub { font-size: 0.55em; color: var(--text-muted); margin-left: 2px; vertical-align: baseline; font-family: var(--font-ui); }
+    .proof__label {
+      margin-top: 8px;
+      font: 700 10px/1.4 var(--font-ui);
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       V1 — Pure editorial · no animation · no diagram
+       ════════════════════════════════════════════════════════════ */
+    .v1 .markmast { margin-bottom: 56px; }
+
+    /* ════════════════════════════════════════════════════════════
+       V2 — Editorial + ambient pulse line below CTAs
+       ════════════════════════════════════════════════════════════ */
+    .v2 .ambient {
+      width: 100%; max-width: 720px;
+      margin: 56px auto 0;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+    }
+    .v2 .ambient svg { width: 100%; height: 64px; display: block; }
+    .v2 .ambient .line { fill: none; stroke: var(--navy); stroke-width: 1.5; opacity: 0.55; }
+    .v2 .ambient .scan { fill: var(--crimson); }
+    .v2 .ambient-meta {
+      display: flex; justify-content: space-between;
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-faint);
+      margin-top: 8px;
+    }
+    .v2 .ambient-meta b { color: var(--text-muted); font-weight: 500; }
+
+    /* ════════════════════════════════════════════════════════════
+       V3 — Typographic reveal: "works" lingers, "until it doesn't" fades in
+       ════════════════════════════════════════════════════════════ */
+    .v3 .headline .twist {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(8px);
+      animation: v3reveal 0.8s var(--ease) forwards;
+      animation-delay: 1.4s;
+    }
+    @keyframes v3reveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .v3 .headline .twist::before {
+      content: '— ';
+      color: var(--crimson);
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       V4 — Editorial + horizontal architecture chip ribbon under sub
+       ════════════════════════════════════════════════════════════ */
+    .v4 .chips {
+      display: flex; align-items: center; gap: 14px;
+      margin: 0 0 40px;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .v4 .chip {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 16px;
+      border: 1px solid var(--rule);
+      border-radius: 100px;
+      background: rgba(255,255,255,0.5);
+      font: 500 12px/1 var(--font-ui);
+      color: var(--navy);
+      letter-spacing: 0.04em;
+    }
+    .v4 .chip-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--navy); }
+    .v4 .chip-dot--ebb { background: var(--crimson); }
+    .v4 .chip-arrow {
+      width: 16px; height: 1px; background: var(--rule);
+    }
+    .v4 .chip--ebb {
+      border-color: var(--crimson);
+      background: rgba(139,26,26,0.05);
+      color: var(--crimson);
+      font-weight: 700;
+    }
+
+    /* ════════════════════════════════════════════════════════════
+       V5 — Two-tier: hero block + slim ECG teaser strip bridges to §2
+       ════════════════════════════════════════════════════════════ */
+    .v5 .stage { padding-top: 16px; }
+    .v5 .markmast { margin-bottom: 28px; }
+    .v5 .markmast img { height: 140px; }
+    .v5 .headline { font-size: clamp(28px, 3.8vw, 44px); margin-bottom: 18px; }
+    .v5 .sub { font-size: 16px; margin-bottom: 30px; }
+    .v5 .teaser {
+      width: 100%; max-width: 1180px;
+      margin: 56px auto 0;
+      border-top: 1px solid var(--rule);
+      padding-top: 24px;
+    }
+    .v5 .teaser-row {
+      display: grid; grid-template-columns: auto 1fr auto; gap: 28px; align-items: center;
+    }
+    .v5 .teaser-label {
+      font: 500 10px/1.4 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-faint);
+      max-width: 180px;
+      text-align: left;
+    }
+    .v5 .teaser-label b { color: var(--crimson); font-weight: 600; }
+    .v5 .teaser svg { width: 100%; height: 56px; display: block; }
+    .v5 .teaser .line { fill: none; stroke: var(--navy); stroke-width: 1.5; opacity: 0.7; }
+    .v5 .teaser .drop { fill: var(--crimson); }
+    .v5 .teaser-next {
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--crimson);
+      display: inline-flex; align-items: center; gap: 6px;
+      white-space: nowrap;
+    }
+    .v5 .teaser-next svg { width: 12px; height: 12px; }
+
+    /* ──────────────── Mobile ──────────────── */
+    @media (max-width: 720px) {
+      .markmast img { height: 110px; }
+      .v2 .ambient { margin-top: 32px; }
+      .v5 .teaser-row { grid-template-columns: 1fr; text-align: center; }
+      .v5 .teaser-label { max-width: 100%; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .v2 .ambient .scan,
+      .v3 .headline .twist { animation: none !important; opacity: 1 !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="switcher">
+  <b>Hero — 5 editorial variants</b>
+  <a href="#v1">V1 Pure</a>
+  <a href="#v2">V2 Ambient pulse</a>
+  <a href="#v3">V3 Typographic reveal</a>
+  <a href="#v4">V4 Architecture chips</a>
+  <a href="#v5">V5 Two-tier + bridge</a>
+</nav>
+
+<!-- ═══════════ V1 ═══════════ -->
+<div class="label" id="v1-label">
+  <span class="label__tag">V1</span>
+  <span class="label__title">Pure editorial — no animation, no diagram</span>
+  <span class="label__note">The Mercury / Stripe Atlas pattern. Pure typography. Most banker-credible. Lets §2 carry all motion.</span>
+</div>
+<section class="hero v1" id="v1">
+  <div class="topnav"><a class="topnav__cta" href="#talk">Talk to engineering →</a></div>
+  <div class="stage">
+    <div class="markmast"><img src="/assets/img/logo-light.png" alt="EBB Systems"></div>
+    <span class="eyebrow">Payment infrastructure · for banks &amp; fintechs</span>
+    <h1 class="headline">Your payment platform works — <em>until it doesn't.</em></h1>
+    <p class="sub">EBB Systems is the infrastructure layer that eliminates the recurring pain in your payment stack — resilient routing, real-time visibility, auto-reversal, defence-in-depth security, and audit trails ready for any regulator.</p>
+    <div class="cta-row">
+      <a href="#talk" class="btn btn--primary">Talk to engineering →</a>
+      <a href="#problem" class="btn btn--ghost">See what we fix</a>
+    </div>
+  </div>
+  <div class="proof">
+    <div class="proof__stat"><div class="proof__num">10<sup>M+</sup></div><div class="proof__label">Engineered for tx / day</div></div>
+    <div class="proof__stat"><div class="proof__num">4–8<sub>wk</sub></div><div class="proof__label">to a new corridor</div></div>
+    <div class="proof__stat"><div class="proof__num">6</div><div class="proof__label">Security layers</div></div>
+  </div>
+</section>
+
+<!-- ═══════════ V2 ═══════════ -->
+<div class="label" id="v2-label">
+  <span class="label__tag">V2</span>
+  <span class="label__title">Ambient pulse — one subtle moving element</span>
+  <span class="label__note">A quiet sine-wave with a scan dot lives between CTAs and proof bar. Calm, ambient, not distracting. Mirrors §2's ECG language without competing.</span>
+</div>
+<section class="hero v2" id="v2">
+  <div class="topnav"><a class="topnav__cta" href="#talk">Talk to engineering →</a></div>
+  <div class="stage">
+    <div class="markmast"><img src="/assets/img/logo-light.png" alt="EBB Systems"></div>
+    <span class="eyebrow">Payment infrastructure · for banks &amp; fintechs</span>
+    <h1 class="headline">Your payment platform works — <em>until it doesn't.</em></h1>
+    <p class="sub">EBB Systems is the infrastructure layer that eliminates the recurring pain in your payment stack — resilient routing, real-time visibility, auto-reversal, defence-in-depth security, and audit trails ready for any regulator.</p>
+    <div class="cta-row">
+      <a href="#talk" class="btn btn--primary">Talk to engineering →</a>
+      <a href="#problem" class="btn btn--ghost">See what we fix</a>
+    </div>
+    <div class="ambient">
+      <svg viewBox="0 0 720 64" preserveAspectRatio="none" aria-hidden="true">
+        <path id="v2path" class="line" d="M 0 32 C 60 18, 120 46, 180 32 S 300 18, 360 32 S 480 46, 540 32 S 660 18, 720 32"/>
+        <circle class="scan" r="3">
+          <animateMotion dur="7s" repeatCount="indefinite"><mpath href="#v2path"/></animateMotion>
+        </circle>
+      </svg>
+      <div class="ambient-meta">
+        <span><b>steady-state target</b></span>
+        <span>no drops · no silent reversals · no midnight rollbacks</span>
+      </div>
+    </div>
+  </div>
+  <div class="proof">
+    <div class="proof__stat"><div class="proof__num">10<sup>M+</sup></div><div class="proof__label">Engineered for tx / day</div></div>
+    <div class="proof__stat"><div class="proof__num">4–8<sub>wk</sub></div><div class="proof__label">to a new corridor</div></div>
+    <div class="proof__stat"><div class="proof__num">6</div><div class="proof__label">Security layers</div></div>
+  </div>
+</section>
+
+<!-- ═══════════ V3 ═══════════ -->
+<div class="label" id="v3-label">
+  <span class="label__tag">V3</span>
+  <span class="label__title">Typographic reveal — "until it doesn't" arrives after a beat</span>
+  <span class="label__note">"Your payment platform works." lands first. After 1.4s "— until it doesn't." fades in below. One moment of typographic motion, no diagrams.</span>
+</div>
+<section class="hero v3" id="v3">
+  <div class="topnav"><a class="topnav__cta" href="#talk">Talk to engineering →</a></div>
+  <div class="stage">
+    <div class="markmast"><img src="/assets/img/logo-light.png" alt="EBB Systems"></div>
+    <span class="eyebrow">Payment infrastructure · for banks &amp; fintechs</span>
+    <h1 class="headline">
+      Your payment platform works.<br>
+      <span class="twist"><em>until it doesn't.</em></span>
+    </h1>
+    <p class="sub">EBB Systems is the infrastructure layer that eliminates the recurring pain in your payment stack — resilient routing, real-time visibility, auto-reversal, defence-in-depth security, and audit trails ready for any regulator.</p>
+    <div class="cta-row">
+      <a href="#talk" class="btn btn--primary">Talk to engineering →</a>
+      <a href="#problem" class="btn btn--ghost">See what we fix</a>
+    </div>
+  </div>
+  <div class="proof">
+    <div class="proof__stat"><div class="proof__num">10<sup>M+</sup></div><div class="proof__label">Engineered for tx / day</div></div>
+    <div class="proof__stat"><div class="proof__num">4–8<sub>wk</sub></div><div class="proof__label">to a new corridor</div></div>
+    <div class="proof__stat"><div class="proof__num">6</div><div class="proof__label">Security layers</div></div>
+  </div>
+</section>
+
+<!-- ═══════════ V4 ═══════════ -->
+<div class="label" id="v4-label">
+  <span class="label__tag">V4</span>
+  <span class="label__title">Architecture chips — tiny stack ribbon under the sub</span>
+  <span class="label__note">A horizontal ribbon: Bank → EBB → Operators. Static. Acts as a visual breadcrumb of what EBB does without needing a full diagram.</span>
+</div>
+<section class="hero v4" id="v4">
+  <div class="topnav"><a class="topnav__cta" href="#talk">Talk to engineering →</a></div>
+  <div class="stage">
+    <div class="markmast markmast--sm"><img src="/assets/img/logo-light.png" alt="EBB Systems"></div>
+    <span class="eyebrow">Payment infrastructure · for banks &amp; fintechs</span>
+    <h1 class="headline">Your payment platform works — <em>until it doesn't.</em></h1>
+    <p class="sub">EBB Systems is the infrastructure layer that eliminates the recurring pain in your payment stack — resilient routing, real-time visibility, auto-reversal, defence-in-depth security, and audit trails ready for any regulator.</p>
+
+    <div class="chips" aria-label="Architecture overview">
+      <span class="chip"><span class="chip-dot"></span>Your bank · core</span>
+      <span class="chip-arrow"></span>
+      <span class="chip chip--ebb"><span class="chip-dot chip-dot--ebb"></span>EBB Systems</span>
+      <span class="chip-arrow"></span>
+      <span class="chip"><span class="chip-dot"></span>Operators · rails</span>
+    </div>
+
+    <div class="cta-row">
+      <a href="#talk" class="btn btn--primary">Talk to engineering →</a>
+      <a href="#problem" class="btn btn--ghost">See what we fix</a>
+    </div>
+  </div>
+  <div class="proof">
+    <div class="proof__stat"><div class="proof__num">10<sup>M+</sup></div><div class="proof__label">Engineered for tx / day</div></div>
+    <div class="proof__stat"><div class="proof__num">4–8<sub>wk</sub></div><div class="proof__label">to a new corridor</div></div>
+    <div class="proof__stat"><div class="proof__num">6</div><div class="proof__label">Security layers</div></div>
+  </div>
+</section>
+
+<!-- ═══════════ V5 ═══════════ -->
+<div class="label" id="v5-label">
+  <span class="label__tag">V5</span>
+  <span class="label__title">Two-tier — editorial hero + slim ECG bridge to §2</span>
+  <span class="label__note">Centered editorial above. Below the proof bar: a slim teaser ECG strip with one drop, labelled "Reality below ↓". Bridges directly into §2.</span>
+</div>
+<section class="hero v5" id="v5">
+  <div class="topnav"><a class="topnav__cta" href="#talk">Talk to engineering →</a></div>
+  <div class="stage">
+    <div class="markmast"><img src="/assets/img/logo-light.png" alt="EBB Systems"></div>
+    <span class="eyebrow">Payment infrastructure · for banks &amp; fintechs</span>
+    <h1 class="headline">Your payment platform works — <em>until it doesn't.</em></h1>
+    <p class="sub">EBB Systems is the infrastructure layer that eliminates the recurring pain in your payment stack — resilient routing, real-time visibility, auto-reversal, defence-in-depth security, and audit trails ready for any regulator.</p>
+    <div class="cta-row">
+      <a href="#talk" class="btn btn--primary">Talk to engineering →</a>
+      <a href="#problem" class="btn btn--ghost">See what we fix</a>
+    </div>
+
+    <div class="teaser">
+      <div class="teaser-row">
+        <div class="teaser-label">A glance at the<br><b>recurring pattern</b></div>
+        <svg viewBox="0 0 800 56" preserveAspectRatio="none" aria-hidden="true">
+          <path class="line" d="M 0 30 Q 60 26, 120 32 T 240 30 L 245 30 L 250 50 L 255 30 Q 320 26, 380 32 T 500 30 Q 580 28, 660 32 T 800 30"/>
+          <circle class="drop" cx="250" cy="50" r="3.5"/>
+        </svg>
+        <a href="#problem" class="teaser-next">
+          Reality below
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+            <path d="M6 2v8M3 7l3 3 3-3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="proof">
+    <div class="proof__stat"><div class="proof__num">10<sup>M+</sup></div><div class="proof__label">Engineered for tx / day</div></div>
+    <div class="proof__stat"><div class="proof__num">4–8<sub>wk</sub></div><div class="proof__label">to a new corridor</div></div>
+    <div class="proof__stat"><div class="proof__num">6</div><div class="proof__label">Security layers</div></div>
+  </div>
+</section>
+
+</body>
+</html>
