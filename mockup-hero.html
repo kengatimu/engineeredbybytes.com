@@ -607,6 +607,11 @@
       line-height: 1.2;
       margin: 0;
     }
+    .problem__heading em {
+      font-style: italic;
+      color: var(--crimson);
+      font-weight: 400;
+    }
 
     .problem__lede {
       font-family: var(--font-ui);
@@ -668,19 +673,32 @@
       line-height: 1.75;
       color: var(--text-body);
     }
+    /* Dramatic two-line lede — first line navy serif, second line crimson
+       italic. Reads like a beat of editorial drama before the prose list. */
     .problem__prose-lead {
       display: block;
-      margin-bottom: 18px;
+      margin-bottom: 28px;
       font-family: var(--font-display);
-      font-size: clamp(24px, 3vw, 32px);
       font-weight: 400;
-      line-height: 1.3;
-      color: var(--navy);
-      letter-spacing: -0.005em;
+      line-height: 1.15;
+      letter-spacing: -0.012em;
     }
-    .problem__prose-lead em {
-      font-style: italic;
+    .problem__prose-lead-a,
+    .problem__prose-lead-b {
+      display: block;
+    }
+    .problem__prose-lead-a {
+      font-size: clamp(28px, 3.6vw, 40px);
+      color: var(--navy);
+    }
+    .problem__prose-lead-b {
+      font-size: clamp(36px, 4.6vw, 52px);
       color: var(--crimson);
+      margin-top: 4px;
+    }
+    .problem__prose-lead-b em {
+      font-style: italic;
+      font-weight: 400;
     }
     .pain {
       display: inline;
@@ -706,9 +724,10 @@
       outline-offset: 2px;
     }
 
-    /* Unused after prose redesign — kept harmless for legacy safety */
+    /* Re-enabled: chart drop labels (clickable → open drawer at that pain).
+       Same UX as the earlier ECG-only design — labels under each red drop. */
     .problem__pulse-labels {
-      display: none;
+      display: block;
       position: relative;
       height: 50px;
     }
@@ -1387,8 +1406,8 @@
     <div class="problem__container">
 
       <header class="problem__head">
-        <span class="problem__eyebrow">§ 02 · the recurring pattern</span>
-        <h2 class="problem__heading">The problem, in one breath.</h2>
+        <span class="problem__eyebrow">02 · the recurring pattern</span>
+        <h2 class="problem__heading">The problem, <em>in one breath.</em></h2>
       </header>
 
       <!-- Editorial prose lede — names 7 of the 10 patterns inline. The
@@ -1396,7 +1415,10 @@
            live in the full drawer list. Pain phrases are clickable and open
            the drawer scrolled to that item. -->
       <p class="problem__prose">
-        <span class="problem__prose-lead">Your payment platform works — <em>until it doesn't.</em></span>
+        <span class="problem__prose-lead">
+          <span class="problem__prose-lead-a">Your payment platform works.</span>
+          <span class="problem__prose-lead-b"><em>Until it doesn't.</em></span>
+        </span>
         <button type="button" class="pain" data-pain="timeout.outage">timeout.outage</button>s your customers see before your dashboards do.
         <button type="button" class="pain" data-pain="reversal.silent">reversal.silent</button> for hours.
         <button type="button" class="pain" data-pain="audit.weeklong">audit.weeklong</button> that consumes your team every quarter.
@@ -1445,10 +1467,23 @@
           <circle class="ring" cx="740" cy="210"/>
           <circle class="ring" cx="1040" cy="190"/>
         </svg>
+        <!-- Clickable drop labels — each opens the drawer scrolled to
+             that pattern with a brief flash highlight. -->
+        <div class="problem__pulse-labels">
+          <button type="button" class="problem__pulse-label" data-pain="timeout.outage"  style="left: 11.7%;" aria-label="Open list at timeout.outage">timeout.outage</button>
+          <button type="button" class="problem__pulse-label" data-pain="reversal.silent" style="left: 36.8%;" aria-label="Open list at reversal.silent">reversal.silent</button>
+          <button type="button" class="problem__pulse-label" data-pain="recon.manual"    style="left: 61.7%;" aria-label="Open list at recon.manual">recon.manual</button>
+          <button type="button" class="problem__pulse-label" data-pain="audit.weeklong"  style="left: 86.7%;" aria-label="Open list at audit.weeklong">audit.weeklong</button>
+        </div>
+        <!-- Mobile fallback: labels become a single inline caption -->
+        <p class="problem__pulse-caption" aria-hidden="true">
+          <b>Four of ten patterns:</b>
+          <span>timeout.outage</span>·<span>reversal.silent</span>·<span>recon.manual</span>·<span>audit.weeklong</span>
+        </p>
       </div>
 
       <p class="problem__footnote">
-        <b>Seven patterns named above.</b> Four drops shown. Three more in the full list.
+        Ten patterns we hear in every conversation with a bank or fintech CTO.
         <button type="button" class="problem__see-list" data-drawer-open>See the list →</button>
       </p>
 
