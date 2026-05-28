@@ -90,9 +90,13 @@
       display: inline-flex;
       align-items: center;
       line-height: 0;
+      /* The logo PNG has heavy padding baked in (2400x1200 canvas, mark
+         centred). Negative margin compensates so the mark sits flush with
+         the nav baseline instead of looking floated. */
+      margin: -28px -22px;
     }
     .nav__brand img {
-      height: 44px;
+      height: 110px;
       width: auto;
       display: block;
     }
@@ -1050,7 +1054,7 @@
        ============================================================ -->
   <nav class="nav" aria-label="Primary navigation">
     <a href="/" class="nav__brand" aria-label="EBB Systems home">
-      <img src="/assets/img/logo-dark.png" alt="EBB Systems">
+      <img src="/assets/img/logo-light.png" alt="EBB Systems">
     </a>
     <a href="#talk" class="nav__cta">Talk to engineering →</a>
   </nav>
