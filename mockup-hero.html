@@ -686,28 +686,30 @@
     .problem__prose-lead,
     .problem__prose-lead-a,
     .problem__prose-lead-b { display: none; }
+    /* Editorial inline link — reads like a phrase in body prose, not a
+       tech-tag chip. Distinguished by crimson + dotted underline; gains a
+       solid underline on hover. */
     .pain {
       display: inline;
-      font-family: var(--font-mono);
-      font-size: 0.78em;
-      font-weight: 500;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: 600;
       color: var(--crimson);
-      background: rgba(139,26,26,0.07);
-      padding: 1px 6px;
+      background: transparent;
+      padding: 0;
       border: 0;
-      border-radius: 3px;
-      white-space: nowrap;
-      letter-spacing: 0;
+      border-bottom: 1px dotted rgba(139,26,26,0.55);
       cursor: pointer;
-      transition: background 0.2s var(--ease), color 0.2s var(--ease);
+      transition: color 0.2s var(--ease), border-bottom-color 0.2s var(--ease), border-bottom-style 0.2s var(--ease);
     }
     .pain:hover {
-      background: rgba(139,26,26,0.16);
       color: #6B0F0F;
+      border-bottom: 1px solid var(--crimson);
     }
     .pain:focus-visible {
       outline: 2px solid var(--crimson);
       outline-offset: 2px;
+      border-radius: 2px;
     }
 
     /* Re-enabled: chart drop labels (clickable → open drawer at that pain).
@@ -1404,13 +1406,16 @@
            live in the full drawer list. Pain phrases are clickable and open
            the drawer scrolled to that item. -->
       <p class="problem__prose">
-        <button type="button" class="pain" data-pain="timeout.outage">timeout.outage</button>s your customers see before your dashboards do.
-        <button type="button" class="pain" data-pain="reversal.silent">reversal.silent</button> for hours.
-        <button type="button" class="pain" data-pain="audit.weeklong">audit.weeklong</button> that consumes your team every quarter.
-        <button type="button" class="pain" data-pain="corridor.6mo">corridor.6mo</button> projects three integration teams deep.
-        <button type="button" class="pain" data-pain="deploy.midnight">deploy.midnight</button> because daytime is too risky.
-        A <button type="button" class="pain" data-pain="security.surface">security.surface</button> that grows with every operator you add.
-        And the <button type="button" class="pain" data-pain="cost.invisible">cost.invisible</button> it takes to keep it all alive — engineering headcount building infrastructure no buyer will ever see, instead of products that win business.
+        <button type="button" class="pain" data-pain="timeout.outage">Timeouts &amp; outages</button> your customers see before your dashboards do.
+        <button type="button" class="pain" data-pain="reversal.silent">Reversals</button> that fail silently for hours.
+        <button type="button" class="pain" data-pain="recon.manual">Recon</button> you still do in spreadsheets every month-end.
+        <button type="button" class="pain" data-pain="audit.weeklong">Audits</button> that consume your team for a week, every quarter.
+        <button type="button" class="pain" data-pain="customer.complaints">Customer complaints</button> that take days to investigate across five systems.
+        <button type="button" class="pain" data-pain="corridor.6mo">Corridor integrations</button> that drag on for six months across three teams.
+        <button type="button" class="pain" data-pain="deploy.midnight">Deploys</button> at midnight because daytime is too risky.
+        A <button type="button" class="pain" data-pain="security.surface">security surface</button> that grows with every operator you add.
+        <button type="button" class="pain" data-pain="compliance.bolton">Compliance</button> bolted on after every new market.
+        And the <button type="button" class="pain" data-pain="cost.invisible">invisible cost</button> it takes to keep it all alive — engineering headcount building infrastructure no buyer will ever see, instead of products that win business.
       </p>
 
       <!-- ECG pulse — visual reinforcement of the prose above. The chart
