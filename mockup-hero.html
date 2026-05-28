@@ -569,8 +569,13 @@
        ============================================================= */
     .problem {
       background: var(--cream-warm);
-      padding: 96px 24px 112px;
+      padding: 56px 24px 40px;
       border-top: 1px solid var(--rule);
+      min-height: 100dvh;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
     }
 
     .problem__container {
@@ -579,14 +584,14 @@
       margin: 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 36px;
+      gap: 24px;
     }
 
     .problem__head {
-      max-width: 720px;
+      max-width: 760px;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 10px;
     }
 
     .problem__eyebrow {
@@ -600,16 +605,19 @@
 
     .problem__heading {
       font-family: var(--font-display);
-      font-size: clamp(28px, 4vw, 40px);
+      font-size: clamp(26px, 3.4vw, 36px);
       font-weight: 400;
       color: var(--navy);
-      letter-spacing: -0.005em;
+      letter-spacing: -0.008em;
       line-height: 1.2;
       margin: 0;
     }
+    /* Restrained accent: italic only (no colour shift). The em-dash
+       carries the rhetorical pause; the italic carries the emphasis.
+       Crimson is reserved for pain pills and small chrome accents. */
     .problem__heading em {
       font-style: italic;
-      color: var(--crimson);
+      color: var(--navy);
       font-weight: 400;
     }
 
@@ -650,7 +658,7 @@
       font-style: italic;
       letter-spacing: 0.08em;
     }
-    .problem__pulse svg { width: 100%; height: 260px; display: block; }
+    .problem__pulse svg { width: 100%; height: 180px; display: block; }
     .problem__pulse svg .line { fill: none; stroke: var(--navy); stroke-width: 1.5; }
     .problem__pulse svg .marker { fill: var(--crimson); }
     .problem__pulse svg .ring { fill: var(--crimson); opacity: 0; animation: pulseRing 2.2s ease-out infinite; }
@@ -667,39 +675,17 @@
        drawer scrolled to that pattern. */
     .problem__prose {
       max-width: 860px;
-      margin: 0 0 48px;
+      margin: 0;
       font-family: var(--font-ui);
-      font-size: 18px;
-      line-height: 1.75;
+      font-size: 15.5px;
+      line-height: 1.65;
       color: var(--text-body);
     }
-    /* Dramatic two-line lede — first line navy serif, second line crimson
-       italic. Reads like a beat of editorial drama before the prose list. */
-    .problem__prose-lead {
-      display: block;
-      margin-bottom: 28px;
-      font-family: var(--font-display);
-      font-weight: 400;
-      line-height: 1.15;
-      letter-spacing: -0.012em;
-    }
+    /* Legacy lead classes — unused now (merged into heading) but kept
+       harmless so we can revert without re-editing markup. */
+    .problem__prose-lead,
     .problem__prose-lead-a,
-    .problem__prose-lead-b {
-      display: block;
-    }
-    .problem__prose-lead-a {
-      font-size: clamp(28px, 3.6vw, 40px);
-      color: var(--navy);
-    }
-    .problem__prose-lead-b {
-      font-size: clamp(36px, 4.6vw, 52px);
-      color: var(--crimson);
-      margin-top: 4px;
-    }
-    .problem__prose-lead-b em {
-      font-style: italic;
-      font-weight: 400;
-    }
+    .problem__prose-lead-b { display: none; }
     .pain {
       display: inline;
       font-family: var(--font-mono);
@@ -798,12 +784,13 @@
     }
 
     .problem__footnote {
-      padding-top: 14px;
+      padding-top: 6px;
+      margin: 0;
       font-family: var(--font-ui);
-      font-size: 14.5px;
+      font-size: 13.5px;
       color: var(--text-muted);
       max-width: 720px;
-      line-height: 1.6;
+      line-height: 1.5;
     }
     .problem__see-list {
       font-family: inherit;
@@ -833,8 +820,8 @@
        pointing to the solution section below. Gives the reader a "next"
        beat instead of leaving them dangling. */
     .problem__bridge {
-      margin-top: 56px;
-      padding-top: 28px;
+      margin-top: 24px;
+      padding-top: 16px;
       border-top: 1px solid var(--rule);
       display: flex;
       align-items: center;
@@ -1407,18 +1394,16 @@
 
       <header class="problem__head">
         <span class="problem__eyebrow">02 · the recurring pattern</span>
-        <h2 class="problem__heading">The problem, <em>in one breath.</em></h2>
+        <h2 class="problem__heading">
+          Your payment platform works <em>— until it doesn't.</em>
+        </h2>
       </header>
 
-      <!-- Editorial prose lede — names 7 of the 10 patterns inline. The
+      <!-- Editorial prose — names 7 of the 10 patterns inline. The
            remaining 3 (recon.manual, customer.complaints, compliance.bolton)
            live in the full drawer list. Pain phrases are clickable and open
            the drawer scrolled to that item. -->
       <p class="problem__prose">
-        <span class="problem__prose-lead">
-          <span class="problem__prose-lead-a">Your payment platform works.</span>
-          <span class="problem__prose-lead-b"><em>Until it doesn't.</em></span>
-        </span>
         <button type="button" class="pain" data-pain="timeout.outage">timeout.outage</button>s your customers see before your dashboards do.
         <button type="button" class="pain" data-pain="reversal.silent">reversal.silent</button> for hours.
         <button type="button" class="pain" data-pain="audit.weeklong">audit.weeklong</button> that consumes your team every quarter.
