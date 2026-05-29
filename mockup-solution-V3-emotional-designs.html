@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>§3 emotional themes — 10 design variations — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream-warm: #F2EFE8;
+      --cream-card: #FAF7F1;
+      --crimson: #8B1A1A;
+      --text-muted: rgba(13,34,64,0.62);
+      --text-faint: rgba(13,34,64,0.42);
+      --rule: rgba(13,34,64,0.10);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-ui); background: var(--cream-warm); color: var(--navy); -webkit-font-smoothing: antialiased; }
+
+    .switcher {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); color: var(--cream-warm);
+      padding: 12px 24px;
+      display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+      font: 500 12px/1 var(--font-ui);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .switcher b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 10px; }
+    .switcher a { color: rgba(255,255,255,0.7); padding: 5px 8px; border-radius: 4px; font-size: 11.5px; }
+    .switcher a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    .opt-label {
+      max-width: 1180px; margin: 0 auto; padding: 28px 24px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap;
+    }
+    .opt-label__tag { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--crimson); }
+    .opt-label__title { font: 700 17px/1.3 var(--font-display); color: var(--navy); }
+    .opt-label__note { font: 400 13px/1.45 var(--font-ui); color: var(--text-muted); margin-left: auto; max-width: 560px; }
+
+    .solution { padding: 24px 24px 56px; }
+    .solution__container { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+
+    .header-block {
+      max-width: 880px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .eyebrow::before { content: ''; width: 28px; height: 1.5px; background: var(--crimson); }
+    .heading {
+      font: 400 clamp(26px, 3.6vw, 38px)/1.18 var(--font-display);
+      color: var(--navy);
+    }
+    .heading em { font-style: italic; color: var(--crimson); }
+    .sub {
+      font: italic 400 14.5px/1.4 var(--font-display);
+      color: rgba(13,34,64,0.6);
+      max-width: 680px;
+    }
+
+    .closing {
+      margin-top: 8px;
+      padding: 18px 0 0;
+      border-top: 1px solid var(--rule);
+      text-align: center;
+      max-width: 760px;
+      margin-left: auto; margin-right: auto;
+    }
+    .closing p {
+      font: 400 clamp(18px, 2vw, 22px)/1.4 var(--font-display);
+      color: var(--navy);
+    }
+    .closing em { font-style: italic; color: var(--crimson); }
+
+    /* ════════════════════════════════════════════════════════════════
+       D1 — Baseline: 2×2 grid, crimson left rule
+       ════════════════════════════════════════════════════════════════ */
+    .d1 .themes { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .d1 .theme {
+      background: #fff; border: 1px solid var(--rule); border-radius: 4px;
+      padding: 22px 24px; position: relative;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .d1 .theme::before {
+      content: ''; position: absolute; top: 0; left: 0; bottom: 0;
+      width: 3px; background: var(--crimson); border-radius: 4px 0 0 4px; opacity: 0.7;
+    }
+    .d1 .head { display: flex; align-items: baseline; gap: 14px; }
+    .d1 .num { font: italic 400 22px/1 var(--font-display); color: var(--crimson); }
+    .d1 .name { font: italic 400 24px/1.15 var(--font-display); color: var(--navy); }
+    .d1 .line { font: italic 400 14.5px/1.4 var(--font-display); color: var(--crimson); }
+    .d1 .caps { list-style: none; padding: 12px 0 0; margin: 0; border-top: 1px solid var(--rule); display: flex; flex-direction: column; gap: 8px; }
+    .d1 .caps li { display: grid; grid-template-columns: 12px 1fr; gap: 8px; font: 400 13px/1.55 var(--font-ui); color: rgba(13,34,64,0.78); }
+    .d1 .caps li::before { content: '+'; color: var(--crimson); font-weight: 700; font-family: var(--font-mono); }
+
+    /* ════════════════════════════════════════════════════════════════
+       D2 — Horizontal 4-column strip (more compact, scannable)
+       ════════════════════════════════════════════════════════════════ */
+    .d2 .themes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .d2 .theme {
+      background: #fff; border: 1px solid var(--rule); border-radius: 4px;
+      padding: 22px 20px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .d2 .num {
+      width: 32px; height: 32px; border-radius: 50%; background: var(--crimson);
+      color: var(--cream-warm); display: inline-flex; align-items: center; justify-content: center;
+      font: 700 13px/1 var(--font-mono);
+    }
+    .d2 .name { font: italic 400 20px/1.15 var(--font-display); color: var(--navy); margin-top: 4px; }
+    .d2 .line { font: italic 400 13px/1.4 var(--font-display); color: var(--crimson); padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
+    .d2 .caps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .d2 .caps li { font: 400 12px/1.5 var(--font-ui); color: rgba(13,34,64,0.78); padding-left: 14px; position: relative; }
+    .d2 .caps li::before { content: '—'; color: var(--crimson); position: absolute; left: 0; top: 0; }
+    @media (max-width: 880px) { .d2 .themes { grid-template-columns: 1fr 1fr; } }
+
+    /* ════════════════════════════════════════════════════════════════
+       D3 — Vertical editorial list (magazine column)
+       ════════════════════════════════════════════════════════════════ */
+    .d3 .themes { max-width: 880px; display: flex; flex-direction: column; gap: 28px; }
+    .d3 .theme {
+      display: grid; grid-template-columns: 80px 1fr; gap: 28px;
+      padding: 22px 0 26px; border-top: 1px solid var(--rule);
+    }
+    .d3 .theme:first-child { border-top: 0; padding-top: 0; }
+    .d3 .num { font: italic 400 48px/1 var(--font-display); color: var(--crimson); }
+    .d3 .body { display: flex; flex-direction: column; gap: 8px; }
+    .d3 .name { font: italic 400 28px/1.15 var(--font-display); color: var(--navy); }
+    .d3 .line { font: italic 400 17px/1.4 var(--font-display); color: var(--crimson); }
+    .d3 .caps { list-style: none; padding: 10px 0 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+    .d3 .caps li { font: 400 14px/1.55 var(--font-ui); color: rgba(13,34,64,0.78); padding-left: 16px; position: relative; }
+    .d3 .caps li::before { content: '+'; color: var(--crimson); font-weight: 700; font-family: var(--font-mono); position: absolute; left: 0; top: 1px; }
+
+    /* ════════════════════════════════════════════════════════════════
+       D4 — Pull-quote treatment (tagline dominates)
+       ════════════════════════════════════════════════════════════════ */
+    .d4 .themes { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .d4 .theme {
+      background: var(--cream-card); padding: 28px 28px 24px;
+      border: 1px solid var(--rule); border-radius: 4px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .d4 .quote {
+      font: italic 400 clamp(22px, 2.6vw, 28px)/1.25 var(--font-display);
+      color: var(--crimson);
+      position: relative; padding-left: 22px;
+    }
+    .d4 .quote::before {
+      content: '"'; position: absolute; left: 0; top: -8px;
+      font: 700 36px/1 var(--font-display); color: var(--crimson); opacity: 0.4;
+    }
+    .d4 .name {
+      font: 500 10px/1 var(--font-ui); letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--navy);
+    }
+    .d4 .caps { list-style: none; padding: 14px 0 0; margin: 0; border-top: 1px solid var(--rule); display: flex; flex-direction: column; gap: 6px; }
+    .d4 .caps li { font: 400 12.5px/1.5 var(--font-ui); color: rgba(13,34,64,0.7); }
+    @media (max-width: 760px) { .d4 .themes { grid-template-columns: 1fr; } }
+
+    /* ════════════════════════════════════════════════════════════════
+       D5 — Asymmetric hero (1 big, 3 small)
+       ════════════════════════════════════════════════════════════════ */
+    .d5 .themes {
+      display: grid; grid-template-columns: 2fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 16px;
+    }
+    .d5 .theme {
+      background: #fff; border: 1px solid var(--rule); border-radius: 4px;
+      padding: 20px 22px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .d5 .theme.hero {
+      grid-row: span 3;
+      background: var(--navy); color: var(--cream-warm);
+      padding: 32px;
+      justify-content: space-between;
+    }
+    .d5 .theme.hero .name { font-size: 36px; color: var(--cream-warm); }
+    .d5 .theme.hero .line { color: rgba(242,239,232,0.7); font-size: 18px; }
+    .d5 .theme.hero .caps { border-color: rgba(242,239,232,0.15); }
+    .d5 .theme.hero .caps li { color: rgba(242,239,232,0.7); }
+    .d5 .theme.hero .num { color: rgba(242,239,232,0.4); font-size: 16px; letter-spacing: 0.2em; font-family: var(--font-mono); font-style: normal; }
+    .d5 .num { font: italic 400 16px/1 var(--font-display); color: var(--crimson); }
+    .d5 .name { font: italic 400 22px/1.15 var(--font-display); color: var(--navy); }
+    .d5 .line { font: italic 400 13.5px/1.4 var(--font-display); color: var(--crimson); }
+    .d5 .caps { list-style: none; padding: 10px 0 0; margin: 0; border-top: 1px solid var(--rule); display: flex; flex-direction: column; gap: 6px; }
+    .d5 .caps li { font: 400 12.5px/1.5 var(--font-ui); color: rgba(13,34,64,0.78); padding-left: 12px; position: relative; }
+    .d5 .caps li::before { content: '+'; color: var(--crimson); font-weight: 700; font-family: var(--font-mono); position: absolute; left: 0; top: 0; }
+    .d5 .theme.hero .caps li::before { color: rgba(242,239,232,0.5); }
+    @media (max-width: 760px) { .d5 .themes { grid-template-columns: 1fr; } .d5 .theme.hero { grid-row: auto; } }
+
+    /* ════════════════════════════════════════════════════════════════
+       D6 — Two-column split (theme | capability)
+       ════════════════════════════════════════════════════════════════ */
+    .d6 .themes { display: flex; flex-direction: column; gap: 0; }
+    .d6 .theme {
+      display: grid; grid-template-columns: 280px 1fr; gap: 40px;
+      padding: 26px 0; border-top: 1px solid var(--rule);
+      align-items: start;
+    }
+    .d6 .theme:first-child { border-top: 0; padding-top: 0; }
+    .d6 .left { display: flex; flex-direction: column; gap: 6px; }
+    .d6 .num { font: 500 10px/1 var(--font-mono); letter-spacing: 0.14em; color: var(--crimson); }
+    .d6 .name { font: italic 400 30px/1.1 var(--font-display); color: var(--navy); }
+    .d6 .line { font: italic 400 15px/1.4 var(--font-display); color: var(--crimson); margin-top: 6px; }
+    .d6 .caps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+    .d6 .caps li { font: 400 14.5px/1.55 var(--font-ui); color: rgba(13,34,64,0.78); padding-left: 16px; position: relative; }
+    .d6 .caps li::before { content: '+'; color: var(--crimson); font-weight: 700; font-family: var(--font-mono); position: absolute; left: 0; top: 1px; }
+    @media (max-width: 760px) { .d6 .theme { grid-template-columns: 1fr; gap: 14px; } }
+
+    /* ════════════════════════════════════════════════════════════════
+       D7 — Alternating dual-tone backgrounds
+       ════════════════════════════════════════════════════════════════ */
+    .d7 .themes { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--rule); border-radius: 4px; overflow: hidden; }
+    .d7 .theme {
+      padding: 26px 28px; border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .d7 .theme:nth-child(2n) { border-right: 0; }
+    .d7 .theme:nth-last-child(-n+2) { border-bottom: 0; }
+    .d7 .theme:nth-child(1), .d7 .theme:nth-child(4) { background: #fff; }
+    .d7 .theme:nth-child(2), .d7 .theme:nth-child(3) { background: var(--cream-card); }
+    .d7 .head { display: flex; align-items: baseline; gap: 12px; }
+    .d7 .num { font: italic 400 20px/1 var(--font-display); color: var(--crimson); }
+    .d7 .name { font: italic 400 24px/1.15 var(--font-display); color: var(--navy); }
+    .d7 .line { font: italic 400 14.5px/1.4 var(--font-display); color: var(--crimson); }
+    .d7 .caps { list-style: none; padding: 12px 0 0; margin: 0; border-top: 1px solid var(--rule); display: flex; flex-direction: column; gap: 8px; }
+    .d7 .caps li { display: grid; grid-template-columns: 12px 1fr; gap: 8px; font: 400 13px/1.55 var(--font-ui); color: rgba(13,34,64,0.78); }
+    .d7 .caps li::before { content: '+'; color: var(--crimson); font-weight: 700; font-family: var(--font-mono); }
+    @media (max-width: 760px) { .d7 .themes { grid-template-columns: 1fr; } }
+
+    /* ════════════════════════════════════════════════════════════════
+       D8 — Manifesto style (typographic, no cards)
+       ════════════════════════════════════════════════════════════════ */
+    .d8 .themes { display: grid; grid-template-columns: 1fr 1fr; gap: 36px 56px; max-width: 1000px; }
+    .d8 .theme { display: flex; flex-direction: column; gap: 8px; }
+    .d8 .num { font: 500 9px/1 var(--font-mono); letter-spacing: 0.18em; color: var(--crimson); text-transform: uppercase; }
+    .d8 .name { font: italic 400 clamp(28px, 3vw, 36px)/1.1 var(--font-display); color: var(--crimson); }
+    .d8 .line { font: 400 16px/1.4 var(--font-display); color: var(--navy); margin-top: 4px; }
+    .d8 .caps { list-style: none; padding: 12px 0 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+    .d8 .caps li { font: 400 13px/1.55 var(--font-ui); color: rgba(13,34,64,0.6); }
+    .d8 .caps li::before { content: '· '; color: var(--crimson); font-weight: 700; }
+    @media (max-width: 760px) { .d8 .themes { grid-template-columns: 1fr; } }
+
+    /* ════════════════════════════════════════════════════════════════
+       D9 — Card with circular crimson badge + serif decoration
+       ════════════════════════════════════════════════════════════════ */
+    .d9 .themes { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .d9 .theme {
+      background: #fff; border: 1px solid var(--rule); border-radius: 8px;
+      padding: 24px 24px 24px 80px; position: relative;
+      box-shadow: 0 4px 18px -10px rgba(13,34,64,0.16);
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .d9 .badge {
+      position: absolute; left: 20px; top: 24px;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: var(--crimson); color: var(--cream-warm);
+      display: flex; align-items: center; justify-content: center;
+      font: 700 16px/1 var(--font-mono);
+      box-shadow: 0 4px 12px -4px rgba(139,26,26,0.4);
+    }
+    .d9 .name { font: italic 400 22px/1.15 var(--font-display); color: var(--navy); }
+    .d9 .line { font: italic 400 14px/1.4 var(--font-display); color: var(--crimson); padding-bottom: 12px; border-bottom: 1px solid var(--rule); }
+    .d9 .caps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 7px; }
+    .d9 .caps li { font: 400 13px/1.5 var(--font-ui); color: rgba(13,34,64,0.78); padding-left: 14px; position: relative; }
+    .d9 .caps li::before { content: '+'; color: var(--crimson); font-weight: 700; font-family: var(--font-mono); position: absolute; left: 0; top: 0; }
+    @media (max-width: 760px) { .d9 .themes { grid-template-columns: 1fr; } }
+
+    /* ════════════════════════════════════════════════════════════════
+       D10 — Minimalist line-divided (no cards, pure typography)
+       ════════════════════════════════════════════════════════════════ */
+    .d10 .themes { display: flex; flex-direction: column; max-width: 920px; }
+    .d10 .theme {
+      padding: 30px 0;
+      border-top: 1px solid var(--crimson);
+      display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px;
+      align-items: baseline;
+    }
+    .d10 .theme:last-child { border-bottom: 1px solid var(--crimson); }
+    .d10 .left { display: flex; flex-direction: column; gap: 4px; }
+    .d10 .num { font: 500 11px/1 var(--font-mono); letter-spacing: 0.2em; color: var(--crimson); text-transform: uppercase; }
+    .d10 .name { font: italic 400 32px/1.1 var(--font-display); color: var(--navy); margin-top: 4px; }
+    .d10 .line { font: italic 400 16px/1.4 var(--font-display); color: var(--crimson); margin-top: 6px; }
+    .d10 .caps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .d10 .caps li { font: 400 14px/1.55 var(--font-ui); color: rgba(13,34,64,0.78); }
+    .d10 .caps li b { color: var(--crimson); font-weight: 700; font-family: var(--font-mono); margin-right: 6px; }
+    @media (max-width: 760px) { .d10 .theme { grid-template-columns: 1fr; gap: 14px; } }
+  </style>
+</head>
+<body>
+
+<nav class="switcher">
+  <b>§3 emotional — 10 designs</b>
+  <a href="#d1">D1 Baseline</a>
+  <a href="#d2">D2 Horizontal</a>
+  <a href="#d3">D3 Editorial column</a>
+  <a href="#d4">D4 Pull-quote</a>
+  <a href="#d5">D5 Hero asymmetric</a>
+  <a href="#d6">D6 Two-column split</a>
+  <a href="#d7">D7 Dual-tone</a>
+  <a href="#d8">D8 Manifesto</a>
+  <a href="#d9">D9 Badge cards</a>
+  <a href="#d10">D10 Line-divided</a>
+</nav>
+
+<!-- ═══════════ Shared header content (rendered once per section via JS) ═══════════ -->
+
+<!-- D1 — BASELINE -->
+<div class="opt-label" id="d1-label">
+  <span class="opt-label__tag">D1</span>
+  <span class="opt-label__title">Baseline · 2×2 grid with crimson left rule</span>
+  <span class="opt-label__note">Current canonical: white cards in a 2×2 grid, crimson 3px left rule on each. Clean, restrained.</span>
+</div>
+<section class="solution d1" id="d1">
+  <div class="solution__container">
+    <header class="header-block" data-header></header>
+    <div class="themes" data-themes data-style="d1"></div>
+    <div class="closing" data-closing></div>
+  </div>
+</section>
+
+<!-- D2 — HORIZONTAL STRIP -->
+<div class="opt-label" id="d2-label">
+  <span class="opt-label__tag">D2</span>
+  <span class="opt-label__title">Horizontal 4-column strip</span>
+  <span class="opt-label__note">All four themes in a single row with circular badge numbers. Tighter, more scannable. Risk: cards get narrow.</span>
+</div>
+<section class="solution d2" id="d2">
+  <div class="solution__container">
+    <header class="header-block" data-header></header>
+    <div class="themes" data-themes data-style="d2"></div>
+    <div class="closing" data-closing></div>
+  </div>
+</section>
+
+<!-- D3 — EDITORIAL COLUMN -->
+<div class="opt-label" id="d3-label">
+  <span class="opt-label__tag">D3</span>
+  <span class="opt-label__title">Vertical editorial column · magazine spread</span>
+  <span class="opt-label__note">4 themes stacked vertically with large italic numerals. Slows the eye down; most magazine-like.</span>
+</div>
+<section class="solution d3" id="d3">
+  <div class="solution__container">
+    <header class="header-block" data-header></header>
+    <div class="themes" data-themes data-style="d3"></div>
+    <div class="closing" data-closing></div>
+  </div>
+</section>
+
+<!-- D4 — PULL-QUOTE -->
+<div class="opt-label" id="d4-label">
+  <span class="opt-label__tag">D4</span>
+  <span class="opt-label__title">Pull-quote treatment · tagline dominates</span>
+  <span class="opt-label__note">Each theme's emotional tagline is the dominant element, set as a serif italic pull-quote. Theme name becomes the eyebrow.</span>
+</div>
+<section class="solution d4" id="d4">
+  <div class="solution__container">
+    <header class="header-block" data-header></header>
+    <div class="themes" data-themes data-style="d4"></div>
+    <div class="closing" data-closing></div>
+  </div>
+</section>
+
+<!-- D5 — HERO ASYMMETRIC -->
+<div class="opt-label" id="d5-label">
+  <span class="opt-label__tag">D5</span>
+  <span class="opt-label__title">Asymmetric hero · one dominant + three supporting</span>
+  <span class="opt-label__note">Peace of Mind takes 2/3 width as a dark navy hero card. Remaining 3 stack in the right third. Visual focal point.</span>
+</div>
+<section class="solution d5" id="d5">
+  <div class="solution__container">
+    <header class="header-block" data-header></header>
+    <div class="themes" data-themes data-style="d5"></div>
+    <div class="closing" data-closing></div>
+  </div>
+</section>
+
+<!-- D6 — TWO-COLUMN SPLIT -->
+<div class="opt-label" id="d6-label">
+  <span class="opt-label__tag">D6</span>
+  <span class="opt-label__title">Two-column split · theme | capabilities</span>
+  <span class="opt-label__note">Each row: large theme name + tagline on the left, capability bullets on the right. Clear emotional/technical dichotomy.</span>
+</div>
+<section class="solution d6" id="d6">
+  <div class="solution__container">
+    <header class="header-block" data-header></header>
+    <div class="themes" data-themes data-style="d6"></div>
+    <div class="closing" data-closing></div>
+  </div>
+</section>
+
+<!-- D7 — DUAL TONE -->
+<div class="opt-label" id="d7-label">
+  <span class="opt-label__tag">D7</span>
+  <span class="opt-label__title">2×2 grid · alternating cream/white</span>
+  <span class="opt-label__note">2×2 with alternating fill colors for visual rhythm. Cards feel paired diagonally.</span>
+</div>
+<section class="solution d7" id="d7">
+  <div class="solution__container">
+    <header class="header-block" data-header></header>
+    <div class="themes" data-themes data-style="d7"></div>
+    <div class="closing" data-closing></div>
+  </div>
+</section>
+
+<!-- D8 — MANIFESTO -->
+<div class="opt-label" id="d8-label">
+  <span class="opt-label__tag">D8</span>
+  <span class="opt-label__title">Manifesto · pure typography, no cards</span>
+  <span class="opt-label__note">Just typographic hierarchy: large crimson italic theme name, supporting line, fine-print capabilities. Most editorial.</span>
+</div>
+<section class="solution d8" id="d8">
+  <div class="solution__container">
+    <header class="header-block" data-header></header>
+    <div class="themes" data-themes data-style="d8"></div>
+    <div class="closing" data-closing></div>
+  </div>
+</section>
+
+<!-- D9 — BADGE CARDS -->
+<div class="opt-label" id="d9-label">
+  <span class="opt-label__tag">D9</span>
+  <span class="opt-label__title">Cards with circular crimson badge numerals</span>
+  <span class="opt-label__note">2×2 with prominent crimson circular badges floating on each card. Soft shadow elevation.</span>
+</div>
+<section class="solution d9" id="d9">
+  <div class="solution__container">
+    <header class="header-block" data-header></header>
+    <div class="themes" data-themes data-style="d9"></div>
+    <div class="closing" data-closing></div>
+  </div>
+</section>
+
+<!-- D10 — LINE-DIVIDED -->
+<div class="opt-label" id="d10-label">
+  <span class="opt-label__tag">D10</span>
+  <span class="opt-label__title">Line-divided · crimson rules, no cards</span>
+  <span class="opt-label__note">4 themes stacked, separated by crimson horizontal rules. Two-column inside each (theme on left, capabilities on right).</span>
+</div>
+<section class="solution d10" id="d10">
+  <div class="solution__container">
+    <header class="header-block" data-header></header>
+    <div class="themes" data-themes data-style="d10"></div>
+    <div class="closing" data-closing></div>
+  </div>
+</section>
+
+<script>
+  const HEADER_HTML = `
+    <span class="eyebrow">the solution</span>
+    <h2 class="heading">Sleep through the night. <em>Ship through the day.</em></h2>
+    <p class="sub">EBB Systems replaces fragile payment infrastructure with a resilient transaction platform — built into the layer between your bank and every operator.</p>
+  `;
+  const CLOSING_HTML = `<p>Your engineers build the future. <em>We keep the present working.</em></p>`;
+
+  const THEMES = [
+    { num: '01', name: 'Peace of mind', line: 'Things break gracefully. Nothing surprises finance.',
+      caps: ['Multi-rail routing with built-in retries and reversals', 'Continuous reconciliation across every operator'] },
+    { num: '02', name: 'Confidence',    line: 'Ready for any regulator. Ready for any question.',
+      caps: ['Every transaction, checkpoint, and decision logged immutably', 'Every transaction\'s lifecycle surfaced from one query'] },
+    { num: '03', name: 'Trust',         line: 'Security is the floor. Not the ceiling.',
+      caps: ['Defence-in-depth on every payload, inherited by every operator', 'AML, KYC, and sanctions screening built into every flow'] },
+    { num: '04', name: 'Velocity',      line: 'Ship fast. Ship calm.',
+      caps: ['New corridors live in weeks, not quarters', 'Safe deployments and controlled change management'] },
+  ];
+
+  document.querySelectorAll('[data-header]').forEach(h => h.innerHTML = HEADER_HTML);
+  document.querySelectorAll('[data-closing]').forEach(c => c.innerHTML = CLOSING_HTML);
+
+  function renderTheme(t, style) {
+    const capsHtml = t.caps.map(c => `<li>${c}</li>`).join('');
+    if (style === 'd1' || style === 'd2' || style === 'd7' || style === 'd9') {
+      return `<article class="theme">
+        ${style === 'd9' ? `<span class="badge">${t.num}</span>` : ''}
+        <header class="head">
+          ${style !== 'd9' ? `<span class="num">${t.num}</span>` : ''}
+          <h3 class="name">${t.name}</h3>
+        </header>
+        <p class="line">${t.line}</p>
+        <ul class="caps">${capsHtml}</ul>
+      </article>`;
+    }
+    if (style === 'd3') {
+      return `<article class="theme">
+        <span class="num">${t.num}</span>
+        <div class="body">
+          <h3 class="name">${t.name}</h3>
+          <p class="line">${t.line}</p>
+          <ul class="caps">${capsHtml}</ul>
+        </div>
+      </article>`;
+    }
+    if (style === 'd4') {
+      return `<article class="theme">
+        <p class="quote">${t.line}</p>
+        <span class="name">${t.num} · ${t.name}</span>
+        <ul class="caps">${capsHtml}</ul>
+      </article>`;
+    }
+    if (style === 'd5') {
+      return `<article class="theme">
+        <div>
+          <span class="num">${t.num}</span>
+          <h3 class="name">${t.name}</h3>
+          <p class="line">${t.line}</p>
+        </div>
+        <ul class="caps">${capsHtml}</ul>
+      </article>`;
+    }
+    if (style === 'd6' || style === 'd10') {
+      return `<article class="theme">
+        <div class="left">
+          <span class="num">${t.num}</span>
+          <h3 class="name">${t.name}</h3>
+          <p class="line">${t.line}</p>
+        </div>
+        <ul class="caps">${t.caps.map((c,i) => `<li>${style==='d10' ? `<b>+ </b>` : ''}${c}</li>`).join('')}</ul>
+      </article>`;
+    }
+    if (style === 'd8') {
+      return `<article class="theme">
+        <span class="num">${t.num}</span>
+        <h3 class="name">${t.name}</h3>
+        <p class="line">${t.line}</p>
+        <ul class="caps">${capsHtml}</ul>
+      </article>`;
+    }
+    return '';
+  }
+
+  document.querySelectorAll('[data-themes]').forEach(container => {
+    const style = container.dataset.style;
+    if (style === 'd5') {
+      // Hero gets 'hero' class on first theme
+      const items = THEMES.map((t, i) => {
+        const html = renderTheme(t, style);
+        return i === 0 ? html.replace('<article class="theme">', '<article class="theme hero">') : html;
+      }).join('');
+      container.innerHTML = items;
+    } else {
+      container.innerHTML = THEMES.map(t => renderTheme(t, style)).join('');
+    }
+  });
+</script>
+
+</body>
+</html>
