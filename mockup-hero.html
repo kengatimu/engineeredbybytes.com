@@ -1272,6 +1272,154 @@
         transition: none !important;
       }
     }
+
+    /* =============================================================
+       §3 THE SOLUTION
+       Radial diagram (CBS → EBB → networks) + 4-theme card grid.
+       All classes prefixed .solution3- to avoid collisions with §1/§2.
+       ============================================================= */
+    :root {
+      --cream-card: #FAF7F1;
+      --rule-soft:  rgba(13, 34, 64, 0.06);
+      --text-faint-navy: rgba(13, 34, 64, 0.42);
+      --text-muted-navy: rgba(13, 34, 64, 0.62);
+    }
+
+    .solution3 { padding: 88px 24px 96px; background: var(--cream-warm); color: var(--navy); }
+    .solution3__container { max-width: 1100px; margin: 0 auto; }
+
+    .solution3__head { max-width: 820px; display: flex; flex-direction: column; gap: 14px; margin-bottom: 48px; }
+    .solution3__eyebrow {
+      display: inline-flex; align-items: center; gap: 12px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .solution3__eyebrow::before { content: ''; width: 32px; height: 1.5px; background: var(--crimson); }
+    .solution3__heading {
+      font: 400 clamp(28px, 3.4vw, 38px)/1.25 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.008em;
+    }
+    .solution3__heading em { font-style: italic; color: var(--crimson); font-weight: 400; }
+    .solution3__lede {
+      font: 400 clamp(15px, 1.5vw, 16.5px)/1.55 var(--font-ui);
+      color: var(--text-muted-navy);
+      max-width: 640px;
+      margin-top: 4px;
+    }
+
+    .solution3__frame {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 32px 0 20px;
+      margin-bottom: 56px;
+    }
+    .solution3__frame svg { width: 100%; height: 460px; display: block; }
+    .solution3 .arch .col-sub  { fill: var(--text-faint-navy); font: 400 10px var(--font-ui); letter-spacing: 0.06em; }
+    .solution3 .arch .box      { fill: var(--cream-warm); stroke: var(--navy); stroke-width: 1; opacity: 0.75; }
+    .solution3 .arch .box-text { fill: var(--navy); font: 500 11px var(--font-ui); }
+    .solution3 .arch .gateway  { fill: var(--navy); stroke: var(--navy); }
+    .solution3 .arch .gw-text  { fill: var(--cream-warm); font: 700 14px var(--font-display); }
+    .solution3 .arch .gw-sub   { fill: rgba(242,239,232,0.55); font: 500 9px var(--font-ui); letter-spacing: 0.1em; text-transform: uppercase; }
+    .solution3 .arch .edge     { stroke: rgba(13,34,64,0.2); stroke-width: 1; fill: none; }
+    .solution3__frame-caption {
+      max-width: 760px;
+      margin-top: 6px;
+      font: italic 400 13.5px/1.5 var(--font-display);
+      color: var(--text-muted-navy);
+    }
+
+    .solution3__themes-intro {
+      display: inline-flex; align-items: center; gap: 12px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 20px;
+    }
+    .solution3__themes-intro::before { content: ''; width: 28px; height: 1.5px; background: var(--crimson); }
+
+    .solution3__themes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      list-style: none;
+      padding: 0;
+    }
+    .solution3__theme {
+      background: var(--cream-card);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--crimson);
+      border-radius: 4px;
+      padding: 28px 30px 26px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: transform 240ms var(--ease), box-shadow 240ms var(--ease);
+    }
+    .solution3__theme:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(13,34,64,0.06);
+    }
+    .solution3__theme-head {
+      display: flex; align-items: baseline; gap: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    .solution3__theme-num {
+      font: italic 400 18px/1 var(--font-display);
+      color: var(--crimson);
+    }
+    .solution3__theme-title {
+      font: 700 22px/1.2 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.005em;
+    }
+    .solution3__theme-felt {
+      font: italic 400 16px/1.45 var(--font-display);
+      color: var(--crimson);
+    }
+    .solution3__theme-items {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 12px;
+      margin-top: 4px;
+      padding: 0;
+    }
+    .solution3__theme-item {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 12px;
+      align-items: baseline;
+      font: 400 14px/1.5 var(--font-ui);
+      color: var(--navy);
+    }
+    .solution3__theme-item::before {
+      content: '+';
+      font: 500 16px/1 var(--font-ui);
+      color: var(--crimson);
+      transform: translateY(1px);
+    }
+    .solution3__theme-item b { font-weight: 600; }
+    .solution3__theme-item span {
+      display: block;
+      font: 400 12.5px/1.5 var(--font-ui);
+      color: var(--text-muted-navy);
+      margin-top: 3px;
+    }
+
+    .solution3__closing {
+      margin: 56px auto 0;
+      padding-top: 36px;
+      border-top: 1px solid var(--rule);
+      max-width: 880px;
+      font: 400 clamp(18px, 2vw, 22px)/1.45 var(--font-display);
+      color: var(--navy);
+      text-align: center;
+    }
+    .solution3__closing em { font-style: italic; color: var(--crimson); font-weight: 400; }
+
+    @media (max-width: 820px) {
+      .solution3__themes { grid-template-columns: 1fr; }
+      .solution3__frame svg { height: 380px; }
+    }
   </style>
 </head>
 <body>
@@ -1658,6 +1806,82 @@
 
 
   <!-- ============================================================
+       §3 THE SOLUTION
+       Radial diagram (CBS → EBB gateway → operator networks) +
+       4-theme card grid (Peace of mind · Confidence · Trust · Velocity)
+       ============================================================ -->
+  <section class="solution3" id="solution">
+    <div class="solution3__container">
+
+      <header class="solution3__head">
+        <span class="solution3__eyebrow">the solution</span>
+        <h2 class="solution3__heading">EBB Systems replaces fragile payment infrastructure <em>with a resilient transaction platform.</em></h2>
+        <p class="solution3__lede">It sits between your corebanking stack and every operator &mdash; the layer your team has been holding together by hand.</p>
+      </header>
+
+      <div class="solution3__frame">
+        <svg class="arch" viewBox="0 0 1100 460" role="img" aria-label="EBB gateway between corebanking stack and operator networks">
+          <rect x="48" y="48" width="144" height="132" rx="3" fill="none" stroke="rgba(13,34,64,0.4)" stroke-width="1"/>
+          <rect x="908" y="188" width="144" height="212" rx="3" fill="none" stroke="rgba(13,34,64,0.4)" stroke-width="1"/>
+
+          <g>
+            <line class="edge" x1="550" y1="210" x2="550" y2="80"/>
+            <line class="edge" x1="550" y1="210" x2="720" y2="100"/>
+            <line class="edge" x1="550" y1="210" x2="800" y2="210"/>
+            <line class="edge" x1="550" y1="210" x2="720" y2="320"/>
+            <line class="edge" x1="550" y1="210" x2="550" y2="340"/>
+            <line class="edge" x1="550" y1="210" x2="380" y2="320"/>
+            <line class="edge" x1="550" y1="210" x2="300" y2="210"/>
+            <line class="edge" x1="550" y1="210" x2="380" y2="100"/>
+          </g>
+
+          <g>
+            <rect class="box" x="490" y="50" width="120" height="34" rx="3"/><text class="box-text" x="550" y="71" text-anchor="middle">resilient routing</text>
+            <rect class="box" x="660" y="74" width="120" height="34" rx="3"/><text class="box-text" x="720" y="95" text-anchor="middle">reconciliation</text>
+            <rect class="box" x="740" y="190" width="120" height="34" rx="3"/><text class="box-text" x="800" y="211" text-anchor="middle">audit trails</text>
+            <rect class="box" x="660" y="306" width="120" height="34" rx="3"/><text class="box-text" x="720" y="327" text-anchor="middle">transaction view</text>
+            <rect class="box" x="490" y="330" width="120" height="34" rx="3"/><text class="box-text" x="550" y="351" text-anchor="middle">defence-in-depth</text>
+            <rect class="box" x="320" y="306" width="120" height="34" rx="3"/><text class="box-text" x="380" y="327" text-anchor="middle">AML / KYC</text>
+            <rect class="box" x="240" y="190" width="120" height="34" rx="3"/><text class="box-text" x="300" y="211" text-anchor="middle">new corridors</text>
+            <rect class="box" x="320" y="74" width="120" height="34" rx="3"/><text class="box-text" x="380" y="95" text-anchor="middle">safe deploys</text>
+          </g>
+
+          <circle class="gateway" cx="550" cy="210" r="48"/>
+          <text class="gw-text" x="550" y="208" text-anchor="middle">EBB</text>
+          <text class="gw-sub" x="550" y="228" text-anchor="middle">gateway</text>
+
+          <g>
+            <rect class="box" x="60" y="60" width="120" height="28" rx="3"/><text class="box-text" x="120" y="78" text-anchor="middle">Finacle / T24</text>
+            <rect class="box" x="60" y="100" width="120" height="28" rx="3"/><text class="box-text" x="120" y="118" text-anchor="middle">FlexCube</text>
+            <rect class="box" x="60" y="140" width="120" height="28" rx="3"/><text class="box-text" x="120" y="158" text-anchor="middle">Custom CBS</text>
+            <text class="col-sub" x="120" y="200" text-anchor="middle">your corebanking stack</text>
+            <line class="edge" x1="180" y1="114" x2="500" y2="200"/>
+          </g>
+
+          <g>
+            <rect class="box" x="920" y="200" width="120" height="28" rx="3"/><text class="box-text" x="980" y="218" text-anchor="middle">Mobile money</text>
+            <rect class="box" x="920" y="240" width="120" height="28" rx="3"/><text class="box-text" x="980" y="258" text-anchor="middle">Card networks</text>
+            <rect class="box" x="920" y="280" width="120" height="28" rx="3"/><text class="box-text" x="980" y="298" text-anchor="middle">Inter-banking</text>
+            <rect class="box" x="920" y="320" width="120" height="28" rx="3"/><text class="box-text" x="980" y="338" text-anchor="middle">Cross-border</text>
+            <rect class="box" x="920" y="360" width="120" height="28" rx="3"/><text class="box-text" x="980" y="378" text-anchor="middle">Remittances</text>
+            <text class="col-sub" x="980" y="420" text-anchor="middle">networks</text>
+            <line class="edge" x1="920" y1="294" x2="598" y2="220"/>
+          </g>
+        </svg>
+        <p class="solution3__frame-caption">One gateway. Eight capabilities. Every operator your customers reach.</p>
+      </div>
+
+      <span class="solution3__themes-intro">what changes for your team</span>
+
+      <ol class="solution3__themes" data-solution3-themes></ol>
+
+      <p class="solution3__closing">Your engineers build the future. <em>We keep the present working.</em></p>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
        §2 DRAWER — slide-in panel with the full 10-pattern list
        ============================================================ -->
   <div class="drawer-scrim" data-drawer-scrim aria-hidden="true"></div>
@@ -1768,6 +1992,60 @@
   <!-- ============================================================
        SCRIPT — Trigger animations when sections enter the viewport
        ============================================================ -->
+  <script>
+    // §3 — render the 4 themes
+    (function () {
+      const mount = document.querySelector('[data-solution3-themes]');
+      if (!mount) return;
+      const THEMES = [
+        {
+          title: 'Peace of mind',
+          felt:  'Things break gracefully. Nothing surprises finance.',
+          items: [
+            { b: 'Multi-rail routing', d: 'Retries and reversals built in. Failures contained at the infrastructure layer.' },
+            { b: 'Continuous reconciliation', d: 'Every operator reconciled continuously. Variances resolved before they reach finance.' },
+          ],
+        },
+        {
+          title: 'Confidence',
+          felt:  'Ready for any regulator. Ready for any question.',
+          items: [
+            { b: 'Immutable audit trails', d: 'Every transaction, checkpoint, and authorisation decision logged on the record.' },
+            { b: 'Unified transaction view', d: "Every transaction's lifecycle surfaced from one query — origination to ledger entry." },
+          ],
+        },
+        {
+          title: 'Trust',
+          felt:  'Security at every layer. Compliance on day one.',
+          items: [
+            { b: 'Defence-in-depth', d: 'Payloads signed, connections mutually authenticated, every hop encrypted — inherited by every new operator.' },
+            { b: 'AML, KYC & sanctions', d: 'Screening built into every flow. Live before the first transaction in every new corridor.' },
+          ],
+        },
+        {
+          title: 'Velocity',
+          felt:  'Ship fast. Ship calm.',
+          items: [
+            { b: 'New corridors, fast', d: 'Protocol adapters, AML rules, audit schema, reporting templates — all pre-built. Weeks, not quarters.' },
+            { b: 'Safe deployments', d: 'Daytime-safe releases, controlled change management, rollback in seconds.' },
+          ],
+        },
+      ];
+      mount.innerHTML = THEMES.map((t, i) => `
+        <li class="solution3__theme">
+          <div class="solution3__theme-head">
+            <span class="solution3__theme-num">${String(i+1).padStart(2,'0')}</span>
+            <h3 class="solution3__theme-title">${t.title}</h3>
+          </div>
+          <p class="solution3__theme-felt">${t.felt}</p>
+          <ul class="solution3__theme-items">
+            ${t.items.map(it => `<li class="solution3__theme-item"><div><b>${it.b}</b><span>${it.d}</span></div></li>`).join('')}
+          </ul>
+        </li>
+      `).join('');
+    })();
+  </script>
+
   <script>
     (function () {
       'use strict';
