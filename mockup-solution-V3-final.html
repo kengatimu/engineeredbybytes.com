@@ -214,21 +214,21 @@
     <span class="manifesto-intro">what this feels like</span>
     <ol class="manifesto" data-manifesto></ol>
 
-    <p class="closing">So your engineers stop <strong>firefighting</strong> &mdash; and start <strong>building</strong>.</p>
+    <p class="closing">So the best of your engineering goes into <strong>what&rsquo;s next</strong> &mdash; not what&rsquo;s already broken.</p>
 
   </div>
 </section>
 
 <script>
   const ITEMS = [
-    { feel: 'Quieter nights on call.',                   tag: 'Multi-rail routing',        desc: 'Failures contained at the infrastructure layer. Retries and reversals built in. Customers see successful transactions — your pager stays quiet.' },
-    { feel: 'Month-end without the scramble.',           tag: 'Continuous reconciliation', desc: 'Every operator reconciled continuously. Gaps surfaced and resolved long before finance closes the books.' },
-    { feel: 'Ready when the regulator calls.',           tag: 'Immutable audit trails',    desc: 'Every transaction, checkpoint, and authorisation decision logged immutably. Routine compliance queries answered in seconds.' },
-    { feel: 'The whole story, one query away.',          tag: 'Unified transaction view',  desc: "Origination, routing, checkpoints, settlement, ledger entry — every transaction's lifecycle in one place." },
-    { feel: 'Security that quietly holds.',              tag: 'Defence-in-depth',          desc: 'Every payload signed, every connection mutually authenticated, every hop encrypted — inherited by every new operator.' },
-    { feel: 'New markets, on familiar ground.',          tag: 'AML, KYC & sanctions',      desc: 'Screening built into every flow. Live on day one of every new corridor — the controls you already trust, already in place.' },
-    { feel: 'Say yes to the business — and mean it.',    tag: 'New corridors, fast',       desc: 'Protocol adapters, AML rules, audit schema, reporting templates — all pre-built. New corridors live in weeks, not quarters.' },
-    { feel: 'Ship on a Tuesday afternoon.',              tag: 'Safe deployments',          desc: 'Daytime-safe releases, controlled change management, rollback in seconds. Weekends stay weekends.' },
+    { feel: 'The 3am pager, finally quiet.',             tag: 'Multi-rail routing',        desc: 'Failures contained at the infrastructure layer. Retries and reversals built in. Most incidents resolve themselves before anyone has to be woken.' },
+    { feel: 'Month-end, without the manhunt.',           tag: 'Continuous reconciliation', desc: 'Every operator reconciled continuously. Variances surface and resolve long before finance closes the books.' },
+    { feel: 'The regulator&rsquo;s questions, already answered.', tag: 'Immutable audit trails', desc: 'Every transaction, checkpoint, and authorisation decision logged immutably. Routine compliance queries take seconds, not days.' },
+    { feel: 'One transaction. One place to look.',       tag: 'Unified transaction view',  desc: "Origination, routing, checkpoints, settlement, ledger entry — every transaction's lifecycle in one view." },
+    { feel: 'The hardening, already done.',              tag: 'Defence-in-depth',          desc: 'Every payload signed, every connection mutually authenticated, every hop encrypted — inherited by every new operator your team brings on.' },
+    { feel: 'A new market, fully equipped on day one.',  tag: 'AML, KYC & sanctions',      desc: 'Screening built into every flow. The controls your compliance team already trusts, already in place before the first transaction.' },
+    { feel: 'Yes in weeks, not quarters.',               tag: 'New corridors, fast',       desc: 'Protocol adapters, AML rules, audit schema, reporting templates — all pre-built. The business asks; the answer can be soon.' },
+    { feel: 'Releases that don&rsquo;t take your weekend.', tag: 'Safe deployments',       desc: 'Daytime-safe releases, controlled change management, rollback in seconds. Weekends were never supposed to be release windows.' },
   ];
   document.querySelector('[data-manifesto]').innerHTML = ITEMS.map((it, i) => `
     <li class="row">
