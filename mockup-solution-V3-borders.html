@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>§3 V3 — outer border box only — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --text-muted: rgba(13,34,64,0.62);
+      --text-faint: rgba(13,34,64,0.42);
+      --rule: rgba(13,34,64,0.10);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-ui); background: var(--cream-warm); color: var(--navy); -webkit-font-smoothing: antialiased; }
+
+    .switcher {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); color: var(--cream-warm);
+      padding: 14px 28px;
+      display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+      font: 500 13px/1 var(--font-ui);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .switcher b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 12px; }
+    .switcher a { color: rgba(255,255,255,0.7); padding: 6px 10px; border-radius: 4px; }
+    .switcher a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    .opt-label {
+      max-width: 1180px; margin: 0 auto; padding: 32px 24px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap;
+    }
+    .opt-label__tag { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--crimson); }
+    .opt-label__title { font: 700 17px/1.3 var(--font-display); color: var(--navy); }
+    .opt-label__note { font: 400 13px/1.45 var(--font-ui); color: var(--text-muted); margin-left: auto; max-width: 560px; }
+
+    /* original V3 styles — copied exactly from mockup-solution-D4-variations */
+    .solution { padding: 22px 24px 56px; }
+    .solution__container { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 24px; }
+    .solution__head { max-width: 820px; display: flex; flex-direction: column; gap: 10px; }
+    .solution__eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .solution__eyebrow::before { content: ''; width: 28px; height: 1.5px; background: var(--crimson); }
+    .solution__heading {
+      font: 400 clamp(22px, 2.8vw, 30px)/1.3 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.005em;
+    }
+    .solution__heading em { font-style: italic; color: var(--navy); font-weight: 400; }
+
+    .frame {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 24px 0 8px;
+      position: relative;
+    }
+    .frame svg { width: 100%; height: 420px; display: block; }
+
+    .arch .col-label { fill: var(--text-muted); font: 600 10px var(--font-ui); letter-spacing: 0.18em; text-transform: uppercase; }
+    .arch .col-sub   { fill: var(--text-faint); font: 400 10px var(--font-mono); letter-spacing: 0.06em; }
+    .arch .box       { fill: var(--cream-warm); stroke: var(--navy); stroke-width: 1; opacity: 0.75; }
+    .arch .box-text  { fill: var(--navy); font: 500 11px var(--font-ui); }
+    .arch .gateway   { fill: var(--navy); stroke: var(--navy); }
+    .arch .gw-text   { fill: var(--cream-warm); font: 700 14px var(--font-display); }
+    .arch .gw-sub    { fill: rgba(242,239,232,0.55); font: 500 9px var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; }
+    .arch .edge      { stroke: rgba(13,34,64,0.2); stroke-width: 1; fill: none; }
+
+    .legend {
+      list-style: none; padding: 0; margin: 16px 0 0;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px 40px;
+    }
+    .legend li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: baseline; }
+    .legend .n { font: italic 400 14px/1 var(--font-display); color: var(--crimson); }
+    .legend .h { font: 700 14px/1.3 var(--font-display); color: var(--navy); margin-bottom: 2px; }
+    .legend .b { font: 400 13px/1.5 var(--font-ui); color: rgba(13,34,64,0.7); }
+
+    .closing {
+      margin-top: 20px; padding-top: 18px;
+      border-top: 1px solid var(--rule);
+      max-width: 880px;
+      font: italic 400 clamp(16px, 1.8vw, 19px)/1.4 var(--font-display);
+      color: var(--navy);
+    }
+    .closing em { color: var(--crimson); font-style: italic; }
+
+    @media (max-width: 760px) { .legend { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav class="switcher">
+  <b>§3 V3 — outer border only</b>
+  <a href="#a">A · Thin solid</a>
+  <a href="#b">B · Thicker rounded</a>
+  <a href="#c">C · Dashed</a>
+  <a href="#d">D · Solid + tint</a>
+  <a href="#e">E · Corner brackets</a>
+</nav>
+
+<!-- ═════════════ A · Thin solid border ═════════════ -->
+<div class="opt-label" id="a-label">
+  <span class="opt-label__tag">A</span>
+  <span class="opt-label__title">Thin solid navy border</span>
+  <span class="opt-label__note">1px solid navy outline around stack and networks groups. Lightest, quietest.</span>
+</div>
+<section class="solution" id="a">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">EBB Systems replaces fragile payment infrastructure <em>with a resilient transaction platform.</em></h2>
+    </header>
+    <div class="frame">
+      <svg class="arch" viewBox="0 0 1100 420">
+        <!-- OUTER BORDER PANEL — added around stack -->
+        <rect x="48" y="48" width="144" height="132" rx="3" fill="none" stroke="rgba(13,34,64,0.4)" stroke-width="1"/>
+        <!-- OUTER BORDER PANEL — added around networks -->
+        <rect x="908" y="228" width="144" height="132" rx="3" fill="none" stroke="rgba(13,34,64,0.4)" stroke-width="1"/>
+
+        <!-- ORIGINAL V3 content — copied exactly, nothing moved -->
+        <g>
+          <line class="edge" x1="550" y1="210" x2="550" y2="80"/>
+          <line class="edge" x1="550" y1="210" x2="720" y2="100"/>
+          <line class="edge" x1="550" y1="210" x2="800" y2="210"/>
+          <line class="edge" x1="550" y1="210" x2="720" y2="320"/>
+          <line class="edge" x1="550" y1="210" x2="550" y2="340"/>
+          <line class="edge" x1="550" y1="210" x2="380" y2="320"/>
+          <line class="edge" x1="550" y1="210" x2="300" y2="210"/>
+          <line class="edge" x1="550" y1="210" x2="380" y2="100"/>
+        </g>
+        <g>
+          <rect class="box" x="490" y="50" width="120" height="34" rx="3"/><text class="box-text" x="550" y="71" text-anchor="middle">resilient routing</text>
+          <rect class="box" x="660" y="74" width="120" height="34" rx="3"/><text class="box-text" x="720" y="95" text-anchor="middle">reconciliation</text>
+          <rect class="box" x="740" y="190" width="120" height="34" rx="3"/><text class="box-text" x="800" y="211" text-anchor="middle">audit trails</text>
+          <rect class="box" x="660" y="306" width="120" height="34" rx="3"/><text class="box-text" x="720" y="327" text-anchor="middle">transaction view</text>
+          <rect class="box" x="490" y="330" width="120" height="34" rx="3"/><text class="box-text" x="550" y="351" text-anchor="middle">defence-in-depth</text>
+          <rect class="box" x="320" y="306" width="120" height="34" rx="3"/><text class="box-text" x="380" y="327" text-anchor="middle">AML / KYC</text>
+          <rect class="box" x="240" y="190" width="120" height="34" rx="3"/><text class="box-text" x="300" y="211" text-anchor="middle">new corridors</text>
+          <rect class="box" x="320" y="74" width="120" height="34" rx="3"/><text class="box-text" x="380" y="95" text-anchor="middle">safe deploys</text>
+        </g>
+        <circle class="gateway" cx="550" cy="210" r="48"/>
+        <text class="gw-text" x="550" y="208" text-anchor="middle">EBB</text>
+        <text class="gw-sub" x="550" y="228" text-anchor="middle">gateway</text>
+        <g>
+          <rect class="box" x="60" y="60" width="120" height="28" rx="3"/><text class="box-text" x="120" y="78" text-anchor="middle">Finacle / T24</text>
+          <rect class="box" x="60" y="100" width="120" height="28" rx="3"/><text class="box-text" x="120" y="118" text-anchor="middle">FlexCube</text>
+          <rect class="box" x="60" y="140" width="120" height="28" rx="3"/><text class="box-text" x="120" y="158" text-anchor="middle">Custom CBS</text>
+          <text class="col-sub" x="120" y="200" text-anchor="middle">your corebanking stack</text>
+          <line class="edge" x1="180" y1="114" x2="500" y2="200"/>
+        </g>
+        <g>
+          <rect class="box" x="920" y="240" width="120" height="28" rx="3"/><text class="box-text" x="980" y="258" text-anchor="middle">Mobile money</text>
+          <rect class="box" x="920" y="280" width="120" height="28" rx="3"/><text class="box-text" x="980" y="298" text-anchor="middle">Card networks</text>
+          <rect class="box" x="920" y="320" width="120" height="28" rx="3"/><text class="box-text" x="980" y="338" text-anchor="middle">Cross-border</text>
+          <text class="col-sub" x="980" y="380" text-anchor="middle">networks</text>
+          <line class="edge" x1="920" y1="294" x2="598" y2="220"/>
+        </g>
+      </svg>
+    </div>
+    <ol class="legend" data-legend></ol>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<!-- ═════════════ B · Thicker rounded border ═════════════ -->
+<div class="opt-label" id="b-label">
+  <span class="opt-label__tag">B</span>
+  <span class="opt-label__title">Thicker rounded navy border</span>
+  <span class="opt-label__note">1.5px solid navy outline with more rounded corners. Slightly more defined.</span>
+</div>
+<section class="solution" id="b">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">EBB Systems replaces fragile payment infrastructure <em>with a resilient transaction platform.</em></h2>
+    </header>
+    <div class="frame">
+      <svg class="arch" viewBox="0 0 1100 420">
+        <rect x="48" y="48" width="144" height="132" rx="8" fill="none" stroke="rgba(13,34,64,0.55)" stroke-width="1.5"/>
+        <rect x="908" y="228" width="144" height="132" rx="8" fill="none" stroke="rgba(13,34,64,0.55)" stroke-width="1.5"/>
+
+        <g>
+          <line class="edge" x1="550" y1="210" x2="550" y2="80"/>
+          <line class="edge" x1="550" y1="210" x2="720" y2="100"/>
+          <line class="edge" x1="550" y1="210" x2="800" y2="210"/>
+          <line class="edge" x1="550" y1="210" x2="720" y2="320"/>
+          <line class="edge" x1="550" y1="210" x2="550" y2="340"/>
+          <line class="edge" x1="550" y1="210" x2="380" y2="320"/>
+          <line class="edge" x1="550" y1="210" x2="300" y2="210"/>
+          <line class="edge" x1="550" y1="210" x2="380" y2="100"/>
+        </g>
+        <g>
+          <rect class="box" x="490" y="50" width="120" height="34" rx="3"/><text class="box-text" x="550" y="71" text-anchor="middle">resilient routing</text>
+          <rect class="box" x="660" y="74" width="120" height="34" rx="3"/><text class="box-text" x="720" y="95" text-anchor="middle">reconciliation</text>
+          <rect class="box" x="740" y="190" width="120" height="34" rx="3"/><text class="box-text" x="800" y="211" text-anchor="middle">audit trails</text>
+          <rect class="box" x="660" y="306" width="120" height="34" rx="3"/><text class="box-text" x="720" y="327" text-anchor="middle">transaction view</text>
+          <rect class="box" x="490" y="330" width="120" height="34" rx="3"/><text class="box-text" x="550" y="351" text-anchor="middle">defence-in-depth</text>
+          <rect class="box" x="320" y="306" width="120" height="34" rx="3"/><text class="box-text" x="380" y="327" text-anchor="middle">AML / KYC</text>
+          <rect class="box" x="240" y="190" width="120" height="34" rx="3"/><text class="box-text" x="300" y="211" text-anchor="middle">new corridors</text>
+          <rect class="box" x="320" y="74" width="120" height="34" rx="3"/><text class="box-text" x="380" y="95" text-anchor="middle">safe deploys</text>
+        </g>
+        <circle class="gateway" cx="550" cy="210" r="48"/>
+        <text class="gw-text" x="550" y="208" text-anchor="middle">EBB</text>
+        <text class="gw-sub" x="550" y="228" text-anchor="middle">gateway</text>
+        <g>
+          <rect class="box" x="60" y="60" width="120" height="28" rx="3"/><text class="box-text" x="120" y="78" text-anchor="middle">Finacle / T24</text>
+          <rect class="box" x="60" y="100" width="120" height="28" rx="3"/><text class="box-text" x="120" y="118" text-anchor="middle">FlexCube</text>
+          <rect class="box" x="60" y="140" width="120" height="28" rx="3"/><text class="box-text" x="120" y="158" text-anchor="middle">Custom CBS</text>
+          <text class="col-sub" x="120" y="200" text-anchor="middle">your corebanking stack</text>
+          <line class="edge" x1="180" y1="114" x2="500" y2="200"/>
+        </g>
+        <g>
+          <rect class="box" x="920" y="240" width="120" height="28" rx="3"/><text class="box-text" x="980" y="258" text-anchor="middle">Mobile money</text>
+          <rect class="box" x="920" y="280" width="120" height="28" rx="3"/><text class="box-text" x="980" y="298" text-anchor="middle">Card networks</text>
+          <rect class="box" x="920" y="320" width="120" height="28" rx="3"/><text class="box-text" x="980" y="338" text-anchor="middle">Cross-border</text>
+          <text class="col-sub" x="980" y="380" text-anchor="middle">networks</text>
+          <line class="edge" x1="920" y1="294" x2="598" y2="220"/>
+        </g>
+      </svg>
+    </div>
+    <ol class="legend" data-legend></ol>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<!-- ═════════════ C · Dashed border ═════════════ -->
+<div class="opt-label" id="c-label">
+  <span class="opt-label__tag">C</span>
+  <span class="opt-label__title">Dashed navy border</span>
+  <span class="opt-label__note">Dashed navy outline (3-3). Architectural-blueprint feel.</span>
+</div>
+<section class="solution" id="c">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">EBB Systems replaces fragile payment infrastructure <em>with a resilient transaction platform.</em></h2>
+    </header>
+    <div class="frame">
+      <svg class="arch" viewBox="0 0 1100 420">
+        <rect x="48" y="48" width="144" height="132" rx="3" fill="none" stroke="rgba(13,34,64,0.5)" stroke-width="1" stroke-dasharray="3 3"/>
+        <rect x="908" y="228" width="144" height="132" rx="3" fill="none" stroke="rgba(13,34,64,0.5)" stroke-width="1" stroke-dasharray="3 3"/>
+
+        <g>
+          <line class="edge" x1="550" y1="210" x2="550" y2="80"/>
+          <line class="edge" x1="550" y1="210" x2="720" y2="100"/>
+          <line class="edge" x1="550" y1="210" x2="800" y2="210"/>
+          <line class="edge" x1="550" y1="210" x2="720" y2="320"/>
+          <line class="edge" x1="550" y1="210" x2="550" y2="340"/>
+          <line class="edge" x1="550" y1="210" x2="380" y2="320"/>
+          <line class="edge" x1="550" y1="210" x2="300" y2="210"/>
+          <line class="edge" x1="550" y1="210" x2="380" y2="100"/>
+        </g>
+        <g>
+          <rect class="box" x="490" y="50" width="120" height="34" rx="3"/><text class="box-text" x="550" y="71" text-anchor="middle">resilient routing</text>
+          <rect class="box" x="660" y="74" width="120" height="34" rx="3"/><text class="box-text" x="720" y="95" text-anchor="middle">reconciliation</text>
+          <rect class="box" x="740" y="190" width="120" height="34" rx="3"/><text class="box-text" x="800" y="211" text-anchor="middle">audit trails</text>
+          <rect class="box" x="660" y="306" width="120" height="34" rx="3"/><text class="box-text" x="720" y="327" text-anchor="middle">transaction view</text>
+          <rect class="box" x="490" y="330" width="120" height="34" rx="3"/><text class="box-text" x="550" y="351" text-anchor="middle">defence-in-depth</text>
+          <rect class="box" x="320" y="306" width="120" height="34" rx="3"/><text class="box-text" x="380" y="327" text-anchor="middle">AML / KYC</text>
+          <rect class="box" x="240" y="190" width="120" height="34" rx="3"/><text class="box-text" x="300" y="211" text-anchor="middle">new corridors</text>
+          <rect class="box" x="320" y="74" width="120" height="34" rx="3"/><text class="box-text" x="380" y="95" text-anchor="middle">safe deploys</text>
+        </g>
+        <circle class="gateway" cx="550" cy="210" r="48"/>
+        <text class="gw-text" x="550" y="208" text-anchor="middle">EBB</text>
+        <text class="gw-sub" x="550" y="228" text-anchor="middle">gateway</text>
+        <g>
+          <rect class="box" x="60" y="60" width="120" height="28" rx="3"/><text class="box-text" x="120" y="78" text-anchor="middle">Finacle / T24</text>
+          <rect class="box" x="60" y="100" width="120" height="28" rx="3"/><text class="box-text" x="120" y="118" text-anchor="middle">FlexCube</text>
+          <rect class="box" x="60" y="140" width="120" height="28" rx="3"/><text class="box-text" x="120" y="158" text-anchor="middle">Custom CBS</text>
+          <text class="col-sub" x="120" y="200" text-anchor="middle">your corebanking stack</text>
+          <line class="edge" x1="180" y1="114" x2="500" y2="200"/>
+        </g>
+        <g>
+          <rect class="box" x="920" y="240" width="120" height="28" rx="3"/><text class="box-text" x="980" y="258" text-anchor="middle">Mobile money</text>
+          <rect class="box" x="920" y="280" width="120" height="28" rx="3"/><text class="box-text" x="980" y="298" text-anchor="middle">Card networks</text>
+          <rect class="box" x="920" y="320" width="120" height="28" rx="3"/><text class="box-text" x="980" y="338" text-anchor="middle">Cross-border</text>
+          <text class="col-sub" x="980" y="380" text-anchor="middle">networks</text>
+          <line class="edge" x1="920" y1="294" x2="598" y2="220"/>
+        </g>
+      </svg>
+    </div>
+    <ol class="legend" data-legend></ol>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<!-- ═════════════ D · Solid border + subtle tint ═════════════ -->
+<div class="opt-label" id="d-label">
+  <span class="opt-label__tag">D</span>
+  <span class="opt-label__title">Solid border + subtle background tint</span>
+  <span class="opt-label__note">Thin navy outline with a very faint navy tint inside the panel — makes the group feel like a labelled area without being heavy.</span>
+</div>
+<section class="solution" id="d">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">EBB Systems replaces fragile payment infrastructure <em>with a resilient transaction platform.</em></h2>
+    </header>
+    <div class="frame">
+      <svg class="arch" viewBox="0 0 1100 420">
+        <rect x="48" y="48" width="144" height="132" rx="4" fill="rgba(13,34,64,0.04)" stroke="rgba(13,34,64,0.5)" stroke-width="1"/>
+        <rect x="908" y="228" width="144" height="132" rx="4" fill="rgba(13,34,64,0.04)" stroke="rgba(13,34,64,0.5)" stroke-width="1"/>
+
+        <g>
+          <line class="edge" x1="550" y1="210" x2="550" y2="80"/>
+          <line class="edge" x1="550" y1="210" x2="720" y2="100"/>
+          <line class="edge" x1="550" y1="210" x2="800" y2="210"/>
+          <line class="edge" x1="550" y1="210" x2="720" y2="320"/>
+          <line class="edge" x1="550" y1="210" x2="550" y2="340"/>
+          <line class="edge" x1="550" y1="210" x2="380" y2="320"/>
+          <line class="edge" x1="550" y1="210" x2="300" y2="210"/>
+          <line class="edge" x1="550" y1="210" x2="380" y2="100"/>
+        </g>
+        <g>
+          <rect class="box" x="490" y="50" width="120" height="34" rx="3"/><text class="box-text" x="550" y="71" text-anchor="middle">resilient routing</text>
+          <rect class="box" x="660" y="74" width="120" height="34" rx="3"/><text class="box-text" x="720" y="95" text-anchor="middle">reconciliation</text>
+          <rect class="box" x="740" y="190" width="120" height="34" rx="3"/><text class="box-text" x="800" y="211" text-anchor="middle">audit trails</text>
+          <rect class="box" x="660" y="306" width="120" height="34" rx="3"/><text class="box-text" x="720" y="327" text-anchor="middle">transaction view</text>
+          <rect class="box" x="490" y="330" width="120" height="34" rx="3"/><text class="box-text" x="550" y="351" text-anchor="middle">defence-in-depth</text>
+          <rect class="box" x="320" y="306" width="120" height="34" rx="3"/><text class="box-text" x="380" y="327" text-anchor="middle">AML / KYC</text>
+          <rect class="box" x="240" y="190" width="120" height="34" rx="3"/><text class="box-text" x="300" y="211" text-anchor="middle">new corridors</text>
+          <rect class="box" x="320" y="74" width="120" height="34" rx="3"/><text class="box-text" x="380" y="95" text-anchor="middle">safe deploys</text>
+        </g>
+        <circle class="gateway" cx="550" cy="210" r="48"/>
+        <text class="gw-text" x="550" y="208" text-anchor="middle">EBB</text>
+        <text class="gw-sub" x="550" y="228" text-anchor="middle">gateway</text>
+        <g>
+          <rect class="box" x="60" y="60" width="120" height="28" rx="3"/><text class="box-text" x="120" y="78" text-anchor="middle">Finacle / T24</text>
+          <rect class="box" x="60" y="100" width="120" height="28" rx="3"/><text class="box-text" x="120" y="118" text-anchor="middle">FlexCube</text>
+          <rect class="box" x="60" y="140" width="120" height="28" rx="3"/><text class="box-text" x="120" y="158" text-anchor="middle">Custom CBS</text>
+          <text class="col-sub" x="120" y="200" text-anchor="middle">your corebanking stack</text>
+          <line class="edge" x1="180" y1="114" x2="500" y2="200"/>
+        </g>
+        <g>
+          <rect class="box" x="920" y="240" width="120" height="28" rx="3"/><text class="box-text" x="980" y="258" text-anchor="middle">Mobile money</text>
+          <rect class="box" x="920" y="280" width="120" height="28" rx="3"/><text class="box-text" x="980" y="298" text-anchor="middle">Card networks</text>
+          <rect class="box" x="920" y="320" width="120" height="28" rx="3"/><text class="box-text" x="980" y="338" text-anchor="middle">Cross-border</text>
+          <text class="col-sub" x="980" y="380" text-anchor="middle">networks</text>
+          <line class="edge" x1="920" y1="294" x2="598" y2="220"/>
+        </g>
+      </svg>
+    </div>
+    <ol class="legend" data-legend></ol>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<!-- ═════════════ E · Corner brackets ═════════════ -->
+<div class="opt-label" id="e-label">
+  <span class="opt-label__tag">E</span>
+  <span class="opt-label__title">Corner brackets (architectural)</span>
+  <span class="opt-label__note">Just the four corner brackets instead of a full rectangle — engineering-drawing aesthetic. Lightest visual weight.</span>
+</div>
+<section class="solution" id="e">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">EBB Systems replaces fragile payment infrastructure <em>with a resilient transaction platform.</em></h2>
+    </header>
+    <div class="frame">
+      <svg class="arch" viewBox="0 0 1100 420">
+        <!-- Stack corner brackets -->
+        <g stroke="rgba(13,34,64,0.55)" stroke-width="1.5" fill="none">
+          <polyline points="48,68 48,48 68,48"/>
+          <polyline points="172,48 192,48 192,68"/>
+          <polyline points="48,160 48,180 68,180"/>
+          <polyline points="172,180 192,180 192,160"/>
+        </g>
+        <!-- Networks corner brackets -->
+        <g stroke="rgba(13,34,64,0.55)" stroke-width="1.5" fill="none">
+          <polyline points="908,248 908,228 928,228"/>
+          <polyline points="1032,228 1052,228 1052,248"/>
+          <polyline points="908,340 908,360 928,360"/>
+          <polyline points="1032,360 1052,360 1052,340"/>
+        </g>
+
+        <g>
+          <line class="edge" x1="550" y1="210" x2="550" y2="80"/>
+          <line class="edge" x1="550" y1="210" x2="720" y2="100"/>
+          <line class="edge" x1="550" y1="210" x2="800" y2="210"/>
+          <line class="edge" x1="550" y1="210" x2="720" y2="320"/>
+          <line class="edge" x1="550" y1="210" x2="550" y2="340"/>
+          <line class="edge" x1="550" y1="210" x2="380" y2="320"/>
+          <line class="edge" x1="550" y1="210" x2="300" y2="210"/>
+          <line class="edge" x1="550" y1="210" x2="380" y2="100"/>
+        </g>
+        <g>
+          <rect class="box" x="490" y="50" width="120" height="34" rx="3"/><text class="box-text" x="550" y="71" text-anchor="middle">resilient routing</text>
+          <rect class="box" x="660" y="74" width="120" height="34" rx="3"/><text class="box-text" x="720" y="95" text-anchor="middle">reconciliation</text>
+          <rect class="box" x="740" y="190" width="120" height="34" rx="3"/><text class="box-text" x="800" y="211" text-anchor="middle">audit trails</text>
+          <rect class="box" x="660" y="306" width="120" height="34" rx="3"/><text class="box-text" x="720" y="327" text-anchor="middle">transaction view</text>
+          <rect class="box" x="490" y="330" width="120" height="34" rx="3"/><text class="box-text" x="550" y="351" text-anchor="middle">defence-in-depth</text>
+          <rect class="box" x="320" y="306" width="120" height="34" rx="3"/><text class="box-text" x="380" y="327" text-anchor="middle">AML / KYC</text>
+          <rect class="box" x="240" y="190" width="120" height="34" rx="3"/><text class="box-text" x="300" y="211" text-anchor="middle">new corridors</text>
+          <rect class="box" x="320" y="74" width="120" height="34" rx="3"/><text class="box-text" x="380" y="95" text-anchor="middle">safe deploys</text>
+        </g>
+        <circle class="gateway" cx="550" cy="210" r="48"/>
+        <text class="gw-text" x="550" y="208" text-anchor="middle">EBB</text>
+        <text class="gw-sub" x="550" y="228" text-anchor="middle">gateway</text>
+        <g>
+          <rect class="box" x="60" y="60" width="120" height="28" rx="3"/><text class="box-text" x="120" y="78" text-anchor="middle">Finacle / T24</text>
+          <rect class="box" x="60" y="100" width="120" height="28" rx="3"/><text class="box-text" x="120" y="118" text-anchor="middle">FlexCube</text>
+          <rect class="box" x="60" y="140" width="120" height="28" rx="3"/><text class="box-text" x="120" y="158" text-anchor="middle">Custom CBS</text>
+          <text class="col-sub" x="120" y="200" text-anchor="middle">your corebanking stack</text>
+          <line class="edge" x1="180" y1="114" x2="500" y2="200"/>
+        </g>
+        <g>
+          <rect class="box" x="920" y="240" width="120" height="28" rx="3"/><text class="box-text" x="980" y="258" text-anchor="middle">Mobile money</text>
+          <rect class="box" x="920" y="280" width="120" height="28" rx="3"/><text class="box-text" x="980" y="298" text-anchor="middle">Card networks</text>
+          <rect class="box" x="920" y="320" width="120" height="28" rx="3"/><text class="box-text" x="980" y="338" text-anchor="middle">Cross-border</text>
+          <text class="col-sub" x="980" y="380" text-anchor="middle">networks</text>
+          <line class="edge" x1="920" y1="294" x2="598" y2="220"/>
+        </g>
+      </svg>
+    </div>
+    <ol class="legend" data-legend></ol>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<script>
+  const SOLUTIONS = [
+    { h: 'Multi-rail routing with built-in retries and reversals', b: 'Failures contained at the infrastructure layer; customers see successful transactions.' },
+    { h: 'Continuous reconciliation across every operator',         b: 'Gaps flagged and resolved before they reach finance.' },
+    { h: 'Every transaction, checkpoint, and authorisation decision logged immutably', b: 'Regulator queries answered in seconds.' },
+    { h: 'Every transaction\'s lifecycle in one place',             b: 'Origination, routing, checkpoints, settlement, ledger entry — surfaced from one query.' },
+    { h: 'Defence-in-depth on every payload, inherited by every new operator', b: 'Every payload signed, every connection mutually authenticated, every hop encrypted.' },
+    { h: 'AML, KYC, and sanctions screening built into every flow', b: 'Live on day one of every new market.' },
+    { h: 'New corridors live in weeks, not quarters',               b: 'Protocol adapters, AML rules, audit schema, and reporting templates all pre-built.' },
+    { h: 'Safe deployments and controlled change management',       b: 'Daytime-safe, rollback in seconds.' },
+  ];
+  document.querySelectorAll('[data-legend]').forEach(ul => {
+    ul.innerHTML = SOLUTIONS.map((s,i) => `
+      <li><span class="n">${String(i+1).padStart(2,'0')}</span>
+        <div><div class="h">${s.h}</div><div class="b">${s.b}</div></div>
+      </li>`).join('');
+  });
+</script>
+
+</body>
+</html>
