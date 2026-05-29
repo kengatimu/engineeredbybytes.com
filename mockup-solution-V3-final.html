@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="robots" content="noindex, nofollow">
-  <title>§3 The Solution — felt manifesto — EBB V2</title>
+  <title>§3 The Solution — diagram + 4 themes — EBB V2</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -12,6 +12,7 @@
     :root {
       --navy: #0D2240;
       --cream-warm: #F2EFE8;
+      --cream-card: #FAF7F1;
       --crimson: #8B1A1A;
       --text-muted: rgba(13,34,64,0.62);
       --text-faint: rgba(13,34,64,0.42);
@@ -30,15 +31,35 @@
     }
 
     .solution { padding: 88px 24px 96px; }
-    .solution__container { max-width: 1080px; margin: 0 auto; }
+    .solution__container { max-width: 1100px; margin: 0 auto; }
 
-    .head { max-width: 760px; display: flex; flex-direction: column; gap: 14px; margin-bottom: 48px; }
+    /* Header */
+    .head { max-width: 820px; display: flex; flex-direction: column; gap: 14px; margin-bottom: 48px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 12px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .eyebrow::before { content: ''; width: 32px; height: 1.5px; background: var(--crimson); }
+    .heading {
+      font: 400 clamp(28px, 3.4vw, 38px)/1.25 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.008em;
+    }
+    .heading em { font-style: italic; color: var(--crimson); font-weight: 400; }
+    .lede {
+      font: 400 clamp(15px, 1.5vw, 16.5px)/1.55 var(--font-ui);
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-top: 4px;
+    }
 
     /* Architecture diagram */
     .frame {
       border-top: 1px solid var(--rule);
       border-bottom: 1px solid var(--rule);
-      padding: 32px 0 16px;
+      padding: 32px 0 20px;
       margin-bottom: 56px;
     }
     .frame svg { width: 100%; height: 460px; display: block; }
@@ -49,102 +70,107 @@
     .arch .gw-text   { fill: var(--cream-warm); font: 700 14px var(--font-display); }
     .arch .gw-sub    { fill: rgba(242,239,232,0.55); font: 500 9px var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; }
     .arch .edge      { stroke: rgba(13,34,64,0.2); stroke-width: 1; fill: none; }
-
     .frame-caption {
       max-width: 760px;
-      margin-top: 8px;
-      font: italic 400 14px/1.5 var(--font-display);
+      margin-top: 6px;
+      font: italic 400 13.5px/1.5 var(--font-display);
       color: var(--text-muted);
     }
 
-    .manifesto-intro {
-      max-width: 720px;
-      margin-bottom: 8px;
-      font: 700 11px/1 var(--font-ui);
-      letter-spacing: 0.22em; text-transform: uppercase;
-      color: var(--crimson);
-      display: inline-flex; align-items: center; gap: 12px;
-    }
-    .manifesto-intro::before { content: ''; width: 28px; height: 1.5px; background: var(--crimson); }
-    .eyebrow {
+    /* Themes intro */
+    .themes-intro {
       display: inline-flex; align-items: center; gap: 12px;
       font: 700 10px/1 var(--font-ui);
       letter-spacing: 0.24em; text-transform: uppercase;
       color: var(--crimson);
+      margin-bottom: 20px;
     }
-    .eyebrow::before { content: ''; width: 32px; height: 1.5px; background: var(--crimson); }
-    .heading {
-      font: 400 clamp(30px, 4vw, 44px)/1.2 var(--font-display);
+    .themes-intro::before { content: ''; width: 28px; height: 1.5px; background: var(--crimson); }
+
+    /* Themes grid */
+    .themes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      list-style: none;
+    }
+    .theme {
+      background: var(--cream-card);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--crimson);
+      border-radius: 4px;
+      padding: 28px 30px 26px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: transform 240ms ease, box-shadow 240ms ease, border-left-color 240ms ease;
+    }
+    .theme:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(13,34,64,0.06);
+    }
+
+    .theme__head {
+      display: flex; align-items: baseline; gap: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--rule-soft);
+    }
+    .theme__num {
+      font: italic 400 18px/1 var(--font-display);
+      color: var(--crimson);
+    }
+    .theme__title {
+      font: 700 22px/1.2 var(--font-display);
       color: var(--navy);
-      letter-spacing: -0.012em;
+      letter-spacing: -0.005em;
     }
-    .heading em { font-style: italic; color: var(--crimson); font-weight: 400; }
-    .lede {
-      font: 400 clamp(15px, 1.5vw, 17px)/1.55 var(--font-ui);
-      color: var(--text-muted);
-      max-width: 620px;
+    .theme__felt {
+      font: italic 400 16px/1.45 var(--font-display);
+      color: var(--crimson);
+    }
+    .theme__items {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 12px;
       margin-top: 4px;
     }
-
-    .manifesto {
-      list-style: none;
-      display: flex; flex-direction: column;
-      border-top: 1px solid var(--rule);
-      margin-top: 16px;
-    }
-    .row {
+    .theme__item {
       display: grid;
-      grid-template-columns: 56px 1fr 320px;
-      gap: 40px;
+      grid-template-columns: 18px 1fr;
+      gap: 12px;
       align-items: baseline;
-      padding: 32px 0 30px;
-      border-bottom: 1px solid var(--rule-soft);
-      transition: background 200ms ease;
-    }
-    .row:last-child { border-bottom: 1px solid var(--rule); }
-    .row:hover { background: rgba(13,34,64,0.015); }
-
-    .row__num {
-      font: italic 400 22px/1 var(--font-display);
-      color: var(--crimson);
-      letter-spacing: 0.02em;
-    }
-    .row__feel {
-      font: 400 clamp(22px, 2.6vw, 30px)/1.2 var(--font-display);
+      font: 400 14px/1.5 var(--font-ui);
       color: var(--navy);
-      letter-spacing: -0.008em;
-      transition: color 200ms ease;
     }
-    .row:hover .row__feel { color: var(--crimson); }
-
-    .row__tech {
-      display: flex; flex-direction: column; gap: 6px;
-      padding-top: 6px;
+    .theme__item::before {
+      content: '+';
+      font: 500 16px/1 var(--font-mono);
+      color: var(--crimson);
+      transform: translateY(1px);
     }
-    .row__tag {
-      font: 500 10px/1 var(--font-mono);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--text-faint);
+    .theme__item b {
+      font-weight: 600;
     }
-    .row__desc {
-      font: 400 13.5px/1.55 var(--font-ui);
+    .theme__item span {
+      display: block;
+      font: 400 12.5px/1.5 var(--font-ui);
       color: var(--text-muted);
+      margin-top: 3px;
     }
 
+    /* Closing */
     .closing {
       margin-top: 56px;
       padding-top: 36px;
       border-top: 1px solid var(--rule);
-      max-width: 820px;
-      font: italic 400 clamp(18px, 2vw, 22px)/1.45 var(--font-display);
+      max-width: 880px;
+      font: 400 clamp(18px, 2vw, 22px)/1.45 var(--font-display);
       color: var(--navy);
+      text-align: center;
+      margin-left: auto; margin-right: auto;
     }
-    .closing strong { font-weight: 700; font-style: normal; color: var(--crimson); }
+    .closing em { font-style: italic; color: var(--crimson); font-weight: 400; }
 
     @media (max-width: 820px) {
-      .row { grid-template-columns: 40px 1fr; gap: 20px; }
-      .row__tech { grid-column: 2; padding-top: 4px; }
+      .themes { grid-template-columns: 1fr; }
+      .frame svg { height: 380px; }
     }
   </style>
 </head>
@@ -211,33 +237,60 @@
       <p class="frame-caption">One gateway. Eight capabilities. Every operator your customers reach.</p>
     </div>
 
-    <span class="manifesto-intro">what this feels like</span>
-    <ol class="manifesto" data-manifesto></ol>
+    <span class="themes-intro">what changes for your team</span>
 
-    <p class="closing">So the best of your engineering goes into <strong>what&rsquo;s next</strong> &mdash; not what&rsquo;s already broken.</p>
+    <ol class="themes" data-themes></ol>
+
+    <p class="closing">Your engineers build the future. <em>We keep the present working.</em></p>
 
   </div>
 </section>
 
 <script>
-  const ITEMS = [
-    { feel: 'The 3am pager, finally quiet.',             tag: 'Multi-rail routing',        desc: 'Failures contained at the infrastructure layer. Retries and reversals built in. Most incidents resolve themselves before anyone has to be woken.' },
-    { feel: 'Month-end, without the manhunt.',           tag: 'Continuous reconciliation', desc: 'Every operator reconciled continuously. Variances surface and resolve long before finance closes the books.' },
-    { feel: 'The regulator&rsquo;s questions, already answered.', tag: 'Immutable audit trails', desc: 'Every transaction, checkpoint, and authorisation decision logged immutably. Routine compliance queries take seconds, not days.' },
-    { feel: 'One transaction. One place to look.',       tag: 'Unified transaction view',  desc: "Origination, routing, checkpoints, settlement, ledger entry — every transaction's lifecycle in one view." },
-    { feel: 'The hardening, already done.',              tag: 'Defence-in-depth',          desc: 'Every payload signed, every connection mutually authenticated, every hop encrypted — inherited by every new operator your team brings on.' },
-    { feel: 'A new market, fully equipped on day one.',  tag: 'AML, KYC & sanctions',      desc: 'Screening built into every flow. The controls your compliance team already trusts, already in place before the first transaction.' },
-    { feel: 'Yes in weeks, not quarters.',               tag: 'New corridors, fast',       desc: 'Protocol adapters, AML rules, audit schema, reporting templates — all pre-built. The business asks; the answer can be soon.' },
-    { feel: 'Releases that don&rsquo;t take your weekend.', tag: 'Safe deployments',       desc: 'Daytime-safe releases, controlled change management, rollback in seconds. Weekends were never supposed to be release windows.' },
+  const THEMES = [
+    {
+      title: 'Peace of mind',
+      felt:  'Things break gracefully. Nothing surprises finance.',
+      items: [
+        { b: 'Multi-rail routing', d: 'Retries and reversals built in. Failures contained at the infrastructure layer.' },
+        { b: 'Continuous reconciliation', d: 'Every operator reconciled continuously. Variances resolved before they reach finance.' },
+      ],
+    },
+    {
+      title: 'Confidence',
+      felt:  'Ready for any regulator. Ready for any question.',
+      items: [
+        { b: 'Immutable audit trails', d: 'Every transaction, checkpoint, and authorisation decision logged on the record.' },
+        { b: 'Unified transaction view', d: "Every transaction's lifecycle surfaced from one query — origination to ledger entry." },
+      ],
+    },
+    {
+      title: 'Trust',
+      felt:  'Security at every layer. Compliance on day one.',
+      items: [
+        { b: 'Defence-in-depth', d: 'Payloads signed, connections mutually authenticated, every hop encrypted — inherited by every new operator.' },
+        { b: 'AML, KYC & sanctions', d: 'Screening built into every flow. Live before the first transaction in every new corridor.' },
+      ],
+    },
+    {
+      title: 'Velocity',
+      felt:  'Ship fast. Ship calm.',
+      items: [
+        { b: 'New corridors, fast', d: 'Protocol adapters, AML rules, audit schema, reporting templates — all pre-built. Weeks, not quarters.' },
+        { b: 'Safe deployments', d: 'Daytime-safe releases, controlled change management, rollback in seconds.' },
+      ],
+    },
   ];
-  document.querySelector('[data-manifesto]').innerHTML = ITEMS.map((it, i) => `
-    <li class="row">
-      <div class="row__num">${String(i+1).padStart(2,'0')}</div>
-      <div class="row__feel">${it.feel}</div>
-      <div class="row__tech">
-        <div class="row__tag">${it.tag}</div>
-        <div class="row__desc">${it.desc}</div>
+  document.querySelector('[data-themes]').innerHTML = THEMES.map((t, i) => `
+    <li class="theme">
+      <div class="theme__head">
+        <span class="theme__num">${String(i+1).padStart(2,'0')}</span>
+        <h3 class="theme__title">${t.title}</h3>
       </div>
+      <p class="theme__felt">${t.felt}</p>
+      <ul class="theme__items">
+        ${t.items.map(it => `<li class="theme__item"><div><b>${it.b}</b><span>${it.d}</span></div></li>`).join('')}
+      </ul>
     </li>
   `).join('');
 </script>
