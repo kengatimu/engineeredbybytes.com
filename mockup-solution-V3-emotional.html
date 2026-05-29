@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>§3 V3 emotional — canonical solution with feeling-led copy — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --text-muted: rgba(13,34,64,0.62);
+      --text-faint: rgba(13,34,64,0.42);
+      --rule: rgba(13,34,64,0.10);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    body { font-family: var(--font-ui); background: var(--cream-warm); color: var(--navy); -webkit-font-smoothing: antialiased; }
+
+    .solution { padding: 56px 24px 64px; }
+    .solution__container { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 36px; }
+
+    .solution__head { max-width: 880px; display: flex; flex-direction: column; gap: 14px; }
+    .solution__eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .solution__eyebrow::before { content: ''; width: 28px; height: 1.5px; background: var(--crimson); }
+    .solution__heading {
+      font: 400 clamp(32px, 4.2vw, 48px)/1.15 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.012em;
+    }
+    .solution__heading em {
+      font-style: italic;
+      color: var(--crimson);
+      font-weight: 400;
+    }
+    .solution__sub {
+      font: italic 400 clamp(15px, 1.6vw, 18px)/1.45 var(--font-display);
+      color: rgba(13,34,64,0.6);
+      max-width: 720px;
+      margin-top: 4px;
+    }
+
+    /* ── Diagram frame (V3-A, unchanged) ── */
+    .frame {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 24px 0 8px;
+    }
+    .frame svg { width: 100%; height: 460px; display: block; }
+
+    .arch .col-label { fill: var(--text-muted); font: 600 10px var(--font-ui); letter-spacing: 0.18em; text-transform: uppercase; }
+    .arch .col-sub   { fill: var(--text-faint); font: 400 10px var(--font-mono); letter-spacing: 0.06em; }
+    .arch .box       { fill: var(--cream-warm); stroke: var(--navy); stroke-width: 1; opacity: 0.75; }
+    .arch .box-text  { fill: var(--navy); font: 500 11px var(--font-ui); }
+    .arch .gateway   { fill: var(--navy); stroke: var(--navy); }
+    .arch .gw-text   { fill: var(--cream-warm); font: 700 14px var(--font-display); }
+    .arch .gw-sub    { fill: rgba(242,239,232,0.55); font: 500 9px var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; }
+    .arch .edge      { stroke: rgba(13,34,64,0.2); stroke-width: 1; fill: none; }
+
+    /* ── 4 emotional theme cards (replaces 8-item legend) ── */
+    .themes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .theme {
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 22px 24px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+      transition: border-color 0.25s var(--ease), transform 0.25s var(--ease);
+    }
+    .theme::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 3px;
+      background: var(--crimson);
+      border-radius: 4px 0 0 4px;
+      opacity: 0.7;
+    }
+    .theme-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+    .theme-num {
+      font: italic 400 22px/1 var(--font-display);
+      color: var(--crimson);
+      letter-spacing: -0.02em;
+    }
+    .theme-name {
+      font: italic 400 clamp(20px, 2.4vw, 26px)/1.15 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.005em;
+    }
+    .theme-line {
+      font: italic 400 14.5px/1.4 var(--font-display);
+      color: var(--crimson);
+      margin: 0;
+    }
+    .theme-caps {
+      list-style: none;
+      padding: 12px 0 0;
+      margin: 0;
+      border-top: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .theme-caps li {
+      display: grid;
+      grid-template-columns: 12px 1fr;
+      gap: 8px;
+      font: 400 13px/1.55 var(--font-ui);
+      color: rgba(13,34,64,0.78);
+    }
+    .theme-caps li::before {
+      content: '+';
+      color: var(--crimson);
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+    @media (max-width: 760px) {
+      .themes { grid-template-columns: 1fr; }
+    }
+
+    /* ── Closing emotional payoff ── */
+    .closing {
+      margin-top: 8px;
+      padding: 28px 0 0;
+      border-top: 1px solid var(--rule);
+      text-align: center;
+      max-width: 880px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .closing p {
+      font: 400 clamp(20px, 2.4vw, 28px)/1.35 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.005em;
+    }
+    .closing em {
+      font-style: italic;
+      color: var(--crimson);
+    }
+  </style>
+</head>
+<body>
+
+<section class="solution">
+  <div class="solution__container">
+
+    <!-- HEADER — emotional headline + descriptive sub-line -->
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">Sleep through the night. <em>Ship through the day.</em></h2>
+      <p class="solution__sub">EBB Systems replaces fragile payment infrastructure with a resilient transaction platform — built into the layer between your bank and every operator.</p>
+    </header>
+
+    <!-- DIAGRAM — V3-A unchanged -->
+    <div class="frame">
+      <svg class="arch" viewBox="0 0 1100 460">
+        <!-- Outer border panels -->
+        <rect x="48" y="48" width="144" height="132" rx="3" fill="none" stroke="rgba(13,34,64,0.4)" stroke-width="1"/>
+        <rect x="908" y="188" width="144" height="212" rx="3" fill="none" stroke="rgba(13,34,64,0.4)" stroke-width="1"/>
+
+        <!-- Spokes -->
+        <g>
+          <line class="edge" x1="550" y1="210" x2="550" y2="80"/>
+          <line class="edge" x1="550" y1="210" x2="720" y2="100"/>
+          <line class="edge" x1="550" y1="210" x2="800" y2="210"/>
+          <line class="edge" x1="550" y1="210" x2="720" y2="320"/>
+          <line class="edge" x1="550" y1="210" x2="550" y2="340"/>
+          <line class="edge" x1="550" y1="210" x2="380" y2="320"/>
+          <line class="edge" x1="550" y1="210" x2="300" y2="210"/>
+          <line class="edge" x1="550" y1="210" x2="380" y2="100"/>
+        </g>
+
+        <!-- 8 capability boxes -->
+        <g>
+          <rect class="box" x="490" y="50" width="120" height="34" rx="3"/><text class="box-text" x="550" y="71" text-anchor="middle">resilient routing</text>
+          <rect class="box" x="660" y="74" width="120" height="34" rx="3"/><text class="box-text" x="720" y="95" text-anchor="middle">reconciliation</text>
+          <rect class="box" x="740" y="190" width="120" height="34" rx="3"/><text class="box-text" x="800" y="211" text-anchor="middle">audit trails</text>
+          <rect class="box" x="660" y="306" width="120" height="34" rx="3"/><text class="box-text" x="720" y="327" text-anchor="middle">transaction view</text>
+          <rect class="box" x="490" y="330" width="120" height="34" rx="3"/><text class="box-text" x="550" y="351" text-anchor="middle">defence-in-depth</text>
+          <rect class="box" x="320" y="306" width="120" height="34" rx="3"/><text class="box-text" x="380" y="327" text-anchor="middle">AML / KYC</text>
+          <rect class="box" x="240" y="190" width="120" height="34" rx="3"/><text class="box-text" x="300" y="211" text-anchor="middle">new corridors</text>
+          <rect class="box" x="320" y="74" width="120" height="34" rx="3"/><text class="box-text" x="380" y="95" text-anchor="middle">safe deploys</text>
+        </g>
+
+        <!-- EBB centre -->
+        <circle class="gateway" cx="550" cy="210" r="48"/>
+        <text class="gw-text" x="550" y="208" text-anchor="middle">EBB</text>
+        <text class="gw-sub" x="550" y="228" text-anchor="middle">gateway</text>
+
+        <!-- Corebanking stack -->
+        <g>
+          <rect class="box" x="60" y="60" width="120" height="28" rx="3"/><text class="box-text" x="120" y="78" text-anchor="middle">Finacle / T24</text>
+          <rect class="box" x="60" y="100" width="120" height="28" rx="3"/><text class="box-text" x="120" y="118" text-anchor="middle">FlexCube</text>
+          <rect class="box" x="60" y="140" width="120" height="28" rx="3"/><text class="box-text" x="120" y="158" text-anchor="middle">Custom CBS</text>
+          <text class="col-sub" x="120" y="200" text-anchor="middle">your corebanking stack</text>
+          <line class="edge" x1="180" y1="114" x2="500" y2="200"/>
+        </g>
+
+        <!-- Networks (5 items) -->
+        <g>
+          <rect class="box" x="920" y="200" width="120" height="28" rx="3"/><text class="box-text" x="980" y="218" text-anchor="middle">Mobile money</text>
+          <rect class="box" x="920" y="240" width="120" height="28" rx="3"/><text class="box-text" x="980" y="258" text-anchor="middle">Card networks</text>
+          <rect class="box" x="920" y="280" width="120" height="28" rx="3"/><text class="box-text" x="980" y="298" text-anchor="middle">Inter-banking</text>
+          <rect class="box" x="920" y="320" width="120" height="28" rx="3"/><text class="box-text" x="980" y="338" text-anchor="middle">Cross-border</text>
+          <rect class="box" x="920" y="360" width="120" height="28" rx="3"/><text class="box-text" x="980" y="378" text-anchor="middle">Remittances</text>
+          <text class="col-sub" x="980" y="420" text-anchor="middle">networks</text>
+          <line class="edge" x1="920" y1="294" x2="598" y2="220"/>
+        </g>
+      </svg>
+    </div>
+
+    <!-- FOUR EMOTIONAL THEMES (replaces 8-item legend) -->
+    <div class="themes">
+
+      <article class="theme">
+        <header class="theme-head">
+          <span class="theme-num">01</span>
+          <h3 class="theme-name">Peace of mind</h3>
+        </header>
+        <p class="theme-line">Things break gracefully. Nothing surprises finance.</p>
+        <ul class="theme-caps">
+          <li>Multi-rail routing with built-in retries and reversals</li>
+          <li>Continuous reconciliation across every operator</li>
+        </ul>
+      </article>
+
+      <article class="theme">
+        <header class="theme-head">
+          <span class="theme-num">02</span>
+          <h3 class="theme-name">Confidence</h3>
+        </header>
+        <p class="theme-line">Ready for any regulator. Ready for any question.</p>
+        <ul class="theme-caps">
+          <li>Every transaction, checkpoint, and decision logged immutably</li>
+          <li>Every transaction's lifecycle surfaced from one query</li>
+        </ul>
+      </article>
+
+      <article class="theme">
+        <header class="theme-head">
+          <span class="theme-num">03</span>
+          <h3 class="theme-name">Trust</h3>
+        </header>
+        <p class="theme-line">Security is the floor. Not the ceiling.</p>
+        <ul class="theme-caps">
+          <li>Defence-in-depth on every payload, inherited by every operator</li>
+          <li>AML, KYC, and sanctions screening built into every flow</li>
+        </ul>
+      </article>
+
+      <article class="theme">
+        <header class="theme-head">
+          <span class="theme-num">04</span>
+          <h3 class="theme-name">Velocity</h3>
+        </header>
+        <p class="theme-line">Ship fast. Ship calm.</p>
+        <ul class="theme-caps">
+          <li>New corridors live in weeks, not quarters</li>
+          <li>Safe deployments and controlled change management</li>
+        </ul>
+      </article>
+
+    </div>
+
+    <!-- CLOSING — emotional payoff -->
+    <div class="closing">
+      <p>Your engineers build the future. <em>We keep the present working.</em></p>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>
