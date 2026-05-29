@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>§3 Option C — 4 design treatments — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D2240;
+      --cream-warm: #F2EFE8;
+      --crimson: #8B1A1A;
+      --green: #3B6B5C;
+      --text-body: rgba(13,34,64,0.82);
+      --text-muted: rgba(13,34,64,0.62);
+      --text-faint: rgba(13,34,64,0.42);
+      --rule: rgba(13,34,64,0.10);
+      --rule-soft: rgba(13,34,64,0.06);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-ui); background: var(--cream-warm); color: var(--text-body); -webkit-font-smoothing: antialiased; }
+
+    .switcher {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); color: var(--cream-warm);
+      padding: 14px 28px;
+      display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+      font: 500 13px/1 var(--font-ui);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .switcher b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 12px; }
+    .switcher a { color: rgba(255,255,255,0.7); padding: 6px 10px; border-radius: 4px; }
+    .switcher a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .opt-label {
+      max-width: 1180px; margin: 0 auto; padding: 32px 24px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap;
+    }
+    .opt-label__tag { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--crimson); }
+    .opt-label__title { font: 700 17px/1.3 var(--font-display); color: var(--navy); }
+    .opt-label__title em { color: var(--crimson); font-style: italic; }
+    .opt-label__note { font: 400 13px/1.45 var(--font-ui); color: var(--text-muted); margin-left: auto; max-width: 540px; }
+
+    /* shared scaffolding (matches §2's design language) */
+    .solution { padding: 28px 24px 64px; }
+    .solution__container { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+    .solution__head { max-width: 800px; display: flex; flex-direction: column; gap: 10px; }
+    .solution__eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .solution__eyebrow::before { content: ''; width: 28px; height: 1.5px; background: var(--crimson); }
+    .solution__heading {
+      font: 400 clamp(26px, 3.4vw, 36px)/1.25 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.008em;
+    }
+    .solution__heading em { font-style: italic; color: var(--navy); font-weight: 400; }
+    .solution__sub {
+      margin: 10px 0 0;
+      font: italic 400 clamp(15px, 1.6vw, 17px)/1.45 var(--font-display);
+      color: rgba(13,34,64,0.6);
+      max-width: 720px;
+    }
+    .closing {
+      margin-top: 24px;
+      padding: 18px 0 0;
+      border-top: 1px solid var(--rule);
+      max-width: 880px;
+      font: italic 400 clamp(16px, 1.9vw, 20px)/1.4 var(--font-display);
+      color: var(--navy);
+    }
+    .closing em { color: var(--crimson); font-style: italic; }
+
+    /* ════════════════════════════════════════════════════════════════
+       D1 — EDITORIAL TYPOGRAPHIC LIST (mirrors §2's prose-list register)
+       ════════════════════════════════════════════════════════════════ */
+    .d1 .list {
+      list-style: none; padding: 0; margin: 0;
+      max-width: 880px;
+      display: flex; flex-direction: column;
+      gap: 22px;
+    }
+    .d1 .list li {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 18px;
+      align-items: baseline;
+    }
+    .d1 .num {
+      font: italic 400 22px/1 var(--font-display);
+      color: var(--crimson);
+      letter-spacing: -0.02em;
+    }
+    .d1 .head {
+      font: 700 16px/1.35 var(--font-display);
+      color: var(--navy);
+      margin-bottom: 4px;
+      letter-spacing: -0.003em;
+    }
+    .d1 .head em { color: var(--crimson); font-style: italic; font-weight: 400; }
+    .d1 .body {
+      font: 400 14.5px/1.55 var(--font-ui);
+      color: rgba(13,34,64,0.72);
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       D2 — TWO-COLUMN CARD GRID (visual rhythm, scannable)
+       ════════════════════════════════════════════════════════════════ */
+    .d2 .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .d2 .card {
+      background: rgba(255,255,255,0.4);
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 22px 22px 22px 24px;
+      position: relative;
+      transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
+    }
+    .d2 .card:hover {
+      border-color: rgba(139,26,26,0.3);
+      background: rgba(255,255,255,0.6);
+    }
+    .d2 .card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 20px; bottom: 20px;
+      width: 2px;
+      background: var(--crimson);
+      opacity: 0.6;
+    }
+    .d2 .card .tag {
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 10px;
+      display: block;
+    }
+    .d2 .card .head {
+      font: 700 16px/1.3 var(--font-display);
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .d2 .card .body {
+      font: 400 14px/1.55 var(--font-ui);
+      color: rgba(13,34,64,0.72);
+    }
+    @media (max-width: 760px) {
+      .d2 .grid { grid-template-columns: 1fr; }
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       D3 — MIRROR ECG + LIST (the visual answer to §2's broken pulse)
+       ════════════════════════════════════════════════════════════════ */
+    .d3 .pulse {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      background: repeating-linear-gradient(to right, transparent 0, transparent 119px, rgba(13,34,64,0.04) 119px, rgba(13,34,64,0.04) 120px);
+    }
+    .d3 .pulse-meta {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding: 12px 8px;
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-faint);
+    }
+    .d3 .pulse-meta b { color: var(--navy); font-weight: 500; }
+    .d3 .pulse-meta .ok { color: var(--green); display: inline-flex; align-items: center; gap: 6px; }
+    .d3 .pulse-meta .ok::before {
+      content: ''; width: 7px; height: 7px; border-radius: 50%;
+      background: var(--green);
+      animation: okPulse 2.4s ease-in-out infinite;
+    }
+    @keyframes okPulse { 0%,100% { opacity:1; } 50% { opacity: 0.4; } }
+    .d3 .pulse svg { width: 100%; height: 180px; display: block; }
+    .d3 .pulse svg .line { fill: none; stroke: var(--navy); stroke-width: 1.5; opacity: 0.6; }
+    .d3 .pulse svg .ghost { fill: none; stroke: var(--crimson); stroke-width: 1; stroke-dasharray: 3 5; opacity: 0.14; }
+    .d3 .pulse svg .scan { fill: var(--green); }
+    .d3 .pulse-caption {
+      padding: 12px 8px 0;
+      font: italic 400 12.5px/1.5 var(--font-display);
+      color: rgba(13,34,64,0.5);
+    }
+    .d3 .pulse-caption b {
+      font-family: var(--font-mono); font-style: normal;
+      font-weight: 500; font-size: 10px;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--green); margin-right: 8px; vertical-align: 1px;
+    }
+    .d3 .promises {
+      list-style: none; padding: 0; margin: 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px 40px;
+      font: 400 14px/1.5 var(--font-ui);
+      color: rgba(13,34,64,0.82);
+    }
+    .d3 .promises li .pain {
+      font: italic 400 15.5px/1.3 var(--font-display);
+      color: var(--crimson);
+      display: block;
+      margin-bottom: 3px;
+    }
+    @media (max-width: 760px) {
+      .d3 .promises { grid-template-columns: 1fr; }
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       D4 — ARCHITECTURE DIAGRAM with numbered annotations
+       ════════════════════════════════════════════════════════════════ */
+    .d4 .frame {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 24px 0 8px;
+    }
+    .d4 svg { width: 100%; height: 380px; display: block; }
+    .d4 .col-label { fill: var(--text-muted); font: 600 10px var(--font-ui); letter-spacing: 0.18em; text-transform: uppercase; }
+    .d4 .col-sub { fill: var(--text-faint); font: 400 10px var(--font-mono); letter-spacing: 0.06em; }
+    .d4 .cbs-node, .d4 .net-node {
+      fill: var(--cream-warm); stroke: var(--navy); stroke-width: 1; opacity: 0.7;
+    }
+    .d4 .cbs-text, .d4 .net-text { fill: var(--navy); font: 500 11px var(--font-ui); }
+    .d4 .gateway { fill: var(--navy); }
+    .d4 .gateway-label { fill: var(--cream-warm); font: 700 16px var(--font-display); }
+    .d4 .gateway-sub { fill: rgba(242,239,232,0.55); font: 500 9px var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; }
+    .d4 .edge { stroke: rgba(13,34,64,0.18); stroke-width: 1; fill: none; }
+    .d4 .annot { font: italic 11.5px var(--font-display); fill: var(--crimson); }
+    .d4 .annot-num {
+      fill: var(--crimson);
+      font: 700 12px var(--font-display);
+    }
+    .d4 .annot-line { stroke: var(--crimson); stroke-width: 1; opacity: 0.4; stroke-dasharray: 2 3; }
+
+    .d4 .legend {
+      list-style: none; padding: 0; margin: 16px 0 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px 40px;
+    }
+    .d4 .legend li {
+      display: grid; grid-template-columns: 28px 1fr;
+      gap: 10px;
+      align-items: baseline;
+    }
+    .d4 .legend .num {
+      font: italic 400 14px/1 var(--font-display);
+      color: var(--crimson);
+    }
+    .d4 .legend .head {
+      font: 700 14px/1.3 var(--font-display);
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+    .d4 .legend .body {
+      font: 400 13px/1.5 var(--font-ui);
+      color: rgba(13,34,64,0.7);
+    }
+    @media (max-width: 760px) {
+      .d4 .legend { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01s !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="switcher">
+  <b>§3 Option C — 4 designs</b>
+  <a href="#d1">D1 Editorial list</a>
+  <a href="#d2">D2 Card grid</a>
+  <a href="#d3">D3 Mirror ECG + list</a>
+  <a href="#d4">D4 Architecture + callouts</a>
+</nav>
+
+<!-- ═════════════════════════ D1 ═════════════════════════ -->
+<div class="opt-label" id="d1-label">
+  <span class="opt-label__tag">D1</span>
+  <span class="opt-label__title">Editorial typographic list — pure, mirrors §2's register</span>
+  <span class="opt-label__note">Numbered editorial column. Same family as §2's prose list. Clean, scannable. Best for narrative symmetry.</span>
+</div>
+<section class="solution d1" id="d1">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">
+        EBB Systems replaces fragile payment infrastructure <em>with a resilient transaction platform.</em>
+      </h2>
+    </header>
+    <ol class="list" id="d1-list"></ol>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════════ D2 ═════════════════════════ -->
+<div class="opt-label" id="d2-label">
+  <span class="opt-label__tag">D2</span>
+  <span class="opt-label__title">Card grid — 2 columns × 4 rows, scannable</span>
+  <span class="opt-label__note">8 cards in a 2×4 grid. Each card has a small mono crimson tag, headline, and body. Visual rhythm; easier to scan than a list.</span>
+</div>
+<section class="solution d2" id="d2">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">
+        Eight capabilities. <em>One resilient layer.</em>
+      </h2>
+      <p class="solution__sub">EBB Systems replaces fragile payment infrastructure with a resilient transaction platform.</p>
+    </header>
+    <div class="grid" id="d2-grid"></div>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════════ D3 ═════════════════════════ -->
+<div class="opt-label" id="d3-label">
+  <span class="opt-label__tag">D3</span>
+  <span class="opt-label__title">Mirror ECG + list — the visual answer to §2's broken pulse</span>
+  <span class="opt-label__note">Same chart as §2, now steady. Ghost of the broken line fades behind. List of 8 capabilities below, paired with the §2 pain each closes.</span>
+</div>
+<section class="solution d3" id="d3">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">
+        And this is your platform <em>with EBB underneath.</em>
+      </h2>
+      <p class="solution__sub">Same chart. Same scale. The drops are gone. Eight capabilities built into the platform — every pattern from §2, engineered out at the layer.</p>
+    </header>
+    <div class="pulse">
+      <div class="pulse-meta">
+        <span><b>payments throughput</b> · same composite, post-EBB</span>
+        <span class="ok">steady · no drops</span>
+      </div>
+      <svg viewBox="0 0 1200 180" preserveAspectRatio="none" aria-hidden="true">
+        <line x1="0" y1="90" x2="1200" y2="90" stroke="rgba(13,34,64,0.08)" stroke-dasharray="2 4"/>
+        <path class="ghost" d="
+          M 0 80 Q 30 75 60 85 T 120 82 L 130 82 L 140 160 L 150 82
+          Q 180 78 210 88 T 280 80 Q 320 72 360 85 T 420 80
+          L 430 80 L 442 148 L 454 80 Q 490 75 520 88 T 580 82
+          Q 620 80 660 85 T 720 78 L 728 78 L 740 165 L 752 78
+          Q 790 75 820 85 T 880 80 Q 920 78 960 88 T 1020 80
+          L 1028 80 L 1040 152 L 1052 80 Q 1090 78 1120 88 T 1200 82"/>
+        <path id="d3path" class="line" d="
+          M 0 82 C 80 78 160 86 240 82 S 400 78 480 82 S 640 86 720 82
+          S 880 78 960 82 S 1120 86 1200 82"/>
+        <circle class="scan" r="3.5">
+          <animateMotion dur="9s" repeatCount="indefinite"><mpath href="#d3path"/></animateMotion>
+        </circle>
+      </svg>
+      <p class="pulse-caption"><b>Fig.</b>Faint dashed line behind: what your platform looks like today. Solid line: with EBB underneath.</p>
+    </div>
+    <ul class="promises" id="d3-list"></ul>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<!-- ═════════════════════════ D4 ═════════════════════════ -->
+<div class="opt-label" id="d4-label">
+  <span class="opt-label__tag">D4</span>
+  <span class="opt-label__title">Architecture diagram + numbered callouts — most educational</span>
+  <span class="opt-label__note">A single hero diagram showing the EBB layer between your stack and operators. Each of the 8 capabilities is a numbered annotation pointing to where it lives in the architecture.</span>
+</div>
+<section class="solution d4" id="d4">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">
+        One resilient layer <em>— eight built-in capabilities.</em>
+      </h2>
+      <p class="solution__sub">EBB Systems sits between your bank and every operator. Each capability lives where it earns its place.</p>
+    </header>
+    <div class="frame">
+      <svg viewBox="0 0 1100 380" aria-hidden="true">
+        <text class="col-label" x="80" y="32">Your stack</text>
+        <text class="col-sub" x="80" y="46">core banking</text>
+        <text class="col-label" x="550" y="32" text-anchor="middle">EBB Gateway</text>
+        <text class="col-sub" x="550" y="46" text-anchor="middle">infrastructure layer</text>
+        <text class="col-label" x="1020" y="32" text-anchor="end">Networks</text>
+        <text class="col-sub" x="1020" y="46" text-anchor="end">operators &amp; rails</text>
+
+        <!-- CBS -->
+        <g>
+          <rect class="cbs-node" x="40" y="100" width="120" height="32" rx="3"/>
+          <text class="cbs-text" x="100" y="120" text-anchor="middle">Finacle / T24</text>
+          <rect class="cbs-node" x="40" y="180" width="120" height="32" rx="3"/>
+          <text class="cbs-text" x="100" y="200" text-anchor="middle">FlexCube</text>
+          <rect class="cbs-node" x="40" y="260" width="120" height="32" rx="3"/>
+          <text class="cbs-text" x="100" y="280" text-anchor="middle">Custom CBS</text>
+        </g>
+
+        <!-- edges -->
+        <g>
+          <line class="edge" x1="160" y1="116" x2="430" y2="116"/>
+          <line class="edge" x1="160" y1="196" x2="430" y2="196"/>
+          <line class="edge" x1="160" y1="276" x2="430" y2="276"/>
+          <line class="edge" x1="430" y1="116" x2="450" y2="196"/>
+          <line class="edge" x1="430" y1="196" x2="450" y2="196"/>
+          <line class="edge" x1="430" y1="276" x2="450" y2="196"/>
+        </g>
+
+        <!-- Gateway -->
+        <rect class="gateway" x="450" y="100" width="200" height="200" rx="8"/>
+        <text class="gateway-label" x="550" y="130" text-anchor="middle">EBB</text>
+        <text class="gateway-sub" x="550" y="148" text-anchor="middle">payment gateway</text>
+
+        <!-- 8 capability dots inside the gateway -->
+        <g transform="translate(475, 170)">
+          <circle cx="0" cy="0" r="4" fill="#F2EFE8"/>   <text x="14" y="3" fill="rgba(242,239,232,0.7)" font-family="JetBrains Mono" font-size="10">resilient routing</text>
+          <circle cx="0" cy="20" r="4" fill="#F2EFE8"/>  <text x="14" y="23" fill="rgba(242,239,232,0.7)" font-family="JetBrains Mono" font-size="10">reconciliation</text>
+          <circle cx="0" cy="40" r="4" fill="#F2EFE8"/>  <text x="14" y="43" fill="rgba(242,239,232,0.7)" font-family="JetBrains Mono" font-size="10">audit log</text>
+          <circle cx="0" cy="60" r="4" fill="#F2EFE8"/>  <text x="14" y="63" fill="rgba(242,239,232,0.7)" font-family="JetBrains Mono" font-size="10">transaction view</text>
+          <circle cx="0" cy="80" r="4" fill="#F2EFE8"/>  <text x="14" y="83" fill="rgba(242,239,232,0.7)" font-family="JetBrains Mono" font-size="10">defence-in-depth</text>
+          <circle cx="0" cy="100" r="4" fill="#F2EFE8"/> <text x="14" y="103" fill="rgba(242,239,232,0.7)" font-family="JetBrains Mono" font-size="10">AML / KYC</text>
+          <circle cx="0" cy="120" r="4" fill="#F2EFE8"/> <text x="14" y="123" fill="rgba(242,239,232,0.7)" font-family="JetBrains Mono" font-size="10">corridor adapters</text>
+        </g>
+
+        <!-- edges to networks -->
+        <g>
+          <line class="edge" x1="650" y1="196" x2="670" y2="116"/>
+          <line class="edge" x1="650" y1="196" x2="670" y2="196"/>
+          <line class="edge" x1="650" y1="196" x2="670" y2="276"/>
+          <line class="edge" x1="670" y1="116" x2="940" y2="116"/>
+          <line class="edge" x1="670" y1="196" x2="940" y2="196"/>
+          <line class="edge" x1="670" y1="276" x2="940" y2="276"/>
+        </g>
+
+        <!-- Networks -->
+        <g>
+          <rect class="net-node" x="940" y="100" width="120" height="32" rx="3"/>
+          <text class="net-text" x="1000" y="120" text-anchor="middle">Mobile money</text>
+          <rect class="net-node" x="940" y="180" width="120" height="32" rx="3"/>
+          <text class="net-text" x="1000" y="200" text-anchor="middle">Card networks</text>
+          <rect class="net-node" x="940" y="260" width="120" height="32" rx="3"/>
+          <text class="net-text" x="1000" y="280" text-anchor="middle">Cross-border</text>
+        </g>
+
+        <!-- numbered callouts pointing at where each capability lives -->
+        <g>
+          <text class="annot-num" x="295" y="80" text-anchor="middle">①</text>
+          <text class="annot"     x="295" y="68" text-anchor="middle">resilient routing</text>
+          <line class="annot-line" x1="295" y1="86" x2="295" y2="170"/>
+
+          <text class="annot-num" x="795" y="80" text-anchor="middle">⑦</text>
+          <text class="annot"     x="795" y="68" text-anchor="middle">corridor adapters</text>
+          <line class="annot-line" x1="795" y1="86" x2="795" y2="120"/>
+
+          <text class="annot-num" x="295" y="340" text-anchor="middle">②</text>
+          <text class="annot"     x="295" y="356" text-anchor="middle">continuous reconciliation</text>
+          <line class="annot-line" x1="295" y1="328" x2="295" y2="240"/>
+
+          <text class="annot-num" x="795" y="340" text-anchor="middle">⑧</text>
+          <text class="annot"     x="795" y="356" text-anchor="middle">safe deployments</text>
+          <line class="annot-line" x1="795" y1="328" x2="795" y2="240"/>
+        </g>
+      </svg>
+    </div>
+    <ol class="legend" id="d4-legend"></ol>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<script>
+  /* Shared data — 8 solutions */
+  const SOLUTIONS = [
+    {
+      head: 'Multi-rail routing with built-in retries and reversals',
+      body: 'Failures contained at the infrastructure layer; customers see successful transactions.',
+      tag:  'routing'
+    },
+    {
+      head: 'Continuous reconciliation across every operator',
+      body: 'Gaps flagged and resolved before they reach finance.',
+      tag:  'reconciliation'
+    },
+    {
+      head: 'Every transaction, checkpoint, and authorisation decision logged immutably',
+      body: 'Regulator queries answered in seconds.',
+      tag:  'audit'
+    },
+    {
+      head: 'Every transaction\'s lifecycle in one place',
+      body: 'Origination, routing, checkpoints, settlement, ledger entry — surfaced from one query.',
+      tag:  'observability'
+    },
+    {
+      head: 'Defence-in-depth on every payload, inherited by every new operator',
+      body: 'Every payload signed, every connection mutually authenticated, every hop encrypted — the security model applied before the integration goes live.',
+      tag:  'security'
+    },
+    {
+      head: 'AML, KYC, and sanctions screening built into every flow',
+      body: 'Live on day one of every new market.',
+      tag:  'compliance'
+    },
+    {
+      head: 'New corridors live in weeks, not quarters',
+      body: 'Protocol adapters, AML rules, audit schema, and reporting templates all pre-built; the integration team is the EBB platform team.',
+      tag:  'corridors'
+    },
+    {
+      head: 'Safe deployments and controlled change management',
+      body: 'Daytime-safe, rollback in seconds.',
+      tag:  'deploys'
+    },
+  ];
+  function num(i) { return String(i+1).padStart(2,'0'); }
+
+  /* D1 — editorial list */
+  document.getElementById('d1-list').innerHTML = SOLUTIONS.map((s,i) => `
+    <li>
+      <span class="num">${num(i)}</span>
+      <div>
+        <div class="head">${s.head}</div>
+        <div class="body">${s.body}</div>
+      </div>
+    </li>
+  `).join('');
+
+  /* D2 — card grid */
+  document.getElementById('d2-grid').innerHTML = SOLUTIONS.map(s => `
+    <div class="card">
+      <span class="tag">${s.tag}</span>
+      <div class="head">${s.head}</div>
+      <div class="body">${s.body}</div>
+    </div>
+  `).join('');
+
+  /* D3 — mirror ECG list (pain mirror format) */
+  const PAIN_MIRRORS = [
+    { pain: 'Timeouts & outages',         sol: 'Multi-rail routing with built-in retries and reversals — failures contained at the layer.' },
+    { pain: 'Reversals',                  sol: 'Auto-reversal in milliseconds — finance never sees the gap open.' },
+    { pain: 'Recon',                      sol: 'Continuous reconciliation across every operator — gaps flagged before they reach finance.' },
+    { pain: 'Audits',                     sol: 'Every transaction logged immutably — regulator queries answered in seconds.' },
+    { pain: 'Customer complaints',        sol: 'Every transaction\'s lifecycle in one place — surfaced from one query.' },
+    { pain: 'A security surface',         sol: 'Defence-in-depth on every payload — inherited by every new operator.' },
+    { pain: 'Compliance',                 sol: 'AML, KYC, and sanctions screening built into every flow.' },
+    { pain: 'Corridor integrations',      sol: 'New corridors live in 4–8 weeks — every protocol pre-integrated.' },
+    { pain: 'Deploys',                    sol: 'Safe controlled deployments — daytime-safe, rollback in seconds.' },
+    { pain: 'The invisible cost',         sol: 'Your engineers ship product — we own the platform underneath.' },
+  ];
+  document.getElementById('d3-list').innerHTML = PAIN_MIRRORS.map(p =>
+    `<li><span class="pain">${p.pain}</span><span>${p.sol}</span></li>`
+  ).join('');
+
+  /* D4 — legend */
+  document.getElementById('d4-legend').innerHTML = SOLUTIONS.map((s,i) => `
+    <li>
+      <span class="num">${num(i)}</span>
+      <div>
+        <div class="head">${s.head}</div>
+        <div class="body">${s.body}</div>
+      </div>
+    </li>
+  `).join('');
+</script>
+
+</body>
+</html>
