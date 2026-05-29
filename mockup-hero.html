@@ -1274,6 +1274,92 @@
     }
 
     /* =============================================================
+       V2 HERO — editorial two-column. Replaces the centered brand-first
+       hero. Reuses .network (SVG animation), .btn, .proof from V1.
+       ============================================================= */
+    .hero2 {
+      padding: 56px 24px 0;
+      background: var(--cream-warm);
+      color: var(--navy);
+      min-height: calc(100vh - 64px);
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+    }
+    .hero2__container {
+      max-width: 1200px;
+      width: 100%;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+      gap: 72px;
+      align-items: center;
+      padding: 56px 0 40px;
+    }
+    .hero2__copy {
+      display: flex; flex-direction: column; gap: 22px;
+      max-width: 620px;
+    }
+    .hero2__eyebrow {
+      display: inline-flex; align-items: center; gap: 12px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .hero2__eyebrow::before { content: ''; width: 32px; height: 1.5px; background: var(--crimson); }
+    .hero2__heading {
+      font: 400 clamp(34px, 4.4vw, 52px)/1.15 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.014em;
+    }
+    .hero2__heading em { font-style: italic; color: var(--crimson); font-weight: 400; }
+    .hero2__sub {
+      font: 400 clamp(15px, 1.55vw, 17.5px)/1.55 var(--font-ui);
+      color: var(--text-muted-navy);
+      max-width: 560px;
+    }
+    .hero2__cta {
+      display: flex; align-items: center; gap: 28px;
+      margin-top: 10px; flex-wrap: wrap;
+    }
+    .hero2__btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 26px;
+      background: var(--crimson);
+      color: var(--cream-warm);
+      font: 600 13.5px/1 var(--font-ui);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      border-radius: 2px;
+      transition: background 200ms var(--ease), transform 200ms var(--ease);
+    }
+    .hero2__btn:hover { background: #6b1414; transform: translateY(-1px); }
+    .hero2__link {
+      font: 500 13px/1 var(--font-ui);
+      letter-spacing: 0.04em;
+      color: var(--navy);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 4px;
+      transition: border-color 200ms var(--ease);
+    }
+    .hero2__link:hover { border-color: var(--crimson); color: var(--crimson); }
+
+    .hero2__viz {
+      width: 100%;
+      max-width: 520px;
+      justify-self: end;
+    }
+    .hero2__viz svg { width: 100%; height: auto; display: block; }
+
+    /* Proof strip lives at the bottom of the hero section.
+       Reuses .proof styling already in place. */
+
+    @media (max-width: 960px) {
+      .hero2__container { grid-template-columns: 1fr; gap: 40px; padding: 32px 0; }
+      .hero2__viz { justify-self: center; max-width: 460px; }
+    }
+
+    /* =============================================================
        §3 THE SOLUTION
        Radial diagram (CBS → EBB → networks) + 4-theme card grid.
        All classes prefixed .solution3- to avoid collisions with §1/§2.
@@ -1491,33 +1577,20 @@
   <!-- ============================================================
        HERO
        ============================================================ -->
-  <section class="hero hero--brand-first" id="hero">
-    <div class="hero__container hero__container--centered">
+  <section class="hero2" id="hero">
+    <div class="hero2__container">
 
-      <!-- Centered logo mark, CSS-rendered for crisp scaling (production parity) -->
-      <div class="hero__brand-logo" aria-label="EBB Systems">
-        <div class="hero__brand-rule" aria-hidden="true"></div>
-        <div class="hero__brand-ebb" aria-hidden="true">EBB</div>
-        <div class="hero__brand-systems" aria-hidden="true">Systems</div>
+      <div class="hero2__copy">
+        <span class="hero2__eyebrow">payment infrastructure</span>
+        <h1 class="hero2__heading">The resilient payment layer between your bank and <em>every operator.</em></h1>
+        <p class="hero2__sub">Built into a platform &mdash; not maintained by hand. Integration sprawl, retries, audit trails, and the on-call rota, taken off your engineering team&rsquo;s plate.</p>
+        <div class="hero2__cta">
+          <a href="#talk" class="hero2__btn">Talk to engineering &rarr;</a>
+          <a href="#problem" class="hero2__link">See the pattern &darr;</a>
+        </div>
       </div>
 
-      <h1 class="hero__brand-tagline">
-        Secure. Scalable.<br>
-        <em>Engineered for Trust.</em>
-      </h1>
-
-      <p class="hero__brand-lead">
-        Secure financial infrastructure and integration services<br>
-        for banks, fintechs, and institutions worldwide.
-      </p>
-
-      <div class="hero__cta-row hero__cta-row--centered">
-        <a href="#problem" class="btn btn--primary">Explore Our Solutions</a>
-        <a href="#talk" class="btn btn--ghost">Schedule a Briefing</a>
-      </div>
-
-      <!-- (Removed: side network viz — we now lead with brand identity.) -->
-      <div class="hero__viz" aria-hidden="true" hidden>
+      <div class="hero2__viz" aria-hidden="true">
         <svg class="network" viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg">
 
           <!-- Hidden definitions for animation paths
@@ -1937,7 +2010,7 @@
       <ol class="solution3__themes" data-solution3-themes></ol>
 
       <div class="solution3__closing">
-        <p class="solution3__closing-text">Your engineers build what&rsquo;s next. <em>We run what&rsquo;s now.</em></p>
+        <p class="solution3__closing-text">We hold the rails. <em>You hold the roadmap.</em></p>
       </div>
 
     </div>
@@ -2063,34 +2136,34 @@
       const THEMES = [
         {
           title: 'Peace of mind',
-          felt:  'Things break gracefully. Nothing surprises finance.',
+          felt:  'The 3am pager, finally quiet.',
           items: [
-            { b: 'Multi-rail routing', d: 'Retries and reversals built in. Failures contained at the infrastructure layer.' },
-            { b: 'Continuous reconciliation', d: 'Every operator reconciled continuously. Variances resolved before they reach finance.' },
+            { b: 'Multi-rail routing', d: 'Retries and reversals built in. Most failures resolve themselves before anyone has to be woken.' },
+            { b: 'Continuous reconciliation', d: 'Every operator reconciled continuously. Variances surface and resolve long before finance closes the books.' },
           ],
         },
         {
           title: 'Confidence',
-          felt:  'Ready for any regulator. Ready for any question.',
+          felt:  "The regulator's questions, already answered.",
           items: [
             { b: 'Immutable audit trails', d: 'Every transaction, checkpoint, and authorisation decision logged on the record.' },
-            { b: 'Unified transaction view', d: "Every transaction's lifecycle surfaced from one query — origination to ledger entry." },
+            { b: 'Unified transaction view', d: "Every transaction's lifecycle in one view — origination, routing, settlement, ledger entry." },
           ],
         },
         {
           title: 'Trust',
-          felt:  'Security at every layer. Compliance on day one.',
+          felt:  'The hardening, already done.',
           items: [
-            { b: 'Defence-in-depth', d: 'Payloads signed, connections mutually authenticated, every hop encrypted — inherited by every new operator.' },
-            { b: 'AML, KYC & sanctions', d: 'Screening built into every flow. Live before the first transaction in every new corridor.' },
+            { b: 'Defence-in-depth', d: 'Payloads signed, connections mutually authenticated, every hop encrypted — inherited by every new operator your team brings on.' },
+            { b: 'AML, KYC & sanctions', d: 'Screening built into every flow. The controls your compliance team already trusts, already in place.' },
           ],
         },
         {
           title: 'Velocity',
-          felt:  'Ship fast. Ship calm.',
+          felt:  'Yes in weeks, not quarters.',
           items: [
-            { b: 'New corridors, fast', d: 'Protocol adapters, AML rules, audit schema, reporting templates — all pre-built. Weeks, not quarters.' },
-            { b: 'Safe deployments', d: 'Daytime-safe releases, controlled change management, rollback in seconds.' },
+            { b: 'New corridors, fast', d: 'Protocol adapters, AML rules, audit schema, reporting templates — all pre-built. The business asks; the answer can be soon.' },
+            { b: 'Safe deployments', d: 'Daytime-safe releases, controlled change management, rollback in seconds. Weekends stay weekends.' },
           ],
         },
       ];
