@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow">
+  <title>§3 V3 — 5 final treatments — EBB V2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0D2240;
+      --navy-soft: #1B335C;
+      --cream-warm: #F2EFE8;
+      --cream-card: #FAF7F1;
+      --crimson: #8B1A1A;
+      --text-body: rgba(13,34,64,0.82);
+      --text-muted: rgba(13,34,64,0.62);
+      --text-faint: rgba(13,34,64,0.42);
+      --rule: rgba(13,34,64,0.10);
+      --rule-strong: rgba(13,34,64,0.18);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --ease: cubic-bezier(0.4,0,0.2,1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font-ui); background: var(--cream-warm); color: var(--text-body); -webkit-font-smoothing: antialiased; }
+
+    .switcher {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--navy); color: var(--cream-warm);
+      padding: 14px 28px;
+      display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+      font: 500 13px/1 var(--font-ui);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .switcher b { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; margin-right: 12px; }
+    .switcher a { color: rgba(255,255,255,0.7); padding: 6px 10px; border-radius: 4px; }
+    .switcher a:hover { background: rgba(255,255,255,0.08); color: #fff; }
+
+    .opt-label {
+      max-width: 1180px; margin: 0 auto; padding: 32px 24px 0;
+      border-top: 1px solid var(--rule);
+      display: flex; gap: 14px; align-items: baseline; flex-wrap: wrap;
+    }
+    .opt-label__tag { font: 500 11px/1 var(--font-mono); letter-spacing: 0.14em; text-transform: uppercase; color: var(--crimson); }
+    .opt-label__title { font: 700 17px/1.3 var(--font-display); color: var(--navy); }
+    .opt-label__note { font: 400 13px/1.45 var(--font-ui); color: var(--text-muted); margin-left: auto; max-width: 560px; }
+
+    .solution { padding: 28px 24px 56px; }
+    .solution__container { max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+    .solution__head { max-width: 840px; display: flex; flex-direction: column; gap: 10px; }
+    .solution__eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .solution__eyebrow::before { content: ''; width: 28px; height: 1.5px; background: var(--crimson); }
+    .solution__heading {
+      font: 400 clamp(24px, 3vw, 32px)/1.25 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.005em;
+    }
+    .solution__heading em { font-style: italic; color: var(--navy); font-weight: 400; }
+
+    .closing {
+      margin-top: 12px; padding-top: 18px;
+      border-top: 1px solid var(--rule);
+      max-width: 880px;
+      font: italic 400 clamp(16px, 1.8vw, 19px)/1.45 var(--font-display);
+      color: var(--navy);
+    }
+    .closing em { color: var(--crimson); font-style: italic; }
+
+    /* ── Diagram frame (same hub layout in all 5) ── */
+    .diagram {
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 32px 24px;
+      background: rgba(13,34,64,0.015);
+    }
+    .diagram-row {
+      display: grid;
+      grid-template-columns: 240px 1fr 240px;
+      gap: 16px;
+      align-items: center;
+    }
+    @media (max-width: 920px) {
+      .diagram-row { grid-template-columns: 1fr; gap: 24px; }
+    }
+    .hub-svg { width: 100%; height: 460px; display: block; }
+    .hub-svg .spoke { stroke: rgba(13,34,64,0.22); stroke-width: 1; fill: none; }
+    .hub-svg .cap-box { fill: #fff; stroke: var(--navy); stroke-width: 1; }
+    .hub-svg .cap-text { fill: var(--navy); font: 500 12px var(--font-ui); }
+    .hub-svg .ebb-circle { fill: var(--navy); }
+    .hub-svg .ebb-text { fill: var(--cream-warm); font: 700 20px var(--font-display); }
+    .hub-svg .ebb-sub { fill: rgba(242,239,232,0.55); font: 500 9px var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; }
+    .hub-svg .panel-edge { stroke: rgba(13,34,64,0.25); stroke-width: 1; stroke-dasharray: 3 3; fill: none; }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Panel styles A–E (one for each variation)
+       ───────────────────────────────────────────────────────────────── */
+
+    /* V1 panels — clean white card, serif title, italic eyebrow, dot bullets */
+    .panel-v1 {
+      background: #fff;
+      border: 1px solid var(--rule-strong);
+      border-radius: 6px;
+      padding: 16px 18px 18px;
+      box-shadow: 0 1px 0 rgba(13,34,64,0.04);
+    }
+    .panel-v1 .eyebrow {
+      font: italic 400 11px/1 var(--font-display);
+      color: var(--crimson);
+      margin-bottom: 4px;
+    }
+    .panel-v1 .title {
+      font: 700 14px/1.3 var(--font-display);
+      color: var(--navy);
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .panel-v1 ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .panel-v1 li {
+      display: flex; align-items: center; gap: 10px;
+      font: 500 12.5px/1.3 var(--font-ui);
+      color: var(--navy);
+    }
+    .panel-v1 li::before {
+      content: ''; width: 4px; height: 4px; border-radius: 50%;
+      background: var(--crimson);
+      flex-shrink: 0;
+    }
+
+    /* V2 panels — navy header strip, light body */
+    .panel-v2 {
+      background: #fff;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 1px 4px rgba(13,34,64,0.06);
+    }
+    .panel-v2 .head {
+      background: var(--navy);
+      color: var(--cream-warm);
+      padding: 12px 16px;
+    }
+    .panel-v2 .eyebrow {
+      font: 700 9px/1 var(--font-ui);
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(242,239,232,0.6);
+      margin-bottom: 4px;
+    }
+    .panel-v2 .title {
+      font: 700 13px/1.25 var(--font-display);
+      color: var(--cream-warm);
+    }
+    .panel-v2 .body { padding: 14px 16px; }
+    .panel-v2 ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+    .panel-v2 li {
+      font: 500 12.5px/1.3 var(--font-ui);
+      color: var(--navy);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .panel-v2 li::before {
+      content: ''; width: 3px; height: 12px; background: var(--crimson);
+      flex-shrink: 0;
+    }
+
+    /* V3 panels — minimal outlined, type-led */
+    .panel-v3 {
+      background: transparent;
+      border: 1px solid var(--navy);
+      border-radius: 0;
+      padding: 18px 18px 20px;
+    }
+    .panel-v3 .eyebrow {
+      font: 700 9.5px/1 var(--font-mono);
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 8px;
+    }
+    .panel-v3 .title {
+      font: 700 13px/1.3 var(--font-display);
+      color: var(--navy);
+      margin-bottom: 14px;
+    }
+    .panel-v3 ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+    .panel-v3 li {
+      font: 400 13px/1.4 var(--font-display);
+      color: var(--navy);
+      padding-left: 14px;
+      position: relative;
+    }
+    .panel-v3 li::before {
+      content: '—';
+      position: absolute; left: 0; top: 0;
+      color: var(--crimson);
+      font-weight: 600;
+    }
+
+    /* V4 panels — soft elevated white, rounded, mono labels */
+    .panel-v4 {
+      background: #fff;
+      border-radius: 10px;
+      padding: 18px 18px 20px;
+      box-shadow: 0 8px 24px -10px rgba(13,34,64,0.18), 0 1px 0 rgba(13,34,64,0.04);
+      border: 1px solid rgba(13,34,64,0.04);
+    }
+    .panel-v4 .eyebrow {
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 6px;
+    }
+    .panel-v4 .title {
+      font: 700 14px/1.25 var(--font-display);
+      color: var(--navy);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+      border-bottom: 1px dashed var(--rule);
+    }
+    .panel-v4 ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .panel-v4 li {
+      padding: 6px 10px;
+      background: rgba(13,34,64,0.03);
+      border-radius: 4px;
+      font: 500 12.5px/1 var(--font-ui);
+      color: var(--navy);
+    }
+
+    /* V5 panels — crimson left rule accent */
+    .panel-v5 {
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-left: 4px solid var(--crimson);
+      border-radius: 0 4px 4px 0;
+      padding: 16px 18px 18px;
+    }
+    .panel-v5 .eyebrow {
+      font: 700 10px/1 var(--font-ui);
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 6px;
+    }
+    .panel-v5 .title {
+      font: 700 13.5px/1.25 var(--font-display);
+      color: var(--navy);
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .panel-v5 ul { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr; gap: 6px; }
+    .panel-v5 li {
+      display: grid;
+      grid-template-columns: 16px 1fr;
+      gap: 8px;
+      font: 500 12.5px/1.3 var(--font-ui);
+      color: var(--navy);
+    }
+    .panel-v5 li::before {
+      content: '›';
+      color: var(--crimson);
+      font-weight: 700;
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       Legend styles (the 01-08 below) — different per variation
+       ───────────────────────────────────────────────────────────────── */
+
+    /* L1 — bordered editorial cards with crimson left rule + italic numerals (2 cols) */
+    .legend-1 {
+      list-style: none; padding: 0; margin: 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px 28px;
+    }
+    .legend-1 li {
+      background: #fff;
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--crimson);
+      border-radius: 0 4px 4px 0;
+      padding: 14px 18px;
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 12px;
+      align-items: baseline;
+    }
+    .legend-1 .n {
+      font: italic 700 20px/1 var(--font-display);
+      color: var(--crimson);
+    }
+    .legend-1 .h { font: 700 13.5px/1.3 var(--font-display); color: var(--navy); margin-bottom: 4px; }
+    .legend-1 .b { font: 400 12.5px/1.55 var(--font-ui); color: var(--text-muted); }
+
+    /* L2 — dark navy cards with cream numerals (2 cols, dashboard feel) */
+    .legend-2 {
+      list-style: none; padding: 0; margin: 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 12px 16px;
+    }
+    .legend-2 li {
+      background: var(--navy);
+      color: var(--cream-warm);
+      border-radius: 6px;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 12px;
+      align-items: baseline;
+    }
+    .legend-2 .n {
+      font: 700 16px/1 var(--font-mono);
+      color: var(--crimson);
+      background: rgba(242,239,232,0.06);
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .legend-2 .h { font: 700 13px/1.3 var(--font-display); color: var(--cream-warm); margin-bottom: 4px; }
+    .legend-2 .b { font: 400 12px/1.5 var(--font-ui); color: rgba(242,239,232,0.7); }
+
+    /* L3 — bento 2x4 with bordered grid + monospace tags */
+    .legend-3 {
+      list-style: none; padding: 0; margin: 0;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--rule-strong);
+      border-radius: 4px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .legend-3 li {
+      padding: 14px 14px 16px;
+      border-right: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .legend-3 li:nth-child(4n) { border-right: 0; }
+    .legend-3 li:nth-last-child(-n+4) { border-bottom: 0; }
+    .legend-3 .tag {
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .legend-3 .h { font: 700 12.5px/1.3 var(--font-display); color: var(--navy); }
+    .legend-3 .b { font: 400 11.5px/1.5 var(--font-ui); color: var(--text-muted); }
+    @media (max-width: 900px) {
+      .legend-3 { grid-template-columns: 1fr 1fr; }
+      .legend-3 li, .legend-3 li:nth-child(n) { border-right: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+      .legend-3 li:nth-child(2n) { border-right: 0; }
+      .legend-3 li:nth-last-child(-n+2) { border-bottom: 0; }
+    }
+
+    /* L4 — large crimson circular badges (single column editorial) */
+    .legend-4 {
+      list-style: none; padding: 0; margin: 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px 32px;
+    }
+    .legend-4 li {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: baseline;
+    }
+    .legend-4 .n {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--crimson);
+      color: var(--cream-warm);
+      font: 700 13px/1 var(--font-mono);
+    }
+    .legend-4 .h { font: 700 14px/1.35 var(--font-display); color: var(--navy); margin-bottom: 4px; }
+    .legend-4 .b { font: 400 12.5px/1.55 var(--font-ui); color: var(--text-muted); }
+
+    /* L5 — minimal indexed list with mono section number over body (2 cols) */
+    .legend-5 {
+      list-style: none; padding: 0; margin: 0;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 22px 48px;
+    }
+    .legend-5 li {
+      display: flex; flex-direction: column; gap: 4px;
+      padding-top: 8px;
+      border-top: 1px solid var(--crimson);
+    }
+    .legend-5 .n {
+      font: 500 10px/1 var(--font-mono);
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .legend-5 .h { font: 700 14px/1.35 var(--font-display); color: var(--navy); margin-top: 4px; }
+    .legend-5 .b { font: 400 13px/1.55 var(--font-ui); color: var(--text-muted); }
+
+    @media (max-width: 760px) {
+      .legend-1, .legend-2, .legend-4, .legend-5 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="switcher">
+  <b>§3 V3 — 5 final treatments</b>
+  <a href="#a">A · Classic white + editorial</a>
+  <a href="#b">B · Navy header + dashboard</a>
+  <a href="#c">C · Outlined + bento grid</a>
+  <a href="#d">D · Elevated + badge legend</a>
+  <a href="#e">E · Crimson rule + minimal</a>
+</nav>
+
+<!-- ═════════════ A ═════════════ -->
+<div class="opt-label" id="a-label">
+  <span class="opt-label__tag">A</span>
+  <span class="opt-label__title">Classic white card panels + editorial card legend</span>
+  <span class="opt-label__note">White card panels with serif title, italic eyebrow, crimson dot bullets. Legend below: 2-col cards with crimson left-rule + large italic numerals.</span>
+</div>
+<section class="solution" id="a">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">EBB Systems replaces fragile payment infrastructure <em>with a resilient transaction platform.</em></h2>
+    </header>
+    <div class="diagram">
+      <div class="diagram-row">
+        <aside class="panel-v1">
+          <div class="eyebrow">your corebanking stack</div>
+          <div class="title">Core banking systems</div>
+          <ul>
+            <li>Finacle</li>
+            <li>T24</li>
+            <li>FlexCube</li>
+            <li>Custom CBS</li>
+          </ul>
+        </aside>
+        <svg class="hub-svg" viewBox="0 0 600 460" aria-hidden="true" data-hub></svg>
+        <aside class="panel-v1">
+          <div class="eyebrow">networks</div>
+          <div class="title">Operators &amp; rails</div>
+          <ul>
+            <li>Mobile money</li>
+            <li>Card networks</li>
+            <li>Interbanking</li>
+            <li>Cross-border</li>
+            <li>Remittances</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+    <ol class="legend-1" data-legend></ol>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<!-- ═════════════ B ═════════════ -->
+<div class="opt-label" id="b-label">
+  <span class="opt-label__tag">B</span>
+  <span class="opt-label__title">Navy header panels + dark dashboard legend</span>
+  <span class="opt-label__note">Panels have a navy header strip with cream text; lists below have a crimson rule next to each item. Legend: dark navy cards with crimson circular numerals — most product-dashboard feel.</span>
+</div>
+<section class="solution" id="b">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">EBB Systems replaces fragile payment infrastructure <em>with a resilient transaction platform.</em></h2>
+    </header>
+    <div class="diagram">
+      <div class="diagram-row">
+        <aside class="panel-v2">
+          <div class="head">
+            <div class="eyebrow">your corebanking stack</div>
+            <div class="title">Core banking systems</div>
+          </div>
+          <div class="body">
+            <ul>
+              <li>Finacle</li>
+              <li>T24</li>
+              <li>FlexCube</li>
+              <li>Custom CBS</li>
+            </ul>
+          </div>
+        </aside>
+        <svg class="hub-svg" viewBox="0 0 600 460" aria-hidden="true" data-hub></svg>
+        <aside class="panel-v2">
+          <div class="head">
+            <div class="eyebrow">networks</div>
+            <div class="title">Operators &amp; rails</div>
+          </div>
+          <div class="body">
+            <ul>
+              <li>Mobile money</li>
+              <li>Card networks</li>
+              <li>Interbanking</li>
+              <li>Cross-border</li>
+              <li>Remittances</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+    <ol class="legend-2" data-legend></ol>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<!-- ═════════════ C ═════════════ -->
+<div class="opt-label" id="c-label">
+  <span class="opt-label__tag">C</span>
+  <span class="opt-label__title">Outlined minimal panels + bento grid legend</span>
+  <span class="opt-label__note">Thin navy-outlined panels, serif body, em-dash bullets. Legend: 4×2 bordered bento grid below with mono crimson tags — looks like a feature matrix.</span>
+</div>
+<section class="solution" id="c">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">EBB Systems replaces fragile payment infrastructure <em>with a resilient transaction platform.</em></h2>
+    </header>
+    <div class="diagram">
+      <div class="diagram-row">
+        <aside class="panel-v3">
+          <div class="eyebrow">your corebanking stack</div>
+          <div class="title">Core banking systems</div>
+          <ul>
+            <li>Finacle</li>
+            <li>T24</li>
+            <li>FlexCube</li>
+            <li>Custom CBS</li>
+          </ul>
+        </aside>
+        <svg class="hub-svg" viewBox="0 0 600 460" aria-hidden="true" data-hub></svg>
+        <aside class="panel-v3">
+          <div class="eyebrow">networks</div>
+          <div class="title">Operators &amp; rails</div>
+          <ul>
+            <li>Mobile money</li>
+            <li>Card networks</li>
+            <li>Interbanking</li>
+            <li>Cross-border</li>
+            <li>Remittances</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+    <ol class="legend-3" data-legend></ol>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<!-- ═════════════ D ═════════════ -->
+<div class="opt-label" id="d-label">
+  <span class="opt-label__tag">D</span>
+  <span class="opt-label__title">Elevated soft panels + crimson badge legend</span>
+  <span class="opt-label__note">Soft-shadowed rounded panels with pill-style list items. Legend below: 2-col with large crimson circular numbered badges (most modern, dashboard-card feel).</span>
+</div>
+<section class="solution" id="d">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">EBB Systems replaces fragile payment infrastructure <em>with a resilient transaction platform.</em></h2>
+    </header>
+    <div class="diagram">
+      <div class="diagram-row">
+        <aside class="panel-v4">
+          <div class="eyebrow">your corebanking stack</div>
+          <div class="title">Core banking systems</div>
+          <ul>
+            <li>Finacle</li>
+            <li>T24</li>
+            <li>FlexCube</li>
+            <li>Custom CBS</li>
+          </ul>
+        </aside>
+        <svg class="hub-svg" viewBox="0 0 600 460" aria-hidden="true" data-hub></svg>
+        <aside class="panel-v4">
+          <div class="eyebrow">networks</div>
+          <div class="title">Operators &amp; rails</div>
+          <ul>
+            <li>Mobile money</li>
+            <li>Card networks</li>
+            <li>Interbanking</li>
+            <li>Cross-border</li>
+            <li>Remittances</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+    <ol class="legend-4" data-legend></ol>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<!-- ═════════════ E ═════════════ -->
+<div class="opt-label" id="e-label">
+  <span class="opt-label__tag">E</span>
+  <span class="opt-label__title">Crimson-rule panels + minimal indexed legend</span>
+  <span class="opt-label__note">White panels with a 4px crimson left rule, chevron bullets. Legend below: minimal items each separated by a crimson top rule + mono index above title — most editorial.</span>
+</div>
+<section class="solution" id="e">
+  <div class="solution__container">
+    <header class="solution__head">
+      <span class="solution__eyebrow">the solution</span>
+      <h2 class="solution__heading">EBB Systems replaces fragile payment infrastructure <em>with a resilient transaction platform.</em></h2>
+    </header>
+    <div class="diagram">
+      <div class="diagram-row">
+        <aside class="panel-v5">
+          <div class="eyebrow">your corebanking stack</div>
+          <div class="title">Core banking systems</div>
+          <ul>
+            <li>Finacle</li>
+            <li>T24</li>
+            <li>FlexCube</li>
+            <li>Custom CBS</li>
+          </ul>
+        </aside>
+        <svg class="hub-svg" viewBox="0 0 600 460" aria-hidden="true" data-hub></svg>
+        <aside class="panel-v5">
+          <div class="eyebrow">networks</div>
+          <div class="title">Operators &amp; rails</div>
+          <ul>
+            <li>Mobile money</li>
+            <li>Card networks</li>
+            <li>Interbanking</li>
+            <li>Cross-border</li>
+            <li>Remittances</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+    <ol class="legend-5" data-legend></ol>
+    <p class="closing"><em>So your engineers</em> spend less time operating payments and more time building products that grow the business.</p>
+  </div>
+</section>
+
+<script>
+  // Shared hub SVG content — same 8 capability boxes around EBB
+  // (preserves the original V3 layout from D4-variations)
+  const HUB_SVG = `
+    <!-- 8 spokes from EBB centre (300, 230) to each capability box -->
+    <g>
+      <line class="spoke" x1="300" y1="230" x2="300" y2="80"/>
+      <line class="spoke" x1="300" y1="230" x2="450" y2="120"/>
+      <line class="spoke" x1="300" y1="230" x2="510" y2="230"/>
+      <line class="spoke" x1="300" y1="230" x2="450" y2="340"/>
+      <line class="spoke" x1="300" y1="230" x2="300" y2="380"/>
+      <line class="spoke" x1="300" y1="230" x2="150" y2="340"/>
+      <line class="spoke" x1="300" y1="230" x2="90" y2="230"/>
+      <line class="spoke" x1="300" y1="230" x2="150" y2="120"/>
+    </g>
+    <!-- 8 capability rectangles -->
+    <g>
+      <rect class="cap-box" x="220" y="60" width="160" height="40" rx="4"/>
+      <text class="cap-text" x="300" y="85" text-anchor="middle">resilient routing</text>
+
+      <rect class="cap-box" x="370" y="100" width="160" height="40" rx="4"/>
+      <text class="cap-text" x="450" y="125" text-anchor="middle">reconciliation</text>
+
+      <rect class="cap-box" x="430" y="210" width="160" height="40" rx="4"/>
+      <text class="cap-text" x="510" y="235" text-anchor="middle">audit log</text>
+
+      <rect class="cap-box" x="370" y="320" width="160" height="40" rx="4"/>
+      <text class="cap-text" x="450" y="345" text-anchor="middle">transaction view</text>
+
+      <rect class="cap-box" x="220" y="360" width="160" height="40" rx="4"/>
+      <text class="cap-text" x="300" y="385" text-anchor="middle">defence-in-depth</text>
+
+      <rect class="cap-box" x="70" y="320" width="160" height="40" rx="4"/>
+      <text class="cap-text" x="150" y="345" text-anchor="middle">AML / KYC</text>
+
+      <rect class="cap-box" x="10" y="210" width="160" height="40" rx="4"/>
+      <text class="cap-text" x="90" y="235" text-anchor="middle">new corridors</text>
+
+      <rect class="cap-box" x="70" y="100" width="160" height="40" rx="4"/>
+      <text class="cap-text" x="150" y="125" text-anchor="middle">safe deploys</text>
+    </g>
+    <!-- EBB centre node -->
+    <circle class="ebb-circle" cx="300" cy="230" r="58"/>
+    <text class="ebb-text" x="300" y="226" text-anchor="middle">EBB</text>
+    <text class="ebb-sub" x="300" y="246" text-anchor="middle">gateway</text>
+  `;
+  document.querySelectorAll('[data-hub]').forEach(svg => svg.innerHTML = HUB_SVG);
+
+  // Shared 8-solution data
+  const SOLUTIONS = [
+    { h: 'Multi-rail routing with built-in retries and reversals',                       b: 'Failures contained at the infrastructure layer; customers see successful transactions.', tag: 'routing' },
+    { h: 'Continuous reconciliation across every operator',                              b: 'Gaps flagged and resolved before they reach finance.',                                    tag: 'reconciliation' },
+    { h: 'Every transaction, checkpoint, and authorisation decision logged immutably',   b: 'Regulator queries answered in seconds.',                                                  tag: 'audit log' },
+    { h: 'Every transaction\'s lifecycle in one place',                                  b: 'Origination, routing, checkpoints, settlement, ledger entry — surfaced from one query.', tag: 'transaction view' },
+    { h: 'Defence-in-depth on every payload, inherited by every new operator',           b: 'Every payload signed, every connection mutually authenticated, every hop encrypted.',     tag: 'security' },
+    { h: 'AML, KYC, and sanctions screening built into every flow',                      b: 'Live on day one of every new market.',                                                    tag: 'compliance' },
+    { h: 'New corridors live in weeks, not quarters',                                    b: 'Protocol adapters, AML rules, audit schema, and reporting templates all pre-built.',      tag: 'corridors' },
+    { h: 'Safe deployments and controlled change management',                            b: 'Daytime-safe, rollback in seconds.',                                                      tag: 'deploys' },
+  ];
+  const N = i => String(i+1).padStart(2,'0');
+
+  // L1 — bordered cards, italic numerals
+  document.querySelectorAll('.legend-1[data-legend]').forEach(ul => {
+    ul.innerHTML = SOLUTIONS.map((s,i) => `<li>
+      <span class="n">${N(i)}</span>
+      <div><div class="h">${s.h}</div><div class="b">${s.b}</div></div>
+    </li>`).join('');
+  });
+  // L2 — dark dashboard cards
+  document.querySelectorAll('.legend-2[data-legend]').forEach(ul => {
+    ul.innerHTML = SOLUTIONS.map((s,i) => `<li>
+      <span class="n">${N(i)}</span>
+      <div><div class="h">${s.h}</div><div class="b">${s.b}</div></div>
+    </li>`).join('');
+  });
+  // L3 — bento grid with tags
+  document.querySelectorAll('.legend-3[data-legend]').forEach(ul => {
+    ul.innerHTML = SOLUTIONS.map((s,i) => `<li>
+      <span class="tag">${N(i)} · ${s.tag}</span>
+      <div class="h">${s.h}</div>
+      <div class="b">${s.b}</div>
+    </li>`).join('');
+  });
+  // L4 — crimson badge numerals
+  document.querySelectorAll('.legend-4[data-legend]').forEach(ul => {
+    ul.innerHTML = SOLUTIONS.map((s,i) => `<li>
+      <span class="n">${N(i)}</span>
+      <div><div class="h">${s.h}</div><div class="b">${s.b}</div></div>
+    </li>`).join('');
+  });
+  // L5 — minimal indexed with mono index above title
+  document.querySelectorAll('.legend-5[data-legend]').forEach(ul => {
+    ul.innerHTML = SOLUTIONS.map((s,i) => `<li>
+      <span class="n">${N(i)} · ${s.tag}</span>
+      <div class="h">${s.h}</div>
+      <div class="b">${s.b}</div>
+    </li>`).join('');
+  });
+</script>
+
+</body>
+</html>
