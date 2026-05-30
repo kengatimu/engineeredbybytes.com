@@ -96,6 +96,15 @@
       line-height: 1;
       transition: opacity 0.3s var(--ease);
     }
+    /* Small crimson rule above the wordmark — matches the EBB letterhead identity */
+    .nav__brand::before {
+      content: '';
+      display: block;
+      width: 26px;
+      height: 1.5px;
+      background: var(--crimson);
+      margin-bottom: 6px;
+    }
     .nav__brand-ebb {
       font-family: var(--font-display);
       font-weight: 700;
@@ -111,7 +120,7 @@
       color: var(--crimson);
       letter-spacing: 0.32em;
       text-transform: uppercase;
-      margin-top: 3px;
+      margin-top: 4px;
     }
 
     .nav__links {
@@ -458,13 +467,12 @@
 
     /* =============================================================
        PROSE STRIP (replaces the previous numeric proof bar)
-       Two lines: small caps audience tag + editorial prose statement
-       Now lives as part of the hero (no horizontal rule above it)
+       Sits directly under the hero CTA, part of the hero footer
        ============================================================= */
     .proof {
-      margin-top: 40px;
+      margin-top: 32px;
       width: 100%;
-      padding: 0 24px 32px;
+      padding: 0 24px;
     }
     .proof__inner {
       max-width: 900px;
@@ -1423,12 +1431,11 @@
        calm typography-led intro before the page starts working hard.
        ============================================================= */
     .hero2 {
-      padding: 56px 24px 0;
+      padding: 56px 24px 32px;
       background: var(--cream-warm);
       color: var(--navy);
-      min-height: calc(100vh - 64px);
-      display: flex; flex-direction: column;
-      justify-content: space-between;
+      /* No min-height: 100vh — let content size naturally so the proof
+         strip sits right under the CTA, not pushed to the viewport bottom */
     }
     .hero2__container {
       max-width: 1100px;
@@ -1811,7 +1818,7 @@
       <div class="hero2__copy">
         <span class="hero2__eyebrow">payment infrastructure</span>
         <h1 class="hero2__heading">The resilient payment layer between<br>your bank and <em>every operator.</em></h1>
-        <p class="hero2__sub">One platform connecting your corebanking to every operator your customers reach &mdash; built for the next decade of products, corridors, and partners.</p>
+        <p class="hero2__sub">Built for the next decade &mdash; owned by the bank that runs it.</p>
         <div class="hero2__cta">
           <a href="#talk" class="hero2__btn">Schedule a Briefing</a>
         </div>
