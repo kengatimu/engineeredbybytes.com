@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Hero animation — creative concepts</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy:        #0D2240;
+      --navy-soft:   #1C3158;
+      --cream:       #F8F6F1;
+      --cream-warm:  #F2EFE8;
+      --cream-dim:   #E8E4DC;
+      --crimson:     #8B1A1A;
+      --crimson-soft: rgba(139, 26, 26, 0.12);
+      --white:       #FFFFFF;
+      --text-body:   #2A2A2A;
+      --text-muted:  #666666;
+      --rule:        rgba(13, 34, 64, 0.10);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui:      'Inter', -apple-system, sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-ui);
+      background: var(--cream-warm);
+      color: var(--navy);
+      padding: 56px 24px;
+    }
+
+    .page { max-width: 1200px; margin: 0 auto; }
+    .page-head { text-align: center; margin-bottom: 56px; }
+    .page-head .eyebrow {
+      font: 700 10px var(--font-ui);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--crimson);
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+    .page-head h1 {
+      font: 400 32px/1.2 var(--font-display);
+      color: var(--navy);
+      margin-bottom: 14px;
+      letter-spacing: -0.01em;
+    }
+    .page-head h1 em { font-style: italic; color: var(--crimson); }
+    .page-head p {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto;
+      line-height: 1.55;
+    }
+
+    .designs { display: flex; flex-direction: column; gap: 48px; }
+    .design {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 32px;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+    .design__meta { display: flex; flex-direction: column; gap: 10px; }
+    .design__concept {
+      font: 700 9.5px var(--font-ui);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .design__title {
+      font: 700 22px/1.25 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.005em;
+    }
+    .design__desc {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+    .design__what {
+      margin-top: 8px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--rule);
+      font-size: 11.5px;
+      line-height: 1.55;
+    }
+    .design__what b { color: var(--navy); letter-spacing: 0.02em; }
+    .design__viz {
+      background: var(--cream-warm);
+      border-radius: 6px;
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 320px;
+      position: relative;
+      overflow: hidden;
+    }
+    .design__viz svg { width: 100%; height: auto; max-width: 580px; display: block; }
+
+    /* ─────────────────────────────────────────────────────────
+       SHARED STYLES — used across creative concepts
+       ───────────────────────────────────────────────────────── */
+    .nl-line { stroke: rgba(13,34,64,0.18); stroke-width: 1; fill: none; }
+    .nl-node { fill: var(--navy); }
+    .nl-rim { fill: none; stroke: var(--navy); stroke-width: 1; opacity: 0.35; }
+    .nl-label {
+      fill: var(--navy);
+      font: 500 11px var(--font-ui);
+    }
+    .nl-label--micro {
+      fill: var(--text-muted);
+      font: 500 9px var(--font-ui);
+      letter-spacing: 0.04em;
+    }
+    .nl-ebb-box {
+      fill: var(--navy);
+    }
+    .nl-ebb-text {
+      fill: var(--cream);
+      font: 700 13px var(--font-display);
+    }
+    .nl-packet { fill: var(--crimson); }
+
+    /* ─────── CONCEPT 1: THE CONSOLIDATION ─────── */
+    .c1-chaos-path {
+      stroke: rgba(13,34,64,0.35);
+      stroke-width: 1;
+      fill: none;
+      stroke-dasharray: 200;
+      animation: c1ChaosFlow 6s linear infinite;
+    }
+    @keyframes c1ChaosFlow {
+      0%   { stroke-dashoffset: 200; }
+      100% { stroke-dashoffset: 0; }
+    }
+    .c1-clean-path {
+      stroke: rgba(139,26,26,0.45);
+      stroke-width: 1.2;
+      fill: none;
+      stroke-dasharray: 4 8;
+      animation: c1CleanFlow 1.5s linear infinite;
+    }
+    @keyframes c1CleanFlow {
+      0%   { stroke-dashoffset: 24; }
+      100% { stroke-dashoffset: 0; }
+    }
+    .c1-label-tangle {
+      fill: var(--text-muted);
+      font: italic 400 11px var(--font-display);
+    }
+    .c1-label-clean {
+      fill: var(--navy);
+      font: italic 400 11px var(--font-display);
+    }
+
+    /* ─────── CONCEPT 2: KINETIC HEADLINE ─────── */
+    .c2-headline {
+      font: 400 28px/1.35 var(--font-display);
+      color: var(--navy);
+      letter-spacing: -0.008em;
+      text-align: left;
+      max-width: 520px;
+      padding: 20px;
+    }
+    .c2-headline .cycle {
+      display: inline-block;
+      position: relative;
+      color: var(--crimson);
+      font-style: italic;
+      vertical-align: baseline;
+      min-width: 200px;
+      text-align: left;
+    }
+    .c2-headline .cycle span {
+      position: absolute;
+      left: 0;
+      top: 0;
+      white-space: nowrap;
+      opacity: 0;
+      animation: c2Cycle 12s linear infinite;
+    }
+    .c2-headline .cycle span:nth-child(1) { animation-delay: 0s; }
+    .c2-headline .cycle span:nth-child(2) { animation-delay: 2s; }
+    .c2-headline .cycle span:nth-child(3) { animation-delay: 4s; }
+    .c2-headline .cycle span:nth-child(4) { animation-delay: 6s; }
+    .c2-headline .cycle span:nth-child(5) { animation-delay: 8s; }
+    .c2-headline .cycle span:nth-child(6) { animation-delay: 10s; }
+    @keyframes c2Cycle {
+      0%, 1% { opacity: 0; transform: translateY(8px); }
+      2%, 14% { opacity: 1; transform: translateY(0); }
+      16%, 100% { opacity: 0; transform: translateY(-8px); }
+    }
+
+    /* ─────── CONCEPT 3: THE PULSE / ECG ─────── */
+    .c3-line {
+      stroke: rgba(13,34,64,0.18);
+      stroke-width: 1;
+      fill: none;
+    }
+    .c3-pulse-path {
+      stroke: var(--crimson);
+      stroke-width: 1.6;
+      fill: none;
+      stroke-dasharray: 1200;
+      animation: c3PulseDraw 4s ease-in-out infinite;
+    }
+    @keyframes c3PulseDraw {
+      0%   { stroke-dashoffset: 1200; opacity: 0; }
+      8%   { opacity: 1; }
+      75%  { stroke-dashoffset: 0; opacity: 1; }
+      90%  { opacity: 0; }
+      100% { stroke-dashoffset: -1200; opacity: 0; }
+    }
+    .c3-ebb-pulse {
+      animation: c3EbbPulse 4s ease-in-out infinite;
+    }
+    @keyframes c3EbbPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+    .c3-spike-dot {
+      fill: var(--crimson);
+      opacity: 0;
+      animation: c3SpikeDot 4s ease-in-out infinite;
+    }
+    .c3-spike-dot--1 { animation-delay: 1s; }
+    .c3-spike-dot--2 { animation-delay: 1.8s; }
+    .c3-spike-dot--3 { animation-delay: 2.6s; }
+    @keyframes c3SpikeDot {
+      0%, 30%, 100% { opacity: 0; transform: translateY(0); }
+      40%           { opacity: 1; transform: translateY(0); }
+      50%           { opacity: 0; }
+    }
+
+    /* ─────── CONCEPT 4: MAP — AFRICA WITH ACTIVITY ─────── */
+    .c4-africa {
+      fill: rgba(13,34,64,0.06);
+      stroke: rgba(13,34,64,0.25);
+      stroke-width: 1;
+    }
+    .c4-city-dot {
+      fill: var(--navy);
+    }
+    .c4-city-pulse {
+      fill: none;
+      stroke: var(--crimson);
+      stroke-width: 1.5;
+      opacity: 0;
+    }
+    .c4-pulse-1 { animation: ringPulseSmall 3.5s ease-out infinite 0s; }
+    .c4-pulse-2 { animation: ringPulseSmall 3.5s ease-out infinite 0.4s; }
+    .c4-pulse-3 { animation: ringPulseSmall 3.5s ease-out infinite 0.9s; }
+    .c4-pulse-4 { animation: ringPulseSmall 3.5s ease-out infinite 1.4s; }
+    .c4-pulse-5 { animation: ringPulseSmall 3.5s ease-out infinite 1.9s; }
+    .c4-pulse-6 { animation: ringPulseSmall 3.5s ease-out infinite 2.4s; }
+    .c4-pulse-7 { animation: ringPulseSmall 3.5s ease-out infinite 2.9s; }
+    @keyframes ringPulseSmall {
+      0%   { r: 4;  opacity: 0; }
+      25%  { opacity: 0.65; }
+      100% { r: 14; opacity: 0; }
+    }
+    .c4-route {
+      stroke: rgba(139,26,26,0.4);
+      stroke-width: 1;
+      stroke-dasharray: 3 5;
+      fill: none;
+      animation: c4RouteFlow 2s linear infinite;
+    }
+    @keyframes c4RouteFlow {
+      0%   { stroke-dashoffset: 16; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    /* ─────── CONCEPT 5: FLOW STATE (particle river) ─────── */
+    .c5-river-bg {
+      fill: rgba(13,34,64,0.04);
+    }
+    .c5-particle {
+      fill: var(--navy);
+    }
+    .c5-particle-crimson { fill: var(--crimson); }
+
+    /* ─────── COMMON: ringPulse for general use ─────── */
+    @keyframes ringPulse {
+      0%   { r: 10; opacity: 0; }
+      25%  { opacity: 0.6; }
+      100% { r: 26; opacity: 0; }
+    }
+
+    @media (max-width: 760px) {
+      .design { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+  <header class="page-head">
+    <span class="eyebrow">creative experiments</span>
+    <h1>Five hero animations that <em>don't look like diagrams.</em></h1>
+    <p>The earlier options were all variations on "nodes with packets between them." These five step outside that pattern entirely — different visual metaphors, different storytelling approaches.</p>
+  </header>
+
+  <div class="designs">
+
+    <!-- ════════════════════════════════════════════════════════
+         CONCEPT 1 — THE CONSOLIDATION
+         ════════════════════════════════════════════════════════ -->
+    <div class="design">
+      <div class="design__meta">
+        <span class="design__concept">Concept 01 · The Consolidation</span>
+        <h2 class="design__title">Tangle on the left, order on the right</h2>
+        <p class="design__desc">Left side: six chaotic, overlapping integration lines (representing the "stitched-together" reality most banks live with). Center: EBB Gateway. Right: those same connections emerge as six clean, parallel, ordered lines.</p>
+        <div class="design__what">
+          <b>What it tells:</b> EBB takes integration chaos and consolidates it. The most direct visualization of EBB's actual value proposition. Doesn't need to enumerate operators — the contrast does the work.
+        </div>
+      </div>
+      <div class="design__viz">
+        <svg viewBox="0 0 600 280">
+          <!-- LEFT: tangled chaos paths -->
+          <path class="c1-chaos-path" d="M 20 60   Q 80 30, 130 90 T 240 130" />
+          <path class="c1-chaos-path" d="M 20 100  Q 100 90, 150 120 T 240 145" style="animation-delay: 0.5s;" />
+          <path class="c1-chaos-path" d="M 20 140  Q 60 180, 140 130 T 240 140" style="animation-delay: 1s;" />
+          <path class="c1-chaos-path" d="M 20 180  Q 110 110, 170 180 T 240 150" style="animation-delay: 1.5s;" />
+          <path class="c1-chaos-path" d="M 20 220  Q 90 250, 160 200 T 240 155" style="animation-delay: 2s;" />
+          <path class="c1-chaos-path" d="M 20 250  Q 130 220, 180 230 T 240 160" style="animation-delay: 2.5s;" />
+
+          <text x="20" y="270" class="c1-label-tangle">stitched together by hand</text>
+
+          <!-- CENTER: EBB Gateway -->
+          <g>
+            <circle class="nl-rim" cx="300" cy="140" r="44" />
+            <rect class="nl-ebb-box" x="268" y="115" width="64" height="50" rx="5" />
+            <text x="300" y="143" text-anchor="middle" class="nl-ebb-text">EBB</text>
+            <text x="300" y="200" text-anchor="middle" class="nl-label">Gateway</text>
+            <text x="300" y="215" text-anchor="middle" class="nl-label--micro">consolidates</text>
+          </g>
+
+          <!-- RIGHT: clean parallel ordered lines -->
+          <line class="c1-clean-path" x1="360" y1="60"  x2="580" y2="60" />
+          <line class="c1-clean-path" x1="360" y1="90"  x2="580" y2="90" />
+          <line class="c1-clean-path" x1="360" y1="120" x2="580" y2="120" />
+          <line class="c1-clean-path" x1="360" y1="150" x2="580" y2="150" />
+          <line class="c1-clean-path" x1="360" y1="180" x2="580" y2="180" />
+          <line class="c1-clean-path" x1="360" y1="210" x2="580" y2="210" />
+
+          <text x="580" y="270" text-anchor="end" class="c1-label-clean">one platform, owned by the bank</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         CONCEPT 2 — KINETIC HEADLINE
+         ════════════════════════════════════════════════════════ -->
+    <div class="design">
+      <div class="design__meta">
+        <span class="design__concept">Concept 02 · Kinetic Headline</span>
+        <h2 class="design__title">The animation IS the headline</h2>
+        <p class="design__desc">No diagram on the right side at all. Instead, one word in the hero headline animates — cycling through real operator names every 2 seconds. The headline itself shows the breadth.</p>
+        <div class="design__what">
+          <b>What it tells:</b> "every operator" is literal — the word shifts to show each one. Treats hero like editorial typography rather than infographic. Most minimalist; relies entirely on the text doing the work.
+        </div>
+      </div>
+      <div class="design__viz">
+        <div class="c2-headline">
+          The resilient payment layer between your bank and<br>
+          <span class="cycle">
+            <span>mobile money.</span>
+            <span>card networks.</span>
+            <span>inter-banking.</span>
+            <span>cross-border.</span>
+            <span>remittances.</span>
+            <span>utilities &amp; bills.</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         CONCEPT 3 — THE PULSE / ECG HEARTBEAT
+         ════════════════════════════════════════════════════════ -->
+    <div class="design">
+      <div class="design__meta">
+        <span class="design__concept">Concept 03 · The Pulse</span>
+        <h2 class="design__title">EBB as the heartbeat of the bank's payments</h2>
+        <p class="design__desc">A single horizontal ECG-style line runs across the hero. Spikes pulse at irregular but rhythmic intervals — like a heartbeat. EBB sits in the center as the source. Echoes the §2 problem section's ECG without competing.</p>
+        <div class="design__what">
+          <b>What it tells:</b> EBB is alive, working, processing — like vital signs. Calm but never static. Sophisticated; reads as "instrument panel" not "diagram."
+        </div>
+      </div>
+      <div class="design__viz">
+        <svg viewBox="0 0 600 260">
+          <!-- Baseline -->
+          <line class="c3-line" x1="20" y1="130" x2="580" y2="130" />
+
+          <!-- Animated ECG-style pulse path -->
+          <path class="c3-pulse-path"
+                d="M 20 130
+                   L 100 130 L 110 125 L 130 130
+                   L 200 130 L 215 115 L 230 130
+                   L 270 130
+                   L 350 130
+                   L 380 130 L 395 145 L 410 100 L 425 160 L 440 130
+                   L 480 130 L 495 125 L 510 130
+                   L 580 130" />
+
+          <!-- EBB at center -->
+          <g class="c3-ebb-pulse" style="transform-origin: 300px 130px;">
+            <circle cx="300" cy="130" r="32" fill="var(--cream-warm)" stroke="var(--navy)" stroke-width="1.5" />
+            <text x="300" y="135" text-anchor="middle" class="nl-ebb-text" fill="var(--navy)">EBB</text>
+          </g>
+
+          <!-- Labels -->
+          <text x="20" y="170" class="nl-label--micro">your bank</text>
+          <text x="580" y="170" text-anchor="end" class="nl-label--micro">every operator</text>
+
+          <!-- Floating spike indicator dots -->
+          <circle class="c3-spike-dot c3-spike-dot--1" cx="217" cy="115" r="3" />
+          <circle class="c3-spike-dot c3-spike-dot--2" cx="410" cy="100" r="3" />
+          <circle class="c3-spike-dot c3-spike-dot--3" cx="495" cy="125" r="3" />
+
+          <!-- Bottom caption -->
+          <text x="300" y="240" text-anchor="middle" class="nl-label--micro" fill="var(--text-muted)">~10M transactions / day · always on</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         CONCEPT 4 — THE MAP (Africa with activity)
+         ════════════════════════════════════════════════════════ -->
+    <div class="design">
+      <div class="design__meta">
+        <span class="design__concept">Concept 04 · The Map</span>
+        <h2 class="design__title">Africa in motion — payments lighting up across markets</h2>
+        <p class="design__desc">An abstract silhouette of Africa fills the right side. Cities and corridors pulse with payment activity. Routes traced in crimson dashed lines suggest cross-border flow. EBB sits as the central pin.</p>
+        <div class="design__what">
+          <b>What it tells:</b> EBB is geographically real, operating across the continent. Distinct from any "diagram" — feels like a live operations dashboard. Banker recognises it as actual scale.
+        </div>
+      </div>
+      <div class="design__viz">
+        <svg viewBox="0 0 600 320">
+          <!-- Simplified Africa silhouette -->
+          <path class="c4-africa"
+                d="M 240 50
+                   Q 280 40, 320 50
+                   L 360 60
+                   L 400 80
+                   L 430 110
+                   L 445 145
+                   L 440 180
+                   L 425 215
+                   L 405 245
+                   L 380 270
+                   L 350 285
+                   L 315 290
+                   L 285 280
+                   L 260 265
+                   L 240 245
+                   L 220 215
+                   L 215 185
+                   L 220 155
+                   L 230 125
+                   L 230 95
+                   L 235 70
+                   Z" />
+
+          <!-- EBB Gateway marker (central pin) -->
+          <g>
+            <circle cx="330" cy="170" r="22" fill="rgba(13,34,64,0.08)" stroke="var(--navy)" stroke-width="1" />
+            <rect x="316" y="159" width="28" height="22" rx="2" fill="var(--navy)" />
+            <text x="330" y="174" text-anchor="middle" fill="var(--cream)" font-family="'Libre Baskerville', serif" font-weight="700" font-size="9">EBB</text>
+          </g>
+
+          <!-- City dots with pulses (representing markets) -->
+          <g>
+            <circle class="c4-city-pulse c4-pulse-1" cx="290" cy="100" />
+            <circle class="c4-city-dot" cx="290" cy="100" r="3" />
+            <text x="290" y="90" text-anchor="middle" class="nl-label--micro">Nairobi</text>
+          </g>
+          <g>
+            <circle class="c4-city-pulse c4-pulse-2" cx="280" cy="200" />
+            <circle class="c4-city-dot" cx="280" cy="200" r="3" />
+            <text x="278" y="215" text-anchor="end" class="nl-label--micro">Lilongwe</text>
+          </g>
+          <g>
+            <circle class="c4-city-pulse c4-pulse-3" cx="320" cy="240" />
+            <circle class="c4-city-dot" cx="320" cy="240" r="3" />
+            <text x="320" y="255" text-anchor="middle" class="nl-label--micro">Lusaka</text>
+          </g>
+          <g>
+            <circle class="c4-city-pulse c4-pulse-4" cx="365" cy="230" />
+            <circle class="c4-city-dot" cx="365" cy="230" r="3" />
+            <text x="370" y="245" class="nl-label--micro">Harare</text>
+          </g>
+          <g>
+            <circle class="c4-city-pulse c4-pulse-5" cx="380" cy="180" />
+            <circle class="c4-city-dot" cx="380" cy="180" r="3" />
+            <text x="385" y="184" class="nl-label--micro">Maputo</text>
+          </g>
+          <g>
+            <circle class="c4-city-pulse c4-pulse-6" cx="355" cy="120" />
+            <circle class="c4-city-dot" cx="355" cy="120" r="3" />
+            <text x="360" y="124" class="nl-label--micro">Gaborone</text>
+          </g>
+
+          <!-- Route lines from EBB out to cities -->
+          <line class="c4-route" x1="330" y1="170" x2="290" y2="100" />
+          <line class="c4-route" x1="330" y1="170" x2="280" y2="200" style="animation-delay: 0.3s;" />
+          <line class="c4-route" x1="330" y1="170" x2="320" y2="240" style="animation-delay: 0.6s;" />
+          <line class="c4-route" x1="330" y1="170" x2="365" y2="230" style="animation-delay: 0.9s;" />
+          <line class="c4-route" x1="330" y1="170" x2="380" y2="180" style="animation-delay: 1.2s;" />
+          <line class="c4-route" x1="330" y1="170" x2="355" y2="120" style="animation-delay: 1.5s;" />
+
+          <!-- Bottom caption -->
+          <text x="300" y="305" text-anchor="middle" class="nl-label--micro" fill="var(--text-muted)">live across the markets your bank reaches</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         CONCEPT 5 — FLOW STATE (Particle river)
+         ════════════════════════════════════════════════════════ -->
+    <div class="design">
+      <div class="design__meta">
+        <span class="design__concept">Concept 05 · Flow State</span>
+        <h2 class="design__title">A continuous river of transactions through EBB</h2>
+        <p class="design__desc">A dense stream of tiny particles flows continuously from left to right, passing through EBB at the center. Some particles turn crimson briefly as they cross EBB (representing successful processing). Like watching water through a turbine.</p>
+        <div class="design__what">
+          <b>What it tells:</b> Volume. Continuity. Transactions never stop. EBB is the conduit, not the destination. Mesmerizing rather than informational.
+        </div>
+      </div>
+      <div class="design__viz">
+        <svg viewBox="0 0 600 280">
+          <!-- Background river band -->
+          <rect class="c5-river-bg" x="0" y="120" width="600" height="40" rx="0" />
+
+          <!-- EBB Gateway in the middle of the river -->
+          <g>
+            <rect x="270" y="100" width="60" height="80" rx="4" fill="var(--navy)" />
+            <text x="300" y="135" text-anchor="middle" class="nl-ebb-text">EBB</text>
+            <text x="300" y="155" text-anchor="middle" class="nl-ebb-text" font-size="9" opacity="0.7">Gateway</text>
+          </g>
+
+          <!-- Labels -->
+          <text x="20" y="220" class="nl-label--micro">your bank</text>
+          <text x="580" y="220" text-anchor="end" class="nl-label--micro">every operator</text>
+
+          <!-- Particles in continuous flow -->
+          <defs>
+            <path id="c5-flow-1" d="M -10 130 L 610 130" fill="none" />
+            <path id="c5-flow-2" d="M -10 138 L 610 138" fill="none" />
+            <path id="c5-flow-3" d="M -10 146 L 610 146" fill="none" />
+            <path id="c5-flow-4" d="M -10 154 L 610 154" fill="none" />
+          </defs>
+
+          <!-- Stream 1 -->
+          <circle class="c5-particle" r="1.5">
+            <animateMotion dur="4s" repeatCount="indefinite" begin="0s"><mpath href="#c5-flow-1"/></animateMotion>
+            <animate attributeName="fill" values="#0D2240;#0D2240;#8B1A1A;#0D2240;#0D2240" keyTimes="0;0.4;0.5;0.6;1" dur="4s" repeatCount="indefinite" />
+          </circle>
+          <circle class="c5-particle" r="1.5">
+            <animateMotion dur="4s" repeatCount="indefinite" begin="0.5s"><mpath href="#c5-flow-1"/></animateMotion>
+            <animate attributeName="fill" values="#0D2240;#0D2240;#8B1A1A;#0D2240;#0D2240" keyTimes="0;0.4;0.5;0.6;1" dur="4s" repeatCount="indefinite" begin="0.5s"/>
+          </circle>
+          <circle class="c5-particle" r="1.5">
+            <animateMotion dur="4s" repeatCount="indefinite" begin="1s"><mpath href="#c5-flow-1"/></animateMotion>
+            <animate attributeName="fill" values="#0D2240;#0D2240;#8B1A1A;#0D2240;#0D2240" keyTimes="0;0.4;0.5;0.6;1" dur="4s" repeatCount="indefinite" begin="1s"/>
+          </circle>
+          <circle class="c5-particle" r="1.5">
+            <animateMotion dur="4s" repeatCount="indefinite" begin="1.5s"><mpath href="#c5-flow-1"/></animateMotion>
+            <animate attributeName="fill" values="#0D2240;#0D2240;#8B1A1A;#0D2240;#0D2240" keyTimes="0;0.4;0.5;0.6;1" dur="4s" repeatCount="indefinite" begin="1.5s"/>
+          </circle>
+
+          <!-- Stream 2 -->
+          <circle class="c5-particle" r="1.5">
+            <animateMotion dur="5s" repeatCount="indefinite" begin="0.3s"><mpath href="#c5-flow-2"/></animateMotion>
+            <animate attributeName="fill" values="#0D2240;#0D2240;#8B1A1A;#0D2240;#0D2240" keyTimes="0;0.42;0.5;0.58;1" dur="5s" repeatCount="indefinite" begin="0.3s"/>
+          </circle>
+          <circle class="c5-particle" r="1.5">
+            <animateMotion dur="5s" repeatCount="indefinite" begin="1.3s"><mpath href="#c5-flow-2"/></animateMotion>
+            <animate attributeName="fill" values="#0D2240;#0D2240;#8B1A1A;#0D2240;#0D2240" keyTimes="0;0.42;0.5;0.58;1" dur="5s" repeatCount="indefinite" begin="1.3s"/>
+          </circle>
+          <circle class="c5-particle" r="1.5">
+            <animateMotion dur="5s" repeatCount="indefinite" begin="2.3s"><mpath href="#c5-flow-2"/></animateMotion>
+            <animate attributeName="fill" values="#0D2240;#0D2240;#8B1A1A;#0D2240;#0D2240" keyTimes="0;0.42;0.5;0.58;1" dur="5s" repeatCount="indefinite" begin="2.3s"/>
+          </circle>
+
+          <!-- Stream 3 -->
+          <circle class="c5-particle" r="1.5">
+            <animateMotion dur="3.5s" repeatCount="indefinite" begin="0.7s"><mpath href="#c5-flow-3"/></animateMotion>
+            <animate attributeName="fill" values="#0D2240;#0D2240;#8B1A1A;#0D2240;#0D2240" keyTimes="0;0.4;0.5;0.6;1" dur="3.5s" repeatCount="indefinite" begin="0.7s"/>
+          </circle>
+          <circle class="c5-particle" r="1.5">
+            <animateMotion dur="3.5s" repeatCount="indefinite" begin="1.7s"><mpath href="#c5-flow-3"/></animateMotion>
+            <animate attributeName="fill" values="#0D2240;#0D2240;#8B1A1A;#0D2240;#0D2240" keyTimes="0;0.4;0.5;0.6;1" dur="3.5s" repeatCount="indefinite" begin="1.7s"/>
+          </circle>
+
+          <!-- Stream 4 -->
+          <circle class="c5-particle" r="1.5">
+            <animateMotion dur="4.5s" repeatCount="indefinite" begin="0.2s"><mpath href="#c5-flow-4"/></animateMotion>
+            <animate attributeName="fill" values="#0D2240;#0D2240;#8B1A1A;#0D2240;#0D2240" keyTimes="0;0.4;0.5;0.6;1" dur="4.5s" repeatCount="indefinite" begin="0.2s"/>
+          </circle>
+          <circle class="c5-particle" r="1.5">
+            <animateMotion dur="4.5s" repeatCount="indefinite" begin="2.2s"><mpath href="#c5-flow-4"/></animateMotion>
+            <animate attributeName="fill" values="#0D2240;#0D2240;#8B1A1A;#0D2240;#0D2240" keyTimes="0;0.4;0.5;0.6;1" dur="4.5s" repeatCount="indefinite" begin="2.2s"/>
+          </circle>
+
+          <!-- Bottom caption -->
+          <text x="300" y="255" text-anchor="middle" class="nl-label--micro" fill="var(--text-muted)">never stops. always processes. always on.</text>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+
+  <footer style="text-align: center; margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+    <strong style="color: var(--navy);">My honest top picks:</strong> Concept 01 (The Consolidation) for strategic clarity · Concept 03 (The Pulse) for editorial sophistication · Concept 05 (Flow State) for sheer mesmerism.<br>
+    Tell me which one (1–5) and I'll build the production version, or describe a hybrid.
+  </footer>
+</div>
+
+</body>
+</html>
