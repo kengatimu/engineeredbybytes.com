@@ -90,18 +90,28 @@
 
     .nav__brand {
       display: inline-flex;
-      align-items: center;
-      line-height: 0;
-      margin: -28px -22px 0;
-      /* Always visible now that we have a full nav (was reveal-on-scroll). */
-      opacity: 1;
-      pointer-events: auto;
+      flex-direction: column;
+      align-items: flex-start;
+      text-decoration: none;
+      line-height: 1;
       transition: opacity 0.3s var(--ease);
     }
-    .nav__brand img {
-      height: 88px;
-      width: auto;
-      display: block;
+    .nav__brand-ebb {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 26px;
+      color: var(--navy);
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+    .nav__brand-sys {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: 8px;
+      color: var(--crimson);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      margin-top: 3px;
     }
 
     .nav__links {
@@ -449,12 +459,12 @@
     /* =============================================================
        PROSE STRIP (replaces the previous numeric proof bar)
        Two lines: small caps audience tag + editorial prose statement
+       Now lives as part of the hero (no horizontal rule above it)
        ============================================================= */
     .proof {
-      margin-top: 56px;
+      margin-top: 40px;
       width: 100%;
-      border-top: 1px solid var(--rule);
-      padding: 32px 24px 0;
+      padding: 0 24px 32px;
     }
     .proof__inner {
       max-width: 900px;
@@ -1424,7 +1434,7 @@
       max-width: 1100px;
       width: 100%;
       margin: 0 auto;
-      padding: 96px 0 40px;
+      padding: 56px 0 32px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1780,7 +1790,8 @@
        ============================================================ -->
   <nav class="nav" aria-label="Primary navigation">
     <a href="/" class="nav__brand" aria-label="EBB Systems home">
-      <img src="/assets/img/logo-light.png" alt="EBB Systems">
+      <span class="nav__brand-ebb" aria-hidden="true">EBB</span>
+      <span class="nav__brand-sys" aria-hidden="true">Systems</span>
     </a>
     <ul class="nav__links">
       <li><a href="#solution">Platform</a></li>
@@ -1799,7 +1810,7 @@
 
       <div class="hero2__copy">
         <span class="hero2__eyebrow">payment infrastructure</span>
-        <h1 class="hero2__heading">The resilient payment layer between your bank and <em>every operator.</em></h1>
+        <h1 class="hero2__heading">The resilient payment layer between<br>your bank and <em>every operator.</em></h1>
         <p class="hero2__sub">One platform connecting your corebanking to every operator your customers reach &mdash; built for the next decade of products, corridors, and partners.</p>
         <div class="hero2__cta">
           <a href="#talk" class="hero2__btn">Schedule a Briefing</a>
