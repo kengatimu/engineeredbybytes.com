@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Hero animation D1 — variations to make it feel alive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy:        #0D2240;
+      --navy-soft:   #1C3158;
+      --cream:       #F8F6F1;
+      --cream-warm:  #F2EFE8;
+      --crimson:     #8B1A1A;
+      --white:       #FFFFFF;
+      --text-body:   #333333;
+      --text-muted:  #666666;
+      --rule:        rgba(13, 34, 64, 0.10);
+      --font-display: 'Libre Baskerville', Georgia, serif;
+      --font-ui:      'Inter', -apple-system, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-ui);
+      background: var(--cream-warm);
+      color: var(--navy);
+      padding: 56px 24px;
+    }
+
+    .page { max-width: 1100px; margin: 0 auto; }
+    .page-head { text-align: center; margin-bottom: 48px; }
+    .page-head h1 {
+      font: 700 28px/1.2 var(--font-display);
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+    .page-head p {
+      font-size: 14px;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto;
+    }
+
+    .designs { display: flex; flex-direction: column; gap: 40px; }
+    .design {
+      background: var(--white);
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      padding: 28px 32px;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 32px;
+      align-items: center;
+    }
+    .design__meta { display: flex; flex-direction: column; gap: 8px; }
+    .design__num {
+      font: italic 400 14px var(--font-display);
+      color: var(--crimson);
+    }
+    .design__title {
+      font: 700 17px/1.3 var(--font-display);
+      color: var(--navy);
+    }
+    .design__desc {
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: var(--text-muted);
+    }
+    .design__pros {
+      font-size: 11.5px;
+      color: var(--navy);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .design__cons {
+      font-size: 11.5px;
+      color: var(--crimson);
+      font-weight: 600;
+    }
+
+    .design__viz {
+      background: var(--cream-warm);
+      border-radius: 4px;
+      padding: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 260px;
+    }
+    .design__viz svg { width: 100%; height: auto; max-width: 560px; }
+
+    /* ─── Shared SVG styles ─── */
+    .nl-line { stroke: rgba(13,34,64,0.18); stroke-width: 1; fill: none; }
+    .nl-line-strong { stroke: rgba(13,34,64,0.28); stroke-width: 1.2; fill: none; }
+    .nl-node { fill: var(--navy); }
+    .nl-rim { fill: none; stroke: var(--navy); stroke-width: 1; opacity: 0.35; }
+    .nl-label {
+      fill: var(--navy);
+      font: 500 11px var(--font-ui);
+    }
+    .nl-label--micro {
+      fill: var(--text-muted);
+      font: 500 9px var(--font-ui);
+      letter-spacing: 0.04em;
+    }
+    .nl-ebb-box {
+      fill: var(--navy);
+      stroke: var(--navy);
+    }
+    .nl-ebb-text {
+      fill: var(--cream);
+      font: 700 13px var(--font-display);
+    }
+    .nl-packet {
+      fill: var(--crimson);
+    }
+    .nl-pulse {
+      fill: none;
+      stroke: var(--crimson);
+      stroke-width: 1.5;
+      opacity: 0;
+    }
+    .nl-pulse-navy {
+      fill: none;
+      stroke: var(--navy);
+      stroke-width: 1.2;
+      opacity: 0;
+    }
+    .nl-dot-small {
+      fill: var(--navy);
+      opacity: 0.7;
+    }
+
+    @keyframes ringPulse {
+      0%   { r: 14; opacity: 0; }
+      25%  { opacity: 0.55; }
+      100% { r: 28; opacity: 0; }
+    }
+    @keyframes ringPulseLarge {
+      0%   { r: 30; opacity: 0; }
+      30%  { opacity: 0.5; }
+      100% { r: 60; opacity: 0; }
+    }
+    @keyframes ringPulseMini {
+      0%   { r: 5; opacity: 0; }
+      25%  { opacity: 0.6; }
+      100% { r: 14; opacity: 0; }
+    }
+    @keyframes dotBlink {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.9; }
+    }
+    @keyframes lineFlow {
+      0%   { stroke-dashoffset: 60; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    /* ─── Variant A: Multi-packet continuous river ─── */
+    .va-pulse-bank { animation: ringPulse 3s ease-out infinite 0s; }
+    .va-pulse-ebb { animation: ringPulse 3s ease-out infinite 1s; }
+    .va-pulse-ops { animation: ringPulse 3s ease-out infinite 2s; }
+
+    /* ─── Variant B: Burst at "Every operator" ─── */
+    .vb-pulse-bank { animation: ringPulse 4s ease-out infinite 0s; }
+    .vb-pulse-ebb { animation: ringPulse 4s ease-out infinite 1.3s; }
+    .vb-pulse-ops { animation: ringPulse 4s ease-out infinite 2.6s; }
+    .vb-mini-1 { animation: ringPulseMini 4s ease-out infinite 2.8s; }
+    .vb-mini-2 { animation: ringPulseMini 4s ease-out infinite 2.95s; }
+    .vb-mini-3 { animation: ringPulseMini 4s ease-out infinite 3.1s; }
+    .vb-mini-4 { animation: ringPulseMini 4s ease-out infinite 3.25s; }
+    .vb-mini-5 { animation: ringPulseMini 4s ease-out infinite 3.4s; }
+
+    /* ─── Variant C: EBB as energy hub ─── */
+    .vc-pulse-ebb-1 { animation: ringPulseLarge 4s ease-out infinite 0s; }
+    .vc-pulse-ebb-2 { animation: ringPulseLarge 4s ease-out infinite 1.3s; }
+    .vc-pulse-ebb-3 { animation: ringPulseLarge 4s ease-out infinite 2.6s; }
+    .vc-pulse-bank { animation: ringPulse 4s ease-out infinite 0.5s; }
+    .vc-pulse-ops { animation: ringPulse 4s ease-out infinite 2s; }
+
+    /* ─── Variant D: Combined (premium) ─── */
+    .vd-pulse-ebb-1 { animation: ringPulseLarge 5s ease-out infinite 0s; }
+    .vd-pulse-ebb-2 { animation: ringPulseLarge 5s ease-out infinite 1.6s; }
+    .vd-pulse-ebb-3 { animation: ringPulseLarge 5s ease-out infinite 3.2s; }
+    .vd-pulse-bank { animation: ringPulse 5s ease-out infinite 0.5s; }
+    .vd-pulse-ops { animation: ringPulse 5s ease-out infinite 2.5s; }
+    .vd-mini-1 { animation: ringPulseMini 5s ease-out infinite 3.0s; }
+    .vd-mini-2 { animation: ringPulseMini 5s ease-out infinite 3.15s; }
+    .vd-mini-3 { animation: ringPulseMini 5s ease-out infinite 3.3s; }
+    .vd-mini-4 { animation: ringPulseMini 5s ease-out infinite 3.45s; }
+    .vd-mini-5 { animation: ringPulseMini 5s ease-out infinite 3.6s; }
+    .vd-mini-dot {
+      fill: var(--navy);
+      animation: dotBlink 5s ease-in-out infinite;
+    }
+    .vd-mini-dot-1 { animation-delay: 0s; }
+    .vd-mini-dot-2 { animation-delay: 0.8s; }
+    .vd-mini-dot-3 { animation-delay: 1.6s; }
+    .vd-mini-dot-4 { animation-delay: 2.4s; }
+    .vd-mini-dot-5 { animation-delay: 3.2s; }
+    .vd-flow-line {
+      stroke: rgba(139,26,26,0.2);
+      stroke-width: 1.2;
+      stroke-dasharray: 4 6;
+      fill: none;
+      animation: lineFlow 1.6s linear infinite;
+    }
+
+    @media (max-width: 760px) {
+      .design { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+  <header class="page-head">
+    <h1>Design 1 — four ways to make it feel alive</h1>
+    <p>All four keep the same three-node architecture (<em>Bank → EBB → Every operator</em>). What changes is how much motion, how many concurrent elements, and how visibly "active" EBB feels.</p>
+  </header>
+
+  <div class="designs">
+
+    <!-- ════════════════════════════════════════════════════════
+         VARIANT A — Continuous river (multi-packet flow)
+         ════════════════════════════════════════════════════════ -->
+    <div class="design">
+      <div class="design__meta">
+        <span class="design__num">Variant A</span>
+        <h2 class="design__title">Continuous river — multiple packets always in flight</h2>
+        <p class="design__desc">Same three nodes. But instead of one packet at a time, three packets traverse the line concurrently, staggered every second. The flow never stops; there's always something moving.</p>
+        <p class="design__pros">+ Continuous motion. Suggests real volume.</p>
+        <p class="design__cons">− Subtle — might still feel "calm" rather than "exciting."</p>
+      </div>
+      <div class="design__viz">
+        <svg viewBox="0 0 500 200">
+          <line class="nl-line-strong" x1="80" y1="100" x2="420" y2="100" />
+
+          <g>
+            <circle class="nl-rim" cx="80" cy="100" r="22" />
+            <circle class="nl-pulse va-pulse-bank" cx="80" cy="100" />
+            <circle class="nl-node" cx="80" cy="100" r="14" />
+            <text x="80" y="140" text-anchor="middle" class="nl-label">Bank</text>
+            <text x="80" y="155" text-anchor="middle" class="nl-label--micro">your stack</text>
+          </g>
+
+          <g>
+            <circle class="nl-pulse va-pulse-ebb" cx="250" cy="100" />
+            <rect class="nl-ebb-box" x="222" y="78" width="56" height="44" rx="4" />
+            <text x="250" y="103" text-anchor="middle" class="nl-ebb-text">EBB</text>
+            <text x="250" y="140" text-anchor="middle" class="nl-label">Gateway</text>
+          </g>
+
+          <g>
+            <circle class="nl-rim" cx="420" cy="100" r="22" />
+            <circle class="nl-pulse va-pulse-ops" cx="420" cy="100" />
+            <circle class="nl-node" cx="420" cy="100" r="14" />
+            <text x="420" y="140" text-anchor="middle" class="nl-label">Every operator</text>
+            <text x="420" y="155" text-anchor="middle" class="nl-label--micro">mobile money · cards · cross-border</text>
+          </g>
+
+          <defs>
+            <path id="va-path" d="M 90,100 L 420,100" fill="none" />
+          </defs>
+          <!-- Three packets staggered -->
+          <circle class="nl-packet" r="3.5">
+            <animateMotion dur="3s" repeatCount="indefinite" begin="0s">
+              <mpath href="#va-path" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" repeatCount="indefinite" begin="0s" />
+          </circle>
+          <circle class="nl-packet" r="3.5">
+            <animateMotion dur="3s" repeatCount="indefinite" begin="1s">
+              <mpath href="#va-path" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" repeatCount="indefinite" begin="1s" />
+          </circle>
+          <circle class="nl-packet" r="3.5">
+            <animateMotion dur="3s" repeatCount="indefinite" begin="2s">
+              <mpath href="#va-path" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" repeatCount="indefinite" begin="2s" />
+          </circle>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         VARIANT B — Burst at "Every operator"
+         ════════════════════════════════════════════════════════ -->
+    <div class="design">
+      <div class="design__meta">
+        <span class="design__num">Variant B</span>
+        <h2 class="design__title">Burst — packet arrives and explodes into many</h2>
+        <p class="design__desc">Single packet flows Bank → EBB → Every operator. When it arrives at "Every operator", five mini-dots burst outward in a small fan — visualizing the "many" without naming them.</p>
+        <p class="design__pros">+ Dramatic moment of arrival. Tells a story.</p>
+        <p class="design__cons">− Quieter between bursts. Risk of "wait for the show" feeling.</p>
+      </div>
+      <div class="design__viz">
+        <svg viewBox="0 0 500 220">
+          <line class="nl-line-strong" x1="80" y1="110" x2="420" y2="110" />
+
+          <g>
+            <circle class="nl-rim" cx="80" cy="110" r="22" />
+            <circle class="nl-pulse vb-pulse-bank" cx="80" cy="110" />
+            <circle class="nl-node" cx="80" cy="110" r="14" />
+            <text x="80" y="150" text-anchor="middle" class="nl-label">Bank</text>
+          </g>
+
+          <g>
+            <circle class="nl-pulse vb-pulse-ebb" cx="250" cy="110" />
+            <rect class="nl-ebb-box" x="222" y="88" width="56" height="44" rx="4" />
+            <text x="250" y="113" text-anchor="middle" class="nl-ebb-text">EBB</text>
+            <text x="250" y="150" text-anchor="middle" class="nl-label">Gateway</text>
+          </g>
+
+          <g>
+            <circle class="nl-rim" cx="420" cy="110" r="20" />
+            <circle class="nl-pulse vb-pulse-ops" cx="420" cy="110" />
+            <circle class="nl-node" cx="420" cy="110" r="12" />
+            <text x="420" y="150" text-anchor="middle" class="nl-label">Every operator</text>
+
+            <!-- Five mini-burst dots radiating from "Every operator" -->
+            <circle class="nl-pulse vb-mini-1" cx="455" cy="75" stroke-width="1" />
+            <circle class="nl-dot-small" cx="455" cy="75" r="2.5" />
+            <circle class="nl-pulse vb-mini-2" cx="470" cy="105" stroke-width="1" />
+            <circle class="nl-dot-small" cx="470" cy="105" r="2.5" />
+            <circle class="nl-pulse vb-mini-3" cx="470" cy="135" stroke-width="1" />
+            <circle class="nl-dot-small" cx="470" cy="135" r="2.5" />
+            <circle class="nl-pulse vb-mini-4" cx="455" cy="165" stroke-width="1" />
+            <circle class="nl-dot-small" cx="455" cy="165" r="2.5" />
+            <circle class="nl-pulse vb-mini-5" cx="430" cy="180" stroke-width="1" />
+            <circle class="nl-dot-small" cx="430" cy="180" r="2.5" />
+            <!-- Hairlines from the operator node out to each mini-dot -->
+            <line class="nl-line" x1="430" y1="105" x2="450" y2="80" />
+            <line class="nl-line" x1="432" y1="110" x2="465" y2="105" />
+            <line class="nl-line" x1="432" y1="115" x2="465" y2="135" />
+            <line class="nl-line" x1="430" y1="118" x2="450" y2="160" />
+            <line class="nl-line" x1="425" y1="122" x2="430" y2="173" />
+          </g>
+
+          <defs>
+            <path id="vb-path" d="M 90,110 L 420,110" fill="none" />
+          </defs>
+          <circle class="nl-packet" r="4">
+            <animateMotion dur="4s" repeatCount="indefinite" begin="0s">
+              <mpath href="#vb-path" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.65;0.7" dur="4s" repeatCount="indefinite" begin="0s" />
+          </circle>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         VARIANT C — EBB as energy hub
+         ════════════════════════════════════════════════════════ -->
+    <div class="design">
+      <div class="design__meta">
+        <span class="design__num">Variant C</span>
+        <h2 class="design__title">EBB as engine — strong pulse from the centre</h2>
+        <p class="design__desc">Three layered pulses radiate outward from EBB continuously, plus a packet flow. EBB visibly does work; it's the heartbeat of the system.</p>
+        <p class="design__pros">+ Most "alive" feeling. EBB feels powerful.</p>
+        <p class="design__cons">− Heavy on EBB; the "every operator" side gets less attention.</p>
+      </div>
+      <div class="design__viz">
+        <svg viewBox="0 0 500 240">
+          <line class="nl-line-strong" x1="80" y1="120" x2="420" y2="120" />
+
+          <g>
+            <circle class="nl-rim" cx="80" cy="120" r="22" />
+            <circle class="nl-pulse vc-pulse-bank" cx="80" cy="120" />
+            <circle class="nl-node" cx="80" cy="120" r="14" />
+            <text x="80" y="160" text-anchor="middle" class="nl-label">Bank</text>
+          </g>
+
+          <!-- EBB with three layered pulses -->
+          <g>
+            <circle class="nl-pulse-navy vc-pulse-ebb-1" cx="250" cy="120" />
+            <circle class="nl-pulse-navy vc-pulse-ebb-2" cx="250" cy="120" />
+            <circle class="nl-pulse-navy vc-pulse-ebb-3" cx="250" cy="120" />
+            <rect class="nl-ebb-box" x="222" y="98" width="56" height="44" rx="4" />
+            <text x="250" y="123" text-anchor="middle" class="nl-ebb-text">EBB</text>
+            <text x="250" y="160" text-anchor="middle" class="nl-label">Gateway</text>
+          </g>
+
+          <g>
+            <circle class="nl-rim" cx="420" cy="120" r="22" />
+            <circle class="nl-pulse vc-pulse-ops" cx="420" cy="120" />
+            <circle class="nl-node" cx="420" cy="120" r="14" />
+            <text x="420" y="160" text-anchor="middle" class="nl-label">Every operator</text>
+          </g>
+
+          <defs>
+            <path id="vc-path" d="M 90,120 L 420,120" fill="none" />
+          </defs>
+          <circle class="nl-packet" r="3.5">
+            <animateMotion dur="3s" repeatCount="indefinite" begin="0s">
+              <mpath href="#vc-path" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" repeatCount="indefinite" begin="0s" />
+          </circle>
+          <circle class="nl-packet" r="3.5">
+            <animateMotion dur="3s" repeatCount="indefinite" begin="1.5s">
+              <mpath href="#vc-path" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" repeatCount="indefinite" begin="1.5s" />
+          </circle>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════
+         VARIANT D — All combined (premium)
+         ════════════════════════════════════════════════════════ -->
+    <div class="design">
+      <div class="design__meta">
+        <span class="design__num">Variant D</span>
+        <h2 class="design__title">Premium — energy hub + mini-burst + flowing line</h2>
+        <p class="design__desc">Everything together: EBB pulses as the centre, the connection line itself flows (dashed crimson moving along), multiple packets traverse, and the "Every operator" node bursts into mini-dots. Maximum motion.</p>
+        <p class="design__pros">+ Most dynamic. Genuinely "exciting." Multiple layers of activity.</p>
+        <p class="design__cons">− Most movement = highest distraction risk. Might compete with the headline.</p>
+      </div>
+      <div class="design__viz">
+        <svg viewBox="0 0 500 240">
+          <!-- Main connection line -->
+          <line class="nl-line-strong" x1="80" y1="120" x2="420" y2="120" />
+          <!-- Flowing dashed crimson overlay -->
+          <line class="vd-flow-line" x1="94" y1="120" x2="412" y2="120" />
+
+          <g>
+            <circle class="nl-rim" cx="80" cy="120" r="22" />
+            <circle class="nl-pulse vd-pulse-bank" cx="80" cy="120" />
+            <circle class="nl-node" cx="80" cy="120" r="14" />
+            <text x="80" y="160" text-anchor="middle" class="nl-label">Bank</text>
+          </g>
+
+          <g>
+            <circle class="nl-pulse-navy vd-pulse-ebb-1" cx="250" cy="120" />
+            <circle class="nl-pulse-navy vd-pulse-ebb-2" cx="250" cy="120" />
+            <circle class="nl-pulse-navy vd-pulse-ebb-3" cx="250" cy="120" />
+            <rect class="nl-ebb-box" x="222" y="98" width="56" height="44" rx="4" />
+            <text x="250" y="123" text-anchor="middle" class="nl-ebb-text">EBB</text>
+            <text x="250" y="160" text-anchor="middle" class="nl-label">Gateway</text>
+          </g>
+
+          <g>
+            <circle class="nl-rim" cx="420" cy="120" r="20" />
+            <circle class="nl-pulse vd-pulse-ops" cx="420" cy="120" />
+            <circle class="nl-node" cx="420" cy="120" r="12" />
+            <text x="420" y="160" text-anchor="middle" class="nl-label">Every operator</text>
+
+            <!-- Mini-burst dots with subtle continuous blink -->
+            <line class="nl-line" x1="430" y1="115" x2="455" y2="90" />
+            <line class="nl-line" x1="432" y1="120" x2="465" y2="115" />
+            <line class="nl-line" x1="432" y1="125" x2="465" y2="145" />
+            <line class="nl-line" x1="430" y1="128" x2="455" y2="170" />
+            <line class="nl-line" x1="425" y1="130" x2="430" y2="183" />
+            <circle class="nl-pulse vd-mini-1" cx="455" cy="90" stroke-width="1" />
+            <circle class="vd-mini-dot vd-mini-dot-1" cx="455" cy="90" r="3" />
+            <circle class="nl-pulse vd-mini-2" cx="465" cy="115" stroke-width="1" />
+            <circle class="vd-mini-dot vd-mini-dot-2" cx="465" cy="115" r="3" />
+            <circle class="nl-pulse vd-mini-3" cx="465" cy="145" stroke-width="1" />
+            <circle class="vd-mini-dot vd-mini-dot-3" cx="465" cy="145" r="3" />
+            <circle class="nl-pulse vd-mini-4" cx="455" cy="170" stroke-width="1" />
+            <circle class="vd-mini-dot vd-mini-dot-4" cx="455" cy="170" r="3" />
+            <circle class="nl-pulse vd-mini-5" cx="430" cy="183" stroke-width="1" />
+            <circle class="vd-mini-dot vd-mini-dot-5" cx="430" cy="183" r="3" />
+          </g>
+
+          <defs>
+            <path id="vd-path" d="M 90,120 L 420,120" fill="none" />
+          </defs>
+          <!-- Three staggered packets -->
+          <circle class="nl-packet" r="3.5">
+            <animateMotion dur="5s" repeatCount="indefinite" begin="0s">
+              <mpath href="#vd-path" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.06;0.55;0.6" dur="5s" repeatCount="indefinite" begin="0s" />
+          </circle>
+          <circle class="nl-packet" r="3.5">
+            <animateMotion dur="5s" repeatCount="indefinite" begin="1.6s">
+              <mpath href="#vd-path" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.06;0.55;0.6" dur="5s" repeatCount="indefinite" begin="1.6s" />
+          </circle>
+          <circle class="nl-packet" r="3.5">
+            <animateMotion dur="5s" repeatCount="indefinite" begin="3.2s">
+              <mpath href="#vd-path" />
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.06;0.55;0.6" dur="5s" repeatCount="indefinite" begin="3.2s" />
+          </circle>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+
+  <footer style="text-align: center; margin-top: 56px; font-size: 12px; color: var(--text-muted);">
+    Pick a variant (A / B / C / D) and I'll wire it into mockup-hero.html.<br>
+    Or describe what you want changed and I'll build a fifth.
+  </footer>
+</div>
+
+</body>
+</html>
