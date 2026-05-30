@@ -424,64 +424,46 @@
     }
 
     /* =============================================================
-       PROOF STRIP
+       PROSE STRIP (replaces the previous numeric proof bar)
+       Two lines: small caps audience tag + editorial prose statement
        ============================================================= */
     .proof {
       margin-top: 56px;
       width: 100%;
       border-top: 1px solid var(--rule);
-      padding: 24px 0 0;
+      padding: 32px 24px 0;
     }
-
-    .proof__grid {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      max-width: 640px;
+    .proof__inner {
+      max-width: 900px;
       margin: 0 auto;
-      flex-wrap: wrap;
-    }
-
-    .proof__item {
-      flex: 1 1 0;
-      min-width: 130px;
       text-align: center;
-      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
     }
-
-    .proof__divider {
-      width: 1px;
-      height: 36px;
-      background: var(--rule);
-      flex-shrink: 0;
-    }
-
-    .proof__value {
-      font-family: var(--font-display);
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--navy);
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-
-    .proof__value em {
-      font-style: normal;
-      font-size: 14px;
-      color: var(--crimson);
-      margin-left: 2px;
-      font-weight: 700;
-    }
-
-    .proof__label {
+    .proof__audience {
       font-family: var(--font-ui);
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      color: var(--text-faint);
+      color: var(--crimson);
     }
+    .proof__statement {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(15px, 1.55vw, 18px);
+      line-height: 1.55;
+      color: var(--navy);
+      letter-spacing: -0.005em;
+    }
+    .proof__statement em {
+      font-style: italic;
+      color: var(--crimson);
+    }
+    /* Legacy proof grid styles kept for any other reference but unused now */
+    .proof__grid { display: none; }
 
     /* =============================================================
        LIVE BADGE (subtle "live network" indicator)
@@ -2065,21 +2047,11 @@
          PROOF STRIP (footer of hero — stays visible on tall screens)
          ========================================================== -->
     <div class="proof">
-      <div class="proof__grid">
-        <div class="proof__item">
-          <div class="proof__value">10M<em>+</em></div>
-          <div class="proof__label">Transactions / day</div>
-        </div>
-        <div class="proof__divider" aria-hidden="true"></div>
-        <div class="proof__item">
-          <div class="proof__value">4–8<em>wk</em></div>
-          <div class="proof__label">New corridor live</div>
-        </div>
-        <div class="proof__divider" aria-hidden="true"></div>
-        <div class="proof__item">
-          <div class="proof__value">6</div>
-          <div class="proof__label">Security layers</div>
-        </div>
+      <div class="proof__inner">
+        <div class="proof__audience">Built for financial institutions and fintechs</div>
+        <p class="proof__statement">
+          One platform connecting mobile money, cards, inter&ndash;banking, cross&ndash;border, and remittances &mdash; <em>engineered for resilience, compliance, sovereignty, and scale.</em>
+        </p>
       </div>
     </div>
 
