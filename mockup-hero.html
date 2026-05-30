@@ -74,7 +74,8 @@
     a { color: inherit; text-decoration: none; }
 
     /* =============================================================
-       MINIMAL NAV — wordmark + single CTA
+       NAV — full menu (brand · links · CTA)
+       Industry-standard layout: brand left, links centre-right, CTA right.
        ============================================================= */
     .nav {
       position: absolute;
@@ -82,33 +83,49 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 24px 32px;
+      padding: 22px 40px;
       z-index: 10;
+      gap: 32px;
     }
 
     .nav__brand {
       display: inline-flex;
       align-items: center;
       line-height: 0;
-      /* The logo PNG has heavy padding baked in (2400x1200 canvas, mark
-         centred). Negative margin compensates so the mark sits flush with
-         the nav baseline instead of looking floated. */
-      margin: -28px -22px;
-      /* Start hidden — the centered hero logo IS the identity in §1.
-         A small JS scroll handler reveals this when the user scrolls past
-         the hero (handled in the script block at the bottom of the page). */
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s var(--ease);
-    }
-    .nav__brand.is-revealed {
+      margin: -28px -22px 0;
+      /* Always visible now that we have a full nav (was reveal-on-scroll). */
       opacity: 1;
       pointer-events: auto;
+      transition: opacity 0.3s var(--ease);
     }
     .nav__brand img {
-      height: 110px;
+      height: 88px;
       width: auto;
       display: block;
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+      padding: 0;
+      margin: 0 auto 0 0;
+      /* Push the links to the left side of the nav after the brand */
+    }
+    .nav__links li { margin: 0; }
+    .nav__links a {
+      font-family: var(--font-ui);
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--navy);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      transition: color var(--speed) var(--ease);
+      padding: 8px 0;
+    }
+    .nav__links a:hover {
+      color: var(--crimson);
     }
 
     .nav__cta {
@@ -120,11 +137,17 @@
       border: 1.5px solid var(--navy);
       border-radius: 3px;
       transition: background var(--speed) var(--ease), color var(--speed) var(--ease);
+      flex-shrink: 0;
     }
 
     .nav__cta:hover {
       background: var(--navy);
       color: var(--white);
+    }
+
+    @media (max-width: 860px) {
+      .nav__links { display: none; }
+      .nav { padding: 22px 24px; }
     }
 
     /* =============================================================
@@ -1385,8 +1408,9 @@
     }
 
     /* =============================================================
-       V2 HERO — editorial two-column. Replaces the centered brand-first
-       hero. Reuses .network (SVG animation), .btn, .proof from V1.
+       V2 HERO — centered single-column (Modern Treasury style)
+       Architecture diagram lives in §3, not the hero. The hero is the
+       calm typography-led intro before the page starts working hard.
        ============================================================= */
     .hero2 {
       padding: 56px 24px 0;
@@ -1397,18 +1421,21 @@
       justify-content: space-between;
     }
     .hero2__container {
-      max-width: 1200px;
+      max-width: 1100px;
       width: 100%;
       margin: 0 auto;
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-      gap: 72px;
+      padding: 96px 0 40px;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      padding: 56px 0 40px;
+      text-align: center;
     }
     .hero2__copy {
-      display: flex; flex-direction: column; gap: 22px;
-      max-width: 620px;
+      display: flex; flex-direction: column;
+      gap: 24px;
+      max-width: 880px;
+      margin: 0 auto;
+      align-items: center;
     }
     .hero2__eyebrow {
       display: inline-flex; align-items: center; gap: 12px;
@@ -1417,20 +1444,25 @@
       color: var(--crimson);
     }
     .hero2__eyebrow::before { content: ''; width: 32px; height: 1.5px; background: var(--crimson); }
+    .hero2__eyebrow::after  { content: ''; width: 32px; height: 1.5px; background: var(--crimson); }
     .hero2__heading {
-      font: 400 clamp(34px, 4.4vw, 52px)/1.15 var(--font-display);
+      font: 400 clamp(36px, 5.2vw, 58px)/1.15 var(--font-display);
       color: var(--navy);
       letter-spacing: -0.014em;
+      text-align: center;
     }
     .hero2__heading em { font-style: italic; color: var(--crimson); font-weight: 400; }
     .hero2__sub {
-      font: 400 clamp(15px, 1.55vw, 17.5px)/1.55 var(--font-ui);
+      font: 400 clamp(15px, 1.55vw, 18px)/1.55 var(--font-ui);
       color: var(--text-muted-navy);
-      max-width: 560px;
+      max-width: 640px;
+      text-align: center;
+      margin: 0 auto;
     }
     .hero2__cta {
       display: flex; align-items: center; gap: 28px;
       margin-top: 10px; flex-wrap: wrap;
+      justify-content: center;
     }
     .hero2__btn {
       display: inline-flex; align-items: center; gap: 8px;
@@ -1455,12 +1487,10 @@
     }
     .hero2__link:hover { border-color: var(--crimson); color: var(--crimson); }
 
+    /* Diagram hidden — architecture lives in §3 (no duplication) */
     .hero2__viz {
-      width: 100%;
-      max-width: 580px;
-      justify-self: end;
+      display: none;
     }
-    .hero2__viz svg { width: 100%; height: auto; display: block; }
 
     /* ─────────────────────────────────────────────────────────
        HERO ARCHITECTURE DIAGRAM
@@ -1535,9 +1565,9 @@
     /* Proof strip lives at the bottom of the hero section.
        Reuses .proof styling already in place. */
 
-    @media (max-width: 960px) {
-      .hero2__container { grid-template-columns: 1fr; gap: 40px; padding: 32px 0; }
-      .hero2__viz { justify-self: center; max-width: 460px; }
+    @media (max-width: 760px) {
+      .hero2__container { padding: 64px 0 32px; }
+      .hero2__copy { gap: 18px; }
     }
 
     /* =============================================================
@@ -1752,7 +1782,13 @@
     <a href="/" class="nav__brand" aria-label="EBB Systems home">
       <img src="/assets/img/logo-light.png" alt="EBB Systems">
     </a>
-    <a href="#talk" class="nav__cta">Talk to engineering →</a>
+    <ul class="nav__links">
+      <li><a href="#solution">Platform</a></li>
+      <li><a href="#problem">Solutions</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+    </ul>
+    <a href="#talk" class="nav__cta">Schedule a Briefing</a>
   </nav>
 
   <!-- ============================================================
@@ -1767,7 +1803,6 @@
         <p class="hero2__sub">One platform connecting your corebanking to every operator your customers reach &mdash; built for the next decade of products, corridors, and partners.</p>
         <div class="hero2__cta">
           <a href="#talk" class="hero2__btn">Schedule a Briefing</a>
-          <a href="#problem" class="hero2__link">See how it works &darr;</a>
         </div>
       </div>
 
