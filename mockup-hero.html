@@ -371,9 +371,11 @@
     .network__pulse--bank   { animation: ringPulse 8s ease-out infinite 0s;    }
     .network__pulse--ebb    { animation: ringPulse 8s ease-out infinite 1s;    }
     .network__pulse--op-1   { animation: ringPulse 8s ease-out infinite 2s;    }
-    .network__pulse--op-2   { animation: ringPulse 8s ease-out infinite 4s;    }
-    .network__pulse--op-3   { animation: ringPulse 8s ease-out infinite 6s;    }
-    .network__pulse--op-4   { animation: ringPulse 8s ease-out infinite 3s;    }
+    .network__pulse--op-2   { animation: ringPulse 8s ease-out infinite 3.3s;  }
+    .network__pulse--op-3   { animation: ringPulse 8s ease-out infinite 4.6s;  }
+    .network__pulse--op-4   { animation: ringPulse 8s ease-out infinite 5.9s;  }
+    .network__pulse--op-5   { animation: ringPulse 8s ease-out infinite 7.2s;  }
+    .network__pulse--op-6   { animation: ringPulse 8s ease-out infinite 1.5s;  }
 
     @keyframes ringPulse {
       0%   { opacity: 0;    transform: scale(1);   }
@@ -1274,6 +1276,133 @@
     }
 
     /* =============================================================
+       SITE FOOTER — full navigation (Home / About / Solutions / Network / Get in Touch)
+       The V2 hero design keeps the top nav minimal (logo + Talk to engineering CTA),
+       so detailed navigation lives in the footer for users who want to explore deeper.
+       ============================================================= */
+    .ftr {
+      background: var(--navy);
+      color: var(--cream);
+      padding: 56px 24px 24px;
+      margin-top: 80px;
+    }
+    .ftr__container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.3fr 1.5fr 1fr;
+      gap: 48px;
+      padding-bottom: 36px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .ftr__brand {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .ftr__logo {
+      display: flex; flex-direction: column; align-items: flex-start;
+    }
+    .ftr__logo-rule { width: 36px; height: 1.5px; background: var(--crimson); margin-bottom: 10px; }
+    .ftr__logo-ebb {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: var(--cream);
+      letter-spacing: 0.02em;
+      line-height: 1;
+    }
+    .ftr__logo-sys {
+      font-family: 'Libre Baskerville', serif;
+      font-weight: 400;
+      font-size: 10px;
+      color: var(--crimson);
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+    .ftr__tagline {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: 12px;
+      color: rgba(248,246,241,0.55);
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+      margin-top: 6px;
+    }
+    .ftr__nav-block {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .ftr__nav-label {
+      font: 700 9px/1 var(--font-ui, 'Inter', sans-serif);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .ftr__nav-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 24px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .ftr__nav-list li { margin: 0; }
+    .ftr__nav-list a {
+      font: 500 13px/1.4 var(--font-ui, 'Inter', sans-serif);
+      color: rgba(248,246,241,0.78);
+      text-decoration: none;
+      transition: color 200ms ease;
+    }
+    .ftr__nav-list a:hover { color: var(--crimson); }
+    .ftr__contact {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .ftr__contact-label {
+      font: 700 9px/1 var(--font-ui, 'Inter', sans-serif);
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--crimson);
+    }
+    .ftr__contact-items {
+      display: flex; flex-direction: column; gap: 4px;
+      font: 500 13px/1.55 var(--font-ui, 'Inter', sans-serif);
+      color: rgba(248,246,241,0.78);
+    }
+    .ftr__contact-items a {
+      color: rgba(248,246,241,0.78);
+      text-decoration: none;
+      transition: color 200ms ease;
+    }
+    .ftr__contact-items a:hover { color: var(--crimson); }
+    .ftr__bottom {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font: 400 11px/1.4 var(--font-ui, 'Inter', sans-serif);
+      color: rgba(248,246,241,0.45);
+      letter-spacing: 0.02em;
+    }
+    .ftr__bottom em {
+      font-style: italic;
+      color: rgba(248,246,241,0.55);
+    }
+    @media (max-width: 760px) {
+      .ftr__container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+      .ftr__bottom {
+        justify-content: flex-start;
+      }
+    }
+
+    /* =============================================================
        V2 HERO — editorial two-column. Replaces the centered brand-first
        hero. Reuses .network (SVG animation), .btn, .proof from V1.
        ============================================================= */
@@ -1583,10 +1712,10 @@
       <div class="hero2__copy">
         <span class="hero2__eyebrow">payment infrastructure</span>
         <h1 class="hero2__heading">The resilient payment layer between your bank and <em>every operator.</em></h1>
-        <p class="hero2__sub">Built into a platform &mdash; not maintained by hand. Integration sprawl, retries, audit trails, and the on-call rota, taken off your engineering team&rsquo;s plate.</p>
+        <p class="hero2__sub">One platform connecting your corebanking to every operator your customers reach &mdash; built for the next decade of products, corridors, and partners.</p>
         <div class="hero2__cta">
-          <a href="#talk" class="hero2__btn">Talk to engineering &rarr;</a>
-          <a href="#problem" class="hero2__link">See the pattern &darr;</a>
+          <a href="#talk" class="hero2__btn">Schedule a Briefing</a>
+          <a href="#problem" class="hero2__link">See how it works &darr;</a>
         </div>
       </div>
 
@@ -1594,20 +1723,25 @@
         <svg class="network" viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg">
 
           <!-- Hidden definitions for animation paths
-               Each path goes Bank (60,180) → EBB (260,180) → an operator -->
+               Each path goes Bank (60,180) → EBB (260,180) → an operator
+               Six operators positioned at y=40, 100, 160, 220, 280, 340 -->
           <defs>
-            <path id="p1" d="M 76,180 L 230,180 L 290,180 L 460,60"  fill="none" />
-            <path id="p2" d="M 76,180 L 230,180 L 290,180 L 460,140" fill="none" />
-            <path id="p3" d="M 76,180 L 230,180 L 290,180 L 460,220" fill="none" />
-            <path id="p4" d="M 76,180 L 230,180 L 290,180 L 460,300" fill="none" />
+            <path id="p1" d="M 76,180 L 230,180 L 290,180 L 460,40"  fill="none" />
+            <path id="p2" d="M 76,180 L 230,180 L 290,180 L 460,100" fill="none" />
+            <path id="p3" d="M 76,180 L 230,180 L 290,180 L 460,160" fill="none" />
+            <path id="p4" d="M 76,180 L 230,180 L 290,180 L 460,220" fill="none" />
+            <path id="p5" d="M 76,180 L 230,180 L 290,180 L 460,280" fill="none" />
+            <path id="p6" d="M 76,180 L 230,180 L 290,180 L 460,340" fill="none" />
           </defs>
 
-          <!-- Connecting lines (static) -->
+          <!-- Connecting lines (static) - one to each of the 6 operators -->
           <line class="network__line" x1="76"  y1="180" x2="230" y2="180" />
-          <line class="network__line" x1="290" y1="180" x2="460" y2="60"  />
-          <line class="network__line" x1="290" y1="180" x2="460" y2="140" />
+          <line class="network__line" x1="290" y1="180" x2="460" y2="40"  />
+          <line class="network__line" x1="290" y1="180" x2="460" y2="100" />
+          <line class="network__line" x1="290" y1="180" x2="460" y2="160" />
           <line class="network__line" x1="290" y1="180" x2="460" y2="220" />
-          <line class="network__line" x1="290" y1="180" x2="460" y2="300" />
+          <line class="network__line" x1="290" y1="180" x2="460" y2="280" />
+          <line class="network__line" x1="290" y1="180" x2="460" y2="340" />
 
           <!-- Bank node -->
           <g>
@@ -1626,80 +1760,116 @@
             <text x="260" y="234" text-anchor="middle" class="network__label">Gateway</text>
           </g>
 
-          <!-- Operator nodes (right) -->
+          <!-- Six operator nodes (right) — smaller radius for tighter spacing -->
           <g>
-            <circle class="network__node-rim" cx="460" cy="60"  r="16" />
-            <circle class="network__pulse network__pulse--op-1" cx="460" cy="60" r="11" />
-            <circle class="network__node"     cx="460" cy="60"  r="11" />
-            <text x="460" y="40" text-anchor="middle" class="network__label--small">Mobile money</text>
+            <circle class="network__node-rim" cx="460" cy="40"  r="12" />
+            <circle class="network__pulse network__pulse--op-1" cx="460" cy="40" r="8" />
+            <circle class="network__node"     cx="460" cy="40"  r="8" />
+            <text x="460" y="24" text-anchor="middle" class="network__label--small">Mobile money</text>
           </g>
 
           <g>
-            <circle class="network__node-rim" cx="460" cy="140" r="16" />
-            <circle class="network__pulse network__pulse--op-2" cx="460" cy="140" r="11" />
-            <circle class="network__node"     cx="460" cy="140" r="11" />
-            <text x="460" y="120" text-anchor="middle" class="network__label--small">Switches</text>
+            <circle class="network__node-rim" cx="460" cy="100" r="12" />
+            <circle class="network__pulse network__pulse--op-2" cx="460" cy="100" r="8" />
+            <circle class="network__node"     cx="460" cy="100" r="8" />
+            <text x="460" y="84" text-anchor="middle" class="network__label--small">Card networks</text>
           </g>
 
           <g>
-            <circle class="network__node-rim" cx="460" cy="220" r="16" />
-            <circle class="network__pulse network__pulse--op-3" cx="460" cy="220" r="11" />
-            <circle class="network__node"     cx="460" cy="220" r="11" />
-            <text x="460" y="248" text-anchor="middle" class="network__label--small">Card networks</text>
+            <circle class="network__node-rim" cx="460" cy="160" r="12" />
+            <circle class="network__pulse network__pulse--op-3" cx="460" cy="160" r="8" />
+            <circle class="network__node"     cx="460" cy="160" r="8" />
+            <text x="460" y="144" text-anchor="middle" class="network__label--small">Inter&ndash;banking</text>
           </g>
 
           <g>
-            <circle class="network__node-rim" cx="460" cy="300" r="16" />
-            <circle class="network__pulse network__pulse--op-4" cx="460" cy="300" r="11" />
-            <circle class="network__node"     cx="460" cy="300" r="11" />
-            <text x="460" y="328" text-anchor="middle" class="network__label--small">Cross-border</text>
+            <circle class="network__node-rim" cx="460" cy="220" r="12" />
+            <circle class="network__pulse network__pulse--op-4" cx="460" cy="220" r="8" />
+            <circle class="network__node"     cx="460" cy="220" r="8" />
+            <text x="460" y="204" text-anchor="middle" class="network__label--small">Cross&ndash;border</text>
+          </g>
+
+          <g>
+            <circle class="network__node-rim" cx="460" cy="280" r="12" />
+            <circle class="network__pulse network__pulse--op-5" cx="460" cy="280" r="8" />
+            <circle class="network__node"     cx="460" cy="280" r="8" />
+            <text x="460" y="264" text-anchor="middle" class="network__label--small">Remittances</text>
+          </g>
+
+          <g>
+            <circle class="network__node-rim" cx="460" cy="340" r="12" />
+            <circle class="network__pulse network__pulse--op-6" cx="460" cy="340" r="8" />
+            <circle class="network__node"     cx="460" cy="340" r="8" />
+            <text x="460" y="324" text-anchor="middle" class="network__label--small">Utilities &amp; bills</text>
           </g>
 
           <!-- Animated data packets — each traverses bank → EBB → operator
                Staggered so the network feels alive without being chaotic.
-               Cycle: 8 seconds total, four packets fire at 0/2/4/6 sec. -->
+               Cycle: 12 seconds total, six packets fire at 0/2/4/6/8/10 sec. -->
           <circle class="network__packet" r="4">
-            <animateMotion dur="8s" repeatCount="indefinite" begin="0s"
+            <animateMotion dur="12s" repeatCount="indefinite" begin="0s"
                            keyPoints="0;0.4;0.4;1" keyTimes="0;0.25;0.27;0.4"
                            calcMode="linear">
               <mpath href="#p1" />
             </animateMotion>
             <animate attributeName="opacity"
                      values="0;1;1;0;0" keyTimes="0;0.02;0.38;0.42;1"
-                     dur="8s" repeatCount="indefinite" begin="0s" />
+                     dur="12s" repeatCount="indefinite" begin="0s" />
           </circle>
 
           <circle class="network__packet" r="4">
-            <animateMotion dur="8s" repeatCount="indefinite" begin="2s"
+            <animateMotion dur="12s" repeatCount="indefinite" begin="2s"
                            keyPoints="0;0.4;0.4;1" keyTimes="0;0.25;0.27;0.4"
                            calcMode="linear">
               <mpath href="#p2" />
             </animateMotion>
             <animate attributeName="opacity"
                      values="0;1;1;0;0" keyTimes="0;0.02;0.38;0.42;1"
-                     dur="8s" repeatCount="indefinite" begin="2s" />
+                     dur="12s" repeatCount="indefinite" begin="2s" />
           </circle>
 
           <circle class="network__packet" r="4">
-            <animateMotion dur="8s" repeatCount="indefinite" begin="4s"
+            <animateMotion dur="12s" repeatCount="indefinite" begin="4s"
                            keyPoints="0;0.4;0.4;1" keyTimes="0;0.25;0.27;0.4"
                            calcMode="linear">
               <mpath href="#p3" />
             </animateMotion>
             <animate attributeName="opacity"
                      values="0;1;1;0;0" keyTimes="0;0.02;0.38;0.42;1"
-                     dur="8s" repeatCount="indefinite" begin="4s" />
+                     dur="12s" repeatCount="indefinite" begin="4s" />
           </circle>
 
           <circle class="network__packet" r="4">
-            <animateMotion dur="8s" repeatCount="indefinite" begin="6s"
+            <animateMotion dur="12s" repeatCount="indefinite" begin="6s"
                            keyPoints="0;0.4;0.4;1" keyTimes="0;0.25;0.27;0.4"
                            calcMode="linear">
               <mpath href="#p4" />
             </animateMotion>
             <animate attributeName="opacity"
                      values="0;1;1;0;0" keyTimes="0;0.02;0.38;0.42;1"
-                     dur="8s" repeatCount="indefinite" begin="6s" />
+                     dur="12s" repeatCount="indefinite" begin="6s" />
+          </circle>
+
+          <circle class="network__packet" r="4">
+            <animateMotion dur="12s" repeatCount="indefinite" begin="8s"
+                           keyPoints="0;0.4;0.4;1" keyTimes="0;0.25;0.27;0.4"
+                           calcMode="linear">
+              <mpath href="#p5" />
+            </animateMotion>
+            <animate attributeName="opacity"
+                     values="0;1;1;0;0" keyTimes="0;0.02;0.38;0.42;1"
+                     dur="12s" repeatCount="indefinite" begin="8s" />
+          </circle>
+
+          <circle class="network__packet" r="4">
+            <animateMotion dur="12s" repeatCount="indefinite" begin="10s"
+                           keyPoints="0;0.4;0.4;1" keyTimes="0;0.25;0.27;0.4"
+                           calcMode="linear">
+              <mpath href="#p6" />
+            </animateMotion>
+            <animate attributeName="opacity"
+                     values="0;1;1;0;0" keyTimes="0;0.02;0.38;0.42;1"
+                     dur="12s" repeatCount="indefinite" begin="10s" />
           </circle>
         </svg>
       </div>
@@ -2123,6 +2293,57 @@
       <a href="#talk">Talk to engineering →</a>
     </footer>
   </aside>
+
+
+  <!-- ============================================================
+       SITE FOOTER — three columns: brand · navigation · contact
+       Full site nav lives here (top nav is intentionally minimal)
+       ============================================================ -->
+  <footer class="ftr" id="site-footer">
+    <div class="ftr__container">
+
+      <!-- Brand column -->
+      <div class="ftr__brand">
+        <div class="ftr__logo">
+          <div class="ftr__logo-rule"></div>
+          <div class="ftr__logo-ebb">EBB</div>
+          <div class="ftr__logo-sys">Systems</div>
+        </div>
+        <p class="ftr__tagline">
+          Built for banks. Owned by the bank.<br>
+          The payment platform underneath the next decade.
+        </p>
+      </div>
+
+      <!-- Navigation column -->
+      <div class="ftr__nav-block">
+        <span class="ftr__nav-label">Navigation</span>
+        <ul class="ftr__nav-list">
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#solution">Solutions</a></li>
+          <li><a href="#network">Network</a></li>
+          <li><a href="#talk">Get in Touch</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact column -->
+      <div class="ftr__contact">
+        <span class="ftr__contact-label">Contact</span>
+        <div class="ftr__contact-items">
+          <a href="mailto:info@engineeredbybytes.com">info@engineeredbybytes.com</a>
+          <a href="https://www.engineeredbybytes.com">www.engineeredbybytes.com</a>
+          <span>Nairobi, Kenya</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="ftr__bottom">
+      <span>&copy; 2026 Engineered By Bytes Ltd. All rights reserved.</span>
+      <em>Secure. Scalable. Engineered for Trust.</em>
+    </div>
+  </footer>
 
 
   <!-- ============================================================
