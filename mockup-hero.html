@@ -1463,10 +1463,13 @@
     .hero2__eyebrow::before { content: ''; width: 32px; height: 1.5px; background: var(--crimson); }
     .hero2__eyebrow::after  { content: ''; width: 32px; height: 1.5px; background: var(--crimson); }
     .hero2__heading {
-      font: 400 clamp(36px, 5.2vw, 58px)/1.15 var(--font-display);
+      font: 400 clamp(36px, 4.6vw, 52px)/1.15 var(--font-display);
       color: var(--navy);
       letter-spacing: -0.014em;
       text-align: center;
+      /* Browser-balanced line wrapping — no orphans, no manual <br> needed */
+      text-wrap: balance;
+      max-width: 980px;
     }
     .hero2__heading em { font-style: italic; color: var(--crimson); font-weight: 400; }
     .hero2__sub {
@@ -1817,7 +1820,7 @@
 
       <div class="hero2__copy">
         <span class="hero2__eyebrow">payment infrastructure</span>
-        <h1 class="hero2__heading">The resilient payment layer between<br>your bank and <em>every operator.</em></h1>
+        <h1 class="hero2__heading">The resilient payment layer between your bank and <em>every operator.</em></h1>
         <p class="hero2__sub">Run your bank&rsquo;s payments on a platform you own &mdash; and one that grows with every new corridor.</p>
         <div class="hero2__cta">
           <a href="#talk" class="hero2__btn">Schedule a Briefing</a>
