@@ -1475,10 +1475,80 @@
 
     .hero2__viz {
       width: 100%;
-      max-width: 520px;
+      max-width: 580px;
       justify-self: end;
     }
     .hero2__viz svg { width: 100%; height: auto; display: block; }
+
+    /* ─────────────────────────────────────────────────────────
+       HERO ARCHITECTURE DIAGRAM
+       Same visual language as the §3 solution diagram (panel borders,
+       cream boxes with navy strokes, navy EBB circle) but simplified
+       for the hero: no capability spokes, just bank ⇆ EBB ⇆ operators
+       with continuous animation.
+       ───────────────────────────────────────────────────────── */
+    .hero-arch { width: 100%; height: auto; display: block; }
+    .hero-arch .ha-panel {
+      fill: none;
+      stroke: rgba(13,34,64,0.4);
+      stroke-width: 1;
+    }
+    .hero-arch .ha-box {
+      fill: var(--cream-warm);
+      stroke: var(--navy);
+      stroke-width: 1;
+      opacity: 0.78;
+    }
+    .hero-arch .ha-box-text {
+      fill: var(--navy);
+      font: 500 11px var(--font-ui);
+    }
+    .hero-arch .ha-col-label {
+      fill: rgba(13,34,64,0.42);
+      font: 400 10px var(--font-ui);
+      letter-spacing: 0.06em;
+    }
+    .hero-arch .ha-gateway {
+      fill: var(--navy);
+      stroke: var(--navy);
+    }
+    .hero-arch .ha-gw-text {
+      fill: var(--cream-warm);
+      font: 700 14px var(--font-display);
+    }
+    .hero-arch .ha-gw-sub {
+      fill: rgba(242,239,232,0.55);
+      font: 500 9px var(--font-ui);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .hero-arch .ha-edge {
+      stroke: rgba(13,34,64,0.22);
+      stroke-width: 1;
+      fill: none;
+    }
+    .hero-arch .ha-packet {
+      fill: var(--crimson);
+    }
+    /* Highlight pulse on a network box when a packet arrives */
+    .hero-arch .ha-box-active {
+      fill: rgba(139,26,26,0.08);
+      stroke: var(--crimson);
+      stroke-width: 1.2;
+      opacity: 0;
+      animation: haBoxActive 12s ease-in-out infinite;
+    }
+    .hero-arch .ha-box-active--1 { animation-delay: 0s; }
+    .hero-arch .ha-box-active--2 { animation-delay: 2s; }
+    .hero-arch .ha-box-active--3 { animation-delay: 4s; }
+    .hero-arch .ha-box-active--4 { animation-delay: 6s; }
+    .hero-arch .ha-box-active--5 { animation-delay: 8s; }
+    .hero-arch .ha-box-active--6 { animation-delay: 10s; }
+    @keyframes haBoxActive {
+      0%, 95% { opacity: 0; }
+      2%, 8% { opacity: 1; }
+      10%, 100% { opacity: 0; }
+    }
 
     /* Proof strip lives at the bottom of the hero section.
        Reuses .proof styling already in place. */
@@ -1720,7 +1790,122 @@
       </div>
 
       <div class="hero2__viz" aria-hidden="true">
-        <svg class="network" viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg">
+        <!-- NEW hero architecture diagram — mirrors §3 visual language, animated -->
+        <svg class="hero-arch" viewBox="0 0 580 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="EBB Gateway between your corebanking stack and every operator network">
+
+          <!-- Panel borders (left: corebanking, right: networks) — same style as §3 -->
+          <rect class="ha-panel" x="20" y="100" width="120" height="120" rx="3"/>
+          <rect class="ha-panel" x="430" y="50" width="130" height="220" rx="3"/>
+
+          <!-- LEFT: corebanking boxes -->
+          <g>
+            <rect class="ha-box" x="32" y="115" width="96" height="26" rx="3"/>
+            <text class="ha-box-text" x="80" y="132" text-anchor="middle">Finacle / T24</text>
+          </g>
+          <g>
+            <rect class="ha-box" x="32" y="146" width="96" height="26" rx="3"/>
+            <text class="ha-box-text" x="80" y="163" text-anchor="middle">FlexCube</text>
+          </g>
+          <g>
+            <rect class="ha-box" x="32" y="177" width="96" height="26" rx="3"/>
+            <text class="ha-box-text" x="80" y="194" text-anchor="middle">Custom CBS</text>
+          </g>
+          <text class="ha-col-label" x="80" y="234" text-anchor="middle">your corebanking stack</text>
+
+          <!-- Connection lines: corebanking ⇄ EBB ⇄ networks -->
+          <line class="ha-edge" x1="140" y1="160" x2="246" y2="160"/>
+          <line class="ha-edge" x1="334" y1="160" x2="430" y2="160"/>
+
+          <!-- EBB Gateway with continuous radiating pulses (3 layered, staggered) -->
+          <circle cx="290" cy="160" r="44" fill="none" stroke="#0D2240" stroke-width="1.2" opacity="0">
+            <animate attributeName="r" values="44;82" dur="4s" repeatCount="indefinite" begin="0s"/>
+            <animate attributeName="opacity" values="0;0.55;0" keyTimes="0;0.25;1" dur="4s" repeatCount="indefinite" begin="0s"/>
+          </circle>
+          <circle cx="290" cy="160" r="44" fill="none" stroke="#0D2240" stroke-width="1.2" opacity="0">
+            <animate attributeName="r" values="44;82" dur="4s" repeatCount="indefinite" begin="1.3s"/>
+            <animate attributeName="opacity" values="0;0.55;0" keyTimes="0;0.25;1" dur="4s" repeatCount="indefinite" begin="1.3s"/>
+          </circle>
+          <circle cx="290" cy="160" r="44" fill="none" stroke="#0D2240" stroke-width="1.2" opacity="0">
+            <animate attributeName="r" values="44;82" dur="4s" repeatCount="indefinite" begin="2.6s"/>
+            <animate attributeName="opacity" values="0;0.55;0" keyTimes="0;0.25;1" dur="4s" repeatCount="indefinite" begin="2.6s"/>
+          </circle>
+
+          <!-- EBB main circle -->
+          <circle class="ha-gateway" cx="290" cy="160" r="44"/>
+          <text class="ha-gw-text" x="290" y="158" text-anchor="middle">EBB</text>
+          <text class="ha-gw-sub" x="290" y="174" text-anchor="middle">GATEWAY</text>
+
+          <!-- RIGHT: networks boxes — including highlight rings that activate when packets arrive -->
+          <g>
+            <rect class="ha-box" x="442" y="65" width="108" height="24" rx="3"/>
+            <rect class="ha-box-active ha-box-active--1" x="442" y="65" width="108" height="24" rx="3"/>
+            <text class="ha-box-text" x="496" y="81" text-anchor="middle">Mobile money</text>
+          </g>
+          <g>
+            <rect class="ha-box" x="442" y="95" width="108" height="24" rx="3"/>
+            <rect class="ha-box-active ha-box-active--2" x="442" y="95" width="108" height="24" rx="3"/>
+            <text class="ha-box-text" x="496" y="111" text-anchor="middle">Card networks</text>
+          </g>
+          <g>
+            <rect class="ha-box" x="442" y="125" width="108" height="24" rx="3"/>
+            <rect class="ha-box-active ha-box-active--3" x="442" y="125" width="108" height="24" rx="3"/>
+            <text class="ha-box-text" x="496" y="141" text-anchor="middle">Inter&ndash;banking</text>
+          </g>
+          <g>
+            <rect class="ha-box" x="442" y="155" width="108" height="24" rx="3"/>
+            <rect class="ha-box-active ha-box-active--4" x="442" y="155" width="108" height="24" rx="3"/>
+            <text class="ha-box-text" x="496" y="171" text-anchor="middle">Cross&ndash;border</text>
+          </g>
+          <g>
+            <rect class="ha-box" x="442" y="185" width="108" height="24" rx="3"/>
+            <rect class="ha-box-active ha-box-active--5" x="442" y="185" width="108" height="24" rx="3"/>
+            <text class="ha-box-text" x="496" y="201" text-anchor="middle">Remittances</text>
+          </g>
+          <g>
+            <rect class="ha-box" x="442" y="215" width="108" height="24" rx="3"/>
+            <rect class="ha-box-active ha-box-active--6" x="442" y="215" width="108" height="24" rx="3"/>
+            <text class="ha-box-text" x="496" y="231" text-anchor="middle">Utilities &amp; bills</text>
+          </g>
+          <text class="ha-col-label" x="496" y="265" text-anchor="middle">every operator</text>
+
+          <!-- Animated packets — continuous flow corebanking → EBB → networks -->
+          <defs>
+            <path id="ha-path-in" d="M 140 160 L 246 160" fill="none"/>
+            <path id="ha-path-out" d="M 334 160 L 430 160" fill="none"/>
+          </defs>
+
+          <!-- Two packets flowing in (left side) -->
+          <circle class="ha-packet" r="3.5">
+            <animateMotion dur="3s" repeatCount="indefinite" begin="0s">
+              <mpath href="#ha-path-in"/>
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" repeatCount="indefinite" begin="0s"/>
+          </circle>
+          <circle class="ha-packet" r="3.5">
+            <animateMotion dur="3s" repeatCount="indefinite" begin="1.5s">
+              <mpath href="#ha-path-in"/>
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+          </circle>
+
+          <!-- Two packets flowing out (right side, slightly offset) -->
+          <circle class="ha-packet" r="3.5">
+            <animateMotion dur="3s" repeatCount="indefinite" begin="0.7s">
+              <mpath href="#ha-path-out"/>
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" repeatCount="indefinite" begin="0.7s"/>
+          </circle>
+          <circle class="ha-packet" r="3.5">
+            <animateMotion dur="3s" repeatCount="indefinite" begin="2.2s">
+              <mpath href="#ha-path-out"/>
+            </animateMotion>
+            <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.9;1" dur="3s" repeatCount="indefinite" begin="2.2s"/>
+          </circle>
+
+        </svg>
+
+        <!-- ──── Old SVG retained below but hidden — kept temporarily for reference ──── -->
+        <svg class="network" viewBox="0 0 520 360" xmlns="http://www.w3.org/2000/svg" style="display:none;">
 
           <!-- Hidden definitions for animation paths
                Each path goes Bank (60,180) → EBB (260,180) → an operator
